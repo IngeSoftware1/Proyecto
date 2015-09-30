@@ -8,7 +8,8 @@ nombre varchar(20),
 apellido1 varchar(20),
 apellido2 varchar(20),
 usuario varchar(20),
-contrasena varchar(30)
+contrasena varchar(30),
+login bit 
 );
 
 CREATE TABLE Telefono_Funcionario(
@@ -44,15 +45,61 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 );
 
+
+CREATE TABLE Oficina_Usuaria(
+id_oficina int IDENTITY(1,1) PRIMARY KEY,
+nombre_oficina varchar(20) UNIQUE,
+nombre_rep varchar(20),
+ape1_rep varchar(20),
+ape2_rep varchar(20)
+);
+
+CREATE TABLE Telefono_Oficina(
+id_oficina int,
+num_telefono varchar(11),
+PRIMARY KEY (id_oficina, num_telefono),
+FOREIGN KEY (id_oficina) REFERENCES Oficina_Usuaria(id_oficina)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+);
+
 CREATE TABLE Estado_Proceso(
 tipo_estado varchar(25) PRIMARY KEY
 );
 
 INSERT INTO Estado_Proceso VALUES('Pendiente de asignación', 'Asignado', 'En ejecución', 'Finalizado', 'Cerrado');
 
-CREATE TABLE Oficina_Usuaria(
-id_oficina int IDENTITY(1,1) PRIMARY KEY,
-nombre_oficina varchar(20) UNIQUE,
-
+CREATE TABLE Proyecto(
+id_proyecto int IDENTITY(1,1) PRIMARY KEY,
+nombre_proyecto varchar(20) UNIQUE,
+obj_general varchar(30),
+fecha_asignacion date,
+tipo_estado varchar(25) FOREIGN KEY REFERENCES Estado_Proceso(tipo_Estado)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+cedula_creador varchar(9) FOREIGN KEY REFERENCES Administrador(cedula_admin)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+cedula_lider varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+id_oficina int FOREIGN KEY REFERENCES Oficina_Usuaria(id_oficina)
+ON DELETE CASCADE
+ON UPDATE CASCADE
 );
 
+CREATE TABLE Trabaja_En(
+cedula_miembro varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+PRIMARY KEY (cedula_miembro, id_proyecto)
+);
+
+CREATE TABLE Tecnica(
+tipo_tecnica varchar(15) PRIMARY KEY
+);
+
+INSERT INTO Tecnica VALUES ('Caja negra', 'Caja blanca', 'Exploratoria');
