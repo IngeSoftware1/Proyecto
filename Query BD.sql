@@ -22,10 +22,12 @@ ON UPDATE CASCADE
 );
 
 CREATE TABLE Rol(
-tipo_rol varchar(15) PRIMARY KEY
+tipo_rol varchar(20) PRIMARY KEY
 );
 
-INSERT INTO Rol VALUES('Lìder de pruebas', 'Tester', 'Usuario');
+INSERT INTO Rol VALUES('Líder de pruebas');
+INSERT INTO Rol VALUES('Tester');
+INSERT INTO Rol VALUES('Usuario');
 
 CREATE TABLE Administrador(
 cedula_admin varchar(9) PRIMARY KEY,
@@ -36,7 +38,7 @@ ON UPDATE CASCADE
 
 CREATE TABLE Miembro(
 cedula_miembro varchar(9) PRIMARY KEY,
-tipo_rol varchar(15),
+tipo_rol varchar(20),
 FOREIGN KEY (cedula_miembro) REFERENCES Funcionario(cedula)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
@@ -67,6 +69,10 @@ CREATE TABLE Estado_Proceso(
 tipo_estado varchar(25) PRIMARY KEY
 );
 
+INSERT INTO Estado_Proceso VALUES('Pendiente de asignación');
+INSERT INTO Estado_Proceso VALUES('Asignado');
+INSERT INTO Estado_Proceso VALUES('En ejecución');
+INSERT INTO Estado_Proceso VALUES('Finalizado');
 INSERT INTO Estado_Proceso VALUES('Pendiente de asignación', 'Asignado', 'En ejecución', 'Finalizado', 'Cerrado');
 
 CREATE TABLE Proyecto(
@@ -78,10 +84,10 @@ tipo_estado varchar(25) FOREIGN KEY REFERENCES Estado_Proceso(tipo_Estado)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
 cedula_creador varchar(9) FOREIGN KEY REFERENCES Administrador(cedula_admin)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
+ON DELETE NO ACTION /*Da problemas si es cascade*/
+ON UPDATE NO ACTION, /*Da problemas si es cascade*/
 cedula_lider varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE NO ACTION
+ON DELETE NO ACTION 
 ON UPDATE CASCADE,
 id_oficina int FOREIGN KEY REFERENCES Oficina_Usuaria(id_oficina)
 ON DELETE NO ACTION
@@ -90,8 +96,8 @@ ON UPDATE CASCADE
 
 CREATE TABLE Trabaja_En(
 cedula_miembro varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
+ON DELETE NO ACTION /*Da problemas si es cascade*/
+ON UPDATE NO ACTION,/*Da problemas si es cascade*/
 id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
@@ -102,19 +108,30 @@ CREATE TABLE Tecnica(
 tipo_tecnica varchar(20) PRIMARY KEY
 );
 
-INSERT INTO Tecnica VALUES ('Caja negra', 'Caja blanca', 'Exploratoria');
+INSERT INTO Tecnica VALUES ('Caja negra');
+INSERT INTO Tecnica VALUES ( 'Caja blanca');
+INSERT INTO Tecnica VALUES ('Exploratoria');
 
 CREATE TABLE Nivel_Prueba(
 nivel_prueba varchar(20) PRIMARY KEY
 );
 
-INSERT INTO Nivel_Prueba VALUES ('Unitaria', 'De Integración', 'Del Sistema', 'De Aceptación');
+INSERT INTO Nivel_Prueba VALUES ('Unitaria');
+INSERT INTO Nivel_Prueba VALUES ('De Integración');
+INSERT INTO Nivel_Prueba VALUES ('Del Sistema');
+INSERT INTO Nivel_Prueba VALUES ( 'De Aceptación');
 
 CREATE TABLE Tipo_Prueba(
 tipo_prueba varchar(20) PRIMARY KEY
 );
 
-INSERT INTO Tipo_Prueba VALUES ('Funcional', 'Interfaz de Usuario', 'Rendimiento', 'Stress', 'Volumen', 'Configuración', 'Instalación');
+INSERT INTO Tipo_Prueba VALUES ('Funcional');
+INSERT INTO Tipo_Prueba VALUES ('Interfaz de Usuario');
+INSERT INTO Tipo_Prueba VALUES ('Rendimiento');
+INSERT INTO Tipo_Prueba VALUES ('Stress');
+INSERT INTO Tipo_Prueba VALUES ('Volumen');
+INSERT INTO Tipo_Prueba VALUES ('Configuración');
+INSERT INTO Tipo_Prueba VALUES ('Instalación');
 
 CREATE TABLE Diseno_Pruebas(
 id_diseno varchar(20) PRIMARY KEY,
@@ -135,8 +152,8 @@ id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE NO ACTION 
-ON UPDATE CASCADE
+ON DELETE NO ACTION /*Da problemas si es cascade*/
+ON UPDATE NO ACTION/*Da problemas si es cascade*/
 );
 
 CREATE TABLE Requerimiento(
@@ -146,7 +163,7 @@ ON DELETE CASCADE
 ON UPDATE CASCADE,
 id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
 ON DELETE NO ACTION /*El requerimiento puede quedar no asociado a otro diseño*/ 
-ON UPDATE CASCADE,
+ON UPDATE NO ACTION, /*Da problemas si es cascade*/
 nombre_req varchar (30),
 PRIMARY KEY (id_req, id_proyecto)
 );
@@ -163,15 +180,18 @@ ON UPDATE CASCADE,
 id_req varchar(15),
 id_proyecto int,
 CONSTRAINT FkReq FOREIGN KEY (id_req, id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
-ON DELETE CASCADE 
-ON UPDATE CASCADE
+ON DELETE NO ACTION  /*Da problemas si es cascade*/
+ON UPDATE NO ACTION /*Da problemas si es cascade*/
 );
 
 CREATE TABLE Estado_Ejecucion(
 estado_ejecucion varchar(20) PRIMARY KEY
 );
 
-INSERT INTO Estado_Ejecucion VALUES('Satisfactoria', 'Faliida', 'Pendiente', 'Cancelada');
+INSERT INTO Estado_Ejecucion VALUES('Satisfactoria');
+INSERT INTO Estado_Ejecucion VALUES( 'Faliida');
+INSERT INTO Estado_Ejecucion VALUES('Pendiente');
+INSERT INTO Estado_Ejecucion VALUES('Cancelada');
 
 CREATE TABLE Ejecucion_Prueba(
 id_ejecucion int IDENTITY(1,1) PRIMARY KEY,
