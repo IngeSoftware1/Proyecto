@@ -297,9 +297,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Capa de Acceso a Datos\" />
-    <Folder Include="App_Data\Capa de Control\" />
-    <Folder Include="App_Data\Capa de Datos %28Entidad%29\" />
+    <Folder Include="App_Code\Capa de Acceso a Datos\" />
+    <Folder Include="App_Code\Capa de Control\" />
+    <Folder Include="App_Code\Capa de Datos %28Entidad%29\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
