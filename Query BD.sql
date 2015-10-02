@@ -81,10 +81,10 @@ cedula_creador varchar(9) FOREIGN KEY REFERENCES Administrador(cedula_admin)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
 cedula_lider varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE CASCADE
+ON DELETE NO ACTION
 ON UPDATE CASCADE,
 id_oficina int FOREIGN KEY REFERENCES Oficina_Usuaria(id_oficina)
-ON DELETE CASCADE
+ON DELETE NO ACTION
 ON UPDATE CASCADE
 );
 
@@ -135,7 +135,7 @@ id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE CASCADE 
+ON DELETE NO ACTION 
 ON UPDATE CASCADE
 );
 
@@ -145,7 +145,7 @@ id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
 id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
-ON DELETE CASCADE 
+ON DELETE NO ACTION /*El requerimiento puede quedar no asociado a otro diseño*/ 
 ON UPDATE CASCADE,
 nombre_req varchar (30),
 PRIMARY KEY (id_req, id_proyecto)
@@ -184,7 +184,7 @@ estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_eje
 ON DELETE CASCADE
 ON UPDATE CASCADE, 
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
-ON DELETE CASCADE
+ON DELETE NO ACTION
 ON UPDATE CASCADE 
 );
 
@@ -205,7 +205,7 @@ CREATE TABLE Ejecucion_NC(
 id_tipoNC varchar(70) FOREIGN KEY REFERENCES Tipo_NC(id_tipoNC)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
-id_ejecucion int FOREIGN KEY REFERENCES,Ejecucion_Prueba(id_ejecucion)
+id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
 PRIMARY KEY (id_tipoNC, id_ejecucion)
