@@ -14,18 +14,18 @@ namespace ProyectoInge.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterHyperLink.NavigateUrl = "Register";
+            /*RegisterHyperLink.NavigateUrl = "Register";
             OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
             var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
             if (!String.IsNullOrEmpty(returnUrl))
             {
                 RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
-            }
+            }*/
         }
 
         protected void LogIn(object sender, EventArgs e)
         {
-            if (IsValid)
+           /* if (IsValid)
             {
                 // Validar la contraseña del usuario
                 var manager = new UserManager();
@@ -40,7 +40,7 @@ namespace ProyectoInge.Account
                     FailureText.Text = "Invalid username or password.";
                     ErrorMessage.Visible = true;
                 }
-            }
+            }*/
         }
     }
 }
