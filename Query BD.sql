@@ -7,7 +7,7 @@ cedula varchar(9) PRIMARY KEY ,
 nombre varchar(20),
 apellido1 varchar(20),
 apellido2 varchar(20),
-usuario varchar(20),
+usuario varchar(20) UNIQUE,
 contrasena varchar(30),
 login bit 
 );
@@ -99,7 +99,114 @@ PRIMARY KEY (cedula_miembro, id_proyecto)
 );
 
 CREATE TABLE Tecnica(
-tipo_tecnica varchar(15) PRIMARY KEY
+tipo_tecnica varchar(20) PRIMARY KEY
 );
 
 INSERT INTO Tecnica VALUES ('Caja negra', 'Caja blanca', 'Exploratoria');
+
+CREATE TABLE Nivel_Prueba(
+nivel_prueba varchar(20) PRIMARY KEY
+);
+
+INSERT INTO Nivel_Prueba VALUES ('Unitaria', 'De Integración', 'Del Sistema', 'De Aceptación');
+
+CREATE TABLE Tipo_Prueba(
+tipo_prueba varchar(20) PRIMARY KEY
+);
+
+INSERT INTO Tipo_Prueba VALUES ('Funcional', 'Interfaz de Usuario', 'Rendimiento', 'Stress', 'Volumen', 'Configuración', 'Instalación');
+
+CREATE TABLE Diseno_Pruebas(
+id_diseno varchar(20) PRIMARY KEY,
+proposito_dise varchar(30),
+fecha date, 
+procedimiento varchar(100),
+criterios_aceptacion varchar(100),
+tecnica varchar(20) FOREIGN KEY REFERENCES Tecnica (tipo_tecnica)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+nivel varchar(20) FOREIGN KEY REFERENCES Nivel_Prueba(nivel_prueba)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+tipo varchar(20) FOREIGN KEY REFERENCES Tipo_Prueba(tipo_prueba)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
+ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
+
+CREATE TABLE Requerimiento(
+id_req varchar(15),
+id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+nombre_req varchar (30),
+PRIMARY KEY (id_req, id_proyecto)
+);
+
+CREATE TABLE Caso_Prueba(
+id_caso varchar(20) PRIMARY KEY,
+proposito_caso varchar(30),
+flujo_central varchar(100),
+entrada_datos varchar(100),
+resultado_esperado varchar(30),
+id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+id_req varchar(15),
+id_proyecto int,
+CONSTRAINT FkReq FOREIGN KEY (id_req, id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
+ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
+
+CREATE TABLE Estado_Ejecucion(
+estado_ejecucion varchar(20) PRIMARY KEY
+);
+
+INSERT INTO Estado_Ejecucion VALUES('Satisfactoria', 'Faliida', 'Pendiente', 'Cancelada');
+
+CREATE TABLE Ejecucion_Prueba(
+id_ejecucion int IDENTITY(1,1) PRIMARY KEY,
+justificacion varchar(40),
+desc_incidencia varchar(70),
+fecha date,
+hora time, 
+imagen image,
+estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
+ON DELETE CASCADE
+ON UPDATE CASCADE, 
+cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
+ON DELETE CASCADE
+ON UPDATE CASCADE 
+);
+
+CREATE TABLE Tipo_NC(
+id_tipoNC varchar(70) PRIMARY KEY,
+desc_NC varchar(150)
+);
+
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Funcionalidad (FN)', 'Al realizar una acción determinada el resultado que se muestra no está acorde con el esperado.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Validación (VA)', 'Existen errores relativos a la falta de validación.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Opciones que no funcionan (NF)', 'Al realizar una acción determinada no se muestra resultado alguno.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Errores de usabilidad (US)', 'Se encuentran aquellas inconformidades de efecto visual que provoquen las interfaces de las aplicaciones.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Excepciones (EXC)', 'El sistema muestra un mensaje señalando que ha ocurrido un error inesperado o que no ha sido tratado.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('No correspondencia de lo implementado con lo documentado (NC)', 'Consiste en el incumplimiento de la correspondencia que debe existir entre una aplicación informática y lo que está documentado al respecto.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Ortografía (ORT)', 'Errores de ortografía o mal escritos.');
+
+CREATE TABLE Ejecucion_NC(
+id_tipoNC varchar(70) FOREIGN KEY REFERENCES Tipo_NC(id_tipoNC)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+id_ejecucion int FOREIGN KEY REFERENCES,Ejecucion_Prueba(id_ejecucion)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+PRIMARY KEY (id_tipoNC, id_ejecucion)
+);
