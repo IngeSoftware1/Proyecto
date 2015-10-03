@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using DataSetVentaTableAdapters;
+using DataSetFuncionario;
 using System.Data.SqlClient;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
-    public class ControladoraBDRecursos : Controller
+    public class ControladoraBDRecursos
     {
         // GET: ControladoraBDRecursos
         public ActionResult Index()
