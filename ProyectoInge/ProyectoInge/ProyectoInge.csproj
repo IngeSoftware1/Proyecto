@@ -298,6 +298,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
     </Content>
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelFuncionario.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRol.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadMiembro.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficinaUsuaria.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficina.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoProceso.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadProyecto.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTrabajaEn.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTecnica.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadNivel.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoPrueba.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadDiseno.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRequerimiento.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadCaso.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoEjecucion.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionPrueba.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoNC.cs" />
+    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionNC.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
