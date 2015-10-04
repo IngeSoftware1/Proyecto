@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 {
-    public class Funcionario : Controller
+   /* public class Funcionario : Controller
     {
 
         private String cedula;
@@ -20,7 +20,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
         public Funcionario(Object[] datos)
         {
             this.cedula = datos[0].ToString();
-            this.nombre = datos[01].ToString();
+            this.nombre = datos[1].ToString();
             this.apellido1 = datos[2].ToString();
             this.apellido2 = datos[3].ToString();
             this.usuario = datos[4].ToString();
@@ -125,5 +125,5 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
                 return View();
             }
         }
-    }
+    }*/
 }

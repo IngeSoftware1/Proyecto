@@ -302,7 +302,6 @@ C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\Newtonsoft.Json.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\Owin.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.dll
-C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Optimization.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Providers.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.dll
@@ -311,7 +310,6 @@ C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\WebGrease.dll
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.xml
-C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.xml
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.xml
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.xml
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml
