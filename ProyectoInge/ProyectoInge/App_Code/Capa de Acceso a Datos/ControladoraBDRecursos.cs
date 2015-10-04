@@ -4,12 +4,28 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using DataSetFuncionario;
+//using DataSetFuncionarioTableAdapters; 
 using System.Data.SqlClient;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
     public class ControladoraBDRecursos
     {
+
+            //DataSetFuncionarioTableAdapters tableAdapterFuncionario;
+            public ControladoraBDRecursos()
+	        {
+              //  tableAdapterRecursosHumanos = new DataSetFuncionarioTableAdapters();	
+	        }
+
+            public DataTable consultarLoginRecursosHumanos() {
+                DataTable dataTable = new DataTable();
+                //dataTable = tableAdapterFuncionario.GetData();
+                return dataTable;
+            }
+ 
+
+
         // GET: ControladoraBDRecursos
         public ActionResult Index()
         {

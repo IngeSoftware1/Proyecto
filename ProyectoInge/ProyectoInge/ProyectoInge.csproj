@@ -352,6 +352,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\App_LocalResources\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Views\ControladoraBDRecursos\" />

@@ -8,6 +8,46 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 {
     public class Funcionario : Controller
     {
+
+        private String cedula;
+        private String nombre;
+        private String apellido1;
+        private String apellido2;
+        private String usuario;
+        private String contrasena;
+        private int login;
+
+        public Funcionario(Object[] datos)
+        {
+            this.cedula = datos[0].ToString();
+            this.nombre = datos[01].ToString();
+            this.apellido1 = datos[2].ToString();
+            this.apellido2 = datos[3].ToString();
+            this.usuario = datos[4].ToString();
+            this.contrasena = datos[4].ToString();
+            this.login = Convert.ToInt32(datos[6].ToString());
+        }
+
+
+        public String getUsuario
+        {
+            get { return usuario; }
+            set { usuario = value; }
+        }
+
+        public String getContrasena
+        {
+            get { return contrasena; }
+            set { contrasena = value; }
+        }
+
+        public int getLogin
+        {
+            get { return login; }
+            set { login = value; }
+        }
+
+
         // GET: Funcionario
         public ActionResult Index()
         {

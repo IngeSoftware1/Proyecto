@@ -25,22 +25,23 @@ namespace ProyectoInge.Account
 
         protected void LogIn(object sender, EventArgs e)
         {
-           /* if (IsValid)
+            if (IsValid)
             {
-                // Validar la contraseña del usuario
+                // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
                 var manager = new UserManager();
-                ApplicationUser user = manager.Find(UserName.Text, Password.Text);
+                ApplicationUser user = manager.Find(txtEmail.Text, txtPassword.Text);
+
                 if (user != null)
                 {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
                     IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
                 }
                 else
                 {
-                    FailureText.Text = "Invalid username or password.";
+                    FailureText.Text = "Correo o contrasena inconrrecta.";
                     ErrorMessage.Visible = true;
                 }
-            }*/
+
+            }
         }
     }
 }
