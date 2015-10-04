@@ -92,7 +92,7 @@
        <div id="TelefonoRH">
        <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabel"></asp:Label>
        <asp:TextBox runat="server" ID="txtTelefono" CssClass="estiloCajas" TextMode="Phone" ></asp:TextBox>
-       <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="estiloBotones"/>
+       <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="estiloBoton"/>
        </div>
        
         <br>
