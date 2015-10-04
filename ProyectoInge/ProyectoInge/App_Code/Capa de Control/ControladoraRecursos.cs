@@ -27,25 +27,49 @@ namespace ProyectoInge.App_Code.Capa_de_Control
           }
      
      
-     //Método para determinar la acción que se esta realizando en la interfa
+     //Método para determinar la acción que se esta realizando en la interfaz
+     //Requiere: El modo de operación del IMEC y el array de datos del Funcionario
+     //Modifica: De acuerdo al modo del IMEC realiza una acción distinta
+     //Retorna: No retorna ningún valor
       public void ejecutarAccion(int modo, Object [] datos) {
         switch (modo) {
             case 1: { // INSERTAR
                 Funcionario funcionario = new Funcionario(datos);
-                controladoraBDVenta.insertarVenta(venta);
+                controladoraBDRecursos.insertarRecurso(funcionario);
                 
             };
             break;
             case 2:
             { // MODIFICAR
-                EntidadVenta venta = new EntidadVenta(datos);
-                controladoraBDVenta.modificarVenta(venta);
+               Funcionario funcionario = new Funcionario(datos);
+                controladoraBDRecursos.modificarRecurso(funcionario);
 
             };
             break;
         }
     }
-     * 
+     
+      
+     //Metodo para llamar a eliminar 
+     //Requiere: el modo de operación del IMEC y la string de la cedula a eliminar
+     //Modifica: Elimina de la base de datos el funcionario
+     //Retorna: No retorna ningún valor
+       public void ejecutarAccion(int modo, string cedula)
+            {
+                if(modo==3){
+                    controladoraBDVenta.eliminarRecurso(cedula);
+                }
+            }
+
+       //Metodo para consultar a la base de datos un recurso
+       //Requiere:  la string de la cedula a consultar
+       //Modifica: Consulta en la base de datos el funcionario especifico
+      //Retorna: Retorna un datatable
+       public DataTable consultarRecurso(string cedula) {
+                return controladoraBDRecursos.consultarRH(cedula);
+            }
+      
+      
           public DataTable consultarLoginRecursosHumanos(string user, string password)
           {
               return controladoraBDRecursos.consultarVenta(user, password);
