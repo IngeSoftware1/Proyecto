@@ -18,9 +18,9 @@
                       </asp:PlaceHolder>
                      
                     <div>
-                             <asp:Label runat="server" ID="lblEmail" AssociatedControlID="txtEmail" CssClass="estiloA" >Nombre de usuario</asp:Label>
-                             <asp:TextBox runat="server" ID="txtEmail" CssClass="estiloCaja" TextMode="Email" />
-                              <asp:RequiredFieldValidator runat="server" ControlToValidate="txtEmail" CssClass="text-danger" ErrorMessage="El campo de correo electrónico es obligatorio." />                   
+                             <asp:Label runat="server" ID="lblUsuario" AssociatedControlID="txtUsuario" CssClass="estiloA" >Nombre de usuario</asp:Label>
+                             <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCaja" TextMode="Email" />
+                              <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario" CssClass="text-danger" ErrorMessage="El campo de correo electrónico es obligatorio." />                   
                              <br/>
                              <br/>
                               <asp:Label runat="server" ID="lblPasword" AssociatedControlID="txtPassword" CssClass="estiloA">Contraseña</asp:Label>
@@ -28,10 +28,24 @@
                              <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
                             <br/>
                             <br/>
-                             <asp:CheckBox runat="server" ID="checkBoxCambioContrasena" />
-                                <asp:Label runat="server" AssociatedControlID="checkBoxCambioContrasena">Cambiar contraseña</asp:Label>
+                             <asp:Button runat="server" ID="botonCambiar" OnClick="actualizarFormulario" Text="Cambiar contraseña" CssClass="btn btn-default" />
+
                             <br/>
-                            <asp:Button runat="server" OnClick="LogIn" Text="Iniciar sesión" CssClass="btn btn-default" />
+                            <asp:Button runat="server" ID="botonIniciar" OnClick="LogIn" Text="Iniciar sesión" CssClass="btn btn-default" />
+                            <br/>
+                             <br/>
+                              <asp:Label runat="server" ID="lblNewPassword" style="visibility:hidden" AssociatedControlID="txtNewPassword" CssClass="estiloA">Nueva Contraseña</asp:Label>
+                             <asp:TextBox runat="server" ID="txtNewPassword" style="visibility:hidden" TextMode="Password" CssClass="estiloCaja" />
+                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNewPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
+                            <br/>
+                            <br/>
+                              <asp:Label runat="server" ID="lblAntPassword" style="visibility:hidden" AssociatedControlID="txtAntPassword" CssClass="estiloA">Contraseña anterior</asp:Label>
+                             <asp:TextBox runat="server" ID="txtAntPassword" style="visibility:hidden" TextMode="Password" CssClass="estiloCaja" />
+                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAntPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
+                            <br/>
+                            <br/>
+                            <asp:Button runat="server" style="visibility:hidden" OnClick="ChangePassword" Text="Aceptar" CssClass="btn btn-default" />
+                            <br/>
                     </div>
                        
                 </div>

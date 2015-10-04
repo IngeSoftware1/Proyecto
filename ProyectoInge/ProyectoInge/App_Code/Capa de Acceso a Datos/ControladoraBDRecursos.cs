@@ -8,16 +8,44 @@ using System.Data.SqlClient;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
-    /*  public class ControladoraBDRecursos
+    public class ControladoraBDRecursos
       {
      
-         //RHTableAdapter adapterRH;                  Hay que revisar como crearlo
+         //RHTableAdapter adapterRH;                  
       
      public ControladoraBDRecursos()
       {
           //adapterRH = new RHTableAdapter();	
       }
 
+     public DataTable consultarUsuario(String user, String pass)
+     {
+         DataTable dt = new DataTable();
+         //dt = adapterRH.GetData(user,pass);
+         return dt;
+     }
+
+     public Boolean modificarContrasena(String user, String pass, String newPass)
+     {
+         DataTable dt = new DataTable();
+         Boolean resultado = false;
+         try
+         {
+             //dt = adapterRH.GetData(user, pass,newPass);
+             //this.adapterRH.Insert(venta.ID, venta.Fecha, venta.Proveedor, venta.Descripcion, venta.NombreProducto, venta.CantidadInventario, venta.CantidadSolicitada); 
+             resultado = true;
+         }
+         catch (SqlException e)
+         {
+             
+         }
+
+         return resultado;
+
+     }
+
+
+        /*
      public DataTable consultarRH(string cedula) {
         DataTable dt = new DataTable();
         //dt = adapterRH.GetData(cedula);
@@ -158,6 +186,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
               {
                   return View();
               }
-          }
-      }*/
+          }*/
+      }
 }

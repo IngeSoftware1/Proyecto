@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
-    /*  public class ControladoraRecursos 
+      public class ControladoraRecursos 
       {
-          ControladoraBDRecursos controladoraBDRecursos = new ControladoraBDRecursos();
+         ControladoraBDRecursos controladoraBDRecursos = new ControladoraBDRecursos();
 
 
           public ControladoraRecursos()
@@ -17,11 +18,24 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
           }
 
+          public DataTable consultarUsuario(String user, String pass){
+
+              return controladoraBDRecursos.consultarUsuario(user,pass);
+
+          }
+
+          public Boolean modificarContrasena(String user, String pass, String newPass)
+          {
+              Boolean resultado = controladoraBDRecursos.modificarContrasena(user,pass,newPass);
+              return resultado;
+          }
+
+
          //Método para llenar obtener todos los recursos humanos del sistema
          //Requiere: Requiere la cedula del usuario actual
          //Modifica: Obtiene el datable de todos los recursos humanos del sistema
          //Retorna: Un datatable
-         public DataTable consultarRecursosHumanos(string cedula)
+     /*    public DataTable consultarRecursosHumanos(string cedula)
           {
               return controladoraBDRecursos.consultarRH(cedula);
           }
@@ -151,6 +165,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
               {
                   return View();
               }
-          }
-      }*/
+          }*/
+      }
 }

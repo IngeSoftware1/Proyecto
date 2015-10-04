@@ -7,11 +7,19 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using ProyectoInge.Models;
+using ProyectoInge.App_Code;
+using ProyectoInge.App_Code.Capa_de_Control;
+using System.Drawing.Printing;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
+using System.Data;
 
 namespace ProyectoInge.Account
 {
     public partial class Login : Page
     {
+
+        ControladoraRecursos controladora = new ControladoraRecursos();
         protected void Page_Load(object sender, EventArgs e)
         {
             /*RegisterHyperLink.NavigateUrl = "Register";
@@ -29,7 +37,7 @@ namespace ProyectoInge.Account
             {
                 // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
                 var manager = new UserManager();
-                ApplicationUser user = manager.Find(txtEmail.Text, txtPassword.Text);
+                ApplicationUser user = manager.Find(txtUsuario.Text, txtPassword.Text);
 
                 if (user != null)
                 {
@@ -41,7 +49,43 @@ namespace ProyectoInge.Account
                     ErrorMessage.Visible = true;
                 }
 
+
             }
         }
+
+        public void actualizarFormulario(object sender, EventArgs e)
+        {
+
+
+            if (IsValid)
+            {
+                botonIniciar.EnableViewState = false;
+                botonIniciar.Visible = false;
+                lblNewPassword.Visible = true;
+                lblAntPassword.Visible = true;
+                txtAntPassword.Visible = true;
+                txtNewPassword.Visible = true;
+
+            }
+
+        }
+
+
+
+        protected void ChangePassword(object sender, EventArgs e)
+        {
+
+            DataTable datosUsuario = controladora.consultarUsuario(txtUsuario.Text, txtAntPassword.Text);
+            if (datosUsuario.Rows.Count == 1)
+            {
+               Boolean resultado = controladora.modificarContrasena(txtUsuario.Text, txtAntPassword.Text, txtNewPassword.Text);
+
+            }
+            
+
+        }
+
+
+
     }
 }

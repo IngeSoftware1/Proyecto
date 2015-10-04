@@ -271,7 +271,6 @@ C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microso
 C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
 C:\Users\Gaudy-PC\UCR\2015 II Ciclo\Ingeniería de Software I\Proyecto\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll.config
