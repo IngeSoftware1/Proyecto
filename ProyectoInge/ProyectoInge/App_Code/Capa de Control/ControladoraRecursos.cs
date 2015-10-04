@@ -9,6 +9,20 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 {
   /*  public class ControladoraRecursos 
     {
+        ControladoraBDRecursos controladoraBDRecursos = new ControladoraBDRecursos();
+
+
+        public ControladoraRecursos()
+	    {
+
+	    }
+
+
+        public DataTable consultarLoginRecursosHumanos(string user, string password)
+        {
+            return controladoraBDRecursos.consultarVenta(user, password);
+        }
+
         // GET: ControladoraRecursos
         public ActionResult Index()
         {
