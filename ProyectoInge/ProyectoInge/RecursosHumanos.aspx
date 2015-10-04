@@ -50,7 +50,7 @@
        <asp:TextBox runat="server" ID="txtApellido2" CssClass="estiloCajas" ></asp:TextBox>
        </div>
 
-       <br>
+       <br><br><br>
        <div id="PerfilRH">
        <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="estiloLabel"></asp:Label>
         <asp:DropDownList runat="server" ID="comboPerfil" CssClass="estiloCombobox">
@@ -88,7 +88,7 @@
        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="estiloCajas" TextMode="Password" ></asp:TextBox>
        </div>
 
-       <br>
+       <br><br><br>
        <div id="TelefonoRH">
        <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabel"></asp:Label>
        <asp:TextBox runat="server" ID="txtTelefono" CssClass="estiloCajas" TextMode="Phone" ></asp:TextBox>
@@ -109,15 +109,15 @@
         <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones"/>
     </div>
 
-    <br>
-
+    <br><br>
     <%-- El grid para consultar se debe activar --%>
-    <%--<div id="consulta">
-       <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" OnPageIndexChanged="gridRH_PageIndexChanged">
+    <div id="consulta">
+        <asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabel"></asp:Label><br>
+      <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" OnPageIndexChanged="gridRH_PageIndexChanged">
                 <Columns>
                     <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" CausesValidation="false" />
                 </Columns> 
-            </asp:GridView> 
-        </div>--%>
+            </asp:GridView> --%>
+        </div>
 
 </asp:Content>
