@@ -13,7 +13,7 @@
 
     <div>
         <br>
-       <div >
+       <div>
        <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="estiloLabel"></asp:Label>
        <asp:TextBox runat="server" ID="txtCedula" CssClass="estiloCajas"></asp:TextBox>
        </div>
@@ -67,8 +67,14 @@
        <div >
        <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabel"></asp:Label>
        <asp:TextBox runat="server" ID="txtTelefono" CssClass="estiloCajas" TextMode="Phone" ></asp:TextBox>
+       <asp:Button runat="server" ID="btnNumero" Text="+"/>
        </div>
        
+         <br>
+        <div>
+       <asp:ListBox runat="server" ID="listTelefonos" CssClass="estiloLista"></asp:ListBox>
+       </div>
+
     </div>
 
 </asp:Content>
