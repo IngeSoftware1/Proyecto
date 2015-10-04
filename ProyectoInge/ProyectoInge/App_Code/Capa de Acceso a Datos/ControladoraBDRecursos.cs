@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using DataSetFuncionario;
+//using DataSetFuncionario;
 using System.Data.SqlClient;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
-    public class ControladoraBDRecursos
+  /*  public class ControladoraBDRecursos
     {
         // GET: ControladoraBDRecursos
         public ActionResult Index()
@@ -87,5 +87,5 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return View();
             }
         }
-    }
+    }*/
 }

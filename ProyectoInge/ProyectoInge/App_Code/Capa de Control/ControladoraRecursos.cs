@@ -7,7 +7,7 @@ using System.Data;
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
-    public class ControladoraRecursos 
+  /*  public class ControladoraRecursos 
     {
         // GET: ControladoraRecursos
         public ActionResult Index()
@@ -86,5 +86,5 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 return View();
             }
         }
-    }
+    }*/
 }
