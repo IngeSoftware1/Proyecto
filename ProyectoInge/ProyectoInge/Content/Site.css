@@ -2,7 +2,7 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color:#000033;
+    background-color:#006699; /*Hexadecimal anterior 000033*/
 }
 
 /* Wrapping element */
@@ -68,16 +68,18 @@ input[type="email"] {
 
 }
 
+/*Estilo labels del modulo RH*/
 .estiloLabel {
 width:200px;
 height: 20px;
 font-family:Calibri;
 font-size:14px;
-margin-left: 1em;
+margin-left: 2em;
 /*padding-right: 35px;
 padding-left: 15%;*/
 }
 
+/*Estilo cajas de texto del modulo RH*/
 .estiloCajas{
   
   width: 200px;
@@ -97,10 +99,28 @@ padding-left: 15%;*/
           transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
+/*Estilo para los listbox con conjuntos de telefonos*/
 .estiloLista {
-    width:200px;
+    width:400px;
     height: 100px;
-    padding-right: 35px;
-  padding-left: 15%;
+    margin-left:2em;
+    /*padding-right: 35px;
+    padding-left: 15%;*/
 }
 
+/*Estilo de los botones de RH*/
+.estiloBotones {
+background-color:#006699
+;
+color:white;
+border-bottom-style:outset;
+font-style:normal;
+border-radius:15px;
+margin-right:1em;
+}
+
+.estiloCombobox {
+    margin-left:1em;
+    width:200px;
+    height: 25px;
+}
