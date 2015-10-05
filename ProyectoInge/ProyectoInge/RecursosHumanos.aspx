@@ -5,7 +5,7 @@
   <h2>Módulo de Recursos Humanos</h2>
     <%-- Botones para realizar el IMEC en el modulo --%>
     <div id="btnsControl" style="float:right">
-        <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" />
+        <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick ="btnInsertar_Click"/>
         <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones"/>
         <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones"/>
     </div>
@@ -63,7 +63,7 @@
        <br>
        <div id="RolRH"><%--Aquí debe ser cargado por medio de la base de datos--%>
        <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="estiloLabelRH"></asp:Label>
-        <asp:DropDownList runat="server" ID="DropDownList1" CssClass="estiloCombobox">
+        <asp:DropDownList runat="server" ID="comboRol" CssClass="estiloCombobox">
           <asp:ListItem >Líder de pruebas</asp:ListItem>
             <asp:ListItem >Tester</asp:ListItem>
             <asp:ListItem >Usuario</asp:ListItem>
