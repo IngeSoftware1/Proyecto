@@ -16,8 +16,8 @@
        
         <br>
        <div id="Cedula">
-       <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtCedula" CssClass="estiloCajas"></asp:TextBox>
+       <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtCedula" CssClass=""></asp:TextBox>
        </div>
 
         <%-- Menu vertical de modulos que no he logrado arreglar --%>
@@ -34,25 +34,25 @@
 
        <br>
        <div id="NombreRH">
-       <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtNombre" CssClass="estiloCajas"></asp:TextBox>
+       <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtNombre" CssClass=""></asp:TextBox>
        </div>
        
        <br>
        <div id="Ape1RH">
-       <asp:Label ID="lblApellido1" runat="server" Text="Apellido 1:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtApellido1" CssClass="estiloCajas" ></asp:TextBox>
+       <asp:Label ID="lblApellido1" runat="server" Text="Apellido 1:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtApellido1" CssClass="" ></asp:TextBox>
        </div>
 
        <br>
        <div id="Ape2RH">
-       <asp:Label ID="lblApellido2" runat="server" Text="Apellido 2:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtApellido2" CssClass="estiloCajas" ></asp:TextBox>
+       <asp:Label ID="lblApellido2" runat="server" Text="Apellido 2:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtApellido2" CssClass="" ></asp:TextBox>
        </div>
 
        <br><br><br>
        <div id="PerfilRH">
-       <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="estiloLabel"></asp:Label>
+       <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="estiloLabelRH"></asp:Label>
         <asp:DropDownList runat="server" ID="comboPerfil" CssClass="estiloCombobox">
           <asp:ListItem  Value="1">Administrador</asp:ListItem>
             <asp:ListItem  Value="2">Miembro de equipo de pruebas</asp:ListItem>
@@ -62,7 +62,7 @@
 
        <br>
        <div id="RolRH"><%--Aquí debe ser cargado por medio de la base de datos--%>
-       <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="estiloLabel"></asp:Label>
+       <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="estiloLabelRH"></asp:Label>
         <asp:DropDownList runat="server" ID="DropDownList1" CssClass="estiloCombobox">
           <asp:ListItem >Líder de pruebas</asp:ListItem>
             <asp:ListItem >Tester</asp:ListItem>
@@ -72,32 +72,32 @@
 
         <br>
        <div id="UsuarioRH">
-       <asp:Label ID="lblUsuario" runat="server" Text="Usuario:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCajas" ></asp:TextBox>
+       <asp:Label ID="lblUsuario" runat="server" Text="Usuario:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtUsuario" CssClass="" ></asp:TextBox>
        </div>
 
         <br>
        <div id="ContrasenaRH">
-       <asp:Label ID="lblContrasena" runat="server" Text="Contraseña:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtContrasena" CssClass="estiloCajas" TextMode="Password" ></asp:TextBox>
+       <asp:Label ID="lblContrasena" runat="server" Text="Contraseña:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtContrasena" CssClass="" TextMode="Password" ></asp:TextBox>
        </div>
 
        <br>
        <div id="ConfirmarRH">
-       <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtConfirmar" CssClass="estiloCajas" TextMode="Password" ></asp:TextBox>
+       <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtConfirmar" CssClass="" TextMode="Password" ></asp:TextBox>
        </div>
 
        <br><br><br>
        <div id="TelefonoRH">
-       <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabel"></asp:Label>
-       <asp:TextBox runat="server" ID="txtTelefono" CssClass="estiloCajas" TextMode="Phone" ></asp:TextBox>
+       <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabelRH"></asp:Label>
+       <asp:TextBox runat="server" ID="txtTelefono" CssClass="" TextMode="Phone" ></asp:TextBox>
        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="estiloBoton"/>
        </div>
        
         <br>
         <div id="TelefonosRH">
-            <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="estiloLabel"></asp:Label><br>
+            <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="estiloLabelRH"></asp:Label><br>
             <asp:ListBox runat="server" ID="listTelefonos" CssClass="estiloLista"></asp:ListBox>
        </div>
 
@@ -111,13 +111,13 @@
 
     <br><br>
     <%-- El grid para consultar se debe activar --%>
-    <div id="consulta">
-        <asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabel"></asp:Label><br>
+    <%-- %>div id="consulta"--%>
+        <%-- %>asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabelRH"></--%><br>
       <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" OnPageIndexChanged="gridRH_PageIndexChanged">
                 <Columns>
                     <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" CausesValidation="false" />
                 </Columns> 
             </asp:GridView> --%>
-        </div>
+        </%>
 
 </asp:Content>

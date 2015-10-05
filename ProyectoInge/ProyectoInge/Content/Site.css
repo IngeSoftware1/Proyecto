@@ -20,6 +20,7 @@ input[type="email"] {
     max-width: 280px;
 }
 
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .jumbotron {
@@ -105,7 +106,7 @@ padding-left: 15%;*/
 .estiloLista {
     width:400px;
     height: 100px;
-    margin-left:2em;
+     margin-left:7%;
     /*padding-right: 35px;
     padding-left: 15%;*/
 }
@@ -128,16 +129,17 @@ color:white;
 border-bottom-style:outset;
 font-style:normal;
 border-radius:15px;
-margin-right:1em;
-position: absolute;
-left: 460px; 
+margin-left: 5px;
 }
 
-
 .estiloCombobox {
-    margin-left:1em;
-    width:200px;
+    width:175px;
     height: 25px;
-    position: absolute;
-    left: 235px; 
+}
+
+.estiloLabelRH {
+    margin-left: 80px;
+    width: 13%;
+    text-align: left;
+    display: inline-block;
 }
