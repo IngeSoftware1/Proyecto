@@ -1,6 +1,4 @@
-<%@ Page Title="Iniciar sesión" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ProyectoInge.Account.Login" Async="true" %>
-
-<%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
+﻿<%@ Page Title="Iniciar sesión" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ProyectoInge.Login" Async="true" %>
 
 <asp:Content runat="server" ID="BodyContent2" ContentPlaceHolderID="MainContent">
     <h2 class="estilo"><%: Title %></h2>
@@ -18,12 +16,12 @@
                       </asp:PlaceHolder>
                      
                     <div>
-                             <asp:Label runat="server" ID="lblUsuario" AssociatedControlID="txtUsuario" CssClass="estiloA" >Nombre de usuario</asp:Label>
+                             <asp:Label runat="server" ID="lblUsuario"  CssClass="estiloA" >Nombre de usuario</asp:Label>
                              <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCaja" TextMode="Email" />
                               <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario" CssClass="text-danger" ErrorMessage="El campo de correo electrónico es obligatorio." />                   
                              <br/>
                              <br/>
-                              <asp:Label runat="server" ID="lblPasword" AssociatedControlID="txtPassword" CssClass="estiloA">Contraseña</asp:Label>
+                              <asp:Label runat="server" ID="lblPasword" CssClass="estiloA">Contraseña</asp:Label>
                              <asp:TextBox runat="server" ID="txtPassword" TextMode="Password" CssClass="estiloCaja" />
                              <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
                             <br/>

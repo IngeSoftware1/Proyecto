@@ -25,7 +25,7 @@ namespace ProyectoInge
 
         protected void botonClick(object sender, EventArgs e)
         {
-            Response.Redirect("~/Account/Login.aspx");
+            Response.Redirect("~/Login.aspx");
         }
 
 

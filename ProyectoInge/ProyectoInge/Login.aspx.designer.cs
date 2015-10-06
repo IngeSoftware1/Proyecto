@@ -7,7 +7,7 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ProyectoInge.Account {
+namespace ProyectoInge {
     
     
     public partial class Login {
