@@ -53,37 +53,12 @@ namespace ProyectoInge.Account
             }
         }
 
-        public void actualizarFormulario(object sender, EventArgs e)
-        {
-
-
-            if (IsValid)
-            {
-                botonIniciar.EnableViewState = false;
-                botonIniciar.Visible = false;
-                lblNewPassword.Visible = true;
-                lblAntPassword.Visible = true;
-                txtAntPassword.Visible = true;
-                txtNewPassword.Visible = true;
-
-            }
-
-        }
+    
+        
 
 
 
-        protected void ChangePassword(object sender, EventArgs e)
-        {
-
-            DataTable datosUsuario = controladora.consultarUsuario(txtUsuario.Text, txtAntPassword.Text);
-            if (datosUsuario.Rows.Count == 1)
-            {
-               Boolean resultado = controladora.modificarContrasena(txtUsuario.Text, txtAntPassword.Text, txtNewPassword.Text);
-
-            }
-            
-
-        }
+       
 
 
 

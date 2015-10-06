@@ -28,24 +28,12 @@
                              <asp:RequiredFieldValidator runat="server" ControlToValidate="txtPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
                             <br/>
                             <br/>
-                             <asp:Button runat="server" ID="botonCambiar" OnClick="actualizarFormulario" Text="Cambiar contraseña" CssClass="btn btn-default" />
+                            <a runat="server" href="~/InterfazCambioContrasenna.aspx">Cambiar contraseña</a>
 
                             <br/>
                             <asp:Button runat="server" ID="botonIniciar" OnClick="LogIn" Text="Iniciar sesión" CssClass="btn btn-default" />
                             <br/>
-                             <br/>
-                              <asp:Label runat="server" ID="lblNewPassword" style="visibility:hidden" AssociatedControlID="txtNewPassword" CssClass="estiloA">Nueva Contraseña</asp:Label>
-                             <asp:TextBox runat="server" ID="txtNewPassword" style="visibility:hidden" TextMode="Password" CssClass="estiloCaja" />
-                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNewPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
-                            <br/>
-                            <br/>
-                              <asp:Label runat="server" ID="lblAntPassword" style="visibility:hidden" AssociatedControlID="txtAntPassword" CssClass="estiloA">Contraseña anterior</asp:Label>
-                             <asp:TextBox runat="server" ID="txtAntPassword" style="visibility:hidden" TextMode="Password" CssClass="estiloCaja" />
-                             <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAntPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
-                            <br/>
-                            <br/>
-                            <asp:Button runat="server" style="visibility:hidden" OnClick="ChangePassword" Text="Aceptar" CssClass="btn btn-default" />
-                            <br/>
+                          
                     </div>
                        
                 </div>
