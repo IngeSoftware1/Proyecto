@@ -287,7 +287,7 @@
     <Compile Include="App_Code\Capa de Acceso a Datos\AccesoBaseDatos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelFuncionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRol.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
