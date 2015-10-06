@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-//using DataSetFuncionario;
+using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 using System.Data.SqlClient;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
+
+    
     public class ControladoraBDRecursos
       {
      
          //RHTableAdapter adapterRH;                  
-      
+        AccesoBaseDatos acceso = new AccesoBaseDatos();
      public ControladoraBDRecursos()
       {
           //adapterRH = new RHTableAdapter();	

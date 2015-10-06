@@ -14,7 +14,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
       {
          ControladoraBDRecursos controladoraBDRecurso = new ControladoraBDRecursos();
 
-
+        
           public ControladoraRecursos()
           {
 

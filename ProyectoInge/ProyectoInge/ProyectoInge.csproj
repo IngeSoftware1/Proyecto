@@ -284,6 +284,7 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Capa de Acceso a Datos\AccesoBaseDatos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
