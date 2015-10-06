@@ -427,4 +427,3 @@ C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.O
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
-C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache

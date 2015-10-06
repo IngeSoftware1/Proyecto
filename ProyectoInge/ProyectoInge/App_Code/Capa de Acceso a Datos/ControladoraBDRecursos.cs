@@ -21,7 +21,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      public DataTable consultarUsuario(String user, String pass)
      {
          DataTable dt = new DataTable();
-         //dt = adapterRH.GetData(user,pass);
+         //dt = adapterRH.GetUsuario(user,pass);
          return dt;
      }
 

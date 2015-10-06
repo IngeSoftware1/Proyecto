@@ -4,13 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
+using ProyectoInge.App_Code;
+using System.Web.UI.WebControls;
 
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
       public class ControladoraRecursos 
       {
-         ControladoraBDRecursos controladoraBDRecursos = new ControladoraBDRecursos();
+         ControladoraBDRecursos controladoraBDRecurso = new ControladoraBDRecursos();
 
 
           public ControladoraRecursos()
@@ -19,14 +21,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
           }
 
           public DataTable consultarUsuario(String user, String pass){
-
-              return controladoraBDRecursos.consultarUsuario(user,pass);
+            
+              return controladoraBDRecurso.consultarUsuario(user,pass);
 
           }
 
           public Boolean modificarContrasena(String user, String pass, String newPass)
           {
-              Boolean resultado = controladoraBDRecursos.modificarContrasena(user,pass,newPass);
+              Boolean resultado = controladoraBDRecurso.modificarContrasena(user,pass,newPass);
               return resultado;
           }
 
