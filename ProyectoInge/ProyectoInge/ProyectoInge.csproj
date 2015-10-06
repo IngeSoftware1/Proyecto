@@ -170,7 +170,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
-    <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
@@ -182,6 +181,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="InterfazCambioContrasenna.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -256,13 +256,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Account\Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Account\Manage.aspx.cs">
       <DependentUpon>Manage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -291,14 +284,10 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Capa de Acceso a Datos\AccesoBaseDatos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
-    <Content Include="App_Code\DataSetFuncionario.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
-    </Content>
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelFuncionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRol.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
@@ -318,6 +307,11 @@
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionPrueba.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoNC.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionNC.cs" />
+    <Content Include="App_Code\DataSetFuncionario.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
+    </Content>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -354,6 +348,13 @@
     </Compile>
     <Compile Include="InterfazCambioContrasenna.aspx.designer.cs">
       <DependentUpon>InterfazCambioContrasenna.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

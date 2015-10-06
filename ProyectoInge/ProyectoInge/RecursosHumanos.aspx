@@ -2,7 +2,7 @@
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-  <h2>Módulo de Recursos Humanos</h2>
+  <h2 class="estilo">Módulo de Recursos Humanos</h2>
     <%-- Botones para realizar el IMEC en el modulo --%>
     <div id="btnsControl" style="float:right">
         <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick ="btnInsertar_Click"/>
