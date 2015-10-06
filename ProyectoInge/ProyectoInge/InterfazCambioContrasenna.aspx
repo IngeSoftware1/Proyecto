@@ -34,7 +34,9 @@
 
     <div id="btnsBD" style="float:right">
         <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" />
-        <asp:Button ID="btnCancelar" runat="server" OnClick="clickBoton" Text="Cancelar" CssClass="estiloBotones"/>
+         <asp:Button ID="btnCancelar" runat="server" onClick="botonClick" PostBackUrl="~/RecursosHumanos.aspx" Text="Cancelar" CssClass="estiloBotones" OnClientClick="aspnetForm.target ='_blank';"/>
+        
+ 
     </div>
 
    
