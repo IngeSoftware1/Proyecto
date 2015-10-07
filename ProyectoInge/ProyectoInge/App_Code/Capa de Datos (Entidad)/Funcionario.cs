@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 {
-    public class Funcionario : Controller
+    public class Funcionario
     {
 
         //Atributos de la tabla Funcionario
