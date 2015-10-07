@@ -158,7 +158,7 @@ col-sm-offset-1 control-label"></asp:Label>
 
     <%-- Botones para aceptar y cancelar --%>
     <div id="btnsBD" style="float: right">
-        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" OnClick="btnAceptar_Click"/>
+        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" />
         <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones" />
     </div>
 
