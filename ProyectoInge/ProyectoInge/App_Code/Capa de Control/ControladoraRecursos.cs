@@ -36,8 +36,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
          
          /* Este metodo es llamado por Login.aspx.cs
           * Retorna: Funcionatio
-          * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario 
-          * 
+          * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
           * 
          */
          public Funcionario validarFuncionario(string user, string password)
