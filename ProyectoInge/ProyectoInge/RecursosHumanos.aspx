@@ -10,12 +10,12 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
         </div>
 
         <%-- Botones para realizar el IMEC en el modulo --%>
-        <div class="col-lg-12">
+        <div class="col-lg-11">
             <%-- Botones para realizar el IMEC en el modulo --%>
             <div id="btnsControl" style="float: right">
-                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick="btnInsertar_Click"/>
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones" />
+                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click"/>
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
             </div>
 
         </div>
@@ -129,7 +129,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                         <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone"></asp:TextBox>
                                     </div>
                                     <div class="">
-                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass=" estiloBotones" />
+                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="img-circle btn-primary" />
                                     </div>
                                 </div>
                             </div>
@@ -142,8 +142,9 @@ col-sm-offset-1 control-label"></asp:Label>
                                 <div class="row">
                                     <div class="col-sm-10 col-sm-offset-1">
                                         <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
+                                        </div>
                                         <div class="">
-                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass=" estiloBotones" />
+                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass="img-circle btn-primary" />
                                     </div>
 
                                     </div>
@@ -155,11 +156,12 @@ col-sm-offset-1 control-label"></asp:Label>
             </div>
         </div>
     </div>
-
-    <%-- Botones para aceptar y cancelar --%>
-    <div id="btnsBD" style="float: right">
-        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" />
-        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones" />
+     <div class="col-lg-11">
+        <%-- Botones para aceptar y cancelar --%>
+            <div id="btnsBD" style="float: right">
+            <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" />
+            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
+            </div>
     </div>
 
     <br>
