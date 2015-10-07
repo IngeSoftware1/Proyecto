@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 {
-    public class Funcionario : Controller
+    public class Funcionario
     {
 
         //Atributos de la tabla Funcionario
@@ -32,7 +32,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
                 this.apellido1 = datos[2].ToString();
                 this.apellido2 = datos[3].ToString();
                 this.usuario = datos[4].ToString();
-                this.contrasena = datos[4].ToString();
+                this.contrasena = datos[5].ToString();
                 this.login = Convert.ToInt32(datos[6].ToString());
             }
 

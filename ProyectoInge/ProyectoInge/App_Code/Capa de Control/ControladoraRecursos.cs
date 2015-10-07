@@ -33,17 +33,21 @@ namespace ProyectoInge.App_Code.Capa_de_Control
               return resultado;
           }
 
-           /*
-          public Funcionario validarUsuario(string nombreUsuario, string password)
-          {
-              DataRow datosObtenidos = controladoraBDRecurso.validarUsuario(nombreUsuario, password);
-              if (datosObtenidos == null)
-                  return null;
-              Funcionario funcionarioValidado = new Funcionario(datosObtenidos.ItemArray);
-              return funcionarioValidado;
-          }
-          */
- 
+         
+         /* Este metodo es llamado por Login.aspx.cs
+          * Retorna: Funcionatio
+          * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario 
+         */
+         public Funcionario validarFuncionario(string user, string password)
+         {
+             DataRow datosObtenidos = controladoraBDRecurso.validarFuncionario(user, password);
+             if (datosObtenidos == null)
+                 return null;
+             Funcionario funcionarioValidado = new Funcionario(datosObtenidos.ItemArray);
+             return funcionarioValidado;
+         }
+        
+
 
       }
 }

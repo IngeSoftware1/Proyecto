@@ -13,7 +13,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     public class ControladoraBDRecursos
       {
      
-         //RHTableAdapter adapterRH;                  
+        //RHTableAdapter adapterRH;                  
         AccesoBaseDatos acceso = new AccesoBaseDatos();
      public ControladoraBDRecursos()
       {
@@ -24,6 +24,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      {
          DataTable dt = new DataTable();
          //dt = adapterRH.GetUsuario(user,pass);
+
+         //respuesta = (int)(adapterVentas.totalVentas());
          return dt;
      }
 
@@ -46,13 +48,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
      }
 
-
-     public DataRow validarUsuario(string nombreUsuario, string password)
+     /* Retorna la fila¨de la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null  */
+     public DataRow validarFuncionario(string user, string password)
      {
-         DataTable usuarioValidado = new DataTable();
-         //= adapterRH.validarUsuario(nombreUsuario, password);
-         if (usuarioValidado.Rows.Count == 1)
-             return usuarioValidado.Rows[0];
+         DataTable funcionarioValidado = new DataTable();
+         //= adapterRH.validarFuncionario(user, password);
+         if (funcionarioValidado.Rows.Count == 1)
+             return funcionarioValidado.Rows[0];
          return null;
      }
 

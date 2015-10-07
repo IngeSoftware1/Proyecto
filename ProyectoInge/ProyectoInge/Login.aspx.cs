@@ -40,17 +40,26 @@ namespace ProyectoInge
             if (IsValid)
             {   
                 // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
-                var manager = new UserManager();
-                ApplicationUser user = manager.Find(txtUsuario.Text, txtPassword.Text);
+               
+                Funcionario funcionarioValidado = controladora.validarFuncionario(txtUsuario.Text, txtPassword.Text);
+              
+                if(funcionarioValidado != null) {
+                    string cedulaDeFuncionario = funcionarioValidado.getCedula;
 
-                if (user != null)
-                {
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                }
-                else
-                {
-                    FailureText.Text = "Correo o contrasena inconrrecta.";
-                    ErrorMessage.Visible = true;
+                    // LLAMAR A CONTROLADORA.verPerfil(contrasena)
+                    // este metodo lo que va a hacer el comparar la cedula con TablaAdministrador.cedula 
+                       // y compara cedula con TablaMiebro.cedula para ver que pefil es 
+
+                    var manager = new UserManager();
+                    ApplicationUser user = manager.Find(txtUsuario.Text, txtPassword.Text);
+                    if (user != null) {
+                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
+                    }
+                    else
+                    {
+                        FailureText.Text = "Correo o contrasena inconrrecta.";
+                        ErrorMessage.Visible = true;
+                    }
                 }
 
             }
