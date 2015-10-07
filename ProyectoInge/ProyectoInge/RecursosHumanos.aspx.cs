@@ -4,11 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ProyectoInge.App_Code.Capa_de_Control;
 
 namespace ProyectoInge
 {
     public partial class RecursosHumanos : System.Web.UI.Page
     {
+        ControladoraRecursos controladoraRH = new ControladoraRecursos();
+
         private static int modo = 1;//1insertar, 2 modificar, 3eliminar
         private int perfil;
         private static int idRecursosHumanos = -1;
@@ -36,6 +39,7 @@ namespace ProyectoInge
             this.txtConfirmar.Enabled = condicion;
             this.txtTelefono.Enabled = condicion;
             this.btnNumero.Enabled = condicion;
+            this.btnQuitar.Enabled = condicion;
         }
 
         protected void btnModificar_Click(object sender, EventArgs e)
@@ -88,6 +92,7 @@ namespace ProyectoInge
                 this.txtConfirmar.Enabled = false;
                 this.txtTelefono.Enabled = true;
                 this.btnNumero.Enabled = true;
+                this.btnQuitar.Enabled = true;
             }
         }
 
@@ -113,16 +118,48 @@ namespace ProyectoInge
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            switch (modo) {
-                case '1':btnAceptar_Insertar();
+            switch (modo)
+            {
+                case 1:
+                    {
+                        btnAceptar_Insertar();
+                    }
                     break;
-                case '2': btnAceptar_Modificar();
+
+                case 2:
+                    {
+                        btnAceptar_Modificar();
+                    }
                     break;
-                case '3': btnAceptar_Eliminar();
-                    break; 
+                case 3:
+                    {
+                        btnAceptar_Eliminar();
+                    }
+                    break;
 
             }
         }
+
+        /*Método para la acción del botón cancelar
+         * Modifica: Deshabilita los textbox, los botones y limpia los textbox
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            controlarCampos(false);
+            vaciarCampos();
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
+        }
+
+        /*Método para limpiar los textbox
+         * Requiere: No requiere parámetros
+         * Modifica: Establece la propiedad text de los textbox en ""
+         * Retorna: no retorna ningún valor
+         */
         protected void vaciarCampos()
         {
             this.txtCedula.Text = "";
@@ -133,8 +170,14 @@ namespace ProyectoInge
             this.txtContrasena.Text = "";
             this.txtConfirmar.Text = "";
             this.txtTelefono.Text = "";
+            this.listTelefonos.Text = "";
         }
 
+        /*Método para la acción de aceptar cuando esta en modo de inserción
+         * Requiere: No requiere ningún parámetro
+         * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox
+         * Retorna: No retorna ningún valor
+         */
         protected void btnAceptar_Insertar() {
             Object[] datosNuevos = new Object[7];
             datosNuevos[0] = this.txtCedula.Text;
@@ -144,7 +187,27 @@ namespace ProyectoInge
             datosNuevos[4] = this.txtUsuario.Text;
             datosNuevos[5] = this.txtContrasena.Text;
             datosNuevos[6] = false;
+            vaciarCampos();
+            if (controladoraRH.ejecutarAccion(modo, datosNuevos))
+            {
+                string mensaje = "<script>window.alert('Insertar true" + "valor del modo" + modo + "');</script>";
+                Response.Write(mensaje);
+            }
+            else
+            {
+                string mensaje = "<script>window.alert('Insertar false" + "valor del modo" + modo + "');</script>";
+                Response.Write(mensaje);
+            }
+
+            //Se debe llenar el grid con el nuevo
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
         }
+
         protected void btnAceptar_Modificar() {
 
             //Valida datos, campos

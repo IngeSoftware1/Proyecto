@@ -17,7 +17,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             private String apellido2;
             private String usuario;
             private String contrasena;
-            private int login;
+            private Boolean login;
 
 
             /* 
@@ -32,8 +32,8 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
                 this.apellido1 = datos[2].ToString();
                 this.apellido2 = datos[3].ToString();
                 this.usuario = datos[4].ToString();
-                this.contrasena = datos[4].ToString();
-                this.login = Convert.ToInt32(datos[6].ToString());
+                this.contrasena = datos[5].ToString();
+                this.login = Convert.ToBoolean(datos[6].ToString());
             }
 
             //Metodos set y get del atributo cedula
@@ -79,7 +79,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             }
 
             //Metodos set y get del atributo login
-            public int getLogin
+            public Boolean getLogin
             {
                 get { return login; }
                 set { login = value; }

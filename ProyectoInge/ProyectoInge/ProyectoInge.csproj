@@ -187,17 +187,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
-    <Content Include="App_Code\DataSetFuncionario.xsc">
-      <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
-    </Content>
-    <None Include="App_Code\DataSetFuncionario.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSetFuncionario.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="App_Code\DataSetFuncionario.xss">
-      <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
-    </Content>
     <Content Include="DataSet1.xsc">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Content>
@@ -318,11 +307,6 @@
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionPrueba.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoNC.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionNC.cs" />
-    <Content Include="App_Code\DataSetFuncionario.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSetFuncionario.xsd</DependentUpon>
-    </Content>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>

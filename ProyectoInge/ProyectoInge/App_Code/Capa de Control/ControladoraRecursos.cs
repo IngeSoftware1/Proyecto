@@ -47,8 +47,27 @@ namespace ProyectoInge.App_Code.Capa_de_Control
              Funcionario funcionarioValidado = new Funcionario(datosObtenidos.ItemArray);
              return funcionarioValidado;
          }
-        
 
+         public Boolean ejecutarAccion(int modo, Object[] datos)
+         {
+             Boolean resultado = false;
+             switch (modo)
+             {
+                 case 1:
+                     { // INSERTAR
+                         Funcionario nuevo = new Funcionario(datos);
+                         resultado = controladoraBDRecurso.insertarFuncionario(nuevo);
+                     }
+                     break;
+                 case 2:
+                     { // MODIFICAR
+
+                         resultado = false;
+                     }
+                     break;
+             }
+             return resultado;
+         }
 
       }
 }

@@ -79,7 +79,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblContrasena" runat="server" Text="Contraseña" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-4">
-                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control" TextMode="Password"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
-                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control" TextMode="Password"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -159,8 +159,8 @@ col-sm-offset-1 control-label"></asp:Label>
      <div class="col-lg-11">
         <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
-            <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" />
-            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
+            <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click"/>
+            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" />
             </div>
     </div>
 
