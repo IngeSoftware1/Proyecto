@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
+﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
+
 CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Async="true" %>
 
 
@@ -12,9 +13,9 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
         <div class="col-lg-12">
             <%-- Botones para realizar el IMEC en el modulo --%>
             <div id="btnsControl" style="float: right">
-                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBoton" OnClick="btnInsertar_Click"/>
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBoton" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBoton" />
+                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick="btnInsertar_Click"/>
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones" />
             </div>
 
         </div>
@@ -134,13 +135,17 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="col-sm-5 
+                                    <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="col-sm-5 
+
 col-sm-offset-1 control-label"></asp:Label>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-10 col-sm-offset-1">
-                                        <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control" 
-TextMode="Password"></asp:ListBox>
+                                        <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
+                                        <div class="">
+                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass=" estiloBotones" />
+                                    </div>
+
                                     </div>
                                 </div>
                         </div>
@@ -162,10 +167,12 @@ TextMode="Password"></asp:ListBox>
     <%-- El grid para consultar se debe activar --%>
     <%-- %>div id="consulta"--%>
     <%-- %>asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabelRH"></--%><br>
-    <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" 
+    <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" 
+
 OnPageIndexChanged="gridRH_PageIndexChanged">
                 <Columns>
-                    <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" 
+                    <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" 
+
 CausesValidation="false" />
                 </Columns> 
             </asp:GridView> --%>
