@@ -136,7 +136,13 @@ namespace ProyectoInge
         }
 
         protected void btnAceptar_Insertar() {
-        
+            Object[] datosNuevos = new Object[7];
+            //datosNuevos[0] = this.txtIdCompra.Text;
+            //datosNuevos[1] = this.txtFecha.Text;
+            //datosNuevos[2] = this.drpProveedor.SelectedValue.ToString();
+            //datosNuevos[3] = this.txtDesc.Text;
+            //datosNuevos[4] = this.drpProd.SelectedValue.ToString();
+            //datosNuevos[5] = this.txtInv.Text;
         }
         protected void btnAceptar_Modificar() {
 
