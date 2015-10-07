@@ -1,123 +1,182 @@
-﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos"  Async="true" %>
+﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
+
+CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Async="true" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-  <h2 class="estilo">Módulo de Recursos Humanos</h2>
-    <%-- Botones para realizar el IMEC en el modulo --%>
-    <div id="btnsControl" style="float:right">
-        <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick ="btnInsertar_Click"/>
-        <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones" OnClick ="btnIModificar_Click"/>
-        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones"/>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="estiloTitulo">Módulo de Recursos Humanos</h2>
+        </div>
+
+        <%-- Botones para realizar el IMEC en el modulo --%>
+        <div class="col-lg-12">
+            <%-- Botones para realizar el IMEC en el modulo --%>
+            <div id="btnsControl" style="float: right">
+                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick="btnInsertar_Click"/>
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones" />
+            </div>
+
+        </div>
+
+        <br>
+        <br>
+        <div id="Datos"> <%-- Div que almacena todos los div internos para los datos del RH --%>
+            <div class="row">
+                <div class="col-sm-5 col-sm-offset-1">
+                    <div class="panel panel-default" style ="height: 277px">
+                        <div class="panel-body" >
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-3 ">
+                                        <asp:TextBox runat="server" ID="txtCedula" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-3 ">
+                                        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblApellido1" runat="server" Text="Primer apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm -offset-1 ">
+                                        <asp:TextBox runat="server" ID="txtApellido1" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblApellido2" runat="server" Text="Segundo apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 ">
+                                        <asp:TextBox runat="server" ID="txtApellido2" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                <div class="col-sm-5 ">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblUsuario" runat="server" Text="Usuario:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-4">
+                                        <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblContrasena" runat="server" Text="Contraseña" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-4">
+                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6">
+                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6">
+                                        <asp:DropDownList runat="server" ID="comboPerfil" CssClass="form-control">
+                                            <asp:ListItem Value="1">Administrador</asp:ListItem>
+                                            <asp:ListItem Value="2">Miembro de equipo de pruebas</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6">
+                                        <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
+                                            <asp:ListItem>Líder de pruebas</asp:ListItem>
+                                            <asp:ListItem>Tester</asp:ListItem>
+                                            <asp:ListItem>Usuario</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 col-sm-offset-1">
+                    <div class="panel panel-default" style ="height: 277px">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-2">
+                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone"></asp:TextBox>
+                                    </div>
+                                    <div class="">
+                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass=" estiloBotones" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="col-sm-5 
+
+col-sm-offset-1 control-label"></asp:Label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10 col-sm-offset-1">
+                                        <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
+                                        <div class="">
+                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass=" estiloBotones" />
+                                    </div>
+
+                                    </div>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- Botones para aceptar y cancelar --%>
+    <div id="btnsBD" style="float: right">
+        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" />
+        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones" />
     </div>
 
     <br>
-    <%-- Div que almacena todos los div internos para los datos del RH --%>
-    <div id="Datos">
-       
-        <br>
-       <div id="Cedula">
-       <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtCedula" CssClass=""></asp:TextBox>
-       </div>
-
-        <%-- Menu vertical de modulos que no he logrado arreglar --%>
-
-    <%--<asp:Menu ID="MenuPrincipal" runat="server">
-            <asp:Items>
-                <asp:MenuItem Text="Recursos Humanos" Value="1"></asp:MenuItem>
-                <asp:MenuItem Text="Proyectos" Value="2"></asp:MenuItem>
-                <asp:MenuItem Text="Diseño de Pruebas" Value="3"></asp:MenuItem>
-                <asp:MenuItem Text="Casos de Pruebas" Value="4"></asp:MenuItem>
-                <asp:MenuItem Text="Ejecución de Pruebas" Value="5"></asp:MenuItem>
-            </asp:Items>
-        </asp:Menu>--%>
-
-       <br>
-       <div id="NombreRH">
-       <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtNombre" CssClass=""></asp:TextBox>
-       </div>
-       
-       <br>
-       <div id="Ape1RH">
-       <asp:Label ID="lblApellido1" runat="server" Text="Apellido 1:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtApellido1" CssClass="" ></asp:TextBox>
-       </div>
-
-       <br>
-       <div id="Ape2RH">
-       <asp:Label ID="lblApellido2" runat="server" Text="Apellido 2:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtApellido2" CssClass="" ></asp:TextBox>
-       </div>
-
-       <br><br><br>
-       <div id="PerfilRH">
-       <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="estiloLabelRH"></asp:Label>
-        <asp:DropDownList runat="server" ID="comboPerfil" CssClass="estiloCombobox">
-          <asp:ListItem  Value="1">Administrador</asp:ListItem>
-            <asp:ListItem  Value="2">Miembro de equipo de pruebas</asp:ListItem>
-        </asp:DropDownList>
-
-       </div>
-
-       <br>
-       <div id="RolRH"><%--Aquí debe ser cargado por medio de la base de datos--%>
-       <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="estiloLabelRH"></asp:Label>
-        <asp:DropDownList runat="server" ID="comboRol" CssClass="estiloCombobox">
-          <asp:ListItem >Líder de pruebas</asp:ListItem>
-            <asp:ListItem >Tester</asp:ListItem>
-            <asp:ListItem >Usuario</asp:ListItem>
-        </asp:DropDownList>
-       </div>
-
-        <br>
-       <div id="UsuarioRH">
-       <asp:Label ID="lblUsuario" runat="server" Text="Usuario:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtUsuario" CssClass="" ></asp:TextBox>
-       </div>
-
-        <br>
-       <div id="ContrasenaRH">
-       <asp:Label ID="lblContrasena" runat="server" Text="Contraseña:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtContrasena" CssClass="" TextMode="Password" ></asp:TextBox>
-       </div>
-
-       <br>
-       <div id="ConfirmarRH">
-       <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtConfirmar" CssClass="" TextMode="Password" ></asp:TextBox>
-       </div>
-
-       <br><br><br>
-       <div id="TelefonoRH">
-       <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="estiloLabelRH"></asp:Label>
-       <asp:TextBox runat="server" ID="txtTelefono" CssClass="" TextMode="Phone" ></asp:TextBox>
-       <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="estiloBoton"/>
-       </div>
-       
-        <br>
-        <div id="TelefonosRH">
-            <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="estiloLabelRH"></asp:Label><br>
-            <asp:ListBox runat="server" ID="listTelefonos" CssClass="estiloLista"></asp:ListBox>
-       </div>
-
-    </div><%--Fin del div grande de los datos--%>
-
-    <%-- Botones para aceptar y cancelar --%>
-    <div id="btnsBD" style="float:right">
-        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" OnClick ="btnAceptar_Click" />
-        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones"/>
-    </div>
-
-    <br><br>
+    <br>
     <%-- El grid para consultar se debe activar --%>
     <%-- %>div id="consulta"--%>
-        <%-- %>asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabelRH"></--%><br>
-      <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" OnPageIndexChanged="gridRH_PageIndexChanged">
+    <%-- %>asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabelRH"></--%><br>
+    <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" 
+
+OnPageIndexChanged="gridRH_PageIndexChanged">
                 <Columns>
-                    <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" CausesValidation="false" />
+                    <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" 
+
+CausesValidation="false" />
                 </Columns> 
             </asp:GridView> --%>
         </%>
+    </div>
 
 </asp:Content>

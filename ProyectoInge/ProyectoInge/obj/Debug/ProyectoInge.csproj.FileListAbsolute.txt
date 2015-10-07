@@ -311,7 +311,6 @@ C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\Microsoft.Web.
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\Newtonsoft.Json.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\Owin.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.dll
-C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Optimization.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Providers.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.dll
@@ -320,7 +319,6 @@ C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Web
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\WebGrease.dll
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.xml
-C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.xml
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.xml
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.xml
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml

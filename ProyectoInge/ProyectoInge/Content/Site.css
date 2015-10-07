@@ -122,16 +122,6 @@ border-radius:15px;
 margin-right:1em;
 }
 
-.estiloBoton {
-background-color:#006699
-;
-color:white;
-border-bottom-style:outset;
-font-style:normal;
-border-radius:15px;
-margin-left: 5px;
-}
-
 .estiloCombobox {
     width:175px;
     height: 25px;
