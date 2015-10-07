@@ -16,6 +16,11 @@ namespace ProyectoInge
         protected void Page_Load(object sender, EventArgs e)
         {
             controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
         }
 
         protected void controlarCampos(Boolean condicion)
@@ -52,19 +57,16 @@ namespace ProyectoInge
             throw new NotImplementedException();
         }
 
-        protected void botonModificar(bool condicion)
+        /*Método para habilitar/deshabilitar el botón
+         * Requiere: el booleano para la acción
+         * Modifica: La propiedad enable del botón
+         * Retorna: no retorna ningún valor
+         */
+        protected void cambiarEnabled(bool condicion, Button boton)
         {
-            this.btnModificar.Enabled = condicion;
+            boton.Enabled = condicion;
         }
 
-        protected void botonEliminar(bool condicion)
-        {
-            this.btnEliminar.Enabled = condicion;
-        }
-        protected void botonInsertar(bool condicion)
-        {
-            this.btnInsertar.Enabled = condicion;
-        }
         protected void habilitarCamposModificar(int perfil)//si es Administrador es 1, si no es 2
         {
             if(perfil== 1)
@@ -102,6 +104,9 @@ namespace ProyectoInge
         {
             vaciarCampos();
             controlarCampos(true);
+            modo = 1;
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
         }
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -127,7 +132,10 @@ namespace ProyectoInge
             this.txtTelefono.Text = "";
         }
 
-        protected void btnAceptar_Insertar() { }
+        protected void btnAceptar_Insertar() {
+          
+        }
+
         protected void btnAceptar_Modificar() {
 
             //Valida datos, campos
