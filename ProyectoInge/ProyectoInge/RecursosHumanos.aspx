@@ -6,7 +6,7 @@
     <%-- Botones para realizar el IMEC en el modulo --%>
     <div id="btnsControl" style="float:right">
         <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="estiloBotones" OnClick ="btnInsertar_Click"/>
-        <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones"/>
+        <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="estiloBotones" OnClick ="btnIModificar_Click"/>
         <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="estiloBotones"/>
     </div>
 
@@ -105,7 +105,7 @@
 
     <%-- Botones para aceptar y cancelar --%>
     <div id="btnsBD" style="float:right">
-        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" />
+        <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="estiloBotones" OnClick ="btnAceptar_Click" />
         <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="estiloBotones"/>
     </div>
 

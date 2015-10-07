@@ -9,6 +9,10 @@ namespace ProyectoInge
 {
     public partial class RecursosHumanos : System.Web.UI.Page
     {
+        private static int modo = 1;//1insertar, 2 modificar, 3eliminar
+        private int perfil;
+        private static int idRecursosHumanos = -1;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             controlarCampos(false);
@@ -29,12 +33,88 @@ namespace ProyectoInge
             this.btnNumero.Enabled = condicion;
         }
 
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            modo = 2;
+            //Iluminar btnModificar
+            if (rhConsultado()) {
+                if (idRecursosHumanos != -1)
+                {
+                    habilitarCamposModificar(perfil);
+                }
+
+            }
+           
+        }
+        //TODO
+        private bool rhConsultado()//Me dice si hay un RH seleccionado del Grid, y puesto en los txtbox
+        {
+            throw new NotImplementedException();
+        }
+
+        protected void botonModificar(bool condicion)
+        {
+            this.btnModificar.Enabled = condicion;
+        }
+
+        protected void botonEliminar(bool condicion)
+        {
+            this.btnEliminar.Enabled = condicion;
+        }
+        protected void botonInsertar(bool condicion)
+        {
+            this.btnInsertar.Enabled = condicion;
+        }
+        protected void habilitarCamposModificar(int perfil)//si es Administrador es 1, si no es 2
+        {
+            if(perfil== 1)
+            {
+                controlarCampos(true);
+            }
+            else if(perfil == 2)
+            {
+                this.txtCedula.Enabled = true;
+                this.txtNombre.Enabled = true;
+                this.txtApellido1.Enabled = true;
+                this.txtApellido2.Enabled = true;
+                this.comboPerfil.Enabled = false;
+                this.comboRol.Enabled = false;
+                this.txtUsuario.Enabled = false;
+                this.txtContrasena.Enabled = false;
+                this.txtConfirmar.Enabled = false;
+                this.txtTelefono.Enabled = true;
+                this.btnNumero.Enabled = true;
+            }
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+           /* modo = 3;
+            if (idRecursos Hmanos != -1){
+                controladoraRecursos Hmanos.ejecutarAccion(modo, idRecursos Hmanos);
+            }
+            idRecursos Hmanos = -1;
+            llenarGrid();*/
+            vaciarCampos();
+        }
+
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             vaciarCampos();
             controlarCampos(true);
         }
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            switch (modo) {
+                case '1':btnAceptar_Insertar();
+                    break;
+                case '2': btnAceptar_Modificar();
+                    break;
+                case '3': btnAceptar_Eliminar();
+                    break; 
 
+            }
+        }
         protected void vaciarCampos()
         {
             this.txtCedula.Text = "";
@@ -46,5 +126,15 @@ namespace ProyectoInge
             this.txtConfirmar.Text = "";
             this.txtTelefono.Text = "";
         }
+
+        protected void btnAceptar_Insertar() { }
+        protected void btnAceptar_Modificar() {
+
+            //Valida datos, campos
+            //llama a modificar en la BD
+
+        }
+        protected void btnAceptar_Eliminar() { }
+
     }
 }
