@@ -9,7 +9,7 @@ nombre varchar(20),
 apellido1 varchar(20),
 apellido2 varchar(20),
 usuario varchar(20) UNIQUE,
-contrasena varchar(30),
+contrasena varchar(100),
 login bit 
 );
 

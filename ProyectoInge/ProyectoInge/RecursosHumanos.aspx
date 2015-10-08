@@ -31,7 +31,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
-                                        <asp:TextBox runat="server" ID="txtCedula" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtCedula" CssClass="form-control" MaxLength="9"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
-                                        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblApellido1" runat="server" Text="Primer apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm -offset-1 ">
-                                        <asp:TextBox runat="server" ID="txtApellido1" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtApellido1" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblApellido2" runat="server" Text="Segundo apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 ">
-                                        <asp:TextBox runat="server" ID="txtApellido2" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtApellido2" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblUsuario" runat="server" Text="Usuario:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-4">
-                                        <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtUsuario" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblContrasena" runat="server" Text="Contraseña" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-4">
-                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control" TextMode="Password" MaxLength="30"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
-                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control" TextMode="Password"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control" TextMode="Password" MaxLength="30"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +96,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboPerfil" CssClass="form-control">
-                                            <asp:ListItem Value="1">Administrador</asp:ListItem>
-                                            <asp:ListItem Value="2">Miembro de equipo de pruebas</asp:ListItem>
+                                            <asp:ListItem Value="Administrador">Administrador</asp:ListItem>
+                                            <asp:ListItem Value="Miembro de equipo de pruebas">Miembro de equipo de pruebas</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -107,9 +107,9 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
-                                            <asp:ListItem>Líder de pruebas</asp:ListItem>
-                                            <asp:ListItem>Tester</asp:ListItem>
-                                            <asp:ListItem>Usuario</asp:ListItem>
+                                            <asp:ListItem Value="Líder de pruebas">Líder de pruebas</asp:ListItem>
+                                            <asp:ListItem Value="Tester">Tester</asp:ListItem>
+                                            <asp:ListItem Value="Usuario">Usuario</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -126,10 +126,10 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-2">
-                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
                                     </div>
                                     <div class="">
-                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="img-circle btn-primary" />
+                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="img-circle btn-primary" OnClick="btnAgregarTelefono" />
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@ col-sm-offset-1 control-label"></asp:Label>
                                         <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
                                         </div>
                                         <div class="">
-                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass="img-circle btn-primary" />
+                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass="img-circle btn-primary" OnClick="btnEliminarTelefono"/>
                                     </div>
 
                                     </div>

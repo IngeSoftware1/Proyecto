@@ -89,20 +89,40 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      {
          try
          {
-             string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" +nuevo.getNombre+ "', '" +nuevo.getApellido1+ "', '" +nuevo.getApellido2+ "', '" +nuevo.getUsuario+ "', '" +nuevo.getContrasena+ "', '"+nuevo.getLogin+ "' ";
+             string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" + nuevo.getNombre + "', '" + nuevo.getApellido1 + "', '" + nuevo.getApellido2 + "', '" + nuevo.getUsuario + "', '" +nuevo.getContrasena+ "', '"+nuevo.getLogin+ "')";
              return acceso.insertarDatos(insercion);
+           
          }
          catch (SqlException e)
          {
-             int r = e.Number;
-             if (r == 2627)
-             {
-                 // "Ya existe una venta con este id";
-             }
-             else
-             {
-                 //"Se ha producido un error al insertar la venta";
-             }
+             return false;
+         }
+     }
+
+     public bool insertarAdministrador(EntidadAdministrador nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Administrador (cedula_admin) VALUES ('" + nuevo.getCedula_Admin + "')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
+     public bool insertarMiembro(EntidadMiembro nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Miembro (cedula_miembro, tipo_rol) VALUES ('" + nuevo.getCedulaMiembro + "', '"+nuevo.getTipoRol +"')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
              return false;
          }
      }

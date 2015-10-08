@@ -48,15 +48,28 @@ namespace ProyectoInge.App_Code.Capa_de_Control
              return funcionarioValidado;
          }
 
-         public Boolean ejecutarAccion(int modo, Object[] datos)
+         public bool ejecutarAccion(int modo, int accion, Object[] datos)
          {
              Boolean resultado = false;
              switch (modo)
              {
                  case 1:
                      { // INSERTAR
-                         Funcionario nuevo = new Funcionario(datos);
-                         resultado = controladoraBDRecurso.insertarFuncionario(nuevo);
+                         if (accion == 1)//Insertar Funcionario
+                         {
+                             Funcionario nuevo = new Funcionario(datos);
+                             resultado = controladoraBDRecurso.insertarFuncionario(nuevo);
+                         }
+                         else if (accion == 2) //Insertar administrador
+                         {
+                             EntidadAdministrador nuevoadmin = new EntidadAdministrador(datos);
+                             resultado = controladoraBDRecurso.insertarAdministrador(nuevoadmin);
+                         }
+                         else if (accion == 3) //Insertar miembro de equipo de pruebas
+                         {
+                             EntidadMiembro nuevoamiembro = new EntidadMiembro(datos);
+                             resultado = controladoraBDRecurso.insertarMiembro(nuevoamiembro);
+                         }
                      }
                      break;
                  case 2:

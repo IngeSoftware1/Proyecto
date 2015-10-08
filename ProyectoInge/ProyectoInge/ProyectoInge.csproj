@@ -290,8 +290,8 @@
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelFuncionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRol.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadMiembro.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadMiembro.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficinaUsuaria.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficina.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoProceso.cs" />

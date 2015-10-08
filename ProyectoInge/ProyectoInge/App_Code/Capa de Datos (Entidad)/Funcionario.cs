@@ -10,7 +10,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
     {
 
         //Atributos de la tabla Funcionario
-            //Atributos de la clase, datos de un usuario.
             private String cedula;
             private String nombre;
             private String apellido1;

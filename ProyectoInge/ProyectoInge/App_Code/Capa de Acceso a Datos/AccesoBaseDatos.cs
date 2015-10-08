@@ -11,7 +11,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     {
 
         /*En Initial Catalog se agrega la base de datos propia. Intregated Security es para utilizar Windows Authentication*/
-        String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
+        String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
         
         public AccesoBaseDatos()
         {
@@ -21,11 +21,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             SqlConnection sqlConnection = new SqlConnection(conexion);
             sqlConnection.Open();
-
             try
             {
                 SqlCommand cons = new SqlCommand(consulta, sqlConnection);
-
                 cons.ExecuteNonQuery();
                 sqlConnection.Close();
                 return true;
