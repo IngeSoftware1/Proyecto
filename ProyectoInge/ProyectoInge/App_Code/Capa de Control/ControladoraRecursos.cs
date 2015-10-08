@@ -75,8 +75,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                  case 2:
                      { // MODIFICAR
 
-                         resultado = false;
-                     }
+                        if (accion == 1)//Modificar funcionario , por parte de un miembro
+                        {
+                            Funcionario nuevo = new Funcionario(datos);
+                            resultado = controladoraBDRecurso.modificarFuncionario(nuevo);
+                        }
+                        resultado = false;
+                    }
                      break;
              }
              return resultado;

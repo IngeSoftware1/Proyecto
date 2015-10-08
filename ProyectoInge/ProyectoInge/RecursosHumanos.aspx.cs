@@ -99,18 +99,27 @@ namespace ProyectoInge
 
         }
 
+        /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
+         * Requiere: object sender, EventArgs e
+         * Modifica: Cambia la propiedad Enabled de las cajas y botones
+         * Retorna: no retorna ningún valor
+         */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
+            //PARA PRUEBAS PERFIL = 2;
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnEliminar);
+            //llenar los txtbox con la table
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+
             modo = 2;
             //Iluminar btnModificar
-            if (rhConsultado()) {
-                if (idRecursosHumanos != -1)
-                {
-                    habilitarCamposModificar(perfil);
-                }
-
+            if (rhConsultado())
+            {
+                habilitarCamposModificar();
             }
-           
+
         }
 
         //Me dice si hay un RH seleccionado del Grid, y puesto en los txtbox
@@ -130,14 +139,19 @@ namespace ProyectoInge
             boton.Enabled = condicion;
         }
 
-       
-        protected void habilitarCamposModificar(int perfil)//si es Administrador es 1, si no es 2
+
+        /*Método para habilitar/deshabilitar los campos en el modificar
+          * Requiere: -
+          * Modifica: La propiedad enable del textBox, botones y comboBox  
+          * Retorna: no retorna ningún valor
+          */
+        protected void habilitarCamposModificar()//si es Administrador es 1, si no es 2
         {
-            if(perfil== 1)
+            if (perfil == 1)//Si es un administrador puede modificar todos
             {
                 controlarCampos(true);
             }
-            else if(perfil == 2)
+            else if (perfil == 2)//Si es un miembro, entonces solo puede modificar los campos habilitador
             {
                 this.txtCedula.Enabled = true;
                 this.txtNombre.Enabled = true;
@@ -213,14 +227,37 @@ namespace ProyectoInge
          */
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            controlarCampos(false);
-            vaciarCampos();
-            EjemplificarCampos();
-            cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(false, this.btnEliminar);
-            cambiarEnabled(false, this.btnAceptar);
-            cambiarEnabled(false, this.btnCancelar);
-            cambiarEnabled(true, this.btnInsertar);
+            switch (modo)
+            {
+                case 1:
+                    {
+                        controlarCampos(false);
+                        vaciarCampos();
+                        cambiarEnabled(false, this.btnModificar);
+                        cambiarEnabled(false, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar);
+                    }
+                    break;
+
+                case 2:
+                    {
+                        vaciarCampos();
+                        cambiarEnabled(false, this.btnModificar);
+                        cambiarEnabled(false, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar);
+                    }
+                    break;
+                case 3:
+                    {
+                        btnAceptar_Eliminar();
+                    }
+                    break;
+
+            }
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
@@ -457,12 +494,47 @@ namespace ProyectoInge
 
             return resultado;
         }
+        /*Método Para la acción de aceptar cuando está en modo de modificación 
+         * Recibe: No recibe ningún parámetro
+         * Modifica:  Verifica si faltan datos en alguna caja de texto
+         * Retorna: retorna true si alguna caja no tiene texto, false si todas las cajas tienen texto
+         */
+        protected void btnAceptar_Modificar()
+        {
+            //MODIFICAR POR PARTE DE UN MIEMBRO
+            int tipoModificacion = 1;//Funcionario
+            if (faltanDatos())
+            {
+                string mensaje = "<script>window.alert('Para modificar un funcionario debe completar todos los datos habilitados.');</script>";
+                Response.Write(mensaje);
+                habilitarCamposInsertar();
+            }
+            else
+            {
+                //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
+                //los encapsula todos, sea administrador o miembro
+                Object[] datosNuevos = new Object[7];
+                datosNuevos[0] = this.txtCedula.Text;
+                datosNuevos[1] = this.txtNombre.Text;
+                datosNuevos[2] = this.txtApellido1.Text;
+                datosNuevos[3] = this.txtApellido2.Text;
+                datosNuevos[4] = this.txtUsuario.Text;
+                datosNuevos[5] = this.txtContrasena.Text;
+                datosNuevos[6] = false;
 
-        protected void btnAceptar_Modificar() {
+                if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos))
+                {
+                    string mensaje = "La modificacion del miembro con cedula: " + this.txtCedula.Text + "fue exitosa.";
 
-            //Valida datos, campos
-            //llama a modificar en la BD
-
+                }
+                else
+                {
+                    string mensaje = "<script>window.alert('La modificacion no fue exitosa.');</script>";
+                    Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
+                //MODIFICAR POR PARTE DE UN ADMINISTRADOR
+            }
         }
         protected void btnAceptar_Eliminar() { }
 

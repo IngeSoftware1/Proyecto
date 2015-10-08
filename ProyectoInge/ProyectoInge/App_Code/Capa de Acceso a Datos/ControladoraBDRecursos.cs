@@ -155,6 +155,19 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              return false;
          }
      }
+        public bool modificarFuncionario(Funcionario nuevo)
+        {
+            try
+            {
+                string modif = "UPDATE Funcionario SET cedula =" + nuevo.getCedula + ", nombre=" + nuevo.getNombre + " , apellido1= " + nuevo.getApellido1 + ", apellido2= " + nuevo.getApellido2 + ", usuario=" + nuevo.getUsuario + ", contrasena= " + nuevo.getContrasena + ", login =" + nuevo.getLogin + " WHERE cedula=" + nuevo.getCedula;
+                return acceso.insertarDatos(modif);
 
-      }
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+    }
 }
