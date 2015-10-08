@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
+using System.Data;
 
 namespace ProyectoInge
 {
@@ -13,8 +14,9 @@ namespace ProyectoInge
         ControladoraRecursos controladoraRH = new ControladoraRecursos();
 
         private static int modo = 1;//1insertar, 2 modificar, 3eliminar
-        private int perfil;
+        private int perfil = 1;
         private static int idRecursosHumanos = -1;
+        private static string idRH = ""; 
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,6 +26,16 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             cambiarEnabled(true, this.btnInsertar);
+
+            if (perfil == 1) //El usuario en el sistema es el administrador
+            {
+                llenarGrid(null);
+            }
+            else if (perfil == 2) //El usuario en el sistema es un miembro
+            {  
+                //Se debe obtener la cedula del usuario que está utilizando el sistema para enviarla por parámetro
+                llenarGrid(null);
+            }
         }
 
         /*Método para cargar ejemplos de datos en las cajas de cedula y telefono
@@ -56,6 +68,35 @@ namespace ProyectoInge
             this.txtTelefono.Enabled = condicion;
             this.btnNumero.Enabled = condicion;
             this.btnQuitar.Enabled = condicion;
+        }
+
+        /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
+        * Modifica: el valor del la variable idRH con la cédula del funcionario que se desea consultar y se realiza el llamado al 
+        método llenarDatos(idRH) el cual llena los campos de la interfaz con los resultados de la consulta especificada mediante el número de cédula.
+        * Retorna: no retorna ningún valor
+        */
+        protected void gridVentas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "seleccionarRH":
+                    {
+                        GridViewRow filaSeleccionada = this.gridRH.Rows[Convert.ToInt32(e.CommandArgument)];
+                        idRH = (filaSeleccionada.Cells[1].Text);
+                        llenarDatos(idRH);
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(true, this.btnEliminar);
+                        cambiarEnabled(true, this.btnCancelar);
+                        cambiarEnabled(false, this.btnInsertar);
+                    };
+                    break;
+            }
+
+        }
+
+        protected void gridVentas_PageIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         protected void btnModificar_Click(object sender, EventArgs e)
@@ -424,6 +465,159 @@ namespace ProyectoInge
 
         }
         protected void btnAceptar_Eliminar() { }
+
+        /*Método para llenar el grid con el registro del recurso humano correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
+       con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.
+       * Requiere: Requiere la cédula del usuario que está utilizando el sistema en caso de que éste sea un miembro, sino se especifica el parámetro
+       como nulo para indicar que el usuario del sistema es el administrador.
+       * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora de manera 
+       que le sea visible al usuario del sistema los resultados. 
+       * Retorna: no retorna ningún valor
+       */
+        protected void llenarGrid(string idRH)
+        {
+            DataTable dt = crearTablaFuncionarios();
+            DataTable funcionarios;
+            Object[] datos = new Object[4];
+
+            if (idRH == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
+            //todos los recursos humanos del sistema
+            {
+                funcionarios = controladoraRH.consultarRecursosHumanos(null);
+                if (funcionarios.Rows.Count > 0)
+                {
+                    foreach (DataRow fila in funcionarios.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        dt.Rows.Add(datos);
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    dt.Rows.Add(datos);
+                }
+            }
+            else
+            {
+                funcionarios = controladoraRH.consultarRecursosHumanos(idRH);
+                if (funcionarios.Rows.Count == 1)
+                {
+                    foreach (DataRow fila in funcionarios.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        dt.Rows.Add(datos);
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    dt.Rows.Add(datos);
+                }
+            }
+
+            this.gridRH.DataSource = dt;
+            this.gridRH.DataBind();
+
+        }
+
+        /*Método para crear el DataTable donde se mostrará el o los registros de los recursos humanos del sistema según corresponda.
+       * Requiere: No requiere ningún parámetro.
+       * Modifica: el nombre de cada columna donde se le especifica el nombre que cada una de ellas tendrá. 
+       * Retorna: el DataTable creado. 
+       */
+        protected DataTable crearTablaFuncionarios()
+        {
+            DataTable dt = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Cedula";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Primer Apellido";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Segundo Apellido";
+            dt.Columns.Add(columna);
+
+            return dt;
+        }
+
+
+        /*Método para llenar los capos de la interfaz con los resultados de la consulta.
+        * Requiere: La cédula del funcionario que se desea consultar.
+        * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
+        * Retorna: No retorna ningún valor. 
+        */
+        public void llenarDatos(string idRH)
+        {
+
+            DataTable datosFilaFuncionario = controladoraRH.consultarRH(idRH);
+            DataTable datosFilaTelefono = controladoraRH.consultarTelefonosRH(idRH);
+            ListItem tipoPerfil;
+
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                this.txtCedula.Text = datosFilaFuncionario.Rows[0][0].ToString();
+                this.txtNombre.Text = datosFilaFuncionario.Rows[0][1].ToString();
+                this.txtApellido1.Text = datosFilaFuncionario.Rows[0][2].ToString();
+                this.txtApellido2.Text = datosFilaFuncionario.Rows[0][3].ToString();
+                this.txtUsuario.Text = datosFilaFuncionario.Rows[0][4].ToString();
+
+
+                if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][5].ToString()) != null)
+                {
+
+                    ListItem rol = this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][5].ToString());
+                    this.comboRol.SelectedValue = rol.Value;
+                    tipoPerfil = comboPerfil.Items.FindByText("Miembro de equipo de pruebas");
+                    this.comboPerfil.SelectedValue = tipoPerfil.Value;
+                }
+
+                else
+                {
+                    tipoPerfil = comboPerfil.Items.FindByText("Administrador");
+                    this.comboPerfil.SelectedValue = tipoPerfil.Value;
+                    // this.comboRol.Items.Clear(); 
+                }
+            }
+
+
+            listTelefonos.Items.Clear();
+            if (datosFilaTelefono.Rows.Count >= 1)
+            {
+                listTelefonos.Items.Clear();
+                for (int i = 0; i < datosFilaTelefono.Rows.Count; ++i)
+                {
+                    listTelefonos.Items.Add(datosFilaTelefono.Rows[i][0].ToString());
+
+                }
+            }
+
+        }
 
     }
 }

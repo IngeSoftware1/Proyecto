@@ -9,7 +9,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
     public class AccesoBaseDatos
     {
-
+   
         /*En Initial Catalog se agrega la base de datos propia. Intregated Security es para utilizar Windows Authentication*/
         String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
         
@@ -56,6 +56,28 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return datos;
         }
+
+
+        /**
+         * Permite ejecutar una consulta SQL, los datos son devueltos en un DataTable
+         */
+        public DataTable ejecutarConsultaTabla(String consulta)
+        {
+            SqlConnection sqlConnection = new SqlConnection(conexion);
+            sqlConnection.Open();
+
+            SqlCommand comando = new SqlCommand(consulta, sqlConnection);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(comando);
+
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+
+            DataTable table = new DataTable();
+
+            dataAdapter.Fill(table);
+            return table;
+        } 
+
     }
 
 }

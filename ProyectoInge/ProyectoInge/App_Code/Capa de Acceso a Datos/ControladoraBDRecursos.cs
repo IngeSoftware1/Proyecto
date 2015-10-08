@@ -78,13 +78,42 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return null;
      }
 
-   
-     public DataTable consultarRH(string cedula) {
-        DataTable dt = new DataTable();
-        //dt = adapterRH.GetData(cedula);
-        return dt;
-    }
+     public DataTable consultarRH(string ced)
+     {
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
+         datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+         return datosFuncionario;
+     }
 
+     public DataTable consultarTelefonosRH(string cedula)
+     {
+         DataTable telefonos = new DataTable();
+         string consulta = "SELECT T.num_telefono " + " FROM Telefono_Funcionario T " + " WHERE T.cedula_funcionario = '" + cedula + "'";
+         telefonos = acceso.ejecutarConsultaTabla(consulta);
+         return telefonos;
+     }
+
+
+     public DataTable consultarRecursosHumanos(string cedula)
+     {
+         DataTable dt = new DataTable();
+         string consulta;
+
+         if (cedula == null)
+         {
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2 " + " FROM Funcionario F ";
+         }
+         else
+         {
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2 " + " FROM Funcionario F " + " WHERE F.cedula = '" + cedula + "'";
+         }
+
+         dt = acceso.ejecutarConsultaTabla(consulta);
+         return dt;
+     }
+
+   
      public bool insertarFuncionario(Funcionario nuevo)
      {
          try

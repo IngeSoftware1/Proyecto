@@ -6,7 +6,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="estiloTitulo">Módulo de Recursos Humanos</h2>
+            <h2 class="estilo">Módulo de Recursos Humanos</h2>
         </div>
 
         <%-- Botones para realizar el IMEC en el modulo --%>
@@ -164,6 +164,24 @@ col-sm-offset-1 control-label"></asp:Label>
                     </div>
                 </div>
             </div>
+             <div class="form-group">
+             <div class="row">
+            <div id="consulta">
+                <asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
+              </div> 
+                </div>   
+                <div class ="row">
+                <div class="col-sm-6 col-sm-offset-1"> 
+                        <asp:GridView ID="gridRH" runat="server" AutoGenerateColumns="True" OnRowCommand ="gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged">             
+                            <Columns>
+                                <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" CausesValidation="false" />
+                            </Columns> 
+                        </asp:GridView>
+                    </div>
+                    </div>
+               </div>
+
+
         </div>
     </div>
      <div class="col-lg-11">

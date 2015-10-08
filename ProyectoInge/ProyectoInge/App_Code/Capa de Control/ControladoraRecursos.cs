@@ -82,5 +82,33 @@ namespace ProyectoInge.App_Code.Capa_de_Control
              return resultado;
          }
 
+         /*Método para obtener un DataTable con los datos del funcionario especificado mediante el número de cédula.
+        * Requiere: La cédula del funcionario que se desea consultar
+        * Retorna: el DataTable con los datos del funcionario.
+        */
+         public DataTable consultarRH(string cedula)
+         {
+             return controladoraBDRecurso.consultarRH(cedula);
+         }
+
+         /*Método para obtener un DataTable con la cédula, nombre, primer apellido y segundo apellido de todos los funcionarios en caso de que
+          * el sistema esté siendo utilizando por el administrador o solo el correspondiente al usuario del sistema en caso de que éste sea un 
+          * miembro.
+         * Requiere: La cédula del funcionario al que se le desea consultar los teléfonos
+         * Retorna: el DataTable con los datos del funcionario.
+         */
+         public DataTable consultarRecursosHumanos(string cedula)
+         {
+             return controladoraBDRecurso.consultarRecursosHumanos(cedula);
+         }
+
+         /*Método para obtener un DataTable con los números de teléfono (en caso de que tenga) el funcionario consultado. 
+        * Retorna: el DataTable con los teléfonos del funcionario.
+        */
+         public DataTable consultarTelefonosRH(string idRH)
+         {
+             return controladoraBDRecurso.consultarTelefonosRH(idRH);
+         } 
+
       }
 }
