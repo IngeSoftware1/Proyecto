@@ -21,31 +21,50 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
           //adapterRH = new RHTableAdapter();	
       }
 
-     public DataTable consultarUsuario(String user, String pass)
+     public bool consultarUsuario(String user, String pass)
      {
-         DataTable dt = new DataTable();
-         //dt = adapterRH.GetUsuario(user,pass);
+          try
+         {
+             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
+             SqlDataReader data = acceso.ejecutarConsulta(consulta);
+             if (data.NextResult() == true)
+             {
+                 return true;
 
-         //respuesta = (int)(adapterVentas.totalVentas());
-         return dt;
+             }
+             else {
+                 return true;
+             }
+
+         }
+          catch (SqlException e)
+          {
+              return false;
+          }
+         
      }
 
      public Boolean modificarContrasena(String user, String pass, String newPass)
      {
-         DataTable dt = new DataTable();
-         Boolean resultado = false;
          try
          {
-             //dt = adapterRH.GetData(user, pass,newPass);
-             //this.adapterRH.Insert(venta.ID, venta.Fecha, venta.Proveedor, venta.Descripcion, venta.NombreProducto, venta.CantidadInventario, venta.CantidadSolicitada); 
-             resultado = true;
+             string consulta = "UPDATE FUNCIONARIO SET = newPass WHERE usuario =" + user + " and contrasena = " + pass;
+             SqlDataReader data = acceso.ejecutarConsulta(consulta);
+             if (data.NextResult() == true)
+             {
+                 return true;
+
+             }
+             else
+             {
+                 return true;
+             }
+
          }
          catch (SqlException e)
          {
-             
+             return false;
          }
-
-         return resultado;
 
      }
 

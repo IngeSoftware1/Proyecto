@@ -7,7 +7,6 @@ using ProyectoInge.Models;
 using ProyectoInge.App_Code;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Drawing.Printing;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using System.Data;
 
@@ -34,8 +33,8 @@ namespace ProyectoInge
         protected void ChangePassword(object sender, EventArgs e)
         {
 
-            DataTable datosUsuario = controladora.consultarUsuario(txtUsuario.Text, txtAntPassword.Text);
-            if (datosUsuario.Rows.Count == 1)
+            bool a = controladora.consultarUsuario(txtUsuario.Text, txtAntPassword.Text);
+            if (a==true)
             {
                 Boolean resultado = controladora.modificarContrasena(txtUsuario.Text, txtAntPassword.Text, txtNewPassword.Text);
 

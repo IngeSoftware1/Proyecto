@@ -21,7 +21,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
           }
 
-          public DataTable consultarUsuario(String user, String pass){
+          public bool consultarUsuario(String user, String pass){
             
               return controladoraBDRecurso.consultarUsuario(user,pass);
 
