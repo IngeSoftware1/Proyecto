@@ -26,6 +26,17 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnInsertar);
         }
 
+        /*Método para cargar ejemplos de datos en las cajas de cedula y telefono
+         * Modifica: la propiedad text de las dos cajas
+         * retorna: no retorna ningún valor
+         */
+        protected void EjemplificarCampos()
+        {
+            txtCedula.Text = "145680958";
+            txtTelefono.Text = "88888888";
+            
+        }
+
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
          * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto
          * Modifica: Cambia la propiedad Enabled de las cajas y botones
@@ -60,8 +71,9 @@ namespace ProyectoInge
             }
            
         }
-        //TODO
-        private bool rhConsultado()//Me dice si hay un RH seleccionado del Grid, y puesto en los txtbox
+
+        //Me dice si hay un RH seleccionado del Grid, y puesto en los txtbox
+        private bool rhConsultado()
         {
             throw new NotImplementedException();
         }
@@ -112,9 +124,15 @@ namespace ProyectoInge
             vaciarCampos();
         }
 
+        /*Método para crear la acción de insertar un nuevo funcionario
+         * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+         * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+         * Retorna: no retorna ningún valor
+         */
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             vaciarCampos();
+            EjemplificarCampos();
             controlarCampos(true);
             modo = 1;
             cambiarEnabled(true, this.btnAceptar);
@@ -156,6 +174,7 @@ namespace ProyectoInge
         {
             controlarCampos(false);
             vaciarCampos();
+            EjemplificarCampos();
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
@@ -169,6 +188,9 @@ namespace ProyectoInge
          */
         protected void btnAgregarTelefono(object sender, EventArgs e)
         {
+            txtContrasena.Attributes["Value"] = txtContrasena.Text;
+            txtConfirmar.Attributes["Value"] = txtConfirmar.Text;
+
             if (modo == 1)
             {
                 if (txtTelefono.Text != "")
@@ -186,6 +208,8 @@ namespace ProyectoInge
          */
         protected void btnEliminarTelefono(object sender, EventArgs e)
         {
+            txtContrasena.Attributes["Value"] = txtContrasena.Text;
+            txtConfirmar.Attributes["Value"] = txtConfirmar.Text;
             if (modo == 1)
             {
                 if (listTelefonos.SelectedIndex != -1)
@@ -208,6 +232,8 @@ namespace ProyectoInge
             this.txtApellido1.Text = "";
             this.txtApellido2.Text = "";
             this.txtUsuario.Text = "";
+            txtContrasena.Attributes["Value"] = "";
+            txtConfirmar.Attributes["Value"] = "";
             this.txtContrasena.Text = "";
             this.txtConfirmar.Text = "";
             this.txtTelefono.Text = "";

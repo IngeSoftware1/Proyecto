@@ -58,6 +58,15 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtCedula;
         
         /// <summary>
+        /// Control ERValidator.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator ERValidator;
+        
+        /// <summary>
         /// Control lblNombre.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace ProyectoInge {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNombre;
+        
+        /// <summary>
+        /// Control ERNombre.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator ERNombre;
         
         /// <summary>
         /// Control lblApellido1.
@@ -94,6 +112,15 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtApellido1;
         
         /// <summary>
+        /// Control ERLetrasApe1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator ERLetrasApe1;
+        
+        /// <summary>
         /// Control lblApellido2.
         /// </summary>
         /// <remarks>
@@ -110,6 +137,15 @@ namespace ProyectoInge {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtApellido2;
+        
+        /// <summary>
+        /// Control ERApe2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator ERApe2;
         
         /// <summary>
         /// Control lblUsuario.
@@ -218,6 +254,15 @@ namespace ProyectoInge {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTelefono;
+        
+        /// <summary>
+        /// Control REV2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator REV2;
         
         /// <summary>
         /// Control btnNumero.

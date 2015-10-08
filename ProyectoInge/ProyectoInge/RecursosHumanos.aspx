@@ -32,6 +32,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
                                         <asp:TextBox runat="server" ID="txtCedula" CssClass="form-control" MaxLength="9"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="ERValidator" runat="server" ControlToValidate="txtCedula" ErrorMessage="*Ingrese Valores Numéricos"
+                            ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                             </div>
@@ -40,6 +42,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
                                         <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="ERNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*Ingrese solo letras"
+                            ForeColor="Red" ValidationExpression="^[A-Za-z]*$"> </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                             </div>
@@ -48,6 +52,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblApellido1" runat="server" Text="Primer apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm -offset-1 ">
                                         <asp:TextBox runat="server" ID="txtApellido1" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="ERLetrasApe1" runat="server" ControlToValidate="txtApellido1" ErrorMessage="*Ingrese solo letras"
+                            ForeColor="Red" ValidationExpression="^[A-Za-z]*$"> </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                             </div>
@@ -56,6 +62,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblApellido2" runat="server" Text="Segundo apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 ">
                                         <asp:TextBox runat="server" ID="txtApellido2" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="ERApe2" runat="server" ControlToValidate="txtApellido2" ErrorMessage="*Ingrese solo letras"
+                            ForeColor="Red" ValidationExpression="^[A-Za-z]*$"> </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
                             </div>
@@ -127,6 +135,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-2">
                                         <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="REV2" runat="server" ControlToValidate="txtTelefono" ErrorMessage="*Ingrese Valores Numéricos"
+                            ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>
                                     <div class="">
                                         <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="img-circle btn-primary" OnClick="btnAgregarTelefono" />
