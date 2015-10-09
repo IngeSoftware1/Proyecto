@@ -116,7 +116,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return dt;
      }
 
-   
+
+   /*Método para insertar funcionario en la base de datos
+    * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
+    * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+    * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+    */
      public bool insertarFuncionario(Funcionario nuevo)
      {
          try
@@ -131,6 +136,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
+
+     /*Método para insertar administrador en la base de datos
+      * Requiere: un objeto tipo EntidadAdministrador el cual trae todos los datos encapsulados
+      * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
      public bool insertarAdministrador(EntidadAdministrador nuevo)
      {
          try
@@ -145,6 +156,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
+
+     /*Método para insertar miembro en la base de datos
+      * Requiere: un objeto tipo EntidadMiembro el cual trae todos los datos encapsulados
+      * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
      public bool insertarMiembro(EntidadMiembro nuevo)
      {
          try
@@ -158,6 +175,27 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              return false;
          }
      }
+
+
+     /*Método para insertar telefono de un funcionario en la base de datos
+      * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
+      * Modifica: Crea el string EntidadTelFuncionario la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
+     public bool insertarTelefono(EntidadTelFuncionario nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Telefono_Funcionario (cedula_funcionario, num_telefono) VALUES ('" + nuevo.getCedulaFuncionario+ "', '" + nuevo.getNumTelefono + "')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
         public bool modificarFuncionario(Funcionario nuevo)
         {
             try

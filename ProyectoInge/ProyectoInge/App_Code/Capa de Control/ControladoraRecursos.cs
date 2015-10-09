@@ -55,6 +55,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
              return funcionarioRespuesta;
          }
 
+          /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
+           * Requiere: un modo que corresponde 
+           */
          public bool ejecutarAccion(int modo, int accion, Object[] datos)
          {
              Boolean resultado = false;
@@ -76,6 +79,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                          {
                              EntidadMiembro nuevoamiembro = new EntidadMiembro(datos);
                              resultado = controladoraBDRecurso.insertarMiembro(nuevoamiembro);
+                         }
+                         else if (accion == 4) //Inserta telefonos del funcionario
+                         {
+                             EntidadTelFuncionario telefonos = new EntidadTelFuncionario(datos);
+                             resultado = controladoraBDRecurso.insertarTelefono(telefonos);
                          }
                      }
                      break;

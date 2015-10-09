@@ -20,7 +20,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 
 
             /* 
-             * Constructor por defecto.
              * Encapsula los atributos de un usuario.
              * @param atributosUsuario Vector de tipo Object con los datos del usuario que se desea encapsular.
              */

@@ -227,10 +227,7 @@ namespace ProyectoInge
          */
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            switch (modo)
-            {
-                case 1:
-                    {
+            
                         controlarCampos(false);
                         vaciarCampos();
                         cambiarEnabled(false, this.btnModificar);
@@ -238,26 +235,7 @@ namespace ProyectoInge
                         cambiarEnabled(false, this.btnAceptar);
                         cambiarEnabled(false, this.btnCancelar);
                         cambiarEnabled(true, this.btnInsertar);
-                    }
-                    break;
-
-                case 2:
-                    {
-                        vaciarCampos();
-                        cambiarEnabled(false, this.btnModificar);
-                        cambiarEnabled(false, this.btnEliminar);
-                        cambiarEnabled(false, this.btnAceptar);
-                        cambiarEnabled(false, this.btnCancelar);
-                        cambiarEnabled(true, this.btnInsertar);
-                    }
-                    break;
-                case 3:
-                    {
-                        btnAceptar_Eliminar();
-                    }
-                    break;
-
-            }
+              
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
@@ -367,6 +345,7 @@ namespace ProyectoInge
                             //Se insertó un nuevo administrador
                             if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin))
                             {
+                                //insertar telefonos
                                 //Se debe llenar el grid con el nuevo
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
@@ -397,6 +376,7 @@ namespace ProyectoInge
                             //Se insertó un nuevo miembro de equipo
                             if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro))
                             {
+                                //insertartelefonos
                                 //Se debe llenar el grid con el nuevo
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
@@ -431,6 +411,29 @@ namespace ProyectoInge
             else
             {
                 string mensaje = "<script>window.alert('Las contraseñas son distintas.');</script>";
+                Response.Write(mensaje);
+                habilitarCamposInsertar();
+            }
+        }
+
+        protected void guardarTelefonos()
+        {
+
+            string mensaje;
+            Object[] telefono = new Object[2];
+            telefono[0] = this.txtCedula.Text;
+            telefono[1] = this.comboRol.Text;
+            int tipoInsercion = 4;                              //inserción de tipo 4 es agregar telefonos
+
+            //Se insertó un nuevo telefono para el funcionario
+            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, telefono))
+            {
+                
+            }
+            //La inserción de un nuevo telefono para un funcionario en la base de datos falló porque ya estaba en la base
+            else
+            {
+                mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a este funcionario.');</script>";
                 Response.Write(mensaje);
                 habilitarCamposInsertar();
             }
