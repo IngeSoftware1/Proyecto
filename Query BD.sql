@@ -8,6 +8,7 @@ cedula varchar(9) PRIMARY KEY ,
 nombre varchar(20),
 apellido1 varchar(20),
 apellido2 varchar(20),
+email varchar(30),
 usuario varchar(20) UNIQUE,
 contrasena varchar(100),
 login bit 
