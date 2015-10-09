@@ -7,7 +7,7 @@ using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using ProyectoInge.App_Code;
 using System.Web.UI.WebControls;
-
+using System.Web.UI;
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
@@ -37,23 +37,19 @@ namespace ProyectoInge.App_Code.Capa_de_Control
               return resultado;
           }
 
-         
-         /* Este metodo es llamado por Login.aspx.cs
-          * Retorna: Funcionatio
-          * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
-          * 
-         */
-         public Funcionario validarFuncionario(string user, string password)
-         {
-             Funcionario funcionarioRespuesta = null;
-             DataRow datosObtenidos = controladoraBDRecurso.validarFuncionario(user, password);
-             if (datosObtenidos != null) {
-                funcionarioRespuesta = new Funcionario(datosObtenidos.ItemArray);
-             }
+
+          /* Este metodo es llamado por Login.aspx.cs
+ * Retorna: Funcionatio
+ * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
+ * 
+*/
 
 
-             return funcionarioRespuesta;
-         }
+          public DataTable consultarCedula(string user, string password)
+          {
+              return controladoraBDRecurso.consultarCedula(user, password);
+          }
+
 
           /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
            * Requiere: un modo que corresponde 

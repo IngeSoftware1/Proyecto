@@ -17,7 +17,7 @@
                      
                     <div>
                              <asp:Label runat="server" ID="lblUsuario"  CssClass="estiloA" >Nombre de usuario</asp:Label>
-                             <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCaja" TextMode="Email" />
+                             <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCaja" />
                               <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario" CssClass="text-danger" ErrorMessage="El campo de correo electrónico es obligatorio." />                   
                              <br/>
                              <br/>

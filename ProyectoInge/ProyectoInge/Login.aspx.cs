@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using ProyectoInge.App_Code;
 using ProyectoInge.App_Code.Capa_de_Control;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
+using System.Data;
 
 //Necesarios para iniciar sesión correctamente
 using Owin;
@@ -40,16 +41,20 @@ namespace ProyectoInge
             if (IsValid)
             {   
                 // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
-               
-                Funcionario funcionarioValidado = controladora.validarFuncionario(txtUsuario.Text, txtPassword.Text);
-              
-                if(funcionarioValidado != null) {
-                    string cedulaDeFuncionario = funcionarioValidado.getCedula;
+      
+
+            DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
+    
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+
                    Session["cedula"]=cedulaDeFuncionario;
 
                    string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                    Session["perfil"] = perfil;
 
+                   Response.Redirect("~/RecursosHumanos.aspx");
                    
                 }
 

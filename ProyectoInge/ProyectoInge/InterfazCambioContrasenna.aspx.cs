@@ -42,13 +42,13 @@ namespace ProyectoInge
         protected void ChangePassword(object sender, EventArgs e)
         {
 
-            
-
-            Funcionario funcionarioValidado = controladora.validarFuncionario(txtUsuario.Text, txtAntPassword.Text);
-
-            if (funcionarioValidado != null)
+           DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
+    
+            if (datosFilaFuncionario.Rows.Count == 1)
             {
-                string cedulaDeFuncionario = funcionarioValidado.getCedula;
+                string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+
+    
                 Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
 
             }else {
@@ -56,7 +56,7 @@ namespace ProyectoInge
                 ErrorMessage.Visible = true;
             
             }
-
+            
 
 
         }

@@ -61,24 +61,19 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      }
 
      /* Retorna la fila¨de la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null  */
-     public DataRow validarFuncionario(string user, string password)
+     public DataTable consultarCedula(string user, string password)
      {
-         DataRow resultado = null;
-         try
-         {
-             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + password;
-             DataTable funcionarioValidado = acceso.ejecutarConsultaTabla(consulta);
-             if (funcionarioValidado.Rows.Count == 1)
-             {
-                 resultado = funcionarioValidado.Rows[0]; ;
 
-             }
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT * FROM Funcionario WHERE usuario=" + user + " and contrasena = " + password;
+         try{
+            datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
          }
          catch (SqlException e)
          {
-             resultado = null;
+            
          }
-         return resultado;
+         return datosFuncionario;
      }
 
      public DataTable consultarRH(string ced)
