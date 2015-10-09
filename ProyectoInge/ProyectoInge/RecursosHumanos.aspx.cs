@@ -314,7 +314,7 @@ namespace ProyectoInge
                 //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
                 if (faltanDatos())
                 {
-                    string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos." + this.listTelefonos.Items[0].Text + "');</script>";
+                    string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
                     Response.Write(mensaje);
                     habilitarCamposInsertar();
                 }
