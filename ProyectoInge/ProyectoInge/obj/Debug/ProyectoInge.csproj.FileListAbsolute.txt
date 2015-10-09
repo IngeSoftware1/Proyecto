@@ -464,7 +464,6 @@ C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\Microsof
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\Newtonsoft.Json.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\Owin.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.dll
-C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Optimization.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Providers.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.dll
@@ -473,7 +472,6 @@ C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.W
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\WebGrease.dll
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.xml
-C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.xml
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.xml
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.xml
 C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml
@@ -901,4 +899,3 @@ C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owi
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
-C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache

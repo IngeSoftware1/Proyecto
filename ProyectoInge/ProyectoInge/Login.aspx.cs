@@ -45,24 +45,22 @@ namespace ProyectoInge
               
                 if(funcionarioValidado != null) {
                     string cedulaDeFuncionario = funcionarioValidado.getCedula;
+                   Session["cedula"]=cedulaDeFuncionario;
 
-                    // LLAMAR A CONTROLADORA.verPerfil(contrasena)
-                    // este metodo lo que va a hacer el comparar la cedula con TablaAdministrador.cedula 
-                       // y compara cedula con TablaMiebro.cedula para ver que pefil es 
+                   string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
+                   Session["perfil"] = perfil;
 
-                    var manager = new UserManager();
-                    ApplicationUser user = manager.Find(txtUsuario.Text, txtPassword.Text);
-                    if (user != null) {
-                        IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                    }
-                    else
-                    {
-                        FailureText.Text = "Correo o contrasena inconrrecta.";
-                        ErrorMessage.Visible = true;
-                    }
+                   
                 }
 
-            }
+            }else{
+
+                FailureText.Text = "usuario o contrasena incorrecta.";
+                ErrorMessage.Visible = true;
+
+            }  
+
+
         }      
 
     }

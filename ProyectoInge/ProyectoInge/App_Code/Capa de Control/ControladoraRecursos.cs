@@ -27,6 +27,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
           }
 
+
+ 
+
+
           public Boolean modificarContrasena(String user, String pass, String newPass)
           {
               Boolean resultado = controladoraBDRecurso.modificarContrasena(user,pass,newPass);
@@ -41,11 +45,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
          */
          public Funcionario validarFuncionario(string user, string password)
          {
+             Funcionario funcionarioRespuesta = null;
              DataRow datosObtenidos = controladoraBDRecurso.validarFuncionario(user, password);
-             if (datosObtenidos == null)
-                 return null;
-             Funcionario funcionarioValidado = new Funcionario(datosObtenidos.ItemArray);
-             return funcionarioValidado;
+             if (datosObtenidos != null) {
+                funcionarioRespuesta = new Funcionario(datosObtenidos.ItemArray);
+             }
+
+
+             return funcionarioRespuesta;
          }
 
          public bool ejecutarAccion(int modo, int accion, Object[] datos)
@@ -115,5 +122,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
              return controladoraBDRecurso.consultarTelefonosRH(idRH);
          } 
 
+      
+        public string buscarPerfil(string cedulaDeFuncionario)
+        {
+            return controladoraBDRecurso.buscarPerfil(cedulaDeFuncionario);
+        }
+
       }
+          
 }

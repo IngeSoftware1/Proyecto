@@ -23,42 +23,34 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
      public bool consultarUsuario(String user, String pass)
      {
+
+         bool resultado = false;
           try
          {
              string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
              DataTable data = acceso.ejecutarConsultaTabla(consulta);
              if (data.Rows.Count==1)
              {
-                 return true;
+                 resultado = true;
 
-             }else{
-
-                 return true;
-             }
-           
+             } 
          }
           catch (SqlException e)
           {
-              return false;
+              resultado = false;
           }
+
+          return resultado;
          
      }
 
      public Boolean modificarContrasena(String user, String pass, String newPass)
      {
+        
          try
          {
-             string consulta = "UPDATE FUNCIONARIO SET = newPass WHERE usuario =" + user + " and contrasena = " + pass;
-             SqlDataReader data = acceso.ejecutarConsulta(consulta);
-             if (data.NextResult() == true)
-             {
-                 return true;
-
-             }
-             else
-             {
-                 return true;
-             }
+             string modif = "UPDATE FUNCIONARIO SET = newPass WHERE usuario =" + user + " and contrasena = " + newPass;
+             return acceso.insertarDatos(modif);
 
          }
          catch (SqlException e)
@@ -71,11 +63,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      /* Retorna la fila¨de la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null  */
      public DataRow validarFuncionario(string user, string password)
      {
-         DataTable funcionarioValidado = new DataTable();
-         //= adapterRH.validarFuncionario(user, password);
-         if (funcionarioValidado.Rows.Count == 1)
-             return funcionarioValidado.Rows[0];
-         return null;
+         DataRow resultado = null;
+         try
+         {
+             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
+             DataTable funcionarioValidado = acceso.ejecutarConsultaTabla(consulta);
+             if (funcionarioValidado.Rows.Count == 1)
+             {
+                 resultado = funcionarioValidado.Rows[0]; ;
+
+             }
+         }
+         catch (SqlException e)
+         {
+             resultado = null;
+         }
+         return resultado;
      }
 
      public DataTable consultarRH(string ced)
@@ -169,5 +172,46 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-    }
+
+        public  string buscarPerfil(string cedulaDeFuncionario)
+        {
+
+            String resultado = "";
+            try
+            {
+                string consulta = "SELECT * FROM Administrador WHERE cedula =" + cedulaDeFuncionario;
+                DataTable data = acceso.ejecutarConsultaTabla(consulta);
+                if (data.Rows.Count == 1)
+                {
+                    resultado = "Administrador";
+                }else
+                {
+                    try
+                    {
+                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula =" + cedulaDeFuncionario;
+                        DataTable dataMiembro = acceso.ejecutarConsultaTabla(consultaMiembro);
+                        if (dataMiembro.Rows.Count == 1)
+                        {
+                            resultado = "Miembro";
+                        }
+              
+
+
+                    }
+                    catch (SqlException e)
+                    {
+                        resultado = "";
+                    }
+                }                 
+                
+            }
+            catch (SqlException e)
+            {
+               resultado = "";
+            }
+
+            return resultado;
+          
+        }
+      }
 }

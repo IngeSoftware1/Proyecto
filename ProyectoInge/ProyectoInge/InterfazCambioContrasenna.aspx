@@ -3,7 +3,12 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
   <h2>Cambiar Contraseña</h2>
-  
+  <asp:PlaceHolder runat="server" ID="ErrorMessage" Visible="false">
+                        <p class="text-danger">
+                            <asp:Literal runat="server" ID="FailureText" />
+                        </p>
+
+  </asp:PlaceHolder>
 
     <br>
     <%-- Div que almacena todos los datos --%>

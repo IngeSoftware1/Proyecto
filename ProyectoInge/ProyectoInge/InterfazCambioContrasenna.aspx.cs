@@ -9,6 +9,15 @@ using ProyectoInge.App_Code.Capa_de_Control;
 using System.Drawing.Printing;
 using System.Web.UI.WebControls;
 using System.Data;
+using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
+//Necesarios para iniciar sesión correctamente
+using Owin;
+using ProyectoInge.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+//Revisar:
+using System.Web.Security;
+
 
 namespace ProyectoInge
 {
@@ -33,12 +42,21 @@ namespace ProyectoInge
         protected void ChangePassword(object sender, EventArgs e)
         {
 
-            bool a = controladora.consultarUsuario(txtUsuario.Text, txtAntPassword.Text);
-            if (a==true)
-            {
-                Boolean resultado = controladora.modificarContrasena(txtUsuario.Text, txtAntPassword.Text, txtNewPassword.Text);
+            
 
+            Funcionario funcionarioValidado = controladora.validarFuncionario(txtUsuario.Text, txtAntPassword.Text);
+
+            if (funcionarioValidado != null)
+            {
+                string cedulaDeFuncionario = funcionarioValidado.getCedula;
+                Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
+
+            }else {
+                FailureText.Text = "No existe ese usuario, verifique";
+                ErrorMessage.Visible = true;
+            
             }
+
 
 
         }
