@@ -25,7 +25,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
         <div id="Datos"> <%-- Div que almacena todos los div internos para los datos del RH --%>
             <div class="row">
                 <div class="col-sm-5 col-sm-offset-1">
-                    <div class="panel panel-default" style ="height: 277px">
+                    <div class="panel panel-default" style ="height: 350px">
                         <div class="panel-body" >
                             <div class="form-group">
                                 <div class="row">
@@ -67,13 +67,23 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <div class="row">
+                             <asp:Label ID="lblEmail" runat="server" Text="Email:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 ">
+                                        <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="EREmail" runat="server" ControlToValidate="txtEmail" ErrorMessage="*Correo inválido"
+                            ForeColor="Red" ValidationExpression="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"> </asp:RegularExpressionValidator>
+                                    </div>
+                                </div>
+                            </div>      
+                         </div>
+                         <br>
                         <br>
-                        <br>
-                    </div>
+                </div>
                 </div>
                 <div class="col-sm-5 ">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style ="height: 350px">
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="row">
@@ -128,7 +138,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
             </div>
             <div class="row">
                 <div class="col-sm-5 col-sm-offset-1">
-                    <div class="panel panel-default" style ="height: 277px">
+                    <div class="panel panel-default" style ="height: 350px">
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="row">
