@@ -26,16 +26,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
           try
          {
              string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
-             SqlDataReader data = acceso.ejecutarConsulta(consulta);
-             if (data.NextResult() == true)
+             DataTable data = acceso.ejecutarConsultaTabla(consulta);
+             if (data.Rows.Count==1)
              {
                  return true;
 
              }
-             else {
-                 return true;
-             }
-
+           
          }
           catch (SqlException e)
           {

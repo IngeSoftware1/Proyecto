@@ -65,16 +65,23 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             SqlConnection sqlConnection = new SqlConnection(conexion);
             sqlConnection.Open();
-
-            SqlCommand comando = new SqlCommand(consulta, sqlConnection);
-
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(comando);
-
-            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
-
             DataTable table = new DataTable();
+            try{
+                 SqlCommand comando = new SqlCommand(consulta, sqlConnection);
 
-            dataAdapter.Fill(table);
+                 SqlDataAdapter dataAdapter = new SqlDataAdapter(comando);
+
+                 SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+
+                 dataAdapter.Fill(table);
+
+            }
+            catch (SqlException ex)
+            {
+
+            }
+
+
             return table;
         } 
 
