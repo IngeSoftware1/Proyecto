@@ -71,7 +71,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                 <div class="row">
                              <asp:Label ID="lblEmail" runat="server" Text="Email:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 ">
-                                        <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" MaxLength="30"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="EREmail" runat="server" ControlToValidate="txtEmail" ErrorMessage="*Correo inválido"
                             ForeColor="Red" ValidationExpression="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"> </asp:RegularExpressionValidator>
                                     </div>

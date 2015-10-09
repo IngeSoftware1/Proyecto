@@ -60,6 +60,7 @@ namespace ProyectoInge
             this.txtNombre.Enabled = condicion;
             this.txtApellido1.Enabled = condicion;
             this.txtApellido2.Enabled = condicion;
+            this.txtEmail.Enabled = condicion;
             this.comboPerfil.Enabled = condicion;
             this.comboRol.Enabled = condicion;
             this.txtUsuario.Enabled = condicion;
@@ -157,6 +158,7 @@ namespace ProyectoInge
                 this.txtNombre.Enabled = true;
                 this.txtApellido1.Enabled = true;
                 this.txtApellido2.Enabled = true;
+                this.txtEmail.Enabled = true;
                 this.comboPerfil.Enabled = false;
                 this.comboRol.Enabled = false;
                 this.txtUsuario.Enabled = false;
@@ -287,6 +289,7 @@ namespace ProyectoInge
             this.txtNombre.Text = "";
             this.txtApellido1.Text = "";
             this.txtApellido2.Text = "";
+            this.txtEmail.Text = "";
             this.txtUsuario.Text = "";
             txtContrasena.Attributes["Value"] = "";
             txtConfirmar.Attributes["Value"] = "";
@@ -321,14 +324,15 @@ namespace ProyectoInge
                 else
                 {
                     //Se crea el objeto para encapsular los datos de la interfaz para insertar funcionario
-                    Object[] datosNuevos = new Object[7];
+                    Object[] datosNuevos = new Object[8];
                     datosNuevos[0] = this.txtCedula.Text;
                     datosNuevos[1] = this.txtNombre.Text;
                     datosNuevos[2] = this.txtApellido1.Text;
                     datosNuevos[3] = this.txtApellido2.Text;
-                    datosNuevos[4] = this.txtUsuario.Text;
-                    datosNuevos[5] = this.txtContrasena.Text;
-                    datosNuevos[6] = false;
+                    datosNuevos[4] = this.txtEmail.Text;
+                    datosNuevos[5] = this.txtUsuario.Text;
+                    datosNuevos[6] = this.txtContrasena.Text;
+                    datosNuevos[7] = false;
 
                     //Si la inserción fue correcta insertará en otras tablas
                     if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos))

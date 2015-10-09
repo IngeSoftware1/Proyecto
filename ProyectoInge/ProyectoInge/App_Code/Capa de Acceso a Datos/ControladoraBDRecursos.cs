@@ -126,7 +126,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      {
          try
          {
-             string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" + nuevo.getNombre + "', '" + nuevo.getApellido1 + "', '" + nuevo.getApellido2 + "', '" + nuevo.getUsuario + "', '" +nuevo.getContrasena+ "', '"+nuevo.getLogin+ "')";
+             string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, email, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" + nuevo.getNombre + "', '" + nuevo.getApellido1 + "', '" + nuevo.getApellido2 + "', '" + nuevo.getEmail + "','" + nuevo.getUsuario + "', '" +nuevo.getContrasena+ "', '"+nuevo.getLogin+ "')";
              return acceso.insertarDatos(insercion);
            
          }
