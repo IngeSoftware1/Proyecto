@@ -66,7 +66,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          DataRow resultado = null;
          try
          {
-             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
+             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + password;
              DataTable funcionarioValidado = acceso.ejecutarConsultaTabla(consulta);
              if (funcionarioValidado.Rows.Count == 1)
              {
