@@ -316,7 +316,7 @@ namespace ProyectoInge
                 //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
                 if (faltanDatos())
                 {
-                    string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
+                    string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos." + this.listTelefonos.Items[0].Text + "');</script>";
                     Response.Write(mensaje);
                     habilitarCamposInsertar();
                 }
@@ -349,7 +349,7 @@ namespace ProyectoInge
                             //Se insertó un nuevo administrador
                             if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin))
                             {
-                                //insertar telefonos
+                                guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
@@ -380,7 +380,7 @@ namespace ProyectoInge
                             //Se insertó un nuevo miembro de equipo
                             if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro))
                             {
-                                //insertartelefonos
+                                guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
@@ -422,24 +422,29 @@ namespace ProyectoInge
 
         protected void guardarTelefonos()
         {
+            int i = 0;
 
-            string mensaje;
-            Object[] telefono = new Object[2];
-            telefono[0] = this.txtCedula.Text;
-            telefono[1] = this.comboRol.Text;
-            int tipoInsercion = 4;                              //inserción de tipo 4 es agregar telefonos
+            while (i < listTelefonos.Items.Count && listTelefonos.Items[i].Text.Equals("") == false)
+            {
+                string mensaje;
+                Object[] telefono = new Object[2];
+                telefono[0] = this.txtCedula.Text;
+                telefono[1] = this.listTelefonos.Items[i].Text;
+                int tipoInsercion = 4;                              //inserción de tipo 4 es agregar telefonos
 
-            //Se insertó un nuevo telefono para el funcionario
-            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, telefono))
-            {
-                
-            }
-            //La inserción de un nuevo telefono para un funcionario en la base de datos falló porque ya estaba en la base
-            else
-            {
-                mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a este funcionario.');</script>";
-                Response.Write(mensaje);
-                habilitarCamposInsertar();
+                //Se insertó un nuevo telefono para el funcionario
+                if (controladoraRH.ejecutarAccion(modo, tipoInsercion, telefono))
+                {
+                }
+                //La inserción de un nuevo telefono para un funcionario en la base de datos falló porque ya estaba en la base
+                else
+                {
+                    mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a este funcionario.');</script>";
+                    Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
+               
+                i++;
             }
         }
 
