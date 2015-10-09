@@ -78,19 +78,17 @@ namespace ProyectoInge
         */
         protected void gridVentas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName)
+            if (e.CommandName == "seleccionarRH")
             {
-                case "seleccionarRH":
-                    {
-                        GridViewRow filaSeleccionada = this.gridRH.Rows[Convert.ToInt32(e.CommandArgument)];
-                        idRH = (filaSeleccionada.Cells[1].Text);
-                        llenarDatos(idRH);
-                        cambiarEnabled(true, this.btnModificar);
-                        cambiarEnabled(true, this.btnEliminar);
-                        cambiarEnabled(true, this.btnCancelar);
-                        cambiarEnabled(false, this.btnInsertar);
-                    };
-                    break;
+
+                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
+                idRH = lnkConsulta.CommandArgument;
+
+                llenarDatos(idRH);
+                cambiarEnabled(true, this.btnModificar);
+                cambiarEnabled(true, this.btnEliminar);
+                cambiarEnabled(true, this.btnCancelar);
+                cambiarEnabled(false, this.btnInsertar);
             }
 
         }
@@ -351,6 +349,7 @@ namespace ProyectoInge
                             {
                                 guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
+                                llenarGrid(null);
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
                                 cambiarEnabled(false, this.btnEliminar);
@@ -382,6 +381,7 @@ namespace ProyectoInge
                             {
                                 guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
+                                llenarGrid(null);
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
                                 cambiarEnabled(false, this.btnEliminar);

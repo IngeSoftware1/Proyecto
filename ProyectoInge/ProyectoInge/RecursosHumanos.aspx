@@ -174,24 +174,6 @@ col-sm-offset-1 control-label"></asp:Label>
                     </div>
                 </div>
             </div>
-             <div class="form-group">
-             <div class="row">
-            <div id="consulta">
-                <asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
-              </div> 
-                </div>   
-                <div class ="row">
-                <div class="col-sm-6 col-sm-offset-1"> 
-                        <asp:GridView ID="gridRH" runat="server" AutoGenerateColumns="True" OnRowCommand ="gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged">             
-                            <Columns>
-                                <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" CausesValidation="false" />
-                            </Columns> 
-                        </asp:GridView>
-                    </div>
-                    </div>
-               </div>
-
-
         </div>
     </div>
      <div class="col-lg-11">
@@ -204,19 +186,26 @@ col-sm-offset-1 control-label"></asp:Label>
 
     <br>
     <br>
-    <%-- El grid para consultar se debe activar --%>
-    <%-- %>div id="consulta"--%>
-    <%-- %>asp:Label ID="lblconsulta" runat="server" Text="Lista de funcionarios" CssClass="estiloLabelRH"></--%><br>
-    <%-- <asp:GridView ID="gridRH" runat="server" OnRowCommand="gridRH_RowCommand" 
 
-OnPageIndexChanged="gridRH_PageIndexChanged">
-                <Columns>
-                    <asp:ButtonField ButtonType="Button" Text="Consultar" CommandName="seleccionarRH" Visible="true" 
-
-CausesValidation="false" />
-                </Columns> 
-            </asp:GridView> --%>
-        </%>
-    </div>
+      <div class="form-group">
+             <div class="row">
+            <div id="consultar">
+                <asp:Label ID="Label1" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
+              </div> 
+                </div>   
+                    <div class ="row">
+                <div class="col-sm-6 col-sm-offset-1"> 
+                        <asp:GridView ID="gridRH" runat="server" AutoGenerateColumns="True" OnRowCommand = " gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged" >             
+                            <Columns>
+                                <asp:TemplateField HeaderText="Consultar Funcionario"><ItemTemplate>
+                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarRH" CommandArgument='<%#Eval("Cedula") %>'   > Consultar </asp:LinkButton>
+                                </ItemTemplate>
+                                </asp:TemplateField>                     
+                            </Columns> 
+                        </asp:GridView>
+                    </div>
+                    </div>
+         </div>
+ 
 
 </asp:Content>
