@@ -44,7 +44,7 @@ namespace ProyectoInge
 
            DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
     
-            if (datosFilaFuncionario.Rows.Count == 1)
+            if (datosFilaFuncionario != null)
             {
                 string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
 
@@ -52,7 +52,7 @@ namespace ProyectoInge
                 Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
                 Response.Write(resultado);
             }else {
-                FailureText.Text = "No existe ese usuario, verifique";
+                FailureText.Text = "usuario o contraseña incorrecta";
                 ErrorMessage.Visible = true;
             
             }

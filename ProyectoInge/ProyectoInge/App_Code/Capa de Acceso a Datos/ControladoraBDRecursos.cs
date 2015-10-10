@@ -71,7 +71,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
               modificarEstado(true,user);
 
          }
-         catch (SqlException e) { }
+         catch (SqlException e) {
+             datosFuncionario = null;
+         }
 
          return datosFuncionario;
      }

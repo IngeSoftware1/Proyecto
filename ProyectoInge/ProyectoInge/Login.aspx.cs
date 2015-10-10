@@ -45,7 +45,7 @@ namespace ProyectoInge
 
             DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
     
-            if (datosFilaFuncionario.Rows.Count == 1)
+            if (datosFilaFuncionario != null)
             {
                    string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
 
@@ -56,10 +56,14 @@ namespace ProyectoInge
 
                    Response.Redirect("~/RecursosHumanos.aspx");
                    
-                }
+             }else{
+                    FailureText.Text = "usuario o contrasena incorrecta.";
+                    ErrorMessage.Visible = true;
+
+            }
 
             }else{
-
+             
                 FailureText.Text = "usuario o contrasena incorrecta.";
                 ErrorMessage.Visible = true;
 
