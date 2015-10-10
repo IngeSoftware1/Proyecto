@@ -193,11 +193,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
-        public bool modificarFuncionario(Funcionario nuevo)
+        public bool modificarFuncionario(Funcionario nuevo, String cedula)
         {
             try
             {
-                string modif = "UPDATE Funcionario SET cedula =" + nuevo.getCedula + ", nombre=" + nuevo.getNombre + " , apellido1= " + nuevo.getApellido1 + ", apellido2= " + nuevo.getApellido2 + ", usuario=" + nuevo.getUsuario + ", contrasena= " + nuevo.getContrasena + ", login =" + nuevo.getLogin + " WHERE cedula=" + nuevo.getCedula;
+                string modif = "UPDATE Funcionario SET cedula ='" + nuevo.getCedula + "', nombre='" + nuevo.getNombre + "' , apellido1= '" + nuevo.getApellido1 + "', apellido2= '" + nuevo.getApellido2 + "', email = '"+nuevo.getEmail+"', usuario='" + nuevo.getUsuario + "' WHERE cedula='" + cedula+"';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -263,6 +263,34 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return resultado;
           
+        }
+
+        internal bool modificarMiembro(EntidadMiembro nuevo, string cedula)
+        {
+            try
+            {
+                string modif = "UPDATE Miembro SET cedula_miembro ='" + nuevo.getCedulaMiembro + "', tipo_rol='" + nuevo.getTipoRol + "'  WHERE cedula_miembro='" + cedula + "';";
+                return acceso.insertarDatos(modif);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        internal bool modificarAdministrador(EntidadAdministrador nuevo, string cedula)
+        {
+            try
+            {
+                string modif = "UPDATE Administrador SET cedula_admin ='" + nuevo.getCedula_Admin +"'  WHERE cedula_admin='" + cedula + "';";
+                return acceso.insertarDatos(modif);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
         }
       }
 }

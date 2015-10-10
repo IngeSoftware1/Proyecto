@@ -14,7 +14,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
             <%-- Botones para realizar el IMEC en el modulo --%>
             <div id="btnsControl" style="float: right">
                 <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click"/>
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
             </div>
 

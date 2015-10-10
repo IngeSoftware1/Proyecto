@@ -54,7 +54,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
           /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
            * Requiere: un modo que corresponde 
            */
-         public bool ejecutarAccion(int modo, int accion, Object[] datos)
+         public bool ejecutarAccion(int modo, int accion, Object[] datos,String cedula)
          {
              Boolean resultado = false;
              switch (modo)
@@ -89,11 +89,26 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         if (accion == 1)//Modificar funcionario , por parte de un miembro
                         {
                             Funcionario nuevo = new Funcionario(datos);
-                            resultado = controladoraBDRecurso.modificarFuncionario(nuevo);
+                            resultado = controladoraBDRecurso.modificarFuncionario(nuevo,cedula);
                         }
-                        resultado = false;
+                        else if (accion == 2)
+                        {
+                            EntidadMiembro nuevo = new EntidadMiembro(datos);
+                            resultado= controladoraBDRecurso.modificarMiembro(nuevo,cedula);
+                        }
+                        else if (accion == 3)
+                        {
+                            EntidadAdministrador nuevo = new EntidadAdministrador(datos);
+                            resultado = controladoraBDRecurso.modificarAdministrador(nuevo, cedula);
+                        }
+                        
                     }
-                     break;
+                    break;
+                 case 3:
+                    {
+
+                    }
+                    break;
              }
              return resultado;
          }
