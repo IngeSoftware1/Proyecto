@@ -31,6 +31,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              DataTable data = acceso.ejecutarConsultaTabla(consulta);
              if (data.Rows.Count==1)
              {
+
                  resultado = true;
 
              } 
@@ -44,12 +45,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          
      }
 
-     public Boolean modificarContrasena(String user, String pass, String newPass)
+     public Boolean modificarContrasena(String ced, String pass, String newPass)
      {
         
          try
          {
-             string modif = "UPDATE FUNCIONARIO SET = newPass WHERE usuario =" + user + " and contrasena = " + newPass;
+             string modif = "UPDATE FUNCIONARIO SET contrasena ='"+ newPass+"' WHERE cedula ='" + ced + "' and contrasena = '" + pass +"'";
              return acceso.insertarDatos(modif);
 
          }
@@ -63,16 +64,15 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      /* Retorna la fila¨de la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null  */
      public DataTable consultarCedula(string user, string password)
      {
-
          DataTable datosFuncionario = new DataTable();
-         string consulta = "SELECT * FROM Funcionario WHERE usuario=" + user + " and contrasena = " + password;
+         string consulta = "SELECT * FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password +"'";
          try{
-            datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+             datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+              modificarEstado(true,user);
+
          }
-         catch (SqlException e)
-         {
-            
-         }
+         catch (SqlException e) { }
+
          return datosFuncionario;
      }
 
@@ -196,6 +196,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 string modif = "UPDATE Funcionario SET cedula =" + nuevo.getCedula + ", nombre=" + nuevo.getNombre + " , apellido1= " + nuevo.getApellido1 + ", apellido2= " + nuevo.getApellido2 + ", usuario=" + nuevo.getUsuario + ", contrasena= " + nuevo.getContrasena + ", login =" + nuevo.getLogin + " WHERE cedula=" + nuevo.getCedula;
+                return acceso.insertarDatos(modif);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        public bool modificarEstado(Boolean es,string user)
+        {
+            string modif;
+            try
+            {
+               
+               modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
                 return acceso.insertarDatos(modif);
 
             }

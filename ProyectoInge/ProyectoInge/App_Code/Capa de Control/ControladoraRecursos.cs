@@ -31,9 +31,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
  
 
 
-          public Boolean modificarContrasena(String user, String pass, String newPass)
+          public Boolean modificarContrasena(String cedula, String pass, String newPass)
           {
-              Boolean resultado = controladoraBDRecurso.modificarContrasena(user,pass,newPass);
+              Boolean resultado = controladoraBDRecurso.modificarContrasena(cedula,pass,newPass);
               return resultado;
           }
 

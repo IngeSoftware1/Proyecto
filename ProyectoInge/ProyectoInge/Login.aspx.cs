@@ -47,7 +47,7 @@ namespace ProyectoInge
     
             if (datosFilaFuncionario.Rows.Count == 1)
             {
-                string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                   string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
 
                    Session["cedula"]=cedulaDeFuncionario;
 

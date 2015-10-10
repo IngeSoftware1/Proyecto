@@ -50,7 +50,7 @@ namespace ProyectoInge
 
     
                 Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
-
+                Response.Write(resultado);
             }else {
                 FailureText.Text = "No existe ese usuario, verifique";
                 ErrorMessage.Visible = true;
