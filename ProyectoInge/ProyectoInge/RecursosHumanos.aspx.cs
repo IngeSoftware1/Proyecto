@@ -22,22 +22,65 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
+        //    perfilGuardadoBD = Session["perfil"].ToString();
+         //   cedulaGuardadaBD = Session["cedula"].ToString();
+
             controlarCampos(false);
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             cambiarEnabled(true, this.btnInsertar);
+            llenarDropDownPerfil();
+            llenarDropDownRol();
 
-            if (perfil == 1) //El usuario en el sistema es el administrador
+       /*     if (perfilGuardadoBD == "Administrador" ) //El usuario en el sistema es el administrador
+            {
+                llenarGrid(null);
+            }
+            else if (perfilGuardadoBD == "Miembro") //El usuario en el sistema es un miembro
+            {  
+                llenarGrid(cedulaGuardadaBD);
+            } */
+
+            if (perfil == 1 ) //El usuario en el sistema es el administrador
             {
                 llenarGrid(null);
             }
             else if (perfil == 2) //El usuario en el sistema es un miembro
             {  
-                //Se debe obtener la cedula del usuario que está utilizando el sistema para enviarla por parámetro
                 llenarGrid(null);
-            }
+            } 
+        }
+
+        protected void llenarDropDownPerfil()
+        {
+            this.comboPerfil.Items.Clear();
+            //  Object[] datos = new Object[3];
+            Object[] datos = new Object[2];
+            /*    datos[0] = "Seleccione";
+                datos[1] = "Administrador";
+                datos[2] = "Miembro de equipo de pruebas"; */
+            datos[0] = "Administrador";
+            datos[1] = "Miembro de equipo de pruebas";
+            this.comboPerfil.DataSource = datos;
+            this.comboPerfil.DataBind();
+        }
+
+        protected void llenarDropDownRol()
+        {
+            this.comboRol.Items.Clear();
+            //  Object[] datos = new Object[4];
+            Object[] datos = new Object[3];
+            /*    datos[0] = "Seleccione";
+                datos[1] = "Líder de pruebas";
+                datos[2] = "Tester";
+                datos[3] = "Usuario"; */
+            datos[0] = "Líder de pruebas";
+            datos[1] = "Tester";
+            datos[2] = "Usuario";
+            this.comboRol.DataSource = datos;
+            this.comboRol.DataBind();
         }
 
         /*Método para cargar ejemplos de datos en las cajas de cedula y telefono
@@ -69,8 +112,8 @@ namespace ProyectoInge
             this.txtContrasena.Enabled = condicion;
             this.txtConfirmar.Enabled = condicion;
             this.txtTelefono.Enabled = condicion;
-            this.btnNumero.Enabled = condicion;
-            this.btnQuitar.Enabled = condicion;
+            this.lnkNumero.Enabled = condicion;
+            this.lnkQuitar.Enabled = condicion;
         }
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
@@ -138,6 +181,11 @@ namespace ProyectoInge
             boton.Enabled = condicion;
         }
 
+        protected void cambiarEnabledTel(bool condicion, LinkButton boton)
+        {
+            boton.Enabled = condicion;
+        }
+
 
         /*Método para habilitar/deshabilitar los campos en el modificar
           * Requiere: -
@@ -163,8 +211,8 @@ namespace ProyectoInge
                 this.txtContrasena.Enabled = false;
                 this.txtConfirmar.Enabled = false;
                 this.txtTelefono.Enabled = true;
-                this.btnNumero.Enabled = true;
-                this.btnQuitar.Enabled = true;
+                this.lnkNumero.Enabled = true;
+                this.lnkQuitar.Enabled = true;
             }
         }
 
@@ -235,6 +283,8 @@ namespace ProyectoInge
                         cambiarEnabled(false, this.btnAceptar);
                         cambiarEnabled(false, this.btnCancelar);
                         cambiarEnabled(true, this.btnInsertar);
+                        llenarDropDownPerfil();
+                        llenarDropDownRol();
               
         }
 
@@ -459,10 +509,8 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(true, this.btnAceptar);
-            
-            cambiarEnabled(true, this.btnQuitar);
-            cambiarEnabled(true, this.btnNumero);
-            
+            cambiarEnabledTel(true, this.lnkNumero);
+            cambiarEnabledTel(true, this.lnkQuitar);           
             cambiarEnabled(true, this.btnCancelar);
   
         }
@@ -771,7 +819,7 @@ namespace ProyectoInge
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Cedula";
+            columna.ColumnName = "Cédula";
             dt.Columns.Add(columna);
 
             columna = new DataColumn();
@@ -813,12 +861,13 @@ namespace ProyectoInge
                 this.txtApellido1.Text = datosFilaFuncionario.Rows[0][2].ToString();
                 this.txtApellido2.Text = datosFilaFuncionario.Rows[0][3].ToString();
                 this.txtUsuario.Text = datosFilaFuncionario.Rows[0][4].ToString();
+                this.txtEmail.Text = datosFilaFuncionario.Rows[0][5].ToString();
 
 
-                if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][5].ToString()) != null)
+                if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][6].ToString()) != null)
                 {
 
-                    ListItem rol = this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][5].ToString());
+                    ListItem rol = this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][6].ToString());
                     this.comboRol.SelectedValue = rol.Value;
                     tipoPerfil = comboPerfil.Items.FindByText("Miembro de equipo de pruebas");
                     perfilGuardadoBD = "Miembro de equipo de pruebas";
@@ -830,7 +879,7 @@ namespace ProyectoInge
                     tipoPerfil = comboPerfil.Items.FindByText("Administrador");
                     perfilGuardadoBD = "Administrador";
                     this.comboPerfil.SelectedValue = tipoPerfil.Value;
-                    // this.comboRol.Items.Clear(); 
+                    this.comboRol.Items.Clear(); 
                 }
             }
 

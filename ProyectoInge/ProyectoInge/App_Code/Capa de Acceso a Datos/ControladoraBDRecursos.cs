@@ -81,7 +81,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      public DataTable consultarRH(string ced)
      {
          DataTable datosFuncionario = new DataTable();
-         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
+         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, F.Email, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
          datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
          return datosFuncionario;
      }

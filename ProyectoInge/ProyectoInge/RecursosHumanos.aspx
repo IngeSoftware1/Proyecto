@@ -22,10 +22,17 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
 
         <br>
         <br>
+        <br>
+        <br>
         <div id="Datos"> <%-- Div que almacena todos los div internos para los datos del RH --%>
+             <div class ="row"> 
+                    <asp:Label runat="server" ID="lblDatosPersonales" Text="Datos Personales:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                </div> 
             <div class="row">
-                <div class="col-sm-5 col-sm-offset-1">
-                    <div class="panel panel-default" style ="height: 350px">
+                
+                <br>
+                    <div class="col-sm-5 col-sm-offset-1">
+                    <div class="panel panel-default" style ="height: 600px">
                         <div class="panel-body" >
                             <div class="form-group">
                                 <div class="row">
@@ -76,12 +83,41 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                             ForeColor="Red" ValidationExpression="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"> </asp:RegularExpressionValidator>
                                     </div>
                                 </div>
-                            </div>      
-                         </div>
-                         <br>
-                        <br>
+                            </div>  
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-2">
+                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
+                                        <asp:RegularExpressionValidator ID="REV2" runat="server" ControlToValidate="txtTelefono" ErrorMessage="*Ingrese Valores Numéricos"
+                            ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
+                                    </div>
+                                    <div class="">
+                                         <asp:LinkButton runat="server" ID="lnkNumero" CssClass="glyphicon.glyphicon-plus-sign" OnClick="btnAgregarTelefono">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor"></span>
+                                        </asp:LinkButton>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-10 col-sm-offset-1">
+                                        <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
+                                        </div>
+                                        <div class="">
+                                         <asp:LinkButton runat="server" ID="lnkQuitar" style= "height: 100px" CssClass="" OnClick="btnEliminarTelefono">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor"></span>
+                                        </asp:LinkButton>
+                                    </div>
+
+                                    </div>
+                                </div>
                 </div>
                 </div>
+                    </div>
                 <div class="col-sm-5 ">
                     <div class="panel panel-default" style ="height: 350px">
                         <div class="panel-body">
@@ -114,8 +150,6 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboPerfil" CssClass="form-control">
-                                            <asp:ListItem Value="Administrador">Administrador</asp:ListItem>
-                                            <asp:ListItem Value="Miembro de equipo de pruebas">Miembro de equipo de pruebas</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -125,9 +159,6 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                                     <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
-                                            <asp:ListItem Value="Líder de pruebas">Líder de pruebas</asp:ListItem>
-                                            <asp:ListItem Value="Tester">Tester</asp:ListItem>
-                                            <asp:ListItem Value="Usuario">Usuario</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -136,46 +167,8 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-5 col-sm-offset-1">
-                    <div class="panel panel-default" style ="height: 350px">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <div class="row">
-                                    <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-offset-2">
-                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
-                                        <asp:RegularExpressionValidator ID="REV2" runat="server" ControlToValidate="txtTelefono" ErrorMessage="*Ingrese Valores Numéricos"
-                            ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
-                                    </div>
-                                    <div class="">
-                                        <asp:Button runat="server" ID="btnNumero" Text="+" CssClass="img-circle btn-primary" OnClick="btnAgregarTelefono" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <asp:Label ID="lbltels" runat="server" Text="Teléfonos agregados" CssClass="col-sm-5 
-
-col-sm-offset-1 control-label"></asp:Label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-10 col-sm-offset-1">
-                                        <asp:ListBox runat="server" ID="listTelefonos" CssClass="form-control"></asp:ListBox>
-                                        </div>
-                                        <div class="">
-                                        <asp:Button runat="server" ID="btnQuitar" Text="-" CssClass="img-circle btn-primary" OnClick="btnEliminarTelefono"/>
-                                    </div>
-
-                                    </div>
-                                </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    
      <div class="col-lg-11">
         <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
@@ -195,17 +188,19 @@ col-sm-offset-1 control-label"></asp:Label>
                 </div>   
                     <div class ="row">
                 <div class="col-sm-6 col-sm-offset-1"> 
-                        <asp:GridView ID="gridRH" runat="server" AutoGenerateColumns="True" OnRowCommand = " gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged" >             
+                    <div id ="scroll" style ="height: 183px; width:620px; overflow:auto;" >
+                        <asp:GridView ID="gridRH" runat="server"  style ="height: 183px; width: 600px" AutoGenerateColumns="true" OnRowCommand ="gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged"  HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">                                           
                             <Columns>
                                 <asp:TemplateField HeaderText="Consultar Funcionario"><ItemTemplate>
-                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarRH" CommandArgument='<%#Eval("Cedula") %>'   > Consultar </asp:LinkButton>
+                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarRH" CommandArgument='<%#Eval("Cédula") %>'   > Consultar </asp:LinkButton>
                                 </ItemTemplate>
                                 </asp:TemplateField>                     
                             </Columns> 
                         </asp:GridView>
+                        </div>
                     </div>
                     </div>
          </div>
- 
+ </div>
 
 </asp:Content>

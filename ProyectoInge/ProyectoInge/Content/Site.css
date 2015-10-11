@@ -133,3 +133,16 @@ margin-right:1em;
     text-align: left;
     display: inline-block;
 }
+
+.glyphicon.glyphicon-minus-sign {
+    font-size: 25px;
+}
+
+.glyphicon.glyphicon-plus-sign {
+    font-size: 25px;
+}
+
+
+.blueColor, .blueColor b {
+  color: #0066CC; 
+}
