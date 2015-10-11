@@ -41,26 +41,34 @@ namespace ProyectoInge
             if (IsValid)
             {   
                 // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
-      
 
-            DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
-    
-            if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count>0)
-            {
-                   string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
+                if (datosFilaFuncionario != null)
+                {
+                    string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
+                    if (estaLogueado == "0")
+                    {
+                        string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                        Session["cedula"] = cedulaDeFuncionario;
+                        string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
+                        Session["perfil"] = perfil;
+                        Response.Redirect("~/RecursosHumanos.aspx");
+                        //modificar ahora si decir estaLogueado = "1"
+                    }
+                    else
+                    {
+                        FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion";
+                        ErrorMessage.Visible = true;
 
-                   Session["cedula"]=cedulaDeFuncionario;
+                    }
+                }
+                else
+                {
 
-                   string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
-                   Session["perfil"] = perfil;
-
-                   Response.Redirect("~/RecursosHumanos.aspx");
-                   
-             }else{
                     FailureText.Text = "usuario o contrasena incorrecta.";
                     ErrorMessage.Visible = true;
 
-            }
+                } 
 
             }else{
              
