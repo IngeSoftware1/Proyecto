@@ -223,6 +223,86 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        public bool buscarAsignacionProyectos(string cedulaDeFuncionario)
+        {
+
+            bool resultado = false;
+            try
+            {
+                string consultaP = "SELECT * FROM Proyecto WHERE cedula_creador =" + cedulaDeFuncionario;
+                DataTable data = acceso.ejecutarConsultaTabla(consultaP);
+                if (data.Rows.Count >= 1)
+                {
+                    resultado = true;
+                }
+                else
+                {
+                    resultado = false;
+                }
+
+            }
+            catch (SqlException e)
+            {
+                resultado = false;
+            }
+
+            return resultado;
+
+        }
+
+        public bool buscarAsignacionMiembros(string cedulaDeFuncionario)
+        {
+
+            bool resultado = false;
+            try
+            {
+                string consultaProyectos = "SELECT * FROM Proyecto WHERE cedula_lider =" + cedulaDeFuncionario;
+                DataTable data = acceso.ejecutarConsultaTabla(consultaProyectos);
+                if (data.Rows.Count >= 1)
+                {
+                    resultado = true;
+                }
+                else
+                {
+                    try
+                    {
+                        string consultaPruebas = "SELECT * FROM Diseno_Pruebas WHERE cedula_responsable =" + cedulaDeFuncionario;
+                        DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaPruebas);
+                        if (dataDiseno.Rows.Count >= 1)
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                string consultaEjecucionPruebas = "SELECT * FROM Ejecucion_Prueba WHERE cedula_responsable =" + cedulaDeFuncionario;
+                                DataTable dataEjec = acceso.ejecutarConsultaTabla(consultaEjecucionPruebas);
+                                if (dataEjec.Rows.Count >= 1)
+                                {
+                                    resultado = true;
+                                }
+
+                            }
+                            catch (SqlException e)
+                            {
+                                resultado = false;
+                            }
+                        }
+                    }
+                    catch (SqlException e)
+                    {
+                        resultado = false;
+                    }
+                }
+
+            }
+            catch (SqlException e)
+            {
+                resultado = false;
+            }
+            return resultado;
+        }
 
         public  string buscarPerfil(string cedulaDeFuncionario)
         {
@@ -292,5 +372,33 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-      }
+
+        public bool eliminarFuncionario(String cedulaDeFuncionario)
+        {
+            bool siBorro = false;
+            bool siBorro2 = false;
+
+            try
+            {
+                string borrado = "Delete from Funcionario where cedula =" + cedulaDeFuncionario;
+                siBorro = acceso.eliminarDatos(borrado);
+                string borrado2 = "Delete from Trabaja_En where cedula_miembro =" + cedulaDeFuncionario;
+                siBorro = acceso.eliminarDatos(borrado);
+
+                if (siBorro == true && siBorro2 == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+    }
+
 }
