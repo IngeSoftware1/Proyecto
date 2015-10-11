@@ -4,8 +4,6 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
-    <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     
      <nav class="navbar-default">
       <div class="container-fluid">
