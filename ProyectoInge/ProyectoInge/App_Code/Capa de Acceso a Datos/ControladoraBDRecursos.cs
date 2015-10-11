@@ -94,6 +94,20 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return telefonos;
      }
 
+     public bool modificarEstado(Boolean es, string user)
+     {
+         string modif;
+         try
+         {
+             modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
+             return acceso.insertarDatos(modif);
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
 
      public DataTable consultarRecursosHumanos(string cedula)
      {
@@ -207,15 +221,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-        public bool modificarEstado(Boolean es,string user)
+        public bool modificarEstadoCerrar(String cedula)
         {
             string modif;
             try
             {
-               
-               modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
+                modif = "UPDATE Funcionario SET login = 'false' WHERE cedula ='" + cedula + "'";
                 return acceso.insertarDatos(modif);
-
             }
             catch (SqlException e)
             {

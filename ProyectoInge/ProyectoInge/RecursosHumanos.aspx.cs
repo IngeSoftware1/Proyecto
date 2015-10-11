@@ -905,5 +905,14 @@ namespace ProyectoInge
 
         }
 
+        protected void cerrarSesion(object sender, EventArgs e)
+        {
+
+            string ced = (string)Session["cedula"];
+            Boolean a = controladoraRH.modificarEstadoCerrar(ced);
+            Response.Redirect("~/Login.aspx");
+
+        }
+
     }
 }

@@ -27,7 +27,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
           }
 
-
+          public Boolean modificarEstadoCerrar(String cedula)
+          {
+              Boolean resultado = controladoraBDRecurso.modificarEstadoCerrar(cedula);
+              return resultado;
+          }
  
 
 

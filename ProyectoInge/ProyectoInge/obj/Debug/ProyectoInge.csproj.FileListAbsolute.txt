@@ -1132,3 +1132,4 @@ C:\Users\Scorrales\Source\Repos\Proyecto3\ProyectoInge\ProyectoInge\bin\es\Micro
 C:\Users\Scorrales\Source\Repos\Proyecto3\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Scorrales\Source\Repos\Proyecto3\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\Scorrales\Source\Repos\Proyecto3\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
+C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
