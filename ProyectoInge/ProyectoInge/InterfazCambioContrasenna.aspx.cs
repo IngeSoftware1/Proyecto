@@ -43,8 +43,8 @@ namespace ProyectoInge
         {
 
            DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
-    
-            if (datosFilaFuncionario != null)
+
+           if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
             {
                 string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
 

@@ -978,7 +978,6 @@ C:\Users\B31003\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin
 C:\Users\B31003\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\B31003\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\B31003\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
-C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\b20732\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll.config
 C:\Users\b20732\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll
 C:\Users\b20732\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.pdb

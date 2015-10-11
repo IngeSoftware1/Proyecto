@@ -65,9 +65,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public DataTable ejecutarConsultaTabla(String consulta)
         {
             SqlConnection sqlConnection = new SqlConnection(conexion);
-            sqlConnection.Open();
+            
             DataTable table = new DataTable();
             try{
+                sqlConnection.Open();
+
                  SqlCommand comando = new SqlCommand(consulta, sqlConnection);
 
                  SqlDataAdapter dataAdapter = new SqlDataAdapter(comando);

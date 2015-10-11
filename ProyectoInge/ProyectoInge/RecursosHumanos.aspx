@@ -1,11 +1,9 @@
-﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" 
-
-CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Async="true" %>
+﻿<%@ Page Title="Recursos Humanos" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Async="true" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    
     
      <nav class="navbar-default">
       <div class="container-fluid">
@@ -23,10 +21,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
         <div class="navbar-default collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
-            <li><a runat="server" Proyecto de pruebas</a></li>
-            <l><a runat="server" >Diseno de pruebas</a></li>
-             <li><a runat="server" >Caso de pruebas</a></li>
-             <li><a runat="server" >Diseno de pruebas</a></li>
+          
              <li><a runat="server"  href="~/Login.aspx">Cerrar sesion</a></li>      </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
