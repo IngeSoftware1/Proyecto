@@ -199,6 +199,7 @@
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="ProyectodePruebas.aspx" />
     <Content Include="RecursosHumanos.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -358,6 +359,13 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProyectodePruebas.aspx.cs">
+      <DependentUpon>ProyectodePruebas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProyectodePruebas.aspx.designer.cs">
+      <DependentUpon>ProyectodePruebas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="RecursosHumanos.aspx.cs">
       <DependentUpon>RecursosHumanos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
