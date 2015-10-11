@@ -120,7 +120,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             }
                             else
                             {
-
                                 resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
                             }//auqi se llamo a elimimnar
 

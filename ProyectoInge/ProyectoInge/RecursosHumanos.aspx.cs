@@ -763,16 +763,23 @@ namespace ProyectoInge
                 //MODIFICAR POR PARTE DE UN ADMINISTRADOR
             }
         }
+        /*Método para la acción de aceptar cuando esta en modo de borrado
+         * Requiere: No requiere ningún parámetro
+         * Modifica:Elimina un recurso humano si es valido llevar acabo la acción
+         * Retorna: No retorna ningún valor
+         */
         protected void btnAceptar_Eliminar()
         {
-            if (rhConsultado())
+            if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
             {
-                controladoraRH.ejecutarAccion(modo, 1, null, idRH);
+                string mensaje = "<script>window.alert('No se puede eliminar este recurso humano.');</script>";
+                Response.Write(mensaje);
             }
             idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
             llenarGrid(idRH);
             vaciarCampos();
         }
+
 
         /*Método para llenar el grid con el registro del recurso humano correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
        con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.
