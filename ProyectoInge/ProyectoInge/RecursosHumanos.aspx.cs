@@ -216,6 +216,11 @@ namespace ProyectoInge
             }
         }
 
+        /*Método para crear la acción de eliminar un funcionario
+         * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+         * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+         * Retorna: no retorna ningún valor
+         */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             cambiarEnabled(false, this.btnInsertar);
@@ -224,6 +229,8 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
             modo = 3;
             controlarCampos(false);
+            string mensaje = "<script>window.alert('Está seguro que desea eliminar este recurso humano?');</script>";
+            Response.Write(mensaje);
         }
 
         /*Método para crear la acción de insertar un nuevo funcionario
