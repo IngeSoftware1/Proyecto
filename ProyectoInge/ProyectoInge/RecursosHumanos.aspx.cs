@@ -30,27 +30,22 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
-            cambiarEnabled(true, this.btnInsertar);
             llenarDropDownPerfil();
             llenarDropDownRol();
 
-       /*     if (perfilGuardadoBD == "Administrador" ) //El usuario en el sistema es el administrador
+            //El unico botón que cambia de acuerdo al perfil es el de insertar
+            if (Session["perfil"].ToString().Equals("Administrador"))
             {
-                llenarGrid(null);
+                
+                cambiarEnabled(true, this.btnInsertar); 
             }
-            else if (perfilGuardadoBD == "Miembro") //El usuario en el sistema es un miembro
-            {  
-                llenarGrid(cedulaGuardadaBD);
-            } */
-
-            if (perfil == 1 ) //El usuario en el sistema es el administrador
+            else
             {
-                llenarGrid(null);
+                cambiarEnabled(false, this.btnInsertar);
             }
-            else if (perfil == 2) //El usuario en el sistema es un miembro
-            {  
+            
                 llenarGrid(null);
-            } 
+            
         }
 
         protected void llenarDropDownPerfil()
@@ -116,6 +111,10 @@ namespace ProyectoInge
             this.lnkQuitar.Enabled = condicion;
         }
 
+        protected void gridVentas_PageIndexChanged(Object sender, EventArgs e)
+        { 
+        }
+
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
         * Modifica: el valor del la variable idRH con la cédula del funcionario que se desea consultar y se realiza el llamado al 
         método llenarDatos(idRH) el cual llena los campos de la interfaz con los resultados de la consulta especificada mediante el número de cédula.
@@ -130,16 +129,21 @@ namespace ProyectoInge
                 idRH = lnkConsulta.CommandArgument;
 
                 llenarDatos(idRH);
-                cambiarEnabled(true, this.btnModificar);
-                cambiarEnabled(true, this.btnEliminar);
+                cambiarEnabled(true, this.btnModificar); 
                 cambiarEnabled(true, this.btnCancelar);
                 cambiarEnabled(false, this.btnInsertar);
+
+                //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+
+                    cambiarEnabled(true, this.btnEliminar);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnEliminar);
+                }
             }
-
-        }
-
-        protected void gridVentas_PageIndexChanged(object sender, EventArgs e)
-        {
 
         }
 
@@ -194,11 +198,15 @@ namespace ProyectoInge
           */
         protected void habilitarCamposModificar()//si es Administrador es 1, si no es 2
         {
-            if (perfil == 1)//Si es un administrador puede modificar todos
+
+            //Si es un administrador puede modificar todos
+            if (Session["perfil"].ToString().Equals("Administrador"))
             {
+
                 controlarCampos(true);
             }
-            else if (perfil == 2)//Si es un miembro, entonces solo puede modificar los campos habilitador
+            //Si es un miembro, entonces solo puede modificar los campos habilitados
+            else
             {
                 this.txtCedula.Enabled = true;
                 this.txtNombre.Enabled = true;
@@ -281,16 +289,27 @@ namespace ProyectoInge
          */
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            
-                        controlarCampos(false);
-                        vaciarCampos();
-                        cambiarEnabled(false, this.btnModificar);
-                        cambiarEnabled(false, this.btnEliminar);
-                        cambiarEnabled(false, this.btnAceptar);
-                        cambiarEnabled(false, this.btnCancelar);
-                        cambiarEnabled(true, this.btnInsertar);
-                        llenarDropDownPerfil();
-                        llenarDropDownRol();
+            //Si es un administrador puede insertar
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                cambiarEnabled(true, this.btnInsertar);
+               
+            }
+            //Si es un miembro no puede insertar
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+            }
+                   
+            controlarCampos(false);
+            vaciarCampos();
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+                        
+            llenarDropDownPerfil();
+            llenarDropDownRol();
               
         }
 
