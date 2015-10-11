@@ -35,6 +35,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        public bool eliminarDatos(String consulta)
+        {
+            return insertarDatos(consulta);
+
+        }
+
         /**
          * Permite ejecutar una consulta SQL, los datos son devueltos en un SqlDataReader
          */

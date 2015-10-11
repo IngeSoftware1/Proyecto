@@ -218,13 +218,12 @@ namespace ProyectoInge
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-           /* modo = 3;
-            if (idRecursos Hmanos != -1){
-                controladoraRecursos Hmanos.ejecutarAccion(modo, idRecursos Hmanos);
-            }
-            idRecursos Hmanos = -1;
-            llenarGrid();*/
-            vaciarCampos();
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            modo = 3;
+            controlarCampos(false);
         }
 
         /*Método para crear la acción de insertar un nuevo funcionario
@@ -738,7 +737,16 @@ namespace ProyectoInge
                 //MODIFICAR POR PARTE DE UN ADMINISTRADOR
             }
         }
-        protected void btnAceptar_Eliminar() { }
+        protected void btnAceptar_Eliminar()
+        {
+            if (rhConsultado())
+            {
+                controladoraRH.ejecutarAccion(modo, 1, null, idRH);
+            }
+            idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
+            llenarGrid(idRH);
+            vaciarCampos();
+        }
 
         /*Método para llenar el grid con el registro del recurso humano correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
        con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.

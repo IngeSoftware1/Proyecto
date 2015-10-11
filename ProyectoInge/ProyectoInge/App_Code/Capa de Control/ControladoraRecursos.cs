@@ -106,6 +106,35 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                  case 3:
                     {
+                        string perfil = buscarPerfil(cedula);
+                        if (perfil == "Administrador")
+                        {
+                            if (controladoraBDRecurso.buscarAsignacionProyectos(cedula) == true)
+                            {
+                                resultado = false;
+
+                            }
+                            else
+                            {
+
+                                resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
+                            }//auqi se llamo a elimimnar
+
+                        }
+                        else
+                        {
+                            //Miembro
+                            if (controladoraBDRecurso.buscarAsignacionMiembros(cedula) == true)
+                            {
+                                resultado = false;
+
+                            }
+                            else
+                            {
+                                resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
+                            }//auqi se llamo a elimimnar
+
+                        }
 
                     }
                     break;
