@@ -32,6 +32,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
               Boolean resultado = controladoraBDRecurso.modificarEstadoCerrar(cedula);
               return resultado;
           }
+
+          public DataTable consultarRoles()
+          {
+              DataTable resultado = controladoraBDRecurso.consultarRoles();
+              return resultado;
+          }
  
 
 

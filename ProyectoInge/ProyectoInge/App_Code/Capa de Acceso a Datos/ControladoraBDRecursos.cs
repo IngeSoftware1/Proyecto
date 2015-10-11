@@ -78,6 +78,14 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return datosFuncionario;
      }
 
+    public DataTable consultarRoles()
+     {
+         DataTable Roles;
+         string consulta = "SELECT R.tipo_rol " + " FROM Rol R ";
+         Roles = acceso.ejecutarConsultaTabla(consulta);
+         return Roles;
+     }
+
      public DataTable consultarRH(string ced)
      {
          DataTable datosFuncionario = new DataTable();
@@ -116,11 +124,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
          if (cedula == null)
          {
-             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2 " + " FROM Funcionario F ";
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro ";
          }
          else
          {
-             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2 " + " FROM Funcionario F " + " WHERE F.cedula = '" + cedula + "'";
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + cedula + "'"; 
          }
 
          dt = acceso.ejecutarConsultaTabla(consulta);

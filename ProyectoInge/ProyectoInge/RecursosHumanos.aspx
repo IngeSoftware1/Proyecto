@@ -112,7 +112,7 @@
                                 <div class="row">
                                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-2">
-                                        <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtTelefono"  CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="REV2" runat="server" ControlToValidate="txtTelefono" ErrorMessage="*Ingrese Valores Numéricos"
                             ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>
@@ -212,8 +212,8 @@
                 </div>   
                     <div class ="row">
                 <div class="col-sm-6 col-sm-offset-1"> 
-                    <div id ="scroll" style ="height: 183px; width:620px; overflow:auto;" >
-                        <asp:GridView ID="gridRH" runat="server"  style ="height: 183px; width: 600px" AutoGenerateColumns="true" OnRowCommand ="gridVentas_RowCommand" OnPageIndexChanged="gridVentas_PageIndexChanged"  HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">                                           
+                    <div id ="scroll" style ="height: 183px; width:670px; overflow:auto;" >
+                        <asp:GridView ID="gridRH" runat="server"  style ="width: 650px" AutoGenerateColumns="true" OnRowCommand ="gridFuncionarios_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">                                           
                             <Columns>
                                 <asp:TemplateField HeaderText="Consultar Funcionario"><ItemTemplate>
                                     <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarRH" CommandArgument='<%#Eval("Cédula") %>'   > Consultar </asp:LinkButton>

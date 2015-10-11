@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
+using System.Diagnostics;
 
 namespace ProyectoInge
 {
@@ -22,9 +23,7 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
-        //    perfilGuardadoBD = Session["perfil"].ToString();
-         //   cedulaGuardadaBD = Session["cedula"].ToString();
-
+      
             controlarCampos(false);
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
@@ -33,49 +32,60 @@ namespace ProyectoInge
             llenarDropDownPerfil();
             llenarDropDownRol();
 
-            //El unico botón que cambia de acuerdo al perfil es el de insertar
+            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 
-                cambiarEnabled(true, this.btnInsertar); 
+                cambiarEnabled(true, this.btnInsertar);
+                llenarGrid(null);
             }
             else
             {
                 cambiarEnabled(false, this.btnInsertar);
+                llenarGrid(Session["cedula"].ToString());
             }
             
-                llenarGrid(null);
+                
             
         }
 
         protected void llenarDropDownPerfil()
         {
             this.comboPerfil.Items.Clear();
-            //  Object[] datos = new Object[3];
             Object[] datos = new Object[2];
-            /*    datos[0] = "Seleccione";
-                datos[1] = "Administrador";
-                datos[2] = "Miembro de equipo de pruebas"; */
+
             datos[0] = "Administrador";
             datos[1] = "Miembro de equipo de pruebas";
             this.comboPerfil.DataSource = datos;
             this.comboPerfil.DataBind();
         }
 
+        /* Método para llenar el comboBox según los datos datos almacenados en la BD
+         * Modifica: llena el comboBox con los datos obtenidos de la BD
+         * Retorna: no retorna ningún valor */
+
         protected void llenarDropDownRol()
         {
             this.comboRol.Items.Clear();
-            //  Object[] datos = new Object[4];
-            Object[] datos = new Object[3];
-            /*    datos[0] = "Seleccione";
-                datos[1] = "Líder de pruebas";
-                datos[2] = "Tester";
-                datos[3] = "Usuario"; */
-            datos[0] = "Líder de pruebas";
-            datos[1] = "Tester";
-            datos[2] = "Usuario";
-            this.comboRol.DataSource = datos;
-            this.comboRol.DataBind();
+            DataTable tiposRoles = controladoraRH.consultarRoles();
+            int numDatos = tiposRoles.Rows.Count;
+            Object[] datos;
+    
+            if (tiposRoles.Rows.Count >= 1)
+            {
+               
+                numDatos = tiposRoles.Rows.Count;
+                datos = new Object[numDatos];
+ 
+                for (int i = 0; i < tiposRoles.Rows.Count; ++i)
+                {
+                    datos[i] = tiposRoles.Rows[i][0].ToString();
+
+                }
+                this.comboRol.DataSource = datos;
+                this.comboRol.DataBind();
+
+            }
         }
 
         /*Método para cargar ejemplos de datos en las cajas de cedula y telefono
@@ -111,16 +121,13 @@ namespace ProyectoInge
             this.lnkQuitar.Enabled = condicion;
         }
 
-        protected void gridVentas_PageIndexChanged(Object sender, EventArgs e)
-        { 
-        }
-
+      
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
         * Modifica: el valor del la variable idRH con la cédula del funcionario que se desea consultar y se realiza el llamado al 
         método llenarDatos(idRH) el cual llena los campos de la interfaz con los resultados de la consulta especificada mediante el número de cédula.
         * Retorna: no retorna ningún valor
         */
-        protected void gridVentas_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void gridFuncionarios_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "seleccionarRH")
             {
@@ -185,6 +192,11 @@ namespace ProyectoInge
             boton.Enabled = condicion;
         }
 
+        /*Método para habilitar/deshabilitar el botón tipo LinkButton
+         * Requiere: el booleano para la acción
+         * Modifica: La propiedad enable del botón
+         * Retorna: no retorna ningún valor
+         */
         protected void cambiarEnabledTel(bool condicion, LinkButton boton)
         {
             boton.Enabled = condicion;
@@ -793,7 +805,7 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaFuncionarios();
             DataTable funcionarios;
-            Object[] datos = new Object[4];
+            Object[] datos = new Object[5];
 
             if (idRH == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos los recursos humanos del sistema
@@ -807,6 +819,16 @@ namespace ProyectoInge
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
+
+                        if(fila[4].ToString() == "")
+                        {
+                            datos[4] = "Administrador";
+                        }
+                        else
+                        {
+                         
+                            datos[4] = "Miembro";
+                        }
                         dt.Rows.Add(datos);
                     }
                 }
@@ -816,6 +838,7 @@ namespace ProyectoInge
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -830,6 +853,15 @@ namespace ProyectoInge
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
+
+                        if (fila[4].ToString() == null)
+                        {
+                            datos[4] = "Administrador";
+                        }
+                        else
+                        {
+                            datos[4] = "Miembro";
+                        }
                         dt.Rows.Add(datos);
                     }
                 }
@@ -839,6 +871,7 @@ namespace ProyectoInge
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
+                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -876,6 +909,11 @@ namespace ProyectoInge
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Segundo Apellido";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Perfil";
             dt.Columns.Add(columna);
 
             return dt;
