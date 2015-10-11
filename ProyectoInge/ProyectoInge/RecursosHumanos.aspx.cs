@@ -30,9 +30,19 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
-            cambiarEnabled(true, this.btnInsertar);
             llenarDropDownPerfil();
             llenarDropDownRol();
+
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                cambiarEnabled(true, this.btnInsertar);
+                
+            }
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+            }
+            
 
        /*     if (perfilGuardadoBD == "Administrador" ) //El usuario en el sistema es el administrador
             {
@@ -43,24 +53,13 @@ namespace ProyectoInge
                 llenarGrid(cedulaGuardadaBD);
             } */
 
-            if (perfil == 1 ) //El usuario en el sistema es el administrador
-            {
-                llenarGrid(null);
-            }
-            else if (perfil == 2) //El usuario en el sistema es un miembro
-            {  
-                llenarGrid(null);
-            } 
+            llenarGrid(null);
         }
 
         protected void llenarDropDownPerfil()
         {
             this.comboPerfil.Items.Clear();
-            //  Object[] datos = new Object[3];
             Object[] datos = new Object[2];
-            /*    datos[0] = "Seleccione";
-                datos[1] = "Administrador";
-                datos[2] = "Miembro de equipo de pruebas"; */
             datos[0] = "Administrador";
             datos[1] = "Miembro de equipo de pruebas";
             this.comboPerfil.DataSource = datos;
@@ -70,12 +69,7 @@ namespace ProyectoInge
         protected void llenarDropDownRol()
         {
             this.comboRol.Items.Clear();
-            //  Object[] datos = new Object[4];
             Object[] datos = new Object[3];
-            /*    datos[0] = "Seleccione";
-                datos[1] = "Líder de pruebas";
-                datos[2] = "Tester";
-                datos[3] = "Usuario"; */
             datos[0] = "Líder de pruebas";
             datos[1] = "Tester";
             datos[2] = "Usuario";
@@ -130,16 +124,23 @@ namespace ProyectoInge
                 idRH = lnkConsulta.CommandArgument;
 
                 llenarDatos(idRH);
-                cambiarEnabled(true, this.btnModificar);
-                cambiarEnabled(true, this.btnEliminar);
-                cambiarEnabled(true, this.btnCancelar);
-                cambiarEnabled(false, this.btnInsertar);
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(true, this.btnCancelar);
+                    cambiarEnabled(false, this.btnAceptar);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(false, this.btnEliminar);
+                    cambiarEnabled(true, this.btnCancelar);
+                    cambiarEnabled(false, this.btnAceptar);
+                }
             }
-
-        }
-
-        protected void gridVentas_PageIndexChanged(object sender, EventArgs e)
-        {
 
         }
 
@@ -194,11 +195,13 @@ namespace ProyectoInge
           */
         protected void habilitarCamposModificar()//si es Administrador es 1, si no es 2
         {
-            if (perfil == 1)//Si es un administrador puede modificar todos
+            //Si es un administrador puede modificar todos
+            if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 controlarCampos(true);
             }
-            else if (perfil == 2)//Si es un miembro, entonces solo puede modificar los campos habilitador
+            //Si es un miembro, entonces solo puede modificar los campos habilitados
+            else 
             {
                 this.txtCedula.Enabled = true;
                 this.txtNombre.Enabled = true;
@@ -275,16 +278,33 @@ namespace ProyectoInge
          */
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                controlarCampos(false);
+                vaciarCampos();
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                cambiarEnabled(true, this.btnInsertar);
+                llenarDropDownPerfil();
+                llenarDropDownRol();
+            }
+            //Si es un miembro, entonces solo puede modificar los campos habilitados
+            else
+            {
+                controlarCampos(false);
+                vaciarCampos();
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                cambiarEnabled(false, this.btnInsertar);
+                llenarDropDownPerfil();
+                llenarDropDownRol();
+            }
             
-                        controlarCampos(false);
-                        vaciarCampos();
-                        cambiarEnabled(false, this.btnModificar);
-                        cambiarEnabled(false, this.btnEliminar);
-                        cambiarEnabled(false, this.btnAceptar);
-                        cambiarEnabled(false, this.btnCancelar);
-                        cambiarEnabled(true, this.btnInsertar);
-                        llenarDropDownPerfil();
-                        llenarDropDownRol();
+                        
               
         }
 
@@ -567,6 +587,7 @@ namespace ProyectoInge
             }
             return resultado;
         }
+
         /*Método Para la acción de aceptar cuando está en modo de modificación 
          * Recibe: No recibe ningún parámetro
          * Modifica:  Verifica si faltan datos en alguna caja de texto

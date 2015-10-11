@@ -21,7 +21,7 @@ CodeBehind="RecursosHumanos.aspx.cs" Inherits="ProyectoInge.RecursosHumanos" Asy
         <div class="navbar-default collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
-            <li><a runat="server" Proyecto de pruebas</a></li>
+            <li><a runat="server"> Proyecto de pruebas</a></li>
             <l><a runat="server" >Diseno de pruebas</a></li>
              <li><a runat="server" >Caso de pruebas</a></li>
              <li><a runat="server" >Diseno de pruebas</a></li>
