@@ -322,7 +322,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             String resultado = "";
             try
             {
-                string consulta = "SELECT * FROM Administrador WHERE cedula =" + cedulaDeFuncionario;
+                string consulta = "SELECT * FROM Administrador WHERE cedula_admin =" + cedulaDeFuncionario;
                 DataTable data = acceso.ejecutarConsultaTabla(consulta);
                 if (data.Rows.Count == 1)
                 {
@@ -331,7 +331,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     try
                     {
-                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula =" + cedulaDeFuncionario;
+                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula_miembro =" + cedulaDeFuncionario;
                         DataTable dataMiembro = acceso.ejecutarConsultaTabla(consultaMiembro);
                         if (dataMiembro.Rows.Count == 1)
                         {
