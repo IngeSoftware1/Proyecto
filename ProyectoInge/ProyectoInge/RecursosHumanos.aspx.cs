@@ -33,6 +33,7 @@ namespace ProyectoInge
             llenarDropDownRol();
 
             //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+            
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 

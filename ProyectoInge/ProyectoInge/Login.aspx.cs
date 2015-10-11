@@ -36,32 +36,32 @@ namespace ProyectoInge
             controladora = new ControladoraRecursos();
         }
 
+
+        //PROBARRRR
+        /*
         protected void LogIn(object sender, EventArgs e)
         {
             if (IsValid)
-            {   
-                // Validar la contraseña del usuario, enviarle a Controladora Recursos Humanos 
-
+            {
                 DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
                 if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
                 {
-                   // string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
-                    //Response.Redirect(estaLogueado);
-                    //if (estaLogueado == "0")
-                   // {
+                    string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
+                    if (estaLogueado == "0")
+                    {
                         string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
                         Response.Redirect("~/RecursosHumanos.aspx");
-                        //modificar ahora si decir estaLogueado = "1"
-                    //}
-                    //else
-                    //{
-                     //   FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion";
-                     //   ErrorMessage.Visible = true;
+                        controladora.modificarEstado(true, txtUsuario.Text);
+                    }
+                    else
+                    {
+                        FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion";
+                        ErrorMessage.Visible = true;
 
-                    //}
+                    }
                 }
                 else
                 {
@@ -69,17 +69,61 @@ namespace ProyectoInge
                     FailureText.Text = "usuario o contrasena incorrecta.";
                     ErrorMessage.Visible = true;
 
-                } 
+                }
 
-            }else{
-             
+            }
+            else
+            {
+
                 FailureText.Text = "usuario o contrasena incorrecta.";
                 ErrorMessage.Visible = true;
 
-            }  
+            }
+        }
+        **/
+        
 
 
-        }      
+
+        // si sirve. Para probar: comentar este y descomentar el de arriba
+     
+        protected void LogIn(object sender, EventArgs e)
+        {
+            if (IsValid)
+            {
+                DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
+                if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
+                {
+                    string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                    Session["cedula"] = cedulaDeFuncionario;
+                    string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
+                    Session["perfil"] = perfil;
+                    Response.Redirect("~/RecursosHumanos.aspx");
+                }
+                else
+                {
+
+                    FailureText.Text = "usuario o contrasena incorrecta.";
+                    ErrorMessage.Visible = true;
+
+                }
+
+
+            }
+
+        }
+
+
+       
+
+
+        //termina comentar metodo arriba
+
+
+
+
+
+
 
     }
 }

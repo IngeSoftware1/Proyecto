@@ -33,6 +33,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
               return resultado;
           }
 
+          public Boolean modificarEstado(Boolean es, string user)
+          {
+              Boolean resultado = controladoraBDRecurso.modificarEstado(es, user);
+              return resultado;
+          }
+
           public DataTable consultarRoles()
           {
               DataTable resultado = controladoraBDRecurso.consultarRoles();

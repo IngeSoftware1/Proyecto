@@ -102,7 +102,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return telefonos;
      }
 
-     public bool modificarEstado(Boolean es, string user)
+     public Boolean modificarEstado(Boolean es, string user)
      {
          string modif;
          try
@@ -115,6 +115,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              return false;
          }
      }
+
+
 
 
      public DataTable consultarRecursosHumanos(string cedula)
