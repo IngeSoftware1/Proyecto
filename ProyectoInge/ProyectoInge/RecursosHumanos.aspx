@@ -61,8 +61,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-offset-3 ">
-                                        <asp:TextBox runat="server" ID="txtCedula" CssClass="form-control" MaxLength="9"></asp:TextBox>
+                                    <div class="col-sm-6 col-sm-offset-3 "> 
+                                        <asp:TextBox runat="server" ID="txtCedula" PlaceHolder ="145680958" CssClass="form-control" MaxLength="9"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="ERValidator" runat="server" ControlToValidate="txtCedula" ErrorMessage="*Ingrese Valores Numéricos"
                             ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>
@@ -111,8 +111,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-offset-2">
-                                        <asp:TextBox runat="server" ID="txtTelefono"  CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
+                                    <div class="col-sm-6 col-sm-offset-2"> 
+                                        <asp:TextBox runat="server" ID="txtTelefono"  PlaceHolder ="88888888" CssClass="form-control" TextMode="Phone" MaxLength="11"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="REV2" runat="server" ControlToValidate="txtTelefono" ErrorMessage="*Ingrese Valores Numéricos"
                             ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>

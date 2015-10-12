@@ -11,186 +11,189 @@ using System.Web.UI;
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
-      public class ControladoraRecursos 
-      {
-         ControladoraBDRecursos controladoraBDRecurso = new ControladoraBDRecursos();
-          
-        
-          public ControladoraRecursos()
-          {
-
-          }
-
-          public bool consultarUsuario(String user, String pass){
-            
-              return controladoraBDRecurso.consultarUsuario(user,pass);
-
-          }
-
-          public Boolean modificarEstadoCerrar(String cedula)
-          {
-              Boolean resultado = controladoraBDRecurso.modificarEstadoCerrar(cedula);
-              return resultado;
-          }
-
-          public Boolean modificarEstado(Boolean es, string user)
-          {
-              Boolean resultado = controladoraBDRecurso.modificarEstado(es, user);
-              return resultado;
-          }
-
-          public DataTable consultarRoles()
-          {
-              DataTable resultado = controladoraBDRecurso.consultarRoles();
-              return resultado;
-          }
- 
+    public class ControladoraRecursos
+    {
+        ControladoraBDRecursos controladoraBDRecurso = new ControladoraBDRecursos();
 
 
-          public Boolean modificarContrasena(String cedula, String pass, String newPass)
-          {
-              Boolean resultado = controladoraBDRecurso.modificarContrasena(cedula,pass,newPass);
-              return resultado;
-          }
+        public ControladoraRecursos()
+        {
+
+        }
+
+        public bool consultarUsuario(String user, String pass)
+        {
+
+            return controladoraBDRecurso.consultarUsuario(user, pass);
+
+        }
+
+        public Boolean modificarEstadoCerrar(String cedula)
+        {
+            Boolean resultado = controladoraBDRecurso.modificarEstadoCerrar(cedula);
+            return resultado;
+        }
+
+        public Boolean modificarEstado(Boolean es, string user)
+        {
+            Boolean resultado = controladoraBDRecurso.modificarEstado(es, user);
+            return resultado;
+        }
+
+        public DataTable consultarRoles()
+        {
+            DataTable resultado = controladoraBDRecurso.consultarRoles();
+            return resultado;
+        }
 
 
-          /* Este metodo es llamado por Login.aspx.cs
- * Retorna: Funcionatio
- * Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
- * 
+
+        public Boolean modificarContrasena(String cedula, String pass, String newPass)
+        {
+            Boolean resultado = controladoraBDRecurso.modificarContrasena(cedula, pass, newPass);
+            return resultado;
+        }
+
+
+        /* Este metodo es llamado por Login.aspx.cs
+* Retorna: Funcionatio
+* Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
+* 
 */
 
 
-          public DataTable consultarCedula(string user, string password)
-          {
-              return controladoraBDRecurso.consultarCedula(user, password);
-          }
+        public DataTable consultarCedula(string user, string password)
+        {
+            return controladoraBDRecurso.consultarCedula(user, password);
+        }
 
 
-          /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
-           * Requiere: un modo que corresponde 
-           */
-         public bool ejecutarAccion(int modo, int accion, Object[] datos,String cedula)
-         {
-             Boolean resultado = false;
-             switch (modo)
-             {
-                 case 1:
-                     { // INSERTAR
-                         if (accion == 1)//Insertar Funcionario
-                         {
-                             Funcionario nuevo = new Funcionario(datos);
-                             resultado = controladoraBDRecurso.insertarFuncionario(nuevo);
-                         }
-                         else if (accion == 2) //Insertar administrador
-                         {
-                             EntidadAdministrador nuevoadmin = new EntidadAdministrador(datos);
-                             resultado = controladoraBDRecurso.insertarAdministrador(nuevoadmin);
-                         }
-                         else if (accion == 3) //Insertar miembro de equipo de pruebas
-                         {
-                             EntidadMiembro nuevoamiembro = new EntidadMiembro(datos);
-                             resultado = controladoraBDRecurso.insertarMiembro(nuevoamiembro);
-                         }
-                         else if (accion == 4) //Inserta telefonos del funcionario
-                         {
-                             EntidadTelFuncionario telefonos = new EntidadTelFuncionario(datos);
-                             resultado = controladoraBDRecurso.insertarTelefono(telefonos);
-                         }
-                     }
-                     break;
-                 case 2:
-                     { // MODIFICAR
+        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
+         * Requiere: un modo que corresponde 
+         */
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, String cedula)
+        {
+            Boolean resultado = false;
+            switch (modo)
+            {
+                case 1:
+                    { // INSERTAR
+                        if (accion == 1)//Insertar Funcionario
+                        {
+                            Funcionario nuevo = new Funcionario(datos);
+                            resultado = controladoraBDRecurso.insertarFuncionario(nuevo);
+                        }
+                        else if (accion == 2) //Insertar administrador
+                        {
+                            EntidadAdministrador nuevoadmin = new EntidadAdministrador(datos);
+                            resultado = controladoraBDRecurso.insertarAdministrador(nuevoadmin);
+                        }
+                        else if (accion == 3) //Insertar miembro de equipo de pruebas
+                        {
+                            EntidadMiembro nuevoamiembro = new EntidadMiembro(datos);
+                            resultado = controladoraBDRecurso.insertarMiembro(nuevoamiembro);
+                        }
+                        else if (accion == 4) //Inserta telefonos del funcionario
+                        {
+                            EntidadTelFuncionario telefonos = new EntidadTelFuncionario(datos);
+                            resultado = controladoraBDRecurso.insertarTelefono(telefonos);
+                        }
+                    }
+                    break;
+                case 2:
+                    { // MODIFICAR
 
                         if (accion == 1)//Modificar funcionario , por parte de un miembro
                         {
                             Funcionario nuevo = new Funcionario(datos);
-                            resultado = controladoraBDRecurso.modificarFuncionario(nuevo,cedula);
+                            resultado = controladoraBDRecurso.modificarFuncionario(nuevo, cedula);
                         }
-                        else if (accion == 2)
-                        {
-                            EntidadMiembro nuevo = new EntidadMiembro(datos);
-                            resultado= controladoraBDRecurso.modificarMiembro(nuevo,cedula);
-                        }
-                        else if (accion == 3)
-                        {
-                            EntidadAdministrador nuevo = new EntidadAdministrador(datos);
-                            resultado = controladoraBDRecurso.modificarAdministrador(nuevo, cedula);
-                        }
-                        
                     }
                     break;
-                 case 3:
+                case 3:
                     {
-                        string perfil = buscarPerfil(cedula);
-                        if (perfil == "Administrador")
+                        if (accion == 2)
                         {
-                            if (controladoraBDRecurso.buscarAsignacionProyectos(cedula) == true)
+                            if (controladoraBDRecurso.eliminarTelefonoFuncionario(cedula))
                             {
-                                resultado = false;
+                                resultado = true;
 
                             }
                             else
                             {
-                                resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
-                            }//auqi se llamo a elimimnar
-
+                                resultado = false;
+                            }
                         }
                         else
                         {
-                            //Miembro
-                            if (controladoraBDRecurso.buscarAsignacionMiembros(cedula) == true)
+                            string perfil = buscarPerfil(cedula);
+                            if (perfil == "Administrador")
                             {
-                                resultado = false;
+                                if (controladoraBDRecurso.buscarAsignacionProyectos(cedula) == true)
+                                {
+                                    resultado = false;
+
+                                }
+                                else
+                                {
+                                    resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
+                                }//auqi se llamo a elimimnar
 
                             }
                             else
                             {
-                                resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
-                            }//auqi se llamo a elimimnar
+                                //Miembro
+                                if (controladoraBDRecurso.buscarAsignacionMiembros(cedula) == true)
+                                {
+                                    resultado = false;
 
+                                }
+                                else
+                                {
+                                    resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
+                                }//auqi se llamo a elimimnar
+                            }
                         }
-
                     }
                     break;
-             }
-             return resultado;
-         }
+            }
+            return resultado;
+        }
 
-         /*Método para obtener un DataTable con los datos del funcionario especificado mediante el número de cédula.
-        * Requiere: La cédula del funcionario que se desea consultar
+        /*Método para obtener un DataTable con los datos del funcionario especificado mediante el número de cédula.
+       * Requiere: La cédula del funcionario que se desea consultar
+       * Retorna: el DataTable con los datos del funcionario.
+       */
+        public DataTable consultarRH(string cedula)
+        {
+            return controladoraBDRecurso.consultarRH(cedula);
+        }
+
+        /*Método para obtener un DataTable con la cédula, nombre, primer apellido y segundo apellido de todos los funcionarios en caso de que
+         * el sistema esté siendo utilizando por el administrador o solo el correspondiente al usuario del sistema en caso de que éste sea un 
+         * miembro.
+        * Requiere: La cédula del funcionario al que se le desea consultar los teléfonos
         * Retorna: el DataTable con los datos del funcionario.
         */
-         public DataTable consultarRH(string cedula)
-         {
-             return controladoraBDRecurso.consultarRH(cedula);
-         }
+        public DataTable consultarRecursosHumanos(string cedula)
+        {
+            return controladoraBDRecurso.consultarRecursosHumanos(cedula);
+        }
 
-         /*Método para obtener un DataTable con la cédula, nombre, primer apellido y segundo apellido de todos los funcionarios en caso de que
-          * el sistema esté siendo utilizando por el administrador o solo el correspondiente al usuario del sistema en caso de que éste sea un 
-          * miembro.
-         * Requiere: La cédula del funcionario al que se le desea consultar los teléfonos
-         * Retorna: el DataTable con los datos del funcionario.
-         */
-         public DataTable consultarRecursosHumanos(string cedula)
-         {
-             return controladoraBDRecurso.consultarRecursosHumanos(cedula);
-         }
+        /*Método para obtener un DataTable con los números de teléfono (en caso de que tenga) el funcionario consultado. 
+       * Retorna: el DataTable con los teléfonos del funcionario.
+       */
+        public DataTable consultarTelefonosRH(string idRH)
+        {
+            return controladoraBDRecurso.consultarTelefonosRH(idRH);
+        }
 
-         /*Método para obtener un DataTable con los números de teléfono (en caso de que tenga) el funcionario consultado. 
-        * Retorna: el DataTable con los teléfonos del funcionario.
-        */
-         public DataTable consultarTelefonosRH(string idRH)
-         {
-             return controladoraBDRecurso.consultarTelefonosRH(idRH);
-         } 
 
-      
         public string buscarPerfil(string cedulaDeFuncionario)
         {
             return controladoraBDRecurso.buscarPerfil(cedulaDeFuncionario);
         }
 
-      }
-          
+    }
+
 }

@@ -367,33 +367,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
           
         }
 
-        internal bool modificarMiembro(EntidadMiembro nuevo, string cedula)
-        {
-            try
-            {
-                string modif = "UPDATE Miembro SET cedula_miembro ='" + nuevo.getCedulaMiembro + "', tipo_rol='" + nuevo.getTipoRol + "'  WHERE cedula_miembro='" + cedula + "';";
-                return acceso.insertarDatos(modif);
-
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
-
-        internal bool modificarAdministrador(EntidadAdministrador nuevo, string cedula)
-        {
-            try
-            {
-                string modif = "UPDATE Administrador SET cedula_admin ='" + nuevo.getCedula_Admin +"'  WHERE cedula_admin='" + cedula + "'";
-                return acceso.insertarDatos(modif);
-
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+        
 
         public bool eliminarFuncionario(String cedulaDeFuncionario)
         {
@@ -406,6 +380,25 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 acceso.eliminarDatos(borrado);
 
                 return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+
+        }
+
+        /*Método para eliminar los telefonos de cierto funcionario
+        * Requiere: la cédula del funcionario
+        * Modifica: crea el string de consulta y lo ejecunto en la BD 
+        * Retorna: true si el borrado fue exitoso, false si hubo algún error y no se eliminó
+        */
+        public bool eliminarTelefonoFuncionario(string cedula)
+        {
+            try
+            {
+                string borrado = "Delete from Telefono_Funcionario where cedula_funcionario =" + cedula;
+                return acceso.eliminarDatos(borrado);
             }
             catch (SqlException e)
             {

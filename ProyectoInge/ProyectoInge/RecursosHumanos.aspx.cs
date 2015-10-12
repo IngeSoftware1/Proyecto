@@ -28,30 +28,31 @@ namespace ProyectoInge
                 Response.Redirect("~/Login.aspx");
 
             }
-            controlarCampos(false);
-            cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(false, this.btnEliminar);
-            cambiarEnabled(false, this.btnAceptar);
-            cambiarEnabled(false, this.btnCancelar);
-            llenarDropDownPerfil();
-            llenarDropDownRol();
 
-            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
-            
-            if (Session["perfil"].ToString().Equals("Administrador"))
+            if (!IsPostBack)
             {
-                
-                cambiarEnabled(true, this.btnInsertar);
-                llenarGrid(null);
-            }
-            else
-            {
-                cambiarEnabled(false, this.btnInsertar);
-                llenarGrid(Session["cedula"].ToString());
-            }
-            
-                
-            
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                llenarDropDownPerfil();
+                llenarDropDownRol();
+
+                //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    llenarGrid(Session["cedula"].ToString());
+                }
+            }        
         }
 
         protected void llenarDropDownPerfil()
@@ -97,12 +98,12 @@ namespace ProyectoInge
          * Modifica: la propiedad text de las dos cajas
          * retorna: no retorna ningún valor
          */
-        protected void EjemplificarCampos()
+   /*     protected void EjemplificarCampos()
         {
             txtCedula.Text = "145680958";
             txtTelefono.Text = "88888888";
             
-        }
+        } */
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
          * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto
@@ -180,13 +181,7 @@ namespace ProyectoInge
 
         }
 
-        //Me dice si hay un RH seleccionado del Grid, y puesto en los txtbox
-        private bool rhConsultado()
-        {
-            throw new NotImplementedException();
-        }
-
-
+     
         /*Método para habilitar/deshabilitar el botón
           * Requiere: el booleano para la acción
           * Modifica: La propiedad enable del botón
@@ -206,8 +201,6 @@ namespace ProyectoInge
         {
             boton.Enabled = condicion;
         }
-
-
         /*Método para habilitar/deshabilitar los campos en el modificar
           * Requiere: -
           * Modifica: La propiedad enable del textBox, botones y comboBox  
@@ -216,29 +209,24 @@ namespace ProyectoInge
         protected void habilitarCamposModificar()//si es Administrador es 1, si no es 2
         {
 
-            //Si es un administrador puede modificar todos
-            if (Session["perfil"].ToString().Equals("Administrador"))
-            {
-
-                controlarCampos(true);
-            }
-            //Si es un miembro, entonces solo puede modificar los campos habilitados
-            else
-            {
-                this.txtCedula.Enabled = true;
-                this.txtNombre.Enabled = true;
-                this.txtApellido1.Enabled = true;
-                this.txtApellido2.Enabled = true;
-                this.txtEmail.Enabled = true;
-                this.comboPerfil.Enabled = false;
-                this.comboRol.Enabled = false;
-                this.txtUsuario.Enabled = false;
-                this.txtContrasena.Enabled = false;
-                this.txtConfirmar.Enabled = false;
-                this.txtTelefono.Enabled = true;
-                this.lnkNumero.Enabled = true;
-                this.lnkQuitar.Enabled = true;
-            }
+            this.txtCedula.Enabled = false;
+            this.txtNombre.Enabled = true;
+            this.txtApellido1.Enabled = true;
+            this.txtApellido2.Enabled = true;
+            this.txtEmail.Enabled = true;
+            this.comboPerfil.Enabled = false;
+            this.comboRol.Enabled = false;
+            this.txtUsuario.Enabled = true;
+            this.txtContrasena.Enabled = false;
+            this.txtConfirmar.Enabled = false;
+            this.txtTelefono.Enabled = true;
+            this.lnkNumero.Enabled = true;
+            this.lnkQuitar.Enabled = true;
+            cambiarEnabled(false, btnInsertar);
+            cambiarEnabled(true, btnModificar);
+            cambiarEnabled(false, btnEliminar);
+            cambiarEnabled(true, btnAceptar);
+            cambiarEnabled(true, btnCancelar);
         }
 
         /*Método para crear la acción de eliminar un funcionario
@@ -266,7 +254,6 @@ namespace ProyectoInge
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             vaciarCampos();
-            EjemplificarCampos();
             controlarCampos(true);
             modo = 1;
             cambiarEnabled(true, this.btnAceptar);
@@ -339,14 +326,19 @@ namespace ProyectoInge
             txtContrasena.Attributes["Value"] = txtContrasena.Text;
             txtConfirmar.Attributes["Value"] = txtConfirmar.Text;
 
+            if (txtTelefono.Text != "")
+            {
+                listTelefonos.Items.Add(txtTelefono.Text);
+                txtTelefono.Text = "";
+            }
+
             if (modo == 1)
             {
-                if (txtTelefono.Text != "")
-                {
-                    listTelefonos.Items.Add(txtTelefono.Text);
-                    txtTelefono.Text = "";
-                }
                 habilitarCamposInsertar();
+            }
+            else if (modo == 2)
+            {
+                habilitarCamposModificar();
             }
         }
 
@@ -358,13 +350,12 @@ namespace ProyectoInge
         {
             txtContrasena.Attributes["Value"] = txtContrasena.Text;
             txtConfirmar.Attributes["Value"] = txtConfirmar.Text;
-            if (modo == 1)
+            if (modo == 1 || modo == 2)
             {
                 if (listTelefonos.SelectedIndex != -1)
                 {
                     listTelefonos.Items.RemoveAt(listTelefonos.SelectedIndex);
                 }
-                habilitarCamposInsertar();
             }
         }
 
@@ -451,6 +442,8 @@ namespace ProyectoInge
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
                                 vaciarCampos();
+                                llenarDropDownPerfil();
+                                llenarDropDownRol();
                             }
                             //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
                             else
@@ -483,6 +476,8 @@ namespace ProyectoInge
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
                                 vaciarCampos();
+                                llenarDropDownPerfil();
+                                llenarDropDownRol();
                             }
                             //La inserción de un nuevo miembro de equipo en la base de datos falló porque ya estaba en la base
                             else
@@ -574,7 +569,6 @@ namespace ProyectoInge
 
             return resultado;
         }
-
         /*Método para saber si hay cajas de texto que no tienen datos en su interior
          * Recibe: No recibe ningún parámetro
          * Modifica:  Verifica si faltan datos en alguna caja de texto
@@ -586,7 +580,7 @@ namespace ProyectoInge
             if (modo2 == 1)
             {
                 //Pregunta por todas las cajas
-                if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtConfirmar.Text == "" || txtContrasena.Text == "")
+                if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtConfirmar.Text == "" || txtContrasena.Text == "" || txtEmail.Text == "")
                 {
                     resultado = true;
                 }
@@ -610,20 +604,19 @@ namespace ProyectoInge
             }
             return resultado;
         }
-        /*Método Para la acción de aceptar cuando está en modo de modificación 
+
+        /*Método Para realizar el modificar de un funcionario, que altera también sus teléfonos 
          * Recibe: No recibe ningún parámetro
-         * Modifica:  Verifica si faltan datos en alguna caja de texto
-         * Retorna: retorna true si alguna caja no tiene texto, false si todas las cajas tienen texto
+         * Modifica:  Se comunica con la controladora de RH para modificar la BD en los teléfnos y funcionarios
+         * Retorna: No retorna
          */
         protected void btnAceptar_Modificar()
         {
-            //MODIFICAR POR PARTE DE UN MIEMBRO
             int tipoModificacion = 1;//Funcionario
-            if (faltanDatos(2))
+            if (faltanDatos(2))//2 indica los datos que pueden faltar en el modificar
             {
                 string mensaje = "<script>window.alert('Para modificar un funcionario debe completar todos los datos habilitados.');</script>";
                 Response.Write(mensaje);
-                habilitarCamposInsertar();
             }
             else
             {
@@ -638,149 +631,47 @@ namespace ProyectoInge
                 datosNuevos[5] = this.txtUsuario.Text;
                 datosNuevos[6] = this.txtContrasena.Text;
                 datosNuevos[7] = false;
-                if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos,cedulaGuardadaBD))
+                if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
                 {
                     string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
                     Response.Write(mensaje);
                     //Elimino los tels
-                    tipoModificacion = 4;//LLAMAR AL DE RO
-                    if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, cedulaGuardadaBD))//lo mando con 3 para que elimine los tels
+                    tipoModificacion = 2;//LLAMAR AL DE RO
+                    if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels
                     {
                         //Inserto los tels
                         guardarTelefonos();
+                        vaciarCampos();
+                        controlarCampos(false);
+                        llenarDropDownPerfil();
+                        llenarDropDownRol();
+                        cambiarEnabled(false, this.btnModificar);
+                        cambiarEnabled(false, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        if (Session["perfil"] == "Miembro")
+                        {
+                            cambiarEnabled(false, this.btnInsertar);
+                        }
+                        else
+                        {
+                            cambiarEnabled(true, this.btnInsertar);
+                        }
                         
                     }
-                        if (perfil == 1)//Administrador
-                        {
-
-                            if (perfilGuardadoBD != this.comboPerfil.Text)
-                            {
-                                if (perfilGuardadoBD == "Administrador")
-                                {
-                                    //Inserto
-                                    tipoModificacion = 3;//Miembro
-                                    Object[] datosRol2 = new Object[2];
-                                    datosRol2[0] = this.txtCedula.Text;
-                                    datosRol2[1] = this.comboRol.Text;
-                                    if (controladoraRH.ejecutarAccion(1, tipoModificacion, datosRol2, cedulaGuardadaBD))//lo mando con 1 para que inserte
-                                    {
-                                        string mensaje2 = "<script>window.alert('Se inserto un nuevo miembro ');</script>";
-                                        Response.Write(mensaje2);
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('No se pudo insertar el miembro');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-                                    //Elimino LLAMAR AL DE RO
-                                    tipoModificacion = 3;//Administrador
-                                    Object[] datosAdmin = new Object[1];
-                                    datosAdmin[0] = cedulaGuardadaBD;
-                                    if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosRol2, cedulaGuardadaBD))//lo mando con 3 para que elimine
-                                    {
-                                        string mensaje2 = "<script>window.alert('Se elimino un administrador.');</script>";
-                                        Response.Write(mensaje2);
-
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('No se pudo eliminar el administrador');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-
-                                }
-                                else if (perfilGuardadoBD == "Miembro de equipo de pruebas")
-                                {
-                                    //Inserto
-                                    tipoModificacion = 2;//Administrador
-                                    Object[] datosAdmin = new Object[1];
-                                    datosAdmin[0] = this.txtCedula.Text;
-                                    if (controladoraRH.ejecutarAccion(1, tipoModificacion, datosAdmin, cedulaGuardadaBD))//lo mando con 1 para que inserte
-                                    {
-                                        string mensaje2 = "<script>window.alert('Se inserto un administrador.');</script>";
-                                        Response.Write(mensaje2);
-
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('No se pudo insertar el administrador');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-                                    //Elimino
-                                    tipoModificacion = 2;//LLAMAR AL DE RO
-                                    Object[] datosMiembro = new Object[2];
-                                    datosMiembro[0] = cedulaGuardadaBD;
-                                    datosMiembro[1] = this.comboRol.Text;
-                                    if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosMiembro, cedulaGuardadaBD))//lo mando con 3 para que elimine
-                                    {
-                                        string mensaje2 = "<script>window.alert('Se elimino un miembro');</script>";
-                                        Response.Write(mensaje2);
-
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('No se pudo eliminar el miembro');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-                                }
-                            }
-                            else if (perfilGuardadoBD == this.comboPerfil.Text)
-                            {
-                                if (perfilGuardadoBD == "Administrador")
-                                {
-                                    tipoModificacion = 3;//Administrador
-                                    Object[] datosAdmin = new Object[1];
-                                    datosAdmin[0] = this.txtCedula.Text;
-                                    if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosAdmin, cedulaGuardadaBD))
-                                    {
-                                        string mensaje2 = "<script>window.alert('La modif de admin se dio.');</script>";
-                                        Response.Write(mensaje2);
-
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('La modif de admin no se dio');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-                                }
-                                else if (perfilGuardadoBD == "Miembro de equipo de pruebas")
-                                {
-                                    tipoModificacion = 2;//Miembro
-                                    Object[] datosMiembro = new Object[2];
-                                    datosMiembro[0] = this.txtCedula.Text;
-                                    datosMiembro[1] = this.comboRol.Text;
-                                    if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosMiembro, cedulaGuardadaBD))
-                                    {
-                                        string mensaje2 = "<script>window.alert('La modif de miembro se dio.');</script>";
-                                        Response.Write(mensaje2);
-
-                                    }
-                                    else
-                                    {
-                                        string mensaje1 = "<script>window.alert('La modif de miembro no se dio');</script>";
-                                        Response.Write(mensaje1);
-                                        habilitarCamposInsertar();
-                                    }
-                                }
-                            }
-                        }
-                    //
                 }
                 else
                 {
-                    string mensaje = "<script>window.alert('La modificacion no fue exitosa,recuerde la cédula es única.');</script>";
+                    string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
                     Response.Write(mensaje);
                     habilitarCamposInsertar();
-                    
+
                 }
-                //MODIFICAR POR PARTE DE UN ADMINISTRADOR
             }
         }
+
+
+
         /*Método para la acción de aceptar cuando esta en modo de borrado
          * Requiere: No requiere ningún parámetro
          * Modifica:Elimina un recurso humano si es valido llevar acabo la acción
@@ -788,36 +679,49 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Eliminar()
         {
-            if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
+            string cedulaUsuarioActual = Session["cedula"].ToString();
+
+            if (cedulaUsuarioActual != this.txtCedula.Text)
             {
-                string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
-                Response.Write(mensaje);
-            }
-            else {
-                string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
-                Response.Write(mensaje);
-            }
-            idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
-            llenarGrid(idRH);
-            vaciarCampos();
+                if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
+                {
+                    string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
+                    Response.Write(mensaje);
+                }
+                else
+                {
 
-            controlarCampos(false);
-            cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(false, this.btnEliminar);
-            cambiarEnabled(false, this.btnAceptar);
-            cambiarEnabled(false, this.btnCancelar);
-
-            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
-            if (Session["perfil"].ToString().Equals("Administrador"))
-            {
-
-                cambiarEnabled(true, this.btnInsertar);
+                    string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
+                    Response.Write(mensaje);
+                }
+                idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
                 llenarGrid(null);
+                vaciarCampos();
+
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                llenarDropDownPerfil();
+                llenarDropDownRol();
+
+                //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    llenarGrid(Session["cedula"].ToString());
+                }
             }
             else
             {
-                cambiarEnabled(false, this.btnInsertar);
-                llenarGrid(Session["cedula"].ToString());
+                string mensaje = "<script>window.alert('No es posible eliminar el funcionario ya que posee una sesión abierta en el sistema');</script>";
+                Response.Write(mensaje);
             }
         }
 
