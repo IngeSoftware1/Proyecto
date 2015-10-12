@@ -207,7 +207,7 @@
       <div class="form-group">
              <div class="row">
             <div id="consultar">
-                <asp:Label ID="Label1" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblFuncionarios" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
               </div> 
                 </div>   
                     <div class ="row">
