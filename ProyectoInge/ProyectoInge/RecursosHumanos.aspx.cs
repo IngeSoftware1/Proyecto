@@ -23,7 +23,11 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
-      
+            if (Session["cedula"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+
+            }
             controlarCampos(false);
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
