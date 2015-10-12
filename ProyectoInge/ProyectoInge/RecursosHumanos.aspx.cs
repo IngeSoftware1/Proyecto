@@ -322,8 +322,8 @@ namespace ProyectoInge
             vaciarCampos();
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
-            cambiarEnabled(false, this.btnAceptar);
-            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
                         
             llenarDropDownPerfil();
             llenarDropDownRol();
@@ -364,6 +364,7 @@ namespace ProyectoInge
                 {
                     listTelefonos.Items.RemoveAt(listTelefonos.SelectedIndex);
                 }
+                habilitarCamposInsertar();
             }
         }
 
@@ -789,12 +790,35 @@ namespace ProyectoInge
         {
             if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
             {
-                string mensaje = "<script>window.alert('No se puede eliminar este recurso humano.');</script>";
+                string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
+                Response.Write(mensaje);
+            }
+            else {
+                string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
                 Response.Write(mensaje);
             }
             idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
             llenarGrid(idRH);
             vaciarCampos();
+
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+
+            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+
+                cambiarEnabled(true, this.btnInsertar);
+                llenarGrid(null);
+            }
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+                llenarGrid(Session["cedula"].ToString());
+            }
         }
 
 

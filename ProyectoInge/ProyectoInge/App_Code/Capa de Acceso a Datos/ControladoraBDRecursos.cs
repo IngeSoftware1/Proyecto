@@ -251,7 +251,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             bool resultado = false;
             try
             {
-                string consultaP = "SELECT * FROM Proyecto WHERE cedula_creador =" + cedulaDeFuncionario;
+                string consultaP = "SELECT * FROM Proyecto WHERE cedula_creador ='" + cedulaDeFuncionario+"'";
                 DataTable data = acceso.ejecutarConsultaTabla(consultaP);
                 if (data.Rows.Count >= 1)
                 {
@@ -278,7 +278,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             bool resultado = false;
             try
             {
-                string consultaProyectos = "SELECT * FROM Proyecto WHERE cedula_lider =" + cedulaDeFuncionario;
+                string consultaProyectos = "SELECT * FROM Proyecto WHERE cedula_lider ='" + cedulaDeFuncionario+"'";
                 DataTable data = acceso.ejecutarConsultaTabla(consultaProyectos);
                 if (data.Rows.Count >= 1)
                 {
@@ -288,7 +288,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     try
                     {
-                        string consultaPruebas = "SELECT * FROM Diseno_Pruebas WHERE cedula_responsable =" + cedulaDeFuncionario;
+                        string consultaPruebas = "SELECT * FROM Diseno_Pruebas WHERE cedula_responsable ='" + cedulaDeFuncionario+"'";
                         DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaPruebas);
                         if (dataDiseno.Rows.Count >= 1)
                         {
@@ -298,7 +298,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                         {
                             try
                             {
-                                string consultaEjecucionPruebas = "SELECT * FROM Ejecucion_Prueba WHERE cedula_responsable =" + cedulaDeFuncionario;
+                                string consultaEjecucionPruebas = "SELECT * FROM Ejecucion_Prueba WHERE cedula_responsable ='" + cedulaDeFuncionario+"'";
                                 DataTable dataEjec = acceso.ejecutarConsultaTabla(consultaEjecucionPruebas);
                                 if (dataEjec.Rows.Count >= 1)
                                 {
@@ -332,7 +332,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             String resultado = "";
             try
             {
-                string consulta = "SELECT * FROM Administrador WHERE cedula_admin =" + cedulaDeFuncionario;
+                string consulta = "SELECT * FROM Administrador WHERE cedula_admin ='" + cedulaDeFuncionario+"'";
                 DataTable data = acceso.ejecutarConsultaTabla(consulta);
                 if (data.Rows.Count == 1)
                 {
@@ -341,7 +341,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     try
                     {
-                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula_miembro =" + cedulaDeFuncionario;
+                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula_miembro ='" + cedulaDeFuncionario+"'";
                         DataTable dataMiembro = acceso.ejecutarConsultaTabla(consultaMiembro);
                         if (dataMiembro.Rows.Count == 1)
                         {
@@ -385,7 +385,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Administrador SET cedula_admin ='" + nuevo.getCedula_Admin +"'  WHERE cedula_admin='" + cedula + "';";
+                string modif = "UPDATE Administrador SET cedula_admin ='" + nuevo.getCedula_Admin +"'  WHERE cedula_admin='" + cedula + "'";
                 return acceso.insertarDatos(modif);
 
             }
@@ -397,24 +397,15 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         public bool eliminarFuncionario(String cedulaDeFuncionario)
         {
-            bool siBorro = false;
-            bool siBorro2 = false;
 
             try
             {
-                string borrado = "Delete from Funcionario where cedula =" + cedulaDeFuncionario;
-                siBorro = acceso.eliminarDatos(borrado);
-                string borrado2 = "Delete from Trabaja_En where cedula_miembro =" + cedulaDeFuncionario;
-                siBorro = acceso.eliminarDatos(borrado);
+                string borrado = "Delete from Funcionario where cedula ='" + cedulaDeFuncionario +"'";
+                acceso.eliminarDatos(borrado);
+                string borrado2 = "Delete from Trabaja_En where cedula_miembro ='" + cedulaDeFuncionario+"'";
+                acceso.eliminarDatos(borrado);
 
-                if (siBorro == true && siBorro2 == true)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             catch (SqlException e)
             {
