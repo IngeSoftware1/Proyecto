@@ -37,19 +37,20 @@ namespace ProyectoInge
         }
 
 
-        //PROBARRRR
-        /*
+        
         protected void LogIn(object sender, EventArgs e)
         {
+            string cedulaDeFuncionario;
             if (IsValid)
             {
                 DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
                 if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
                 {
                     string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
-                    if (estaLogueado == "0")
+                    
+                    if (estaLogueado == "False")
                     {
-                        string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                        cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
@@ -58,8 +59,11 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion";
+                        cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                        controladora.modificarEstadoCerrar(cedulaDeFuncionario);
+                        FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion, espere unos minutos";
                         ErrorMessage.Visible = true;
+
 
                     }
                 }
@@ -80,13 +84,13 @@ namespace ProyectoInge
 
             }
         }
-        **/
+        
         
 
 
 
         // si sirve. Para probar: comentar este y descomentar el de arriba
-     
+     /**
         protected void LogIn(object sender, EventArgs e)
         {
             if (IsValid)
@@ -111,7 +115,7 @@ namespace ProyectoInge
 
             }
 
-        }
+        }**/
 
 
        
