@@ -49,6 +49,18 @@ namespace ProyectoInge
             Response.Redirect("~/Login.aspx");
         }
 
+        /*Método para limpiar los textbox
+         * Requiere: No requiere parámetros
+         * Modifica: Establece la propiedad text de los textbox en ""
+         * Retorna: no retorna ningún valor
+         */
+        protected void vaciarCampos()
+        {
+            this.txtUsuario.Text = "";
+            this.txtAntPassword.Text = "";
+            this.txtNewPassword.Text = "";
+        }
+
 
 
         /*Método para hacer cambiar contraseña
@@ -68,11 +80,19 @@ namespace ProyectoInge
     
                 Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
                 Response.Write(resultado);
+               
+                Response.Write("<script>window.alert('Contraseña cambiada con éxito.');</script>");
+
+
+
             }else {
                 FailureText.Text = "usuario o contraseña incorrecta";
                 ErrorMessage.Visible = true;
             
             }
+
+           vaciarCampos();
+            
             
 
 
