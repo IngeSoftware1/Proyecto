@@ -263,6 +263,11 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnInsertar);
         }
 
+        /*Método para distinguir las diferentes situaciones en las que se puede seleccionar el botón de aceptar.
+         * Requiere: Recibe el evento cuando se presiona el botón de aceptar
+         * Modifica: Contiene un case el cual depende del tipo de modo en que se encuentre la aplicación ya sea Insertar, Modificar o Eliminar (1,2,3 respectivamente)
+         * Retorna: no retorna ningún valor
+         */
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
             switch (modo)
@@ -507,6 +512,11 @@ namespace ProyectoInge
             }
         }
 
+        /*Método para  controlar la inserción de el o los teléfonos de un funcionario en particular
+         * Requiere: no recibe parámetros
+         * Modifica: Revisa que efectivamente se esten insertando telefonos en la caja de texto y que no se inserten repetidos
+         * Retorna: No retorna ningún valor
+         */
         protected void guardarTelefonos()
         {
             int i = 0;
@@ -909,14 +919,17 @@ namespace ProyectoInge
 
         }
 
+        /*Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
+         * Requiere: recibe el evento cuando se presiona el botón para cerrar sesión.
+         * Modifica: Modifica el valor booleano del estado de la sesión
+         * Retorna: No retorna ningún valor
+         */
         protected void cerrarSesion(object sender, EventArgs e)
         {
 
             string ced = (string)Session["cedula"];
             Boolean a = controladoraRH.modificarEstadoCerrar(ced);
             Response.Redirect("~/Login.aspx");
-
         }
-
     }
 }

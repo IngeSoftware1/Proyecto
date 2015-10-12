@@ -21,25 +21,39 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         }
 
+        /*Método para obtener toda la información relacionada a un usuarios, yendo a la base de datos y buscando por nombre y contraseña.
+         * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
+         */
         public bool consultarUsuario(String user, String pass)
         {
-
             return controladoraBDRecurso.consultarUsuario(user, pass);
-
         }
 
+        /*Método para asignar el valor de sesión cerrada en la base de datos
+         * Requiere: requiere la cédula del usuario al cual se le asignará la sesión como cerrada en la base de datos.
+         * Modifica: Modifica el valor del atributo de login, yendo a la controladora de base de datos.
+         * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
+         */
         public Boolean modificarEstadoCerrar(String cedula)
         {
             Boolean resultado = controladoraBDRecurso.modificarEstadoCerrar(cedula);
             return resultado;
         }
 
+        /*Método para asignar un estado de sesión en la base de datos, para un usuario específico.
+        * Requiere: requiere la cédula del usuario al cual se le asignará un estado específico para la sesión (abierta o cerrada), y el estado de la sesión.
+        * Modifica: Modifica el valor del atributo de login.
+        * Retorna: Devuelve un true si se ejecutó la actualización correctamente yendo a la controladora de base de datos.
+        */
         public Boolean modificarEstado(Boolean es, string user)
         {
             Boolean resultado = controladoraBDRecurso.modificarEstado(es, user);
             return resultado;
         }
 
+        /*Método para obtener los tipos de roles de la base de datos en la tabla Rol
+         * Retorna: el DataTable (la fila de la tabla rol) con los tipos de roles 
+         */
         public DataTable consultarRoles()
         {
             DataTable resultado = controladoraBDRecurso.consultarRoles();
@@ -47,7 +61,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
-
+        /*Método para obtener un DataTable con la cédula y nombre todos los funcionarios
+         * Requiere: La cédula y contraseña del funcionario que se desea consultar
+         * Retorna: el DataTable (la fila de la tabla funcionario) en caso de que encuentre el usuario y contraseña
+         */
         public Boolean modificarContrasena(String cedula, String pass, String newPass)
         {
             Boolean resultado = controladoraBDRecurso.modificarContrasena(cedula, pass, newPass);
@@ -55,21 +72,20 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
-        /* Este metodo es llamado por Login.aspx.cs
-* Retorna: Funcionatio
-* Valida si exite un usuario y en caso de que exista de una vez devuelve la Entidad Funcionario cambi
-* 
-*/
-
-
+        /*Método para obtener un DataTable con la cédula y nombre todos los funcionarios
+         * Requiere: La cédula y contraseña del funcionario que se desea consultar
+         * Retorna: el DataTable (la fila de la tabla funcionario) en caso de que encuentre el usuario y contraseña
+         */
         public DataTable consultarCedula(string user, string password)
         {
             return controladoraBDRecurso.consultarCedula(user, password);
         }
 
 
-        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos
-         * Requiere: un modo que corresponde 
+        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+         * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+         * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+         * Retorna el valor de la variable booleana.
          */
         public bool ejecutarAccion(int modo, int accion, Object[] datos, String cedula)
         {
@@ -188,7 +204,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.consultarTelefonosRH(idRH);
         }
 
-
+        /*Método para obtener un  string con el perfil del usuario ya sea "Administrador" o "Miembro"
+        * Requiere: La cédula del funcionario del cual se desea conocer el perfil.
+        * Retorna: el string con el perfil del funcionario.
+        */
         public string buscarPerfil(string cedulaDeFuncionario)
         {
             return controladoraBDRecurso.buscarPerfil(cedulaDeFuncionario);

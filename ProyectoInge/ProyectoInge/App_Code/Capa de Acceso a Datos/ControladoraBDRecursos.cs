@@ -21,7 +21,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
           //adapterRH = new RHTableAdapter();	
       }
 
-     public bool consultarUsuario(String user, String pass)
+        /*Método para obtener toda la información relacionada a un usuario en la base de datos buscando por nombre y contraseña.
+        * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
+        */
+        public bool consultarUsuario(String user, String pass)
      {
 
          bool resultado = false;
@@ -45,31 +48,36 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          
      }
 
-     public Boolean modificarContrasena(String ced, String pass, String newPass)
+        /*Método para modificar la contraseña de un usuario.
+        * Requiere: requiere la cédula y contraseña anterior del usuario y contraseña actual.
+        * Modifica: lleva a cabo las actualizacion de la contraseña en la base de datos.
+        * Retorna: Devuelve un boolean true en caso de que se ejecute la actualización correctamente.
+        */
+        public Boolean modificarContrasena(String ced, String pass, String newPass)
      {
-        
          try
          {
              string modif = "UPDATE FUNCIONARIO SET contrasena ='"+ newPass+"' WHERE cedula ='" + ced + "' and contrasena = '" + pass +"'";
              return acceso.insertarDatos(modif);
-
          }
          catch (SqlException e)
          {
              return false;
          }
-
      }
 
-     /* Retorna la fila¨de la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null  */
-     public DataTable consultarCedula(string user, string password)
+        /*Método para consultar los datos de un recurso humano específico.
+        * Requiere: requiere la cédula y contraseña del usuario al cual se le consultarán los datos.
+        * Modifica: lleva a cabo las consultas en la base de datos
+        * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null .
+        */
+        public DataTable consultarCedula(string user, string password)
      {
          DataTable datosFuncionario = new DataTable();
          string consulta = "SELECT * FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password +"'";
          try{
              datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
               modificarEstado(true,user);
-
          }
          catch (SqlException e) {
              datosFuncionario = null;
@@ -77,15 +85,24 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
          return datosFuncionario;
      }
-
-    public DataTable consultarRoles()
-     {
+       /*Método para consultar los tipos de Rol de la tabla Rol.
+       * Requiere: no requiere ningún dato de entrada.
+       * Modifica: lleva a cabo la consulta en la base de datos
+       * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los tipos de rol.
+       */
+       public DataTable consultarRoles()
+       {
          DataTable Roles;
          string consulta = "SELECT R.tipo_rol " + " FROM Rol R ";
          Roles = acceso.ejecutarConsultaTabla(consulta);
          return Roles;
-     }
+       }
 
+     /*Método para consultar todos los dtos personales de un recurso humano específico.
+     * Requiere: requiere la cédula del usuario al cual se le consultarán los datos personales.
+     * Modifica: lleva a cabo la consulta en la base de datos
+     * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los datos personales de un recurso humano específico.
+     */
      public DataTable consultarRH(string ced)
      {
          DataTable datosFuncionario = new DataTable();
@@ -94,7 +111,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return datosFuncionario;
      }
 
-     public DataTable consultarTelefonosRH(string cedula)
+        /*Método para consultar los teléfonos de un recurso humano específico.
+       * Requiere: requiere la cédula del usuario al cual se le consultarán los teléfonos.
+       * Modifica: lleva a cabo las consultas en la base de datos
+       * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los teléfonos de un recurso humano específico.
+       */
+        public DataTable consultarTelefonosRH(string cedula)
      {
          DataTable telefonos = new DataTable();
          string consulta = "SELECT T.num_telefono " + " FROM Telefono_Funcionario T " + " WHERE T.cedula_funcionario = '" + cedula + "'";
@@ -102,7 +124,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          return telefonos;
      }
 
-     public Boolean modificarEstado(Boolean es, string user)
+        /*Método para asignar un estado de sesión en la base de datos, para un usuario específico.
+        * Requiere: requiere la cédula del usuario al cual se le asignará un estado específico para la sesión (abierta o cerrada), y el estado de la sesión.
+        * Modifica: Modifica el valor del atributo de login.
+        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
+        */
+        public Boolean modificarEstado(Boolean es, string user)
      {
          string modif;
          try
@@ -116,10 +143,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
-
-
-
-     public DataTable consultarRecursosHumanos(string cedula)
+        /*Método para consultar los datos de un recurso humano específico.
+        * Requiere: requiere la cédula del usuario al cual se le consultarán los datos.
+        * Modifica: lleva a cabo las consultas en la base de datos
+        * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con la cedula, nombre, apellido 1 y 2 y el tipo de rol de 
+        * un usuario particular.
+        */
+        public DataTable consultarRecursosHumanos(string cedula)
      {
          DataTable dt = new DataTable();
          string consulta;
@@ -217,6 +247,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
+        /*Método para llevar a cabo la modificación de los datos personales de un usuario.
+        * Requiere: un objeto Funcionario para ser modificado con los nuevos valores y la cédula de este, para localizarlo en la Base de datos.
+        * Modifica: Modifica los datos de un usuario particular.
+        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
+        */
         public bool modificarFuncionario(Funcionario nuevo, String cedula)
         {
             try
@@ -231,6 +266,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        /*Método para asignar el valor de sesión cerrada en la base de datos
+        * Requiere: requiere la cédula del usuario al cual se le asignará la sesión como cerrada en la base de datos.
+        * Modifica: Modifica el valor del atributo de login.
+        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
+        */
         public bool modificarEstadoCerrar(String cedula)
         {
             string modif;
@@ -245,6 +285,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        /*Método para buscar si en la base de datos existe un proyecto asociado a un usuario con una cedula particular
+        * Requiere: un string con la cedula de un funcionario específico
+        * Modifica: Genera la consulta para mandarla a la base de datos para saber si hay un proyecto asociado al funcionario.
+        * Retorna: true si se encontro que el funcionario tenía un proyecto asociado y false si no.
+        */
         public bool buscarAsignacionProyectos(string cedulaDeFuncionario)
         {
 
@@ -272,6 +317,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
+        /*Método para buscar si en la base de datos un usuario específico es líder o no.
+        * Requiere: un string con la cedula de un funcionario específico
+        * Modifica: Genera la consulta para mandarla a la base de datos para saber si el usuario con la cédula específica es líder.
+        * Retorna: true si se encontro que el funcionario era líder y false si no.
+        */
         public bool buscarAsignacionMiembros(string cedulaDeFuncionario)
         {
 
@@ -326,7 +376,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return resultado;
         }
 
-        public  string buscarPerfil(string cedulaDeFuncionario)
+        /*Método para buscar el perfil de un usuario específico.
+        * Requiere: requiere la cédula del usuario al cual se leconsultará el perfil.
+        * Modifica: Lleva a cabo la consulta en la base de datos para conocer sie le usuario es administrador o miembro.
+        * Retorna: Un string con el perfil del usuario.
+        */
+        public string buscarPerfil(string cedulaDeFuncionario)
         {
 
             String resultado = "";
@@ -367,8 +422,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
           
         }
 
-        
 
+        /*Método para eliminar de la base de datos un funcionario específico
+        * Requiere: un string con la cedula de un funcionario específico
+        * Modifica: Genera las consultas para mandarlas a la base de datos para borrar el funcionario de la tabla Funcionario y Trabaja_En
+        * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
+        */
         public bool eliminarFuncionario(String cedulaDeFuncionario)
         {
 
