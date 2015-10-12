@@ -44,7 +44,7 @@ namespace ProyectoInge
             if (IsValid)
             {
                 DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
-                if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
+                if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count == 1)
                 {
                     string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
                     
