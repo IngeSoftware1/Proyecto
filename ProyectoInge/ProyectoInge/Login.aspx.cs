@@ -36,7 +36,11 @@ namespace ProyectoInge
             controladora = new ControladoraRecursos();
         }
 
-
+        /*Método para realizar el inicio de sesión
+         * Requiere: haber presionado el botón iniciar sesión
+         * Modifica: Modifica el valor del atributo de login.
+         * Retorna: No devuelve datos
+         */
         
         protected void LogIn(object sender, EventArgs e)
         {
@@ -85,49 +89,5 @@ namespace ProyectoInge
             }
         }
         
-        
-
-
-
-        // si sirve. Para probar: comentar este y descomentar el de arriba
-     /**
-        protected void LogIn(object sender, EventArgs e)
-        {
-            if (IsValid)
-            {
-                DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
-                if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
-                {
-                    string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
-                    Session["cedula"] = cedulaDeFuncionario;
-                    string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
-                    Session["perfil"] = perfil;
-                    Response.Redirect("~/RecursosHumanos.aspx");
-                }
-                else
-                {
-
-                    FailureText.Text = "usuario o contrasena incorrecta.";
-                    ErrorMessage.Visible = true;
-
-                }
-
-
-            }
-
-        }**/
-
-
-       
-
-
-        //termina comentar metodo arriba
-
-
-
-
-
-
-
     }
 }
