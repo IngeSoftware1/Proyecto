@@ -3788,6 +3788,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+    background-color:#428bca;
+  color:#428bca;
 }
 
 .nav:before,
@@ -4028,6 +4030,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
+  background-color:#428bca;
+  color:#428bca;
 
 
 }
@@ -4242,6 +4246,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-nav {
   margin: 7.5px -15px;
+  background-color:#428bca;
+  color:#428bca;
 }
 
 .navbar-nav > li > a {
@@ -4387,6 +4393,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-default {
   background-color: #428bca;
+  color: #428bca;
   border-color: #e7e7e7;
 }
 

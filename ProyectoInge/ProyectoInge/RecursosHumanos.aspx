@@ -19,12 +19,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="navbar-default collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
+            <li><a runat="server"  href="~/RecursosHumanos.aspx" style="color:white"  >Recursos Humanos</a></li>
             <li><a runat="server" >Proyecto</a></li>
-            <li><a runat="server" >Diseno de pruebas</a></li>
+            <li><a runat="server" >Diseño de pruebas</a></li>
             <li><a runat="server" >Caso de pruebas</a></li>
-            <li><a runat="server" >Ejecucion de pruebas</a></li>
-            <li><a runat="server" onserverclick="cerrarSesion"  href="~/Login.aspx">Cerrar sesion</a></li>      </ul>
+            <li><a runat="server" >Ejecución de pruebas</a></li>
+            <li><a runat="server" onserverclick="cerrarSesion"  href="~/Login.aspx">Cerrar sesión</a></li>      </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
