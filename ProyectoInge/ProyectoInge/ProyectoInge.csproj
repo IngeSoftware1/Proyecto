@@ -286,6 +286,12 @@
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\Capa de Acceso a Datos\AccesoBaseDatos.cs" />
+    <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDDiseno.cs" />
+    <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDEjecucion.cs" />
+    <Compile Include="App_Code\Capa de Control\ControladoraDiseno.cs" />
+    <Compile Include="App_Code\Capa de Control\ControladoraEjecucion.cs" />
+    <Compile Include="App_Code\Capa de Control\ControladoraProyecto.cs" />
+    <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDProyectos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
