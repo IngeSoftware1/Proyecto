@@ -12,7 +12,6 @@ using System.Data;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 //Necesarios para iniciar sesión correctamente
 using Owin;
-using ProyectoInge.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 //Revisar:
