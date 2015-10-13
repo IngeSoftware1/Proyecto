@@ -13,12 +13,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     
     public class ControladoraBDRecursos
       {
-     
-        //RHTableAdapter adapterRH;                  
+                      
         AccesoBaseDatos acceso = new AccesoBaseDatos();
      public ControladoraBDRecursos()
       {
-          //adapterRH = new RHTableAdapter();	
       }
 
         /*Método para obtener toda la información relacionada a un usuario en la base de datos buscando por nombre y contraseña.
