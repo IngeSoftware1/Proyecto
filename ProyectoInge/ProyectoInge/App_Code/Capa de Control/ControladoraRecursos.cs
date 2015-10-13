@@ -14,7 +14,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraRecursos
     {
         ControladoraBDRecursos controladoraBDRecurso = new ControladoraBDRecursos();
-
+        ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
+        ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
+        ControladoraEjecucion controladoraEjecucion = new ControladoraEjecucion();
 
         public ControladoraRecursos()
         {
@@ -145,7 +147,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             string perfil = buscarPerfil(cedula);
                             if (perfil == "Administrador")
                             {
-                                if (controladoraBDRecurso.buscarAsignacionProyectos(cedula) == true)
+                                if (controladoraProyecto.buscarAsignacionProyectos(cedula) == true)
                                 {
                                     resultado = false;
 
@@ -153,16 +155,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                                 else
                                 {
                                     resultado = controladoraBDRecurso.eliminarFuncionario(cedula);
-                                }//auqi se llamo a elimimnar
-
+                                }
                             }
                             else
                             {
                                 //Miembro
-                                if (controladoraBDRecurso.buscarAsignacionMiembros(cedula) == true)
+                                if (controladoraProyecto.buscarAsignacionMiembrosProyecto(cedula) == true)
                                 {
                                     resultado = false;
 
+                                }
+                                else if (controladoraDiseno.buscarAsignacionMiembrosDiseno(cedula) == true)
+                                {
+                                    resultado = false;
+                                }
+                                else if(controladoraEjecucion.buscarAsignacionMiembrosEjecucion(cedula)==true)
+                                {
+                                    resultado = false;
                                 }
                                 else
                                 {
