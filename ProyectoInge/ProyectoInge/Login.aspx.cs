@@ -36,12 +36,11 @@ namespace ProyectoInge
             controladora = new ControladoraRecursos();
         }
 
-        /*Método para realizar el inicio de sesión
+        /* Método para realizar el inicio de sesión
          * Requiere: haber presionado el botón iniciar sesión
          * Modifica: Modifica el valor del atributo de login.
          * Retorna: No devuelve datos
-         */
-        
+         */      
         protected void LogIn(object sender, EventArgs e)
         {
             string cedulaDeFuncionario;

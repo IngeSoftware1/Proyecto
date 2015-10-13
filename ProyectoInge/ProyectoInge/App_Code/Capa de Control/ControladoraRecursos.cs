@@ -24,6 +24,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
         /*Método para obtener toda la información relacionada a un usuarios, yendo a la base de datos y buscando por nombre y contraseña.
+         * Requiere: requiere el usuario del usuario y la contraseña del usuario.
          * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
          */
         public bool consultarUsuario(String user, String pass)

@@ -14,16 +14,18 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     public class ControladoraBDRecursos
       {
                       
-        AccesoBaseDatos acceso = new AccesoBaseDatos();
-     public ControladoraBDRecursos()
+      AccesoBaseDatos acceso = new AccesoBaseDatos();
+      public ControladoraBDRecursos()
       {
       }
 
-        /*Método para obtener toda la información relacionada a un usuario en la base de datos buscando por nombre y contraseña.
-        * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
-        */
-        public bool consultarUsuario(String user, String pass)
-     {
+     /*Método para consultar los datos de un recurso humano específico.
+     * Requiere: requiere la cédula y contraseña del usuario al cual se le consultarán los datos.
+     * Modifica: lleva a cabo las consultas en la base de datos
+     * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
+     */
+     public bool consultarUsuario(String user, String pass)
+        {
 
          bool resultado = false;
           try

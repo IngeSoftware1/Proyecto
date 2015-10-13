@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
-using ProyectoInge.App_Code.Capa_de_Datos__Entidad__;
+using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data;
 using System.Data.SqlClient;
 
