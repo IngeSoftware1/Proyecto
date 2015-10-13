@@ -94,17 +94,6 @@ namespace ProyectoInge
             }
         }
 
-        /*Método para cargar ejemplos de datos en las cajas de cedula y telefono
-         * Modifica: la propiedad text de las dos cajas
-         * retorna: no retorna ningún valor
-         */
-   /*     protected void EjemplificarCampos()
-        {
-            txtCedula.Text = "145680958";
-            txtTelefono.Text = "88888888";
-            
-        } */
-
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
          * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto
          * Modifica: Cambia la propiedad Enabled de las cajas y botones

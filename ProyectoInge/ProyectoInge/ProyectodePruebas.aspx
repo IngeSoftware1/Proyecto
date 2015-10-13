@@ -35,7 +35,7 @@
         <div class="col-lg-11">
             <%--Div de botones para el IMEC--%>
             <div id="btnsControl" style="float: right">
-                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click"/>
                 <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
             </div>
@@ -230,9 +230,9 @@
                                 <div class="row">
 
                                     <%-- Miembros no asignados a un proyecto --%>
-                                    <asp:Label ID="lblRH" runat="server" Text="Miembros no asignados" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblRH" runat="server" Text="Miembros Disponibles" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-12 col-sm-offset-1">
-                                        <asp:ListBox runat="server" ID="listaMiembrosNoAsignados" CssClass="form-control" Style="height: 170px"></asp:ListBox>
+                                        <asp:ListBox runat="server" ID="listMiembrosDisponibles" CssClass="form-control" Style="height: 170px"></asp:ListBox>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +280,7 @@
         <div class="col-lg-11">
             <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
             </div>
         </div>
