@@ -10,5 +10,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraProyecto
     {
         ControladoraBDProyectos controladoraBDProyecto = new ControladoraBDProyectos();
+
+        public bool buscarAsignacionProyectos(string cedula)
+        {
+            return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
+        }
+
+        public bool buscarAsignacionMiembrosProyecto(string cedula)
+        {
+            return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
+        }
     }
 }
