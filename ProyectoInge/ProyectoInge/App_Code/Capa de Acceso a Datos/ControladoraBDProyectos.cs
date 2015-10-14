@@ -86,8 +86,14 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string borrado = "Delete from Proyecto where id_proyecto ='" + idProyecto + "';";
-                acceso.eliminarDatos(borrado);
+                string borradoProyecto = "Delete from Proyecto where id_proyecto ='" + idProyecto + "';";
+                acceso.eliminarDatos(borradoProyecto);
+
+                string borradoOficinaUsuaria = "Delete from Oficina_Usuaria where id_proyecto ='" + idProyecto + "';";
+                acceso.eliminarDatos(borradoOficinaUsuaria);
+                //string borradoTrabajaEn = "Delete from Trabaja_En where id_proyecto ='" + idProyecto + "';";
+                //acceso.eliminarDatos(borradoTrabajaEn);
+                
                 return true;
             }
             catch (SqlException e)

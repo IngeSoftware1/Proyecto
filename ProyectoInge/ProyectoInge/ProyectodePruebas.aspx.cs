@@ -267,7 +267,7 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnCancelar);
                 //llenarDropDownPerfil();
                 //llenarDropDownRol();
-            }else if(perfil.Equals("Administrador")==false) {
+            }else if(perfil.Equals("Miembro")) {
 
                if (controladoraProyecto.cambiarEstado(txtNombreProy.Text))
                 {
