@@ -78,11 +78,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 		
 		/*Método para eliminar de la base de datos un caso de prueba asociado a un proyecto
-        * Requiere: un string con el id del proyecto que se va a eliminar
+        * Requiere: con el id del proyecto que se va a eliminar
         * Modifica: eliminar el caso de prueba asociado al proyecto
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
-        public bool eliminarProyectoCasoPueba(string idProyecto)
+        public bool eliminarProyectoCasoPueba(int idProyecto)
         {
             try
             {
@@ -98,37 +98,68 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
-
-        public DataTable consultarProyecto(string nombre)
+        //Método para consultar el id del proyecto
+        
+        public int consultarProyecto(string nombre)
         {
+            int resultado = -1;
             DataTable datosProyecto = new DataTable();
-            string consulta = "SELECT * FROM Proyecto WHERE nombre_proyecto='" + nombre + "';";
+            string consulta = "SELECT id_proyecto FROM Proyecto WHERE nombre_proyecto='" + nombre + "';";
             try
             {
                 datosProyecto = acceso.ejecutarConsultaTabla(consulta);
+                if(datosProyecto.Rows.Count==1){
+                    resultado = Int32.Parse(datosProyecto.Rows[0][0].ToString());
+                }
+                
             }
             catch (SqlException e)
             {
-                datosProyecto = null;
+                
             }
 
-            return datosProyecto;
+            return resultado ;
+        }
+
+
+        //metodo para consultar el id de la oficina de un proyecto
+        public int consultarOficinaProyecto(int idProyecto)
+        {
+            int resultado = -1;
+            DataTable datosProyecto = new DataTable();
+            string consulta = "SELECT id_oficina FROM Proyecto WHERE id_proyecto='" + idProyecto + "';";
+            try
+            {
+                datosProyecto = acceso.ejecutarConsultaTabla(consulta);
+                if (datosProyecto.Rows.Count == 1)
+                {
+                    resultado = Int32.Parse(datosProyecto.Rows[0][0].ToString());
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+
+            return resultado;
         }
 
 
         /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
-        * Requiere: un string con el nombre del proyecto que se requiere eliminar para ver la oficina asociada
+        * Requiere: el id del proyecto que se requiere eliminar para ver la oficina asociada
         * Modifica: elimina la oficina usuaria para poder eliminar el proyecto
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
-        public bool eliminarProyecto(String nombre)
+        public bool eliminarOficinaProyecto(int idProyecto)
         {
 
+            int resultado = consultarOficinaProyecto(idProyecto);
+            DataTable datosProyecto = new DataTable();
             try
             {
-                string borradoOficinaUsuaria = "Delete from Oficina_Usuaria where nombre_proyecto ='" + nombre + "'";
-                acceso.eliminarDatos(borradoOficinaUsuaria);
-
+                string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + resultado+ "';";
+                acceso.eliminarDatos(borrarOficina);
                 return true;
             }
             catch (SqlException e)
@@ -143,12 +174,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: el estado del proyecto
         * Retorna: true si se llevó a cabo correctamente y false si no fue existosa.
         */
-        public bool cambiarEstado(String nombre)
+        public bool cambiarEstado(int idProyecto)
         {
             string modif;
             try
             {
-                modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE nombre_proyecto ='" + nombre + "'";
+                modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE id_proyecto ='" + IdProyecto + "'";
                 return acceso.insertarDatos(modif);
             }
             catch (SqlException e)
@@ -162,11 +193,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
        * Modifica: Modifica los datos de una oficina
        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
        */
-        public bool modificarOficina(EntidadOficinaUsuaria nuevo, String cedula)
+        public bool modificarOficina(EntidadOficinaUsuaria nuevo, int idOficina)
         {
             try
             {
-                string modif = "UPDATE Funcionario SET id_oficina ='" + nuevo.get_id_oficina + "', nombre_oficina ='" + nuevo.get_nombre_oficina + "' , nombre_rep= '" + nuevo.get_nombre_rep + "', ape1_rep= '" + nuevo.get_ape1_rep + "', ape2_rep = '" + nuevo.ape2_rep + "';";
+                string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.get_nombre_oficina + "' , nombre_rep= '" + nuevo.get_nombre_rep + "', ape1_rep= '" + nuevo.get_ape1_rep + "', ape2_rep = '" + nuevo.ape2_rep + "WHERE id_Oficina ='" + idOficina + "';";
                 return acceso.insertarDatos(modif);
 
             }

@@ -68,15 +68,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 3:
                     { //ELIMINAR
+
+                        int idProyecto = controladoraBDProyecto.consultarProyecto(nombre);
                         if (perfil.Equals("Administrador"))
                         {
-                           DataTable datosProyecto = controladoraBDProyecto.consultarProyecto(nombre);
-                           if (datosProyecto != null && datosProyecto.Rows.Count > 0)
+                           
+                           if (idProyecto!=-1)
                            {
-                               string idProyecto = datosProyecto.Rows[0][0].ToString();
+                               
                                if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto))
                                {
-                                   if (controladoraBDProyecto.eliminarProyecto(nombre))
+                                   if (controladoraBDProyecto.eliminarOficinaProyecto(idProyecto))
                                    {
                                        resultado = true;
                                    }
@@ -99,7 +101,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         else
                         {
                             //Miembro Llamar a cambiar estado 
-                            cambiarEstado(nombre);
+
+                            if (idProyecto != -1)
+                            {
+                                controladoraBDProyecto.cambiarEstado(idProyecto);
+                            }
                         }
 
 
@@ -111,15 +117,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-        /*Método para cambiar el estado del proyecto
-        * Requiere: el nombre del proyecto
-        * Modifica el estado del proyecto en la base de datos
-        * Retorna el valor de la variable booleana para indicar el resultado de la acción
-        */
-        public bool cambiarEstado(string nombre)
-        {
-            return controladoraBDProyecto.cambiarEstado(nombre);
-        }
+        
 
 
 	}
