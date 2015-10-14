@@ -302,7 +302,7 @@
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadMiembro.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficinaUsuaria.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoProceso.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadProyecto.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadProyecto.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTrabajaEn.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTecnica.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadNivel.cs" />

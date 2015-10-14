@@ -147,5 +147,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+
+        internal bool modificarProyecto()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

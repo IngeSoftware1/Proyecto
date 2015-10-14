@@ -54,8 +54,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-
-                       
+                        if(accion==1)//PROYECTO
+                        {
+                            EntidadProyecto entidadP = new EntidadProyecto(datos);
+                            resultado = controladoraBDProyecto.modificarProyecto();
+                        }
                     }
                     break;
                 case 3:
