@@ -59,10 +59,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-                        if(accion==1)//PROYECTO
+                        if (accion == 1)//PROYECTO
                         {
                             EntidadProyecto entidadP = new EntidadProyecto(datos);
-                            resultado = controladoraBDProyecto.modificarProyecto();
+                            resultado = controladoraBDProyecto.modificarProyecto(entidadP);
+                        }
+                        else if (accion == 2)
+                        {
+                            EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
+                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU);
+                        }
+                        else if (accion == 3)//TELEFONOOFICINAUSUARIA
+                        {
+                            resultado = controladoraBDProyecto.insertarTelefonoOficinaUsuaria(datos);//en nombre viene el id de la oficina usuaria, para eliminarlo
+                        }
+                        else if (accion == 4)//TRABAJA_EN
+                        {
+                            resultado = controladoraBDProyecto.eliminarTrabaja_En(datos);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
                         }
                     }
                     break;
@@ -107,10 +120,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                                 controladoraBDProyecto.cambiarEstado(idProyecto);
                             }
                         }
-
-
-                   
-                        
+                        if (accion == 3)//TELEFONOOFICINAUSUARIA
+                        {
+                            resultado = controladoraBDProyecto.eliminarTelefonoOficinaUsuaria(nombre);//en nombre viene el id de la oficina usuaria, para eliminarlo
+                        }
+                        else if (accion == 4)//TRABAJA_EN
+                        {
+                            resultado = controladoraBDProyecto.eliminarTrabaja_En(nombre, perfil);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
+                        }
                     }
                     break;
             }

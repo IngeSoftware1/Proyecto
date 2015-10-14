@@ -209,7 +209,32 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
 
 
-        internal bool modificarProyecto()
+        internal bool modificarProyecto(EntidadProyecto entidadP)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool modificarOfUsuaria(EntidadOficinaUsuaria entidadOU)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool eliminarTelefonoOficinaUsuaria(string idOficina)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool eliminarTrabaja_En(string idmiembroConsultado, string idProyectoConsultado)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool insertarTelefonoOficinaUsuaria(object[] datos)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool eliminarTrabaja_En(object[] datos)
         {
             throw new NotImplementedException();
         }

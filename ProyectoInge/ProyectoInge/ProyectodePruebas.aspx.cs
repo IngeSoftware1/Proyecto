@@ -16,7 +16,7 @@ namespace ProyectoInge
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
         private string idProyectoConsultado;
         private string idOficinaConsultda;
-        private string miembroConsultado;        
+        private string idmiembroConsultado;        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -187,7 +187,7 @@ namespace ProyectoInge
             }
             else
             {
-                //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
+                //Se crea el objeto para encapsular los datos de la interfaz para modificar proyecto
                 //los encapsula todos, sea administrador o miembro
                 Object[] datosProyecto = new Object[8];
                 datosProyecto[0] = this.idProyectoConsultado;//id_proyecto
@@ -197,14 +197,60 @@ namespace ProyectoInge
                 datosProyecto[4] = this.comboEstado.Text;//tipo_estado
                 datosProyecto[5] = this.comboLider.Text;
                 datosProyecto[6] = this.idOficinaConsultda;//ID DE DONDE LO SACO?
-                //El creador no se cambia.
-                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, "",""))
+                //El creador no se cambia. Y no se como encontrarlo
+                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, "", ""))
                 {
+                    //Se crea el objeto para encapsular los datos de la interfaz para modificar oficina usuaria
                     tipoModificacion = 2;//Va a cambiar la oficina usuaria
+                    Object[] datosOfUsuaria = new Object[5];
+                    datosOfUsuaria[0] = this.idOficinaConsultda;//id_oficina
+                    datosOfUsuaria[1] = this.txtnombreOficina;//nombre_oficina
+                    datosOfUsuaria[2] = this.txtnombreRep;//nombre_rep
+                    datosOfUsuaria[3] = this.txtApellido1Rep;//ape1_rep
+                    datosOfUsuaria[4] = this.txtApellido2Rep;//ape2_rep
+                    if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosOfUsuaria, "", ""))
+                    {
+                        //Para modificar los telefonos de la oficina en la oficina usuaria modificar oficina usuaria
+                        tipoModificacion = 3;//Va a cambiar los telefonos de la oficina usuaria
+                        //Eliminar los telefonos de la of usuaria
+                        if (controladoraProyecto.ejecutarAccion(3, tipoModificacion, null, idOficinaConsultda, ""))//modo 3 para eliminar, le mando el id de la oficina
+                        {
+                            //Insertar los telefonos
+                            bool insertados = insertarTelefonosOficinaUsuaria();
+                            //Si todo bien
+                            if (insertados)
+                            {
+                                //Para asociar y desasociar recursos, en la tabla Trabaja_En
+                                /**
+                                 * ESTO DEBERIA HACERLO EL BOTON DE AGREGAR RECURSO, CADA QUE LO HACE
+                                 */
+                                tipoModificacion = 4;//Va a cambiar trabaja_en
+                                if (controladoraProyecto.ejecutarAccion(1, tipoModificacion, null, idmiembroConsultado, idProyectoConsultado))//lo mando con 1 para que agregue
+                                //le mando el id del que debo asociar y el proyecto al que lo debo asociar
+                                {
+
+                                }
+                                /**
+                                 * ESTO DEBERIA HACERLO EL BOTON DE QUITAR RECURSO, CADA QUE LO HACE
+                                 */
+                                tipoModificacion = 4;//Va a cambiar trabaja_en
+                                if (controladoraProyecto.ejecutarAccion(3, tipoModificacion, null, idmiembroConsultado, idProyectoConsultado))//lo mando con 3 pars que elimine
+                                {
+
+                                }
+
+                            }
+                        }
+
+                    }
 
                 }
             }
 
+        }
+        private bool insertarTelefonosOficinaUsuaria()
+        {
+            throw new NotImplementedException();
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -257,9 +303,10 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
- 
-                //Pregunta por todas las cajas
-            if(modo==1){
+
+            //Pregunta por todas las cajas
+            if (modo == 1)
+            {
                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "")
                 {
                     resultado = true;
@@ -269,8 +316,9 @@ namespace ProyectoInge
                     resultado = false;
                 }
             }
-            else if(modo==2){//FALTA LA FECHA
-                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == ""||this.comboEstado.Text=="" || this.comboLider.Text== "")
+            else if (modo == 2)
+            {//FALTA LA FECHA
+                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || this.comboEstado.Text == "" || this.comboLider.Text == "")
                 {
                     resultado = true;
                 }
@@ -279,7 +327,7 @@ namespace ProyectoInge
                     resultado = false;
                 }
             }
-           
+
             return resultado;
         }
 
@@ -387,12 +435,7 @@ namespace ProyectoInge
                 string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
                 Response.Write(mensaje);
             }
-
-
        }
-        
-
-
 
     }
 }
