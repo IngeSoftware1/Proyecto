@@ -156,9 +156,9 @@ namespace ProyectoInge
          */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            //PARA PRUEBAS PERFIL = 2;
             cambiarEnabled(false, this.btnInsertar);
             cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnModificar);
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);

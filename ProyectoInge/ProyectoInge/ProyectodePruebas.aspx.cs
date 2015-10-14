@@ -14,7 +14,9 @@ namespace ProyectoInge
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
-        
+        private string idProyectoConsultado;
+        private string idOficinaConsultda;
+        private string miembroConsultado;        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -61,13 +63,23 @@ namespace ProyectoInge
          */
         private void habilitarCamoposModificar()
         {
+            this.txtNombreProy.Enabled = true;
+            this.comboEstado.Enabled = true;
+            this.txtObjetivo.Enabled = true;
+            this.comboLider.Enabled = true;
+            this.txtnombreOficina.Enabled = true;
+            this.txtnombreRep.Enabled = true;
+            this.txtApellido1Rep.Enabled = true;
+            this.txtApellido2Rep.Enabled = true;
+            this.txtTelefonoOficina.Enabled = true;
+            this.listTelefonosOficina.Enabled = true;
+            this.listMiembrosAgregados.Enabled = true;
+            this.listMiembrosDisponibles.Enabled = true;
+            this.lnkAgregarMiembros.Enabled = true;
+            this.lnkQuitarMiembros.Enabled = true;
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
-                //TODO
-            }
-            else
-            {
-                //TODO
+                //Fecha habilitada para administrador;
             }
         }
 
@@ -178,17 +190,18 @@ namespace ProyectoInge
                 //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
                 //los encapsula todos, sea administrador o miembro
                 Object[] datosProyecto = new Object[8];
-                datosProyecto[0] = this.txtNombreProy.Text;//
-                datosProyecto[1] = this.txtObjetivo.Text;
-                //datosProyecto[2] = this.calendarFecha.;
-                datosProyecto[3] = this.comboEstado.Text;
-                //datosProyecto[4] = this.comboLider.Text;CREADOR___
+                datosProyecto[0] = this.idProyectoConsultado;//id_proyecto
+                datosProyecto[1] = this.txtNombreProy.Text;//nombre_proyecto
+                datosProyecto[2] = this.txtObjetivo.Text;//obj_general
+                datosProyecto[3] = "01/01/01";//fecha_asignacion
+                datosProyecto[4] = this.comboEstado.Text;//tipo_estado
                 datosProyecto[5] = this.comboLider.Text;
-                //datosProyecto[6] = this.txtUsuario.Text;ID DE DONDE LO SACO?
-                datosProyecto[7] = false;
-                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto,"","")) 
+                datosProyecto[6] = this.idOficinaConsultda;//ID DE DONDE LO SACO?
+                //El creador no se cambia.
+                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, "",""))
                 {
                     tipoModificacion = 2;//Va a cambiar la oficina usuaria
+
                 }
             }
 
@@ -256,8 +269,8 @@ namespace ProyectoInge
                     resultado = false;
                 }
             }
-            else if(modo==2){
-                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "")
+            else if(modo==2){//FALTA LA FECHA
+                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == ""||this.comboEstado.Text=="" || this.comboLider.Text== "")
                 {
                     resultado = true;
                 }
