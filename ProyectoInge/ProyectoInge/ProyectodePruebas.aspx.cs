@@ -37,6 +37,39 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
         }
+        /*Método para preparar la ventana cuando quiera modificar
+         * Requiere: No requiere parámetros
+         * Modifica: Habilita y deshabilita botones y textbox
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            modo = 2;
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnInsertar);
+            habilitarCamoposModificar();
+
+        }
+        
+        /*Método que habilita la ventana modificar dependiendo del pefil actual
+         * Requiere: No requiere parámetros
+         * Modifica: Habilita y deshabilita botones y texbox
+         * Retorna: no retorna ningún valor
+         */
+        private void habilitarCamoposModificar()
+        {
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                //TODO
+            }
+            else
+            {
+                //TODO
+            }
+        }
 
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros
@@ -115,7 +148,7 @@ namespace ProyectoInge
 
                 case 2:
                     {
-                        //btnAceptar_Modificar();
+                        btnAceptar_Modificar();
                     }
                     break;
                 case 3:
@@ -125,6 +158,40 @@ namespace ProyectoInge
                     break;
 
             }
+        }
+        /*Método para la acción de aceptar modificar
+        * Requiere: No requiere ningún parámetro
+        * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
+        * valida que todos los datos se encuentren para la modificación
+        * Retorna: No retorna ningún valor
+        */
+        private void btnAceptar_Modificar()
+        {
+            int tipoModificacion = 1;//Va a cambiar la tabla proyecto
+            if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
+            {
+                string mensaje = "<script>window.alert('Para modificar un proyecto debe completar todos los datos habilitados.');</script>";
+                Response.Write(mensaje);
+            }
+            else
+            {
+                //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
+                //los encapsula todos, sea administrador o miembro
+                Object[] datosProyecto = new Object[8];
+                datosProyecto[0] = this.txtNombreProy.Text;//
+                datosProyecto[1] = this.txtObjetivo.Text;
+                //datosProyecto[2] = this.calendarFecha.;
+                datosProyecto[3] = this.comboEstado.Text;
+                //datosProyecto[4] = this.comboLider.Text;CREADOR___
+                datosProyecto[5] = this.comboLider.Text;
+                //datosProyecto[6] = this.txtUsuario.Text;ID DE DONDE LO SACO?
+                datosProyecto[7] = false;
+                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto,"")) 
+                {
+                    tipoModificacion = 2;//Va a cambiar la oficina usuaria
+                }
+            }
+
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -179,6 +246,7 @@ namespace ProyectoInge
             bool resultado = false;
  
                 //Pregunta por todas las cajas
+            if(modo==1){
                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "")
                 {
                     resultado = true;
@@ -187,7 +255,17 @@ namespace ProyectoInge
                 {
                     resultado = false;
                 }
-            
+            }
+            else if(modo==2){
+                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "")
+                {
+                    resultado = true;
+                }
+                else
+                {
+                    resultado = false;
+                }
+            }
            
             return resultado;
         }
