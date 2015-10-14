@@ -126,7 +126,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 string borrado = "Delete from Proyecto where nombre_proyecto ='" + nombre + "'";
                 acceso.eliminarDatos(borrado);
-                
+
+
+                string borradoOficinaUsuaria = "Delete from Oficina_Usuaria where nombre_proyecto ='" + nombre + "'";
+                acceso.eliminarDatos(borradoOficinaUsuaria);
 
                 return true;
             }
