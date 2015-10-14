@@ -818,7 +818,6 @@ C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll.config

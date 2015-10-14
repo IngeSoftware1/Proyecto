@@ -294,13 +294,13 @@
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDProyectos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelOficina.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\Funcionario.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadTelFuncionario.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadRol.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadAdministrador.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadMiembro.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficinaUsuaria.cs" />
-    <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadOficina.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoProceso.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadProyecto.cs" />
     <Content Include="App_Code\Capa de Datos %28Entidad%29\EntidadTrabajaEn.cs" />
