@@ -266,6 +266,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        
+
+
+
         /*Método para asignar el valor de sesión cerrada en la base de datos
         * Requiere: requiere la cédula del usuario al cual se le asignará la sesión como cerrada en la base de datos.
         * Modifica: Modifica el valor del atributo de login.

@@ -360,7 +360,7 @@ namespace ProyectoInge
                 //llenarDropDownRol();
             }else if(perfil.Equals("Miembro")) {
 
-               if (controladoraProyecto.cambiarEstado(txtNombreProy.Text))
+                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text, perfil) == false)
                 {
                     string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
                     Response.Write(mensaje);
@@ -371,6 +371,16 @@ namespace ProyectoInge
                     string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
                     Response.Write(mensaje);
                 }
+
+                vaciarCampos();
+
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                //llenarDropDownPerfil();
+                //llenarDropDownRol();
 
             } else
             {

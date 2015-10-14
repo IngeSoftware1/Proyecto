@@ -77,9 +77,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return resultado;
         }
 		
-		/*Método para eliminar de la base de datos un funcionario específico
-        * Requiere: un string con la cedula de un funcionario específico
-        * Modifica: Genera las consultas para mandarlas a la base de datos para borrar el funcionario de la tabla Funcionario y Trabaja_En
+		/*Método para eliminar de la base de datos un caso de prueba asociado a un proyecto
+        * Requiere: un string con el id del proyecto que se va a eliminar
+        * Modifica: eliminar el caso de prueba asociado al proyecto
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
         public bool eliminarProyectoCasoPueba(string idProyecto)
@@ -97,6 +97,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
+
+
         public DataTable consultarProyecto(string nombre)
         {
             DataTable datosProyecto = new DataTable();
@@ -113,6 +115,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return datosProyecto;
         }
 
+
+        /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
+        * Requiere: un string con el nombre del proyecto que se requiere eliminar para ver la oficina asociada
+        * Modifica: elimina la oficina usuaria para poder eliminar el proyecto
+        * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
+        */
         public bool eliminarProyecto(String nombre)
         {
 
@@ -130,7 +138,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
-
+        /*Método para cancelar un proyecto
+        * Requiere: un string con el nombre del proyecto que se va a cancelar
+        * Modifica: el estado del proyecto
+        * Retorna: true si se llevó a cabo correctamente y false si no fue existosa.
+        */
         public bool cambiarEstado(String nombre)
         {
             string modif;
@@ -138,6 +150,25 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE nombre_proyecto ='" + nombre + "'";
                 return acceso.insertarDatos(modif);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        /*Método para llevar a cabo la modificación de los datos de la oficina usuaria
+       * Requiere: un objeto con los datos de la oficina usuaria
+       * Modifica: Modifica los datos de una oficina
+       * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
+       */
+        public bool modificarOficina(EntidadOficinaUsuaria nuevo, String cedula)
+        {
+            try
+            {
+                string modif = "UPDATE Funcionario SET id_oficina ='" + nuevo.get_id_oficina + "', nombre_oficina ='" + nuevo.get_nombre_oficina + "' , nombre_rep= '" + nuevo.get_nombre_rep + "', ape1_rep= '" + nuevo.get_ape1_rep + "', ape2_rep = '" + nuevo.ape2_rep + "';";
+                return acceso.insertarDatos(modif);
+
             }
             catch (SqlException e)
             {

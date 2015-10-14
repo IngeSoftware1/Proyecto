@@ -30,6 +30,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
         }
 
+        /*Método para poder hacer que la controladora proyecto y  recursos humanos se comuniquen y cerrar sesión
+        * Requiere: la cedula de la persona que se encuentra en la sesión
+        * Modifica el estado de login de la persona, para indicar que ha cerrado la sesión
+        * Retorna el valor de la variable booleana.
+        */
 		public bool cerrarSesion(string ced)
         {
             controladoraRH = new ControladoraRecursos();
@@ -106,7 +111,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-
+        /*Método para cambiar el estado del proyecto
+        * Requiere: el nombre del proyecto
+        * Modifica el estado del proyecto en la base de datos
+        * Retorna el valor de la variable booleana para indicar el resultado de la acción
+        */
         public bool cambiarEstado(string nombre)
         {
             return controladoraBDProyecto.cambiarEstado(nombre);
