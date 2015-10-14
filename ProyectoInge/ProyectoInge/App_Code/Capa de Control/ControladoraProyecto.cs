@@ -14,7 +14,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraProyecto
     {
         ControladoraBDProyectos controladoraBDProyecto = new ControladoraBDProyectos();
-		ControladoraRecursos controladoraRH = new ControladoraRecursos();
+		//ControladoraRecursos controladoraRH = new ControladoraRecursos();
 
 		public bool buscarAsignacionProyectos(string cedula)
         {
@@ -26,11 +26,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
         }
 
-		public bool cerrarSesion(string ced)
+		/*public bool cerrarSesion(string ced)
         {
             Boolean a = controladoraRH.modificarEstadoCerrar(ced);
             return a;
-        }
+        }*/
 
 
 	}

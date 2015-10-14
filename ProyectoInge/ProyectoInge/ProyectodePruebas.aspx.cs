@@ -196,13 +196,13 @@ namespace ProyectoInge
          * Modifica: Modifica el valor booleano del estado de la sesión
          * Retorna: No retorna ningún valor
          */
-        protected void cerrarSesion(object sender, EventArgs e)
+        /*protected void cerrarSesion(object sender, EventArgs e)
         {
 
             string ced = (string)Session["cedula"];
             Boolean a = controladoraProyecto.cerrarSesion(ced);
             Response.Redirect("~/Login.aspx");
-        }
+        }*/
 
 
     }

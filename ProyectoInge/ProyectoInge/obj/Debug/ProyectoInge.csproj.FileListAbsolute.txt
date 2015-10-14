@@ -1283,3 +1283,4 @@ C:\Users\B31003\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\es\Micro
 C:\Users\B31003\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\B31003\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\B31003\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
+C:\Users\Luis\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
