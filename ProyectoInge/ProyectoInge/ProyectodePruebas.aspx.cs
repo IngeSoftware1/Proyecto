@@ -14,6 +14,7 @@ namespace ProyectoInge
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
+        
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -119,7 +120,7 @@ namespace ProyectoInge
                     break;
                 case 3:
                     {
-                        //btnAceptar_Eliminar();
+                        btnAceptar_Eliminar();
                     }
                     break;
 
@@ -196,13 +197,100 @@ namespace ProyectoInge
          * Modifica: Modifica el valor booleano del estado de la sesión
          * Retorna: No retorna ningún valor
          */
-        /*protected void cerrarSesion(object sender, EventArgs e)
+        
+        protected void cerrarSesion(object sender, EventArgs e)
         {
 
             string ced = (string)Session["cedula"];
             Boolean a = controladoraProyecto.cerrarSesion(ced);
             Response.Redirect("~/Login.aspx");
-        }*/
+        }
+
+
+        /*Método para crear la acción de eliminar un proyecto
+         * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+         * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            string mensaje ;
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            modo = 3;
+            controlarCampos(false);
+
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                mensaje = "<script>window.alert('Está seguro que desea eliminar este proyecto?');</script>";
+            }
+            else
+            {
+                mensaje = "<script>window.alert('Está seguro que desea cambiar el estado del proyecto?');</script>";
+            }
+            Response.Write(mensaje);
+        }
+
+
+        /*Método para la acción de aceptar cuando esta en modo de borrado
+         * Requiere: No requiere ningún parámetro
+         * Modifica:Elimina un recurso humano si es valido llevar acabo la acción
+         * Retorna: No retorna ningún valor
+         */
+        protected void btnAceptar_Eliminar()
+        {
+            
+            string perfil = Session["perfil"].ToString();
+
+            if (perfil.Equals("Administrador"))
+            {
+               
+                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text) == false)
+                {
+                    string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
+                    Response.Write(mensaje);
+                }
+                else
+                {
+
+                    string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
+                    Response.Write(mensaje);
+                }
+                vaciarCampos();
+
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                //llenarDropDownPerfil();
+                //llenarDropDownRol();
+            }else if(perfil.Equals("Administrador")==false) {
+
+               if (controladoraProyecto.cambiarEstado(txtNombreProy.Text))
+                {
+                    string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
+                    Response.Write(mensaje);
+                }
+                else
+                {
+
+                    string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
+                    Response.Write(mensaje);
+                }
+
+            } else
+            {
+                string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
+                Response.Write(mensaje);
+            }
+
+
+       }
+        
+
 
 
     }

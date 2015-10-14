@@ -97,5 +97,55 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
+        public DataTable consultarOficina(string nombre)
+        {
+            DataTable datosFuncionario = new DataTable();
+            string consulta = "SELECT * FROM Proyecto WHERE nombre_proyecto='" + nombre + "';";
+            try
+            {
+                datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                datosFuncionario = null;
+            }
+
+            return datosFuncionario;
+        }
+
+        public bool eliminarProyecto(String nombre)
+        {
+
+            try
+            {
+                string borrado = "Delete from Proyecto where nombre_proyecto ='" + nombre + "'";
+                acceso.eliminarDatos(borrado);
+                
+
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+
+        }
+
+
+        public bool cambiarEstado(String nombre)
+        {
+            string modif;
+            try
+            {
+                modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE nombre_proyecto ='" + nombre + "'";
+                return acceso.insertarDatos(modif);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+
     }
 }

@@ -37,6 +37,56 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return a;
         }
 
+        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+        * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+        * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+        * Retorna el valor de la variable booleana.
+        */
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre)
+        {
+            Boolean resultado = false;
+            switch (modo)
+            {
+                case 1:
+                    { // INSERTAR
+                        
+                    }
+                    break;
+                case 2:
+                    { // MODIFICAR
+
+                       
+                    }
+                    break;
+                case 3:
+                    { //ELIMINAR
+                        if (accion == 2)
+                        {
+                            DataTable datosOficina = controladoraBDProyecto.consultarOficina(nombre);
+                            if (controladoraBDProyecto.eliminarProyecto(nombre))
+                            {
+                                resultado = true;
+
+                            }
+                            else
+                            {
+                                resultado = false;
+                            }
+                        }
+                   
+                        
+                    }
+                    break;
+            }
+            return resultado;
+        }
+
+
+        public bool cambiarEstado(string nombre)
+        {
+            return controladoraBDProyecto.cambiarEstado(nombre);
+        }
+
 
 	}
 
