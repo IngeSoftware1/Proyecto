@@ -42,7 +42,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
         * Retorna el valor de la variable booleana.
         */
-        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre)
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre, string perfil)
         {
             Boolean resultado = false;
             switch (modo)
@@ -63,19 +63,41 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 3:
                     { //ELIMINAR
-                        if (accion == 2)
+                        if (perfil.Equals("Administrador"))
                         {
-                            DataTable datosOficina = controladoraBDProyecto.consultarOficina(nombre);
-                            if (controladoraBDProyecto.eliminarProyecto(nombre))
-                            {
-                                resultado = true;
+                           DataTable datosProyecto = controladoraBDProyecto.consultarProyecto(nombre);
+                           if (datosProyecto != null && datosProyecto.Rows.Count > 0)
+                           {
+                               string idProyecto = datosProyecto.Rows[0][0].ToString();
+                               if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto))
+                               {
+                                   if (controladoraBDProyecto.eliminarProyecto(nombre))
+                                   {
+                                       resultado = true;
+                                   }
+                                   else
+                                   {
+                                       resultado = false;
+                                   }
 
-                            }
-                            else
-                            {
-                                resultado = false;
-                            }
+                               }
+                               else
+                               {
+                                   resultado = false;
+                               }
+                           }
+                           else
+                           {
+                               resultado = false;
+                           }
                         }
+                        else
+                        {
+                            //Miembro Llamar a cambiar estado 
+                            cambiarEstado(nombre);
+                        }
+
+
                    
                         
                     }

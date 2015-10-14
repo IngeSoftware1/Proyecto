@@ -186,7 +186,7 @@ namespace ProyectoInge
                 datosProyecto[5] = this.comboLider.Text;
                 //datosProyecto[6] = this.txtUsuario.Text;ID DE DONDE LO SACO?
                 datosProyecto[7] = false;
-                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto,"")) 
+                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto,"","")) 
                 {
                     tipoModificacion = 2;//Va a cambiar la oficina usuaria
                 }
@@ -325,7 +325,7 @@ namespace ProyectoInge
             if (perfil.Equals("Administrador"))
             {
                
-                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text) == false)
+                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text, perfil) == false)
                 {
                     string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
                     Response.Write(mensaje);

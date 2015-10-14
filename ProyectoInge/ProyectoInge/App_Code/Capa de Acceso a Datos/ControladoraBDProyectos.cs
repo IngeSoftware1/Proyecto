@@ -82,18 +82,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: Genera las consultas para mandarlas a la base de datos para borrar el funcionario de la tabla Funcionario y Trabaja_En
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
-        public bool eliminarProyectoAdminitrador(int idProyecto)
+        public bool eliminarProyectoCasoPueba(string idProyecto)
         {
             try
             {
-                string borradoProyecto = "Delete from Proyecto where id_proyecto ='" + idProyecto + "';";
+                string borradoProyecto = "Delete from Caso_Prueba where id_proyecto ='" + idProyecto + "';";
                 acceso.eliminarDatos(borradoProyecto);
-
-                string borradoOficinaUsuaria = "Delete from Oficina_Usuaria where id_proyecto ='" + idProyecto + "';";
-                acceso.eliminarDatos(borradoOficinaUsuaria);
-                //string borradoTrabajaEn = "Delete from Trabaja_En where id_proyecto ='" + idProyecto + "';";
-                //acceso.eliminarDatos(borradoTrabajaEn);
-                
                 return true;
             }
             catch (SqlException e)
@@ -103,20 +97,20 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
-        public DataTable consultarOficina(string nombre)
+        public DataTable consultarProyecto(string nombre)
         {
-            DataTable datosFuncionario = new DataTable();
+            DataTable datosProyecto = new DataTable();
             string consulta = "SELECT * FROM Proyecto WHERE nombre_proyecto='" + nombre + "';";
             try
             {
-                datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+                datosProyecto = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
             {
-                datosFuncionario = null;
+                datosProyecto = null;
             }
 
-            return datosFuncionario;
+            return datosProyecto;
         }
 
         public bool eliminarProyecto(String nombre)
@@ -124,10 +118,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                string borrado = "Delete from Proyecto where nombre_proyecto ='" + nombre + "'";
-                acceso.eliminarDatos(borrado);
-
-
                 string borradoOficinaUsuaria = "Delete from Oficina_Usuaria where nombre_proyecto ='" + nombre + "'";
                 acceso.eliminarDatos(borradoOficinaUsuaria);
 
