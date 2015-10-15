@@ -18,7 +18,9 @@ namespace ProyectoInge
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
         private string idProyectoConsultado;
         private string idOficinaConsultda;
-        private string idmiembroConsultado;        
+        private string idmiembroConsultado;
+        Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
+        Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -76,6 +78,7 @@ namespace ProyectoInge
             int numDatos = Lideres.Rows.Count;
             Object[] datos;
             string nombre = "";
+            int numColumna = 0;
 
             if (Lideres.Rows.Count >= 1)
             {
@@ -87,13 +90,26 @@ namespace ProyectoInge
                 {
                     foreach (DataColumn column in Lideres.Columns)
                     {
-                        nombre = nombre + " " + Lideres.Rows[i][column].ToString();
+
+                        if (numColumna == 2)
+                        {
+                            cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
+                        
+                        }
+                        else
+                        {
+                            nombre = nombre + " " + Lideres.Rows[i][column].ToString();
+                        }
+
+                        ++numColumna;
                     }
                     datos[i] = nombre;
+                    numColumna = 0;
 
                 }
                 this.comboLider.DataSource = datos;
                 this.comboLider.DataBind();
+                Session["vectorCedulasLideres"] = cedulasLideres;
 
             }
         }
@@ -106,6 +122,7 @@ namespace ProyectoInge
 
             DataTable datosMiembros = controladoraProyecto.consultarMiembros();
             string filaMiembro = "";
+            int numColumna = 0;
 
 
 
@@ -117,23 +134,41 @@ namespace ProyectoInge
 
                     foreach (DataColumn column in datosMiembros.Columns)
                     {
-                        if (datosMiembros.Rows[i][column].ToString() == "Líder de pruebas")
+                        if (numColumna == 4)
                         {
-                            filaMiembro = filaMiembro + " " + "Líder";
+                            cedulasTodosMiembros.Add(filaMiembro, datosMiembros.Rows[i][column].ToString());
                         }
                         else
                         {
-                            filaMiembro = filaMiembro + " " + datosMiembros.Rows[i][column].ToString();
+                            if (numColumna == 3)
+                            {
+                                if(datosMiembros.Rows[i][column].ToString() == "Líder de pruebas")
+                                {
+                                    filaMiembro = filaMiembro + ":" + " " + "Líder";
+                                }
+                                else
+                                {
+                                    filaMiembro = filaMiembro + ":" + " " + datosMiembros.Rows[i][column].ToString();
+                                }
+                            }
+                            else
+                            {
+                                filaMiembro = filaMiembro + " " + datosMiembros.Rows[i][column].ToString();
+                            }
+                                
                         }
-                
-                    }
 
+                        ++numColumna;
+                    }
 
                     listMiembrosDisponibles.Items.Add(filaMiembro);
                     filaMiembro = "";
+                    numColumna = 0;
                     
                 }
             }
+
+            Session["vectorCedulasMiembros"] = cedulasTodosMiembros;
         }
 
          /*Método para obtener la cédula de un miembro a partir del nombre
@@ -141,12 +176,42 @@ namespace ProyectoInge
          * Modifica: el valor de la cédula solicitada.
          * Retorna: la cédula del miembro solicitado.
          */
-        protected string obtenerCedulaMiembroAsignado(string nombreMiembro, bool lider)
+        protected string obtenerCedula(string nombreMiembro, bool lider)
         {
-            ControladoraRecursos controladoraRH = new ControladoraRecursos();
-            string cedula = controladoraRH.obtenerCedulaMiembro(nombreMiembro, lider);
+            string cedula = "";
+
+            if (lider == false)
+            {
+                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasMiembros"];
+
+                if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+                {
+                    string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
+                    Response.Write(mensaje);
+                }
+            }
+            else
+            {
+                Dictionary<string, string> cedulasLid = (Dictionary<string, string>)Session["vectorCedulasLideres"];
+
+                foreach (KeyValuePair<string, string> pair in cedulasLid)
+                {
+                    Console.WriteLine("{0}, {1}",
+                    pair.Key,
+                    pair.Value);
+                }
+
+
+                if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+                {
+                    string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
+                    Response.Write(mensaje);
+                }
+            }
+
             return cedula;
-        }
+
+        }   
 
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.

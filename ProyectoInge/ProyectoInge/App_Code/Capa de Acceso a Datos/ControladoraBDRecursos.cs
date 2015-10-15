@@ -386,7 +386,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT F.nombre, F.apellido1 " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE M.tipo_rol ='" + "Líder de pruebas" + "'"; ;
+                consulta = "SELECT F.nombre, F.apellido1, F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE M.tipo_rol ='" + "Líder de pruebas" + "'"; ;
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch
@@ -402,90 +402,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             DataTable dt = new DataTable();
             string consulta;
 
-            consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro ";
+            consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_Rol, F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro ";
 
             dt = acceso.ejecutarConsultaTabla(consulta);
             return dt;
         }
 
-        public string obtenerCedulaMiembro(string nombreMiembro, bool lider)
-        {
-            DataTable resultado = new DataTable();
-            string consulta;
-            string cedula = "";
-
-            int indiceNombre = 0;
-            int split = 1;
-            string[] consultaNombre = new string[4];
-            int indice = 0;
-
-
-            while (indiceNombre < nombreMiembro.Count())
-            {
-                while (indiceNombre < nombreMiembro.Count() && nombreMiembro.ElementAt(indiceNombre) != ' ')
-                {
-                    ++indiceNombre;
-                }
-
-                if (split == 1)
-                {
-
-                    consultaNombre[0] = nombreMiembro.Substring(0, indiceNombre);
-
-                }
-                else if (split == 2)
-                {
-
-                    consultaNombre[1] = nombreMiembro.Substring(indice, indiceNombre - indice);
-
-                }
-                else if (split == 3)
-                {
-                    consultaNombre[2] = nombreMiembro.Substring(indice, indiceNombre - indice);
-
-
-                }
-                else
-                {
-                    consultaNombre[3] = nombreMiembro.Substring(indice, indiceNombre - indice);
-
-
-                }
-                ++split;
-                ++indiceNombre;
-                indice = indiceNombre;
-
-            }
-
-
-
-            try
-            {
-                if (lider == false)
-                {
-                    consulta = "SELECT F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE F.nombre ='" + consultaNombre[0] + "'" + "AND F.apellido1 = '" + consultaNombre[1] + "'" + "AND F.apellido2 = '" + consultaNombre[2] + "'" + "AND M.tipo_rol = '" + consultaNombre[3] + "'";
-                    resultado = acceso.ejecutarConsultaTabla(consulta);
-                    cedula = resultado.Rows[0][0].ToString();
-                }
-
-                else
-                {
-                    consulta = "SELECT F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE F.nombre ='" + consultaNombre[0] + "'" + "AND F.apellido1 = '" + consultaNombre[1] + "'" + "AND M.tipo_rol = '" + "Líder de pruebas" + "'";
-                    resultado = acceso.ejecutarConsultaTabla(consulta);
-                    cedula = resultado.Rows[0][0].ToString();
-                }
-
-            }
-            catch
-            {
-
-                resultado = null;
-            }
-
-            return cedula;
-
-        }
-
+       
         public DataTable consultarMiembrosProyecto(string idProyecto)
         {
             DataTable dt = new DataTable();

@@ -234,12 +234,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.consultarMiembros();
         }
 
-        public string obtenerCedulaMiembro(string Miembro, bool lider)
-        {
-
-            return controladoraBDRecurso.obtenerCedulaMiembro(Miembro, lider);
-        }
-
         public DataTable consultarMiembrosProyecto(string idProyecto)
         {
             return controladoraBDRecurso.consultarMiembrosProyecto(idProyecto);
