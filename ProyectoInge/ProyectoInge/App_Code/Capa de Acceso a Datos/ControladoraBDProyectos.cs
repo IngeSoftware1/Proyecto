@@ -6,12 +6,14 @@ using System.Data;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
     public class ControladoraBDProyectos
     {
         AccesoBaseDatos acceso = new AccesoBaseDatos();
+       
 
         /*Método para buscar si en la base de datos existe un proyecto asociado a un usuario con una cedula particular
         * Requiere: un string con la cedula de un funcionario específico
@@ -179,7 +181,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string modif;
             try
             {
-                modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE id_proyecto ='" + IdProyecto + "'";
+                modif = "UPDATE Proyecto SET tipo_estado = 'Cancelado' WHERE id_proyecto ='" + idProyecto + "'";
                 return acceso.insertarDatos(modif);
             }
             catch (SqlException e)
@@ -238,5 +240,120 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             throw new NotImplementedException();
         }
+
+        public DataTable consultarEstados()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                
+                consulta = "SELECT E.tipo_estado " + " FROM Estado_Proceso E ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+               
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        public DataTable consultarProyectoTotal(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT P.nombre_proyecto, P.obj_general, P.fecha_asignacion, P.tipo_estado, F.nombre, F.apellido1 " + " FROM Proyecto P JOIN  Funcionario F ON P.cedula_creador = F.cedula WHERE P.id_proyecto ='" + idProyecto + "'"; ;
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        public DataTable consultarProyectos(string idMiembro)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            if (idMiembro == null)
+            {
+                try
+                {
+                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, F.nombre, F.apellido1, F.apellido2 " + " FROM Proyecto P, Oficina_Usuaria O, Funcionario F WHERE P.id_oficina = O.id_oficina AND P.cedula_lider = F.cedula ";
+                    dt = acceso.ejecutarConsultaTabla(consulta);
+
+                }
+                catch
+                {
+                    dt = null;
+                }
+            }
+
+            else
+            {
+                try
+                {
+                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre, F.nombre, F.apellido1, F.apellido2" + " FROM Proyecto P, Trabaja_En T,  Oficina_Usuaria O, Funcionario F WHERE P.id_proyecto = T.id_proyecto AND T.cedulaMiembro = '" + idMiembro + "'" + " AND P.id_oficina = O.id_oficina AND P.cedula_lider = F.cedula ";
+                    dt = acceso.ejecutarConsultaTabla(consulta);
+                }
+                catch
+                {
+                    dt = null;
+                }
+            }
+
+            return dt;
+        }
+
+        public DataTable consultarOficina(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT O.nombre_oficina, O.nombre_rep, O.ape1_rep, O.ape2_rep " + " FROM Oficina_Usuaria O, Proyecto P WHERE P.id_proyecto = '" + idProyecto + "'" + "AND P.id_oficina = O.id_oficina ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        public DataTable consultarTelOficina(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT T.num_telefono " + " FROM Telefono_Oficina T, Proyecto P WHERE P.id_proyecto = '" + idProyecto + "'" + "AND P.id_oficina = T.id_oficina ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
     }
 }

@@ -134,6 +134,63 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        public DataTable consultarEstados()
+        {
+   
+            DataTable resultado = controladoraBDProyecto.consultarEstados();
+            return resultado;
+        }
+
+        public DataTable consultarLideres()
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarLideres();
+            return resultado;
+        }
+
+        public DataTable consultarMiembros()
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarMiembros();
+            return resultado;
+        }
+
+        public DataTable consultarProyectoTotal(string idProyecto)
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarProyectoTotal(idProyecto);
+            return resultado;
+        }
+
+        public DataTable consultarProyectos(string idMiembro)
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarProyectos(idMiembro);
+            return resultado;
+        }
+
+        public DataTable consultarOficina(string idProyecto)
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarOficina(idProyecto);
+            return resultado;
+        }
+
+        public DataTable consultarTelOficina(string idProyecto)
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarTelOficina(idProyecto);
+            return resultado;
+        }
+
+        public DataTable consultarMiembrosProyecto(string idProyecto)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarMiembrosProyecto(idProyecto);
+            return resultado;
+        }
+
+
         
 
 

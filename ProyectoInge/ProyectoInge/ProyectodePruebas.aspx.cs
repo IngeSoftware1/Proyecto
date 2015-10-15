@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
+using System.Data;
+using System.Diagnostics;
 
 namespace ProyectoInge
 {
@@ -20,6 +22,15 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(!IsPostBack)
+            {
+                llenarComboEstado();
+                llenarComboLideres();
+                cargarMiembrosSinAsignar();
+            }
+ 
+            llenarGrid(null); //Por el momento se pone null, pero en realidad se debe verificar si es un miembro o un administrador 
+                              //el que se encuentra usando el sistema
             /*if (Session["cedula"] == null)
             {
                 Response.Redirect("~/Login.aspx");
@@ -27,6 +38,148 @@ namespace ProyectoInge
             }*/
 
         }
+
+        /* Método para llenar el comboBox según los tipos de estados de proceso almacenados en la BD
+        * Modifica: llena el comboBox con los datos obtenidos de la BD
+        * Retorna: no retorna ningún valor */
+        protected void llenarComboEstado()
+        {
+            this.comboEstado.Items.Clear();
+            DataTable Estados = controladoraProyecto.consultarEstados();
+            int numDatos = Estados.Rows.Count;
+            Object[] datos;
+
+
+            if (Estados.Rows.Count >= 1)
+            {
+                numDatos = Estados.Rows.Count;
+                datos = new Object[numDatos];
+
+                for (int i = 0; i < Estados.Rows.Count; ++i)
+                {
+                    datos[i] = Estados.Rows[i][0].ToString();
+                }
+
+                this.comboEstado.DataSource = datos;
+                this.comboEstado.DataBind();
+            }
+
+        }
+
+       /* Método para llenar el comboBox según los miembros que sean almacenados como líderes en la BD
+       * Modifica: llena el comboBox con los datos obtenidos de la BD
+       * Retorna: no retorna ningún valor */
+        protected void llenarComboLideres()
+        {
+            this.comboLider.Items.Clear();
+            DataTable Lideres = controladoraProyecto.consultarLideres();
+            int numDatos = Lideres.Rows.Count;
+            Object[] datos;
+            string nombre = "";
+
+            if (Lideres.Rows.Count >= 1)
+            {
+
+                numDatos = Lideres.Rows.Count;
+                datos = new Object[numDatos];
+
+                for (int i = 0; i < Lideres.Rows.Count; ++i)
+                {
+                    foreach (DataColumn column in Lideres.Columns)
+                    {
+                        nombre = nombre + " " + Lideres.Rows[i][column].ToString();
+                    }
+                    datos[i] = nombre;
+
+                }
+                this.comboLider.DataSource = datos;
+                this.comboLider.DataBind();
+
+            }
+        }
+
+        /* Método para llenar el listBox con los miembros de la BD
+        * Modifica: llena el listoBox con los datos obtenidos de la BD
+        * Retorna: no retorna ningún valor */
+        protected void cargarMiembrosSinAsignar()
+        {
+
+            DataTable datosMiembros = controladoraProyecto.consultarMiembros();
+            string filaMiembro = "";
+
+
+
+            if (datosMiembros.Rows.Count >= 1)
+            {
+
+                for (int i = 0; i < datosMiembros.Rows.Count; ++i)
+                {
+
+                    foreach (DataColumn column in datosMiembros.Columns)
+                    {
+                        if (datosMiembros.Rows[i][column].ToString() == "Líder de pruebas")
+                        {
+                            filaMiembro = filaMiembro + " " + "Líder";
+                        }
+                        else
+                        {
+                            filaMiembro = filaMiembro + " " + datosMiembros.Rows[i][column].ToString();
+                        }
+                
+                    }
+
+
+                    listMiembrosDisponibles.Items.Add(filaMiembro);
+                    filaMiembro = "";
+                    
+                }
+            }
+        }
+
+         /*Método para obtener la cédula de un miembro a partir del nombre
+         * Requiere: el nombre del miembro y el tipo de búsqueda, ya sea sobre un líder o sobre un miembro asignado a un proyecto.
+         * Modifica: el valor de la cédula solicitada.
+         * Retorna: la cédula del miembro solicitado.
+         */
+        protected string obtenerCedulaMiembroAsignado(string nombreMiembro, bool lider)
+        {
+            ControladoraRecursos controladoraRH = new ControladoraRecursos();
+            string cedula = controladoraRH.obtenerCedulaMiembro(nombreMiembro, lider);
+            return cedula;
+        }
+
+
+        /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
+        * Modifica: el valor del la variable idProyecto con el ID del proyecto que se desea consultar.
+        * Retorna: no retorna ningún valor
+        */
+        protected void gridProyectos_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "seleccionarProyecto")
+            {
+
+                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
+                idProyectoConsultado = lnkConsulta.CommandArgument;
+
+                llenarDatos(idProyectoConsultado);
+                cambiarEnabled(true, this.btnModificar);
+                cambiarEnabled(true, this.btnCancelar);
+                cambiarEnabled(false, this.btnInsertar);
+
+                /*    //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+
+                        cambiarEnabled(true, this.btnEliminar);
+                    }
+                    else
+                    {
+                        cambiarEnabled(false, this.btnEliminar);
+                    } */
+            }
+
+        }
+
 
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
@@ -276,6 +429,8 @@ namespace ProyectoInge
             }
         }
 
+
+
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
         * Requiere: no recibe parámetros
         * Modifica: Modifica la propiedad enabled de los distintos controles
@@ -436,6 +591,226 @@ namespace ProyectoInge
                 Response.Write(mensaje);
             }
        }
+
+
+
+        /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
+      * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
+      * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
+      * Retorna: no retorna ningún valor
+      */
+        protected void llenarGrid(string idUsuario)
+        {
+            DataTable dt = crearTablaProyectos();
+            DataTable proyectos;
+            Object[] datos = new Object[5];
+            string lider = "";
+
+            if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
+            //todos los recursos humanos del sistema
+            {
+                proyectos = controladoraProyecto.consultarProyectos(null);
+                if (proyectos.Rows.Count > 0)
+                {
+                    foreach (DataRow fila in proyectos.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        lider = fila[4].ToString();
+                        lider = lider + " " + fila[5].ToString();
+                        lider = lider + " " + fila[6].ToString();
+                        datos[4] = lider;
+
+                        dt.Rows.Add(datos);
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    datos[4] = "-";
+                    dt.Rows.Add(datos);
+                }
+            }
+            else
+            {
+                proyectos = controladoraProyecto.consultarProyectos(idUsuario);
+                if (proyectos.Rows.Count == 1)
+                {
+                    foreach (DataRow fila in proyectos.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        lider = fila[4].ToString();
+                        lider = lider + " " + fila[5].ToString();
+                        lider = lider + " " + fila[6].ToString();
+                        datos[4] = lider;
+
+                        dt.Rows.Add(datos);
+
+                    }
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    datos[4] = "-";
+                    dt.Rows.Add(datos);
+                }
+            }
+
+            this.gridProyecto.DataSource = dt;
+            this.gridProyecto.DataBind();
+
+        }
+
+        /*Método para crear el DataTable donde se mostrará el o los registros de los proyectos del sistema según corresponda.
+       * Requiere: No requiere ningún parámetro.
+       * Modifica: el nombre de cada columna donde se le especifica el nombre que cada una de ellas tendrá. 
+       * Retorna: el DataTable creado. 
+       */
+        protected DataTable crearTablaProyectos()
+        {
+            DataTable dt = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "ID Proyecto";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Estado";
+            dt.Columns.Add(columna);
+
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Oficina";
+            dt.Columns.Add(columna);
+
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre líder";
+            dt.Columns.Add(columna);
+
+            return dt;
+        }
+
+        /*Método para llenar los campos de la interfaz con los resultados de la consulta.
+       * Requiere: El identificador del proyecto que se desea consultar.
+       * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
+       * Retorna: No retorna ningún valor. 
+       */
+        public void llenarDatos(string idProyecto)
+        {
+          
+            DataTable datosFilaProyecto = controladoraProyecto.consultarProyectoTotal(idProyecto);
+            DataTable datosFilaMiembros = controladoraProyecto.consultarMiembrosProyecto(idProyecto);
+            DataTable datosOficinaUsuaria = controladoraProyecto.consultarOficina(idProyecto);
+            DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto);
+            string nombreLider;
+            ListItem lider;
+
+
+            if (datosFilaProyecto.Rows.Count == 1)
+            {
+
+                this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
+                this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
+                this.calendarFecha.SelectedDate = this.calendarFecha.VisibleDate = (System.DateTime)datosFilaProyecto.Rows[0][2];
+                if (this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString()) != null)
+                {
+                    ListItem estadoProceso = this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString());
+                    this.comboEstado.SelectedValue = estadoProceso.Value;
+                }
+
+                nombreLider = datosFilaProyecto.Rows[0][4].ToString();
+                nombreLider = nombreLider + " " + datosFilaProyecto.Rows[0][5].ToString();
+
+                if (this.comboLider.Items.FindByText(nombreLider) != null)
+                {
+                    lider = this.comboLider.Items.FindByText(nombreLider);
+                    this.comboLider.SelectedValue = lider.Value;
+                }
+            }
+
+            if (datosOficinaUsuaria.Rows.Count == 1)
+            {
+                this.txtnombreOficina.Text = datosOficinaUsuaria.Rows[0][0].ToString();
+                this.txtnombreRep.Text = datosOficinaUsuaria.Rows[0][1].ToString();
+                this.txtApellido1Rep.Text = datosOficinaUsuaria.Rows[0][2].ToString();
+                this.txtApellido2Rep.Text = datosOficinaUsuaria.Rows[0][3].ToString();
+            }
+
+            //Se obtienen los teléfonos de la oficina usuaria en caso de que sea necesario 
+            listTelefonosOficina.Items.Clear();
+            if (datosTelefOficinaUsuaria.Rows.Count >= 1)
+            {
+                listTelefonosOficina.Items.Clear();
+                for (int i = 0; i < datosTelefOficinaUsuaria.Rows.Count; ++i)
+                {
+
+                    listTelefonosOficina.Items.Add(datosTelefOficinaUsuaria.Rows[i][0].ToString());
+
+                }
+            }
+
+            listMiembrosAgregados.Items.Clear();
+            string integrantes = "";
+            int numColumna = 0;
+            if (datosFilaMiembros.Rows.Count >= 1)
+            {
+                listMiembrosAgregados.Items.Clear();
+
+                for (int i = 0; i < datosFilaMiembros.Rows.Count; ++i)
+                {
+
+
+                    foreach (DataColumn column in datosFilaMiembros.Columns)
+                    {
+
+                        if (numColumna == 3)
+                        {
+                            if (datosFilaMiembros.Rows[i][column].ToString() == "Líder de pruebas")
+                            {
+                                integrantes = integrantes + ":" + " " + "Líder";
+                            }
+                            else
+                            {
+                                integrantes = integrantes + ":" + " " + datosFilaMiembros.Rows[i][column].ToString();
+                            }
+
+                        }
+                        else
+                        {
+                            integrantes = integrantes + " " + datosFilaMiembros.Rows[i][column].ToString();
+                        }
+
+                        ++numColumna;
+                    }
+                    listMiembrosAgregados.Items.Add(integrantes);
+                    integrantes = "";
+                    numColumna = 0;
+                }
+
+            }
+        }
 
     }
 }
