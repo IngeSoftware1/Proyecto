@@ -244,11 +244,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return resultado;
         }
 
-        public void eliminarOficina(int idOficina)
-        {
-            string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + idOficina+ "';";
-            acceso.eliminarDatos(borrarOficina);
-        }
+  
 
         /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
         * Requiere: el id del proyecto que se requiere eliminar para ver la oficina asociada
