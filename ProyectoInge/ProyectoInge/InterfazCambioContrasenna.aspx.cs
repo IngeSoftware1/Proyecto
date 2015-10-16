@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 //Revisar:
 using System.Web.Security;
+using System.Windows;
 
 
 namespace ProyectoInge
@@ -67,20 +68,24 @@ namespace ProyectoInge
          * Modifica: modifica la contraseña en la base de datos
          * Retorna: No retorna datos
          */
-        protected void ChangePassword(object sender, EventArgs e)
+        protected void cambiarContrasenna(object sender, EventArgs e)
         {
-
+            Boolean resultado = false;
            string cedulaDeFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
-
+          
            if (cedulaDeFuncionario.Equals("")==false)
             {
                 
-
-                Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
-                Response.Write(resultado);
-               
-                Response.Write("<script>window.alert('Contraseña cambiada con éxito.');</script>");
-
+                if(contrasenasIguales() == true){
+                    resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
+                    
+                    
+                }
+                else
+                {
+                    FailureText.Text = "Contraseña en el campo confirmar no coincide con la nueva contraseña";
+                    ErrorMessage.Visible = true;
+                }
 
 
             }else {
@@ -95,6 +100,25 @@ namespace ProyectoInge
 
 
         }
+
+
+        /*Método para obtener si las contraseñas son diferentes
+         * Requiere: no recibe parámetros
+         * Modifica: Compara ambas cajas de texto
+         * Retorna: retorna true si las contraseñas son iguales, false si las contraseñas son distintas
+         */
+        protected bool contrasenasIguales()
+        {
+            bool resultado = false;
+
+            if (txtNewPassword.Text == txtConfPassword.Text)
+            {
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
     }
 
 }

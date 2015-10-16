@@ -1437,4 +1437,3 @@ C:\Users\B23618\Documents\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoI
 C:\Users\B23618\Documents\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\B23618\Documents\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
 C:\Users\Gaudy\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
-C:\Users\b23618\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache

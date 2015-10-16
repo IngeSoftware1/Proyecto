@@ -85,22 +85,31 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtNewPassword;
         
         /// <summary>
-        /// Control lblConfContrasenna.
+        /// Control lblConfPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblConfContrasenna;
+        protected global::System.Web.UI.WebControls.Label lblConfPassword;
         
         /// <summary>
-        /// Control txtConfContrasenna.
+        /// Control txtConfPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtConfContrasenna;
+        protected global::System.Web.UI.WebControls.TextBox txtConfPassword;
+        
+        /// <summary>
+        /// Control controlConfirmar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator controlConfirmar;
         
         /// <summary>
         /// Control btnAceptar.
