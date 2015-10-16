@@ -178,3 +178,7 @@ margin-right:1em;
 .blueColor, .blueColor b {
   color: #0066CC; 
 }
+
+.glyphicon.glyphicon-calendar {
+     font-size: 25px;
+}

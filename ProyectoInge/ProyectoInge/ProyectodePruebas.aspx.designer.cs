@@ -85,6 +85,24 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblFecha;
         
         /// <summary>
+        /// txtCalendar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCalendar;
+        
+        /// <summary>
+        /// lnkCalendario control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkCalendario;
+        
+        /// <summary>
         /// calendarFecha control.
         /// </summary>
         /// <remarks>
