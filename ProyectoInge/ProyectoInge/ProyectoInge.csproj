@@ -406,6 +406,7 @@
     <Folder Include="App_Code\App_LocalResources\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Imagenes\" />
     <Folder Include="Views\ControladoraBDRecursos\" />
     <Folder Include="Views\ControladoraRecursos\" />
     <Folder Include="Views\Funcionario\" />
