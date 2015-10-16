@@ -309,7 +309,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string modif;
             try
             {
-                modif = "UPDATE Funcionario SET login = 'false' WHERE cedula ='" + cedula + "'";
+                modif = "UPDATE Funcionario SET login = 'False' WHERE cedula ='" + cedula + "'";
                 return acceso.insertarDatos(modif);
             }
             catch (SqlException e)

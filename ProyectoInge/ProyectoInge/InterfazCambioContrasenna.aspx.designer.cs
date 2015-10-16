@@ -49,6 +49,24 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtUsuario;
         
         /// <summary>
+        /// Control lblAntPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAntPassword;
+        
+        /// <summary>
+        /// Control txtAntPassword.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAntPassword;
+        
+        /// <summary>
         /// Control lblNewPassword.
         /// </summary>
         /// <remarks>
@@ -67,22 +85,31 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtNewPassword;
         
         /// <summary>
-        /// Control lblAntPassword.
+        /// Control lblConfPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAntPassword;
+        protected global::System.Web.UI.WebControls.Label lblConfPassword;
         
         /// <summary>
-        /// Control txtAntPassword.
+        /// Control txtConfPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAntPassword;
+        protected global::System.Web.UI.WebControls.TextBox txtConfPassword;
+        
+        /// <summary>
+        /// Control controlConfirmar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator controlConfirmar;
         
         /// <summary>
         /// Control btnAceptar.

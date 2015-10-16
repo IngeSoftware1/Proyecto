@@ -196,10 +196,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
-
-        //Método para consultar el id del proyecto
-        
-        public int consultarProyecto(string nombre)
+        /*Método para obtiene el id de un proyecto apartir de su nombre
+        * Requiere: el nombre del proyecto del cual se quiere saber el id
+        * Modifica: consulta el id de un proyecto
+        * Retorna: el id de un proyecto asociado a un nombre
+        */
+        public int obtenerIdProyecto(string nombre)
         {
             int resultado = -1;
             DataTable datosProyecto = new DataTable();
@@ -221,7 +223,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
-        //metodo para consultar el id de la oficina de un proyecto
+        /*Método para obtiene el id de una oficina apartir del id del proyecto asociado a esa oficina
+        * Requiere: el id del proyecto asociado a la oficina que se dese conocer el id
+        * Modifica: consulta el id de una oficina
+        * Retorna: el id de una oficina
+        */
         public int consultarOficinaProyecto(int idProyecto)
         {
             int resultado = -1;
@@ -269,7 +275,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
-
+        /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
+        * Requiere: el id de la oficina que se requiere eliminar 
+        * Modifica: elimina la oficina usuaria para poder eliminar el proyecto
+        * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
+        */
         public bool eliminarOficina(int idOficina)
         {
             
