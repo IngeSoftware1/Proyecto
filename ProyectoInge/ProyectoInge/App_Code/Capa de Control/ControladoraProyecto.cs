@@ -82,44 +82,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 case 3:
                     { //ELIMINAR
 
-                        int idProyecto = controladoraBDProyecto.consultarProyecto(nombre);
-                        if (perfil.Equals("Administrador"))
-                        {
-                           
-                           if (idProyecto!=-1)
-                           {
-                               
-                               if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto))
-                               {
-                                   if (controladoraBDProyecto.eliminarOficinaProyecto(idProyecto))
-                                   {
-                                       resultado = true;
-                                   }
-                                   else
-                                   {
-                                       resultado = false;
-                                   }
-
-                               }
-                               else
-                               {
-                                   resultado = false;
-                               }
-                           }
-                           else
-                           {
-                               resultado = false;
-                           }
-                        }
-                        else
-                        {
-                            //Miembro Llamar a cambiar estado 
-
-                            if (idProyecto != -1)
-                            {
-                                controladoraBDProyecto.cambiarEstado(idProyecto);
-                            }
-                        }
+                        
                         if (accion == 3)//TELEFONOOFICINAUSUARIA
                         {
                             resultado = controladoraBDProyecto.eliminarTelefonoOficinaUsuaria(nombre);//en nombre viene el id de la oficina usuaria, para eliminarlo
@@ -131,6 +94,59 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     }
                     break;
             }
+            return resultado;
+        }
+
+
+        public bool eliminarProyecto(string idProyectoS, string idOficinaS, string perfil)
+        {
+            bool resultado = false;
+            int idProyecto = Int32.Parse(idProyectoS);
+            int idOficina = Int32.Parse(idOficinaS);
+           
+            if (perfil.Equals("Administrador"))
+            {
+
+                if (idProyecto != -1)
+                {
+
+                    if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto))
+                    {
+                        if (controladoraBDProyecto.eliminarOficina(idProyecto))
+                        {
+                            resultado = true;
+                        }
+                        else
+                        {
+                            resultado = false;
+                        }
+
+                    }
+                    else
+                    {
+                        resultado = false;
+                    }
+                }
+                else
+                {
+                    resultado = false;
+                }
+            }
+            else
+            {
+                //Miembro Llamar a cambiar estado 
+
+                if (idProyecto != -1)
+                {
+                    controladoraBDProyecto.cambiarEstado(idProyecto);
+                    resultado = true;
+                }
+                else
+                {
+                    resultado = false;
+                }
+            }
+
             return resultado;
         }
 

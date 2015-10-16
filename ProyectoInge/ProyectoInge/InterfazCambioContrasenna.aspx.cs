@@ -70,13 +70,12 @@ namespace ProyectoInge
         protected void ChangePassword(object sender, EventArgs e)
         {
 
-           DataTable datosFilaFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
+           string cedulaDeFuncionario =  controladora.consultarCedula(txtUsuario.Text, txtAntPassword.Text);
 
-           if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count > 0)
+           if (cedulaDeFuncionario.Equals("")==false)
             {
-                string cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                
 
-    
                 Boolean resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
                 Response.Write(resultado);
                

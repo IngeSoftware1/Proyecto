@@ -605,8 +605,8 @@ namespace ProyectoInge
 
             if (perfil.Equals("Administrador"))
             {
-               
-                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text, perfil) == false)
+
+                if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
                     string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
                     Response.Write(mensaje);
@@ -628,7 +628,7 @@ namespace ProyectoInge
                 //llenarDropDownRol();
             }else if(perfil.Equals("Miembro")) {
 
-                if (controladoraProyecto.ejecutarAccion(modo, 1, null, txtNombreProy.Text, perfil) == false)
+                if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
                     string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
                     Response.Write(mensaje);
@@ -817,10 +817,11 @@ namespace ProyectoInge
 
             if (datosOficinaUsuaria.Rows.Count == 1)
             {
-                this.txtnombreOficina.Text = datosOficinaUsuaria.Rows[0][0].ToString();
-                this.txtnombreRep.Text = datosOficinaUsuaria.Rows[0][1].ToString();
-                this.txtApellido1Rep.Text = datosOficinaUsuaria.Rows[0][2].ToString();
-                this.txtApellido2Rep.Text = datosOficinaUsuaria.Rows[0][3].ToString();
+                this.idOficinaConsultda = datosOficinaUsuaria.Rows[0][0].ToString();
+                this.txtnombreOficina.Text = datosOficinaUsuaria.Rows[0][1].ToString();
+                this.txtnombreRep.Text = datosOficinaUsuaria.Rows[0][2].ToString();
+                this.txtApellido1Rep.Text = datosOficinaUsuaria.Rows[0][3].ToString();
+                this.txtApellido2Rep.Text = datosOficinaUsuaria.Rows[0][4].ToString();
             }
 
             //Se obtienen los teléfonos de la oficina usuaria en caso de que sea necesario 

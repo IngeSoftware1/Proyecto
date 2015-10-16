@@ -44,16 +44,17 @@ namespace ProyectoInge
         protected void LogIn(object sender, EventArgs e)
         {
             string cedulaDeFuncionario;
+
             if (IsValid)
             {
-                DataTable datosFilaFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
-                if (datosFilaFuncionario != null && datosFilaFuncionario.Rows.Count == 1)
+               cedulaDeFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
+                if (cedulaDeFuncionario.Equals("") == false)
                 {
-                    string estaLogueado = datosFilaFuncionario.Rows[0][7].ToString();
+                    string estaLogueado = controladora.consultarEstadoFuncionario(cedulaDeFuncionario);
                     
                     if (estaLogueado == "False")
                     {
-                        cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                        
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
@@ -62,7 +63,7 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        cedulaDeFuncionario = datosFilaFuncionario.Rows[0][0].ToString();
+                        
                         controladora.modificarEstadoCerrar(cedulaDeFuncionario);
                         FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion, espere unos minutos";
                         ErrorMessage.Visible = true;

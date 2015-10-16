@@ -79,9 +79,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
          * Requiere: La cédula y contraseña del funcionario que se desea consultar
          * Retorna: el DataTable (la fila de la tabla funcionario) en caso de que encuentre el usuario y contraseña
          */
-        public DataTable consultarCedula(string user, string password)
+        public string consultarCedula(string user, string password)
         {
             return controladoraBDRecurso.consultarCedula(user, password);
+        }
+
+        public string consultarEstadoFuncionario(string ced)
+        {
+            return controladoraBDRecurso.consultarEstadoFuncionario(ced);
         }
 
 

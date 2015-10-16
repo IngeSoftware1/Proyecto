@@ -71,19 +71,23 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: lleva a cabo las consultas en la base de datos
         * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null .
         */
-        public DataTable consultarCedula(string user, string password)
+        public string consultarCedula(string user, string password)
      {
+         string resultado="";
          DataTable datosFuncionario = new DataTable();
-         string consulta = "SELECT * FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password +"'";
+         string consulta = "SELECT cedula FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password +"'";
          try{
              datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+             if(datosFuncionario != null && datosFuncionario.Rows.Count == 1){
+                 resultado = datosFuncionario.Rows[0][0].ToString();
+             }
               modificarEstado(true,user);
          }
          catch (SqlException e) {
-             datosFuncionario = null;
+             resultado = "";
          }
 
-         return datosFuncionario;
+         return resultado;
      }
        /*Método para consultar los tipos de Rol de la tabla Rol.
        * Requiere: no requiere ningún dato de entrada.
@@ -110,6 +114,31 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
          return datosFuncionario;
      }
+
+
+     public string consultarEstadoFuncionario(string ced)
+     {
+         string resultado = "";
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT login FROM Funcionario WHERE cedula ='" + ced + "';";
+         try
+         {
+             datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+             if (datosFuncionario != null && datosFuncionario.Rows.Count == 1)
+             {
+                 resultado = datosFuncionario.Rows[0][0].ToString();
+             }
+             
+         }
+         catch (SqlException e)
+         {
+             resultado = "";
+         }
+
+         return resultado;
+     }
+
+
 
         /*Método para consultar los teléfonos de un recurso humano específico.
        * Requiere: requiere la cédula del usuario al cual se le consultarán los teléfonos.
