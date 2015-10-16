@@ -56,7 +56,6 @@ namespace ProyectoInge
                     Response.Write(estaLogueado);
                     if (estaLogueado.Equals("True") == true)
                     {
-                        Response.Write(estaLogueado);
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
@@ -65,12 +64,18 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        
-                        controladora.modificarEstadoCerrar(cedulaDeFuncionario);
-                        FailureText.Text = "Ya tiene una cuenta abierta";
-                        ErrorMessage.Visible = true;
-
-
+                        Response.Write(estaLogueado);
+                        Session["cedula"] = cedulaDeFuncionario;
+                        string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
+                        Session["perfil"] = perfil;
+                        /*Response.Redirect("~/RecursosHumanos.aspx");
+                        controladora.modificarEstado(true, txtUsuario.Text);
+                        */
+                        lblModalTitle.Text = "AVISO";
+                        lblModalBody.Text = "Su cuenta esta abierta en otra sesion";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                        Response.Write("ssssss");
                     }
                 }
                 else

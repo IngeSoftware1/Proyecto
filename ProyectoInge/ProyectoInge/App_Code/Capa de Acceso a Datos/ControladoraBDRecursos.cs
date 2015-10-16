@@ -163,7 +163,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          string modif;
          try
          {
-             modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
+             modif = 
              return acceso.insertarDatos(modif);
          }
          catch (SqlException e)
