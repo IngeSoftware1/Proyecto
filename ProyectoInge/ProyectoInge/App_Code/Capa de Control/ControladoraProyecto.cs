@@ -141,7 +141,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
          */
         public int obtenerIDconNombreProyecto(string nomProyecto)
         {
-            return controladoraBDProyecto.consultarProyecto(nomProyecto);
+            return controladoraBDProyecto.obtenerIdProyecto(nomProyecto);
         } 		
         
         
