@@ -27,19 +27,25 @@
 
     <%-- Botones para aceptar y cancelar --%>
    
+
+      <asp:Label runat="server" ID="lblAntPassword" CssClass="estiloLabelRH">Contraseña anterior</asp:Label>
+      <asp:TextBox runat="server" ID="txtAntPassword" TextMode="Password"  />
+      <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAntPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />        
+      <br/>
+      <br/>
       <asp:Label runat="server" ID="lblNewPassword" CssClass="estiloLabelRH">Nueva Contraseña</asp:Label>
       <asp:TextBox runat="server" ID="txtNewPassword" TextMode="Password"  />
       <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNewPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
       <br/>
-       <br/>
-      <asp:Label runat="server" ID="lblAntPassword" CssClass="estiloLabelRH">Contraseña anterior</asp:Label>
-       <asp:TextBox runat="server" ID="txtAntPassword" TextMode="Password"  />
-       <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAntPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
+      <br/>
+      <asp:Label runat="server" ID="lblConfContrasenna" CssClass="estiloLabelRH">Confirmar contraseña</asp:Label>
+      <asp:TextBox runat="server" ID="txtConfContrasenna" TextMode="Password"  />
+      <asp:RequiredFieldValidator runat="server" ControlToValidate="txtConfContrasenna" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                
                             
 
     <div id="btnsBD" style="float:right">
-        <asp:Button ID="btnAceptar" runat="server"  OnClick="ChangePassword"  Text="Aceptar" CssClass="estiloBotones" />
-         <asp:Button ID="btnCancelar" runat="server" onClick="botonClick" Text="Cancelar" CssClass="estiloBotones" OnClientClick="aspnetForm.target ='_blank';"/>
+        <asp:Button ID="btnAceptar" runat="server"  OnClick="ChangePassword"  Text="Aceptar" CssClass="btn btn-primary" />
+         <asp:Button ID="btnCancelar" runat="server" onClick="botonClick" Text="Cancelar" CssClass="btn btn-primary" OnClientClick="aspnetForm.target ='_blank';"/>
         
  
     </div>

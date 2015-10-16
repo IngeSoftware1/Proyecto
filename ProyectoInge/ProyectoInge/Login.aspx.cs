@@ -48,13 +48,15 @@ namespace ProyectoInge
             if (IsValid)
             {
                cedulaDeFuncionario = controladora.consultarCedula(txtUsuario.Text, txtPassword.Text);
+
+               
                 if (cedulaDeFuncionario.Equals("") == false)
                 {
                     string estaLogueado = controladora.consultarEstadoFuncionario(cedulaDeFuncionario);
-                    
-                    if (estaLogueado == "False")
+                    Response.Write(estaLogueado);
+                    if (estaLogueado.Equals("True") == true)
                     {
-                        
+                        Response.Write(estaLogueado);
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
@@ -65,7 +67,7 @@ namespace ProyectoInge
                     {
                         
                         controladora.modificarEstadoCerrar(cedulaDeFuncionario);
-                        FailureText.Text = "Ya la cuenta asociada a este usuario esta logueada en otra sesion, espere unos minutos";
+                        FailureText.Text = "Ya tiene una cuenta abierta";
                         ErrorMessage.Visible = true;
 
 
