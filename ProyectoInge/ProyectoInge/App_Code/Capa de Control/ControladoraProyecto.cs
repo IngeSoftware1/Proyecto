@@ -89,19 +89,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
+                       
                         if (accion == 1)//PROYECTO
                         {
-                            EntidadProyecto entidadP = new EntidadProyecto(datos);
-                            resultado = controladoraBDProyecto.modificarProyecto(entidadP);
+                            EntidadProyecto entidadP = new EntidadProyecto(datos);                       
+                            int idProyecto = Int32.Parse(nombre); //supongo que nombre viene el id sino habría que hacer llamado de otro método
+                            resultado = controladoraBDProyecto.modificarProyecto(entidadP,idProyecto);
                         }
                         else if (accion == 2)
                         {
                             EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
-                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU);
+                            int idOficina = Int32.Parse(nombre); //supongo que en nombre viene el id de la oficina que se requiere modificar
+                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU,idOficina);
                         }
                         else if (accion == 3)//TELEFONOOFICINAUSUARIA
                         {
-                            resultado = controladoraBDProyecto.insertarTelefonoOficinaUsuaria(datos);//en nombre viene el id de la oficina usuaria, para eliminarlo
+                            EntidadTelOficina telefonosOficina = new EntidadTelOficina(datos);
+                            resultado = controladoraBDProyecto.insertarTelefonoOficinaUsuaria(telefonosOficina);//en nombre viene el id de la oficina usuaria, para eliminarlo
                         }
                         else if (accion == 4)//TRABAJA_EN
                         {
@@ -115,7 +119,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         
                         if (accion == 3)//TELEFONOOFICINAUSUARIA
                         {
-                            resultado = controladoraBDProyecto.eliminarTelefonoOficinaUsuaria(nombre);//en nombre viene el id de la oficina usuaria, para eliminarlo
+                            int idOficinaUsuaria = Int32.Parse(nombre); //en nombre viene el id de la oficina usuaria, para eliminarlo
+                            resultado = controladoraBDProyecto.eliminarTelefonoOficinaUsuaria(idOficinaUsuaria);
                         }
                         else if (accion == 4)//TRABAJA_EN
                         {

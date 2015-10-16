@@ -75,6 +75,7 @@ INSERT INTO Estado_Proceso VALUES('Pendiente de asignación');
 INSERT INTO Estado_Proceso VALUES('Asignado');
 INSERT INTO Estado_Proceso VALUES('En ejecución');
 INSERT INTO Estado_Proceso VALUES('Finalizado');
+INSERT INTO Estado_Proceso VALUES('Cancelado');
 
 CREATE TABLE Proyecto(
 id_proyecto int IDENTITY(1,1) PRIMARY KEY,

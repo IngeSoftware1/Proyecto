@@ -323,11 +323,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
        * Modifica: Modifica los datos de una oficina
        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
        */
-        public bool modificarOficina(EntidadOficinaUsuaria nuevo, int idOficina)
+        public bool modificarOfUsuaria(EntidadOficinaUsuaria nuevo, int idOficina)
         {
             try
             {
-                string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.getNombreOficina + "', nombre_rep= '" + nuevo.getNombreRep + "', ape1_rep= '" + nuevo.getApe1Rep + "', ape2_rep = '" + nuevo.getApe2Rep + "WHERE id_Oficina ='" + idOficina + "';";
+                string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.getNombreOficina + "', nombre_rep= '" + nuevo.getNombreRep + "', ape1_rep= '" + nuevo.getApe1Rep + "', ape2_rep = '" + nuevo.getApe2Rep + "' WHERE id_Oficina ='" + idOficina + "';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -338,30 +338,53 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+        //recibe datos del proyecto y id del proyecto
+        internal bool modificarProyecto(EntidadProyecto entidadP, int idProyecto)
+        {
+            try
+            {
+                string modif = "UPDATE Proyecto SET  nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_creador = '" + entidadP.getCedulaCreador + "',cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
+                return acceso.insertarDatos(modif);
 
-        internal bool modificarProyecto(EntidadProyecto entidadP)
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+       
+
+       public bool eliminarTelefonoOficinaUsuaria(int idOficina)
+        {
+            try
+            {
+                string borrado = "Delete from Telefono_Oficina where id_Oficina = '" + idOficina + "';" ;
+                return acceso.eliminarDatos(borrado);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        public bool eliminarTrabaja_En(string idmiembroConsultado, string idProyectoConsultado)
         {
             throw new NotImplementedException();
         }
 
-        internal bool modificarOfUsuaria(EntidadOficinaUsuaria entidadOU)
+        public bool insertarTelefonoOficinaUsuaria(EntidadTelOficina nuevo)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                string insercion = "INSERT INTO Telefono_Oficina (id_Oficina, num_telefono) VALUES ('" + nuevo.getIdOficina + "', '" + nuevo.getNumTelefono + "')";
+                return acceso.insertarDatos(insercion);
 
-        internal bool eliminarTelefonoOficinaUsuaria(string idOficina)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal bool eliminarTrabaja_En(string idmiembroConsultado, string idProyectoConsultado)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal bool insertarTelefonoOficinaUsuaria(object[] datos)
-        {
-            throw new NotImplementedException();
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
         }
 
         internal bool eliminarTrabaja_En(object[] datos)
