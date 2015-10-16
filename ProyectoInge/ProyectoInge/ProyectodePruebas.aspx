@@ -64,7 +64,7 @@
                                 <div class="row">
                                     <asp:Label ID="lblNombreProy" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
-                                        <asp:TextBox runat="server" ID="txtNombreProy" CssClass="form-control" MaxLength="20"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtNombreProy" CssClass="form-control" MaxLength="20" ></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -74,6 +74,10 @@
                                 <div class="row">
                                     <asp:Label ID="lblFecha" runat="server" Text="Fecha de asignación:" CssClass="col-sm-8 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-5 ">
+                                          <button runat="server" id="ButtonCalendarioFiltroOrden" class="btn btn-info" type="button" enable="true" visible="false" style="width: 34px; height:34px;" background-image: url('../../Imagenes/calendario.png');  onserverclick="clickBotonCalendario">
+                                          </button>
+
+
 
                                         <asp:Calendar runat="server" ID="calendarFecha"></asp:Calendar>
                                         <%--No se si hay que agregarle un estilo--%>
@@ -93,29 +97,22 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-
-                                <%--Líder del Proyecto --%>
-                                <div class="row">
-                                    <asp:Label ID="lblLider" runat="server" Text="Líder:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-pull-1">
-                                        <asp:DropDownList runat="server" ID="comboLider" CssClass="form-control">
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                            </div>
-
-
+                          
                             <div class="form-group">
 
                                 <%--Objetivo general--%>
                                 <div class="row">
                                     <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo General" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-8 col-sm-offset-1">
-                                        <asp:TextBox runat="server" ID="txtObjetivo" CssClass="form-control " MaxLength="30"></asp:TextBox>
-                                    </div>
                                 </div>
+                                    <div class="row col-sm-11">
+                                        <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine ="true" TextMode="MultiLine" Height = "77px" ></asp:TextBox>
+                                    </div>
                             </div>
+                            
+
+                                
+                                
+                           
                         </div>
                         <%--Cierra el panel body--%>
                     </div>
@@ -224,9 +221,28 @@
 
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
-                    <div class="panel panel-default" style="height: 250px; width: 995px;">
+                    <div class="panel panel-default" style="height: 280px;">
                         <div class="panel-body">
-                            <div class="form-group col-sm-5">
+                         
+
+                                      <%--Líder del Proyecto --%>
+                                <div class="form-group col-sm-5">
+                                <div class="row">
+                                    <asp:Label ID="lblLider" runat="server" Text="Líder:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                   </div>
+                                    </div>
+
+                             <div class="form-group col-sm-5">
+                                <div class="row">
+                                     <div class="col-sm-7 col-sm-pull-6">
+                                        <asp:DropDownList runat="server" ID="comboLider" CssClass="form-control">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                               <div class="form-group col-sm-5">
                                 <div class="row">
 
                                     <%-- Miembros no asignados a un proyecto --%>
@@ -299,7 +315,7 @@
                     <div id="scroll" style="height: 183px; width: 670px; overflow: auto;">
                         <asp:GridView ID="gridProyecto" runat="server" Style="width: 650px" AutoGenerateColumns="true" OnRowCommand ="gridProyectos_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
-                                <asp:TemplateField HeaderText="Consultar Funcionario">
+                                <asp:TemplateField HeaderText="Consultar Proyecto">
                                     <ItemTemplate>
                                         <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarProyecto" CommandArgument='<%#Eval("ID Proyecto") %>' > Consultar </asp:LinkButton>
                                     </ItemTemplate>
@@ -311,6 +327,7 @@
             </div>
         </div>
     </div>
+
 
 </asp:Content>
 
