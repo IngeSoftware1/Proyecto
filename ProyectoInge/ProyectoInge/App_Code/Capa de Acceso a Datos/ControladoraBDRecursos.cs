@@ -159,18 +159,18 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
         */
         public Boolean modificarEstado(Boolean es, string user)
-     {
-         string modif;
-         try
-         {
-             modif = 
-             return acceso.insertarDatos(modif);
-         }
-         catch (SqlException e)
-         {
-             return false;
-         }
-     }
+        {
+            string modif;
+            try
+            {
+                modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
+                return acceso.insertarDatos(modif);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
 
         /*Método para consultar los datos de un recurso humano específico.
         * Requiere: requiere la cédula del usuario al cual se le consultarán los datos.
