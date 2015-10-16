@@ -14,7 +14,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             private String nombre;
             private String apellido1;
             private String apellido2;
-            private string email;
+            private String email;
             private String usuario;
             private String contrasena;
             private Boolean login;

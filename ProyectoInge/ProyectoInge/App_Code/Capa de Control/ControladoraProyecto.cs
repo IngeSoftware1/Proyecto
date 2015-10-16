@@ -42,6 +42,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return a;
         }
 
+        /*Método para obtener el id de una oficina usuaria a partir de su nombre
+         * Requiere: el nombre de la oficina usuaria por la cual buscar
+         * Modifica: obtiene el id de la oficina usuaria
+         * Retorna: el id obtenido 
+         */
+        public int obtenerOficinaAgregada(string nombreOficina)
+        {
+            return controladoraBDProyecto.obtenerOficinaAgregada(nombreOficina);
+        }
+
         /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
         * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
         * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
@@ -54,6 +64,26 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             {
                 case 1:
                     { // INSERTAR
+                        if (accion == 1) //inserta oficina usuaria
+                        {
+                            EntidadOficinaUsuaria nuevo = new EntidadOficinaUsuaria(datos);
+                            resultado = controladoraBDProyecto.insertarOficina(nuevo);
+                        }
+                        else if (accion == 2) //inserta telefonos de oficina usuaria
+                        {
+                            EntidadTelOficina telefonosOficina = new EntidadTelOficina(datos);
+                            resultado = controladoraBDProyecto.insertarTelefono(telefonosOficina);
+                        }
+                        else if (accion == 3) //inserta un nuevo proyecto
+                        {
+                            EntidadProyecto proyecto = new EntidadProyecto(datos);
+                            resultado = controladoraBDProyecto.insertarProyecto(proyecto);
+                        }
+                        else if(accion == 4) //insertar miembros de un equipo de pruebas
+                        {
+                            EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
+                            resultado = controladoraBDProyecto.insertarMiembro(miembro);
+                        }
                         
                     }
                     break;
@@ -132,6 +162,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
             }
             return resultado;
+        }
+
+        /*Método para eliminar una oficina usuaria mediante su id
+         * Requiere: el id de la oficina usuaria
+         * Modifica: llama al eliminar de la controladora de BD
+         * Retorna: no retorna ningún valor
+         */
+        public void eliminarOficina(int idOficina)
+        {
+            controladoraBDProyecto.eliminarOficina(idOficina);
+        }
+
+        /*
+         */
+        public int obtenerIDconNombreProyecto(string nomProyecto)
+        {
+            return controladoraBDProyecto.consultarProyecto(nomProyecto);
         }
 
         public DataTable consultarEstados()
