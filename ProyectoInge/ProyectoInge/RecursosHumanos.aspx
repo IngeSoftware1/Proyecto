@@ -20,7 +20,7 @@
         <div class="navbar-default collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a runat="server"  href="~/RecursosHumanos.aspx"  style="color:white"  >Recursos Humanos</a></li>
-            <li><a runat="server" style="color:white"  >Proyecto</a></li>
+            <li><a runat="server" href="~/ProyectodePruebas.aspx"  style="color:white"  >Proyecto</a></li>
             <li><a runat="server" style="color:white" >Diseño de pruebas</a></li>
             <li><a runat="server" style="color:white" >Caso de pruebas</a></li>
             <li><a runat="server" style="color:white">Ejecución de pruebas</a></li>
