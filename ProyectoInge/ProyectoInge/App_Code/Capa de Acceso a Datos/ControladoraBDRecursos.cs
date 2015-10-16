@@ -81,7 +81,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              if(datosFuncionario != null && datosFuncionario.Rows.Count == 1){
                  resultado = datosFuncionario.Rows[0][0].ToString();
              }
-              modificarEstado(true,user);
+              
          }
          catch (SqlException e) {
              resultado = "";
@@ -120,13 +120,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      {
          string resultado = "";
          DataTable datosFuncionario = new DataTable();
-         string consulta = "SELECT login FROM Funcionario WHERE cedula ='" + ced + "';";
+         string consulta = "SELECT * FROM Funcionario WHERE cedula ='" + ced + "';";
          try
          {
              datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
              if (datosFuncionario != null && datosFuncionario.Rows.Count == 1)
              {
-                 resultado = datosFuncionario.Rows[0][0].ToString();
+                 resultado = datosFuncionario.Rows[0][7].ToString();
              }
              
          }

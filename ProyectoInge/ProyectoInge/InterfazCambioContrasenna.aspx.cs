@@ -79,18 +79,25 @@ namespace ProyectoInge
                 if(contrasenasIguales() == true){
                     resultado = controladora.modificarContrasena(cedulaDeFuncionario, txtAntPassword.Text, txtNewPassword.Text);
                     
+                    Response.Redirect("~/Login.aspx");
                     
                 }
                 else
                 {
-                    FailureText.Text = "Contraseña en el campo confirmar no coincide con la nueva contraseña";
-                    ErrorMessage.Visible = true;
+
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "La contraseña en el campo para confirmar no coincide con la nueva contraseña";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    
                 }
 
 
             }else {
-                FailureText.Text = "usuario o contraseña incorrecta";
-                ErrorMessage.Visible = true;
+                lblModalTitle.Text = "AVISO";
+                lblModalBody.Text = "Usuario o Contraseña incorrecto";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             
             }
 
