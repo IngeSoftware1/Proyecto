@@ -8,10 +8,10 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
     public class EntidadOficinaUsuaria
     {
         
-        public String nombre_oficina;
-        public String nombre_rep;
-        public String ape1_rep;
-        public String ape2_rep;
+        private String nombreOficina;
+        private String nombreRep;
+        private String ape1Rep;
+        private String ape2Rep;
         
         /* 
          * Encapsula los atributos de una oficina.
@@ -19,40 +19,37 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
          */
         public EntidadOficinaUsuaria(Object[] datos)
         {
-            
-
-            
-            nombre_oficina = datos[0].ToString();
-            nombre_rep = datos[1].ToString();
-            ape1_rep = datos[2].ToString();
-            ape2_rep = datos[3].ToString();
+            nombreOficina = datos[0].ToString();
+            nombreRep = datos[1].ToString();
+            ape1Rep = datos[2].ToString();
+            ape2Rep = datos[3].ToString();
             
 
         }
-        
-        //Metodos set y get del atributo nombre_oficina
-        public String get_nombre_oficina
+
+        //Metodos set y get del atributo nombreOficina
+        public String getNombreOficina
         {
-            get { return nombre_oficina; }
-            set { nombre_oficina = value; }
+            get { return nombreOficina; }
+            set { nombreOficina = value; }
         }
-        //Metodos set y get del atributo nombre_rep
-        public String get_nombre_rep
+        //Metodos set y get del atributo nombreRep
+        public String getNombreRep
         {
-            get { return nombre_rep; }
-            set { nombre_rep = value; }
+            get { return nombreRep; }
+            set { nombreRep = value; }
         }
-        //Metodos set y get del atributo ape1_rep
-        public String get_ape1_rep
+        //Metodos set y get del atributo ape1Rep
+        public String getApe1Rep
         {
-            get { return ape1_rep; }
-            set { ape1_rep = value; }
+            get { return ape1Rep; }
+            set { ape1Rep = value; }
         }
-        //Metodos set y get del atributo ape2_rep
-        public String get_ape2_rep
+        //Metodos set y get del atributo ape2Rep
+        public String getApe2Rep
         {
-            get { return ape2_rep; }
-            set { ape2_rep = value; }
+            get { return ape2Rep; }
+            set { ape2Rep = value; }
         }
         
     }

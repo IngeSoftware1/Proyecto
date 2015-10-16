@@ -435,7 +435,7 @@ namespace ProyectoInge
                                 cambiarEnabled(true, this.btnInsertar);
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
-                                vaciarCampos();
+                                
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
                             }
@@ -469,11 +469,11 @@ namespace ProyectoInge
                                 cambiarEnabled(true, this.btnInsertar);
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
-                                vaciarCampos();
+                                
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
                             }
-                            //La inserción de un nuevo miembro de equipo en la base de datos falló porque ya estaba en la base
+                            //La inserción de un nuevo miembro de equipo de pruebas falló porque ya estaba en la base
                             else
                             {
                                 mensaje = "<script>window.alert('Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.');</script>";

@@ -479,7 +479,7 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Insertar()
         {
-            int tipoInsercion;
+            int tipoInsercion = 1;   //1 insertar oficina usuaria, 
 
             //si faltan datos no deja insertar
             if (faltanDatos())
@@ -490,11 +490,171 @@ namespace ProyectoInge
             }
             else
             {
- 
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
+                Object[] datosNuevos = new Object[4];
+                datosNuevos[0] = this.txtnombreOficina.Text;
+                datosNuevos[1] = this.txtnombreRep.Text;
+                datosNuevos[2] = this.txtApellido1Rep.Text;
+                datosNuevos[3] = this.txtApellido2Rep.Text;
+
+                //si la oficina usuaria se pudo insertar correctamente entra a este if
+                if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                {
+                    int idOficina = controladoraProyecto.obtenerOficinaAgregada(this.txtnombreOficina.Text);
+                    guardarTelefonos(idOficina);
+
+                    //Ya guardados la oficina usuaria y sus telefonos se guarda el proyecto en el sistema
+                    tipoInsercion = 3; //inserción de proyecto tipo 3
+                    Object[] nuevoProyecto = new Object[7];
+                    nuevoProyecto[0] = this.txtNombreProy.Text;
+                    nuevoProyecto[1] = this.txtObjetivo.Text;
+                    nuevoProyecto[2] = this.calendarFecha.SelectedDate.ToString();
+                    nuevoProyecto[3] = this.comboEstado.Text;
+                    nuevoProyecto[4] = Session["cedula"].ToString();
+                    nuevoProyecto[5] = obtenerCedula(this.comboLider.Text, true);
+                    nuevoProyecto[6] = idOficina;
+
+                    //El proyecto si se pudo insertar correctamente en la base
+                    if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, nuevoProyecto, "", ""))
+                    {
+                        //Se guardan los miembros del equipo para el proyecto
+                        int idProyecto = controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text);
+                        guardarMiembros(idProyecto);
+
+                        //se carga la interfaz de nuevo
+                        controlarCampos(false);
+                        cambiarEnabled(false, this.btnModificar);
+                        cambiarEnabled(false, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar);
+                        llenarGrid(null);
+                        llenarComboEstado();
+                        llenarComboLideres();
+                        cargarMiembrosSinAsignar();
+
+                        string mensaje = "<script>window.alert('Nuevo proyecto creado con éxito.');</script>";
+                        Response.Write(mensaje);
+                    }
+                    //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
+                    else
+                    {
+                        controladoraProyecto.eliminarOficina(idOficina);
+                        string mensaje = "<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>";
+                        Response.Write(mensaje);
+                        habilitarCamposInsertar();
+                    }
+                }
+                //La oficina usuaria no se pudo registrar en la BD
+                else
+                {
+                    string mensaje = "<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>";
+                    Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
             }
         }
 
+        /*Método para  controlar la inserción de el o los teléfonos de una oficina en particular
+         * Requiere: no recibe parámetros
+         * Modifica: Revisa que efectivamente se esten insertando telefonos en la caja de texto y que no se inserten repetidos
+         * Retorna: No retorna ningún valor
+         */
+        protected void guardarTelefonos(int idOficina)
+        {
+            int i = 0;
 
+            while (i < listTelefonosOficina.Items.Count && listTelefonosOficina.Items[i].Text.Equals("") == false)
+            {
+                string mensaje;
+                //Objeto para guardar los telefonos de la oficina usuaria en el sistema
+                Object[] telefonoOficina = new Object[2];
+                telefonoOficina[0] = idOficina;
+                telefonoOficina[1] = this.listTelefonosOficina.Items[i].Text;
+                int tipoInsercion = 2;                              //inserción de tipo 2 es agregar telefonos
+
+                //Se insertó un nuevo telefono para la oficina usuaria
+                if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, telefonoOficina, "", ""))
+                {
+                }
+                //La inserción de un nuevo telefono para una oficina usuaria en la base de datos falló porque ya estaba en la base
+                else
+                {
+                    mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.');</script>";
+                    Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
+
+                i++;
+            }
+        }
+
+        /*
+         */
+        protected void guardarMiembros(int idProyecto)
+        {
+            int i = 0;
+
+            while (i < listMiembrosAgregados.Items.Count && listMiembrosAgregados.Items[i].Text.Equals("") == false)
+            {
+                string mensaje;
+                //Objeto para guardar los miembros de un equipo de trabajo para un proyecto
+                Object[] nuevoMiembro = new Object[2];
+                nuevoMiembro[0] = obtenerCedula(this.listMiembrosAgregados.Items[i].Text, false);
+                nuevoMiembro[1] = idProyecto;
+                
+                int tipoInsercion = 4;                              //inserción de tipo 4 es agregar miembros
+
+                //Se insertó un nuevo miembro de equipo de pruebas
+                if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, nuevoMiembro, "", ""))
+                {
+                }
+                //La inserción de un nuevo miembro de equipo de pruebas en la base de datos falló porque ya estaba en la base
+                else
+                {
+                    mensaje = "<script>window.alert('El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.');</script>";
+                    Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
+
+                i++;
+            }
+        }
+
+        /*
+         */
+        protected void btnAgregarMiembro(object sender, EventArgs e)
+        {
+
+            if (listMiembrosDisponibles.SelectedIndex != -1)
+            {
+                listMiembrosAgregados.Items.Add(listMiembrosDisponibles.SelectedValue);
+                listMiembrosDisponibles.Items.RemoveAt(listMiembrosDisponibles.SelectedIndex);
+            }
+
+            if (modo == 1)
+            {
+                habilitarCamposInsertar();
+            }
+            else if (modo == 2)
+            {
+           
+            }
+        }
+
+        /*
+        */
+        protected void btnEliminarMiembro(object sender, EventArgs e)
+        {
+            if (modo == 1 || modo == 2)
+            {
+                if (listMiembrosAgregados.SelectedIndex != -1)
+                {
+                    listMiembrosDisponibles.Items.Add(listMiembrosAgregados.SelectedValue);
+                    listMiembrosAgregados.Items.RemoveAt(listMiembrosAgregados.SelectedIndex);
+                }
+            }
+        }
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
         * Requiere: no recibe parámetros

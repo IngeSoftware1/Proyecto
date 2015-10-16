@@ -13,7 +13,104 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     public class ControladoraBDProyectos
     {
         AccesoBaseDatos acceso = new AccesoBaseDatos();
-       
+
+        /*Método para insertar en la base de datos una nueva oficina usuaria
+         * Requiere: un objeto tipo entidadOficinaUsuaria con los datos a guardar
+         * Modifica: realiza la sentencia sql para insertar la oficina usuaria
+         * Retorna: true si la inserción fue exitosa, false si no se pudo insertar en la base de datos
+         */
+        public bool insertarOficina(EntidadOficinaUsuaria nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Oficina_Usuaria (nombre_oficina, nombre_rep, ape1_rep, ape2_rep) VALUES ('" + nuevo.getNombreOficina + "', '" + nuevo.getNombreRep + "', '" + nuevo.getApe1Rep + "', '" + nuevo.getApe2Rep + "')";
+                return acceso.insertarDatos(insercion);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        /*Método para obtener el id de una oficina usuaria a partir de su nombre
+         * Requiere: el nombre de la oficina a buscar
+         * Modifica:crea la sentencia sql para buscar el id de la oficina a partir del nombre y ejecuta la consulta
+         * Retorna: el id de la oficina, -1 si no lo encuentra
+         */
+        public int obtenerOficinaAgregada(string nombreOficina) 
+        {
+            int resultado = -1;
+            DataTable datosOficina = new DataTable();
+            string consulta = "SELECT id_oficina FROM Oficina_Usuaria WHERE nombre_oficina='" + nombreOficina + "';";
+            try
+            {
+                datosOficina = acceso.ejecutarConsultaTabla(consulta);
+                if (datosOficina.Rows.Count == 1)
+                {
+                    resultado = Int32.Parse(datosOficina.Rows[0][0].ToString());
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+
+            return resultado;
+        }
+
+        /*Método para insertar los telefonos de una oficina usuaria en la base de datos
+         * Requiere: un objeto tipo EntidadTelOficina con los datos a guardar
+         * Modifica: crea la sentencia sql y la ejecuta
+         * Retorna: true si pudo almacenar los datos en la base de datos, false si no pudo
+         */
+        public bool insertarTelefono(EntidadTelOficina nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Telefono_Oficina (id_oficina, num_telefono) VALUES ('" + nuevo.getIdOficina + "', '" + nuevo.getNumTelefono + "')";
+                return acceso.insertarDatos(insercion);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        /*Método para insertar en la base de datos un nuevo proyecto
+         * Requiere: un objeto tipo entidadProyecto con los datos a guardar
+         * Modifica: realiza la sentencia sql para insertarel proyecto
+         * Retorna: true si la inserción fue exitosa, false si no se pudo insertar en la base de datos
+         */
+        public bool insertarProyecto(EntidadProyecto nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, fecha_asignacion, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getFechaAsignacion + "', '" + nuevo.getTipoEstado + "', '" +nuevo.getCedulaCreador+ "', '"+nuevo.getCedulaLider+"', '"+nuevo.getIdOficina+"')";
+                return acceso.insertarDatos(insercion);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        public bool insertarMiembro(EntidadTrabajaEn nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Trabaja_En (cedula_miembro, id_proyecto) VALUES ('" + nuevo.getCedulaMiembro + "', '" + nuevo.geIdProyecto + "')";
+                return acceso.insertarDatos(insercion);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
 
         /*Método para buscar si en la base de datos existe un proyecto asociado a un usuario con una cedula particular
         * Requiere: un string con la cedula de un funcionario específico
@@ -147,6 +244,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return resultado;
         }
 
+        public void eliminarOficina(int idOficina)
+        {
+            string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + idOficina+ "';";
+            acceso.eliminarDatos(borrarOficina);
+        }
 
         /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
         * Requiere: el id del proyecto que se requiere eliminar para ver la oficina asociada
@@ -219,7 +321,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.get_nombre_oficina + "' , nombre_rep= '" + nuevo.get_nombre_rep + "', ape1_rep= '" + nuevo.get_ape1_rep + "', ape2_rep = '" + nuevo.ape2_rep + "WHERE id_Oficina ='" + idOficina + "';";
+                string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.getNombreOficina + "', nombre_rep= '" + nuevo.getNombreRep + "', ape1_rep= '" + nuevo.getApe1Rep + "', ape2_rep = '" + nuevo.getApe2Rep + "WHERE id_Oficina ='" + idOficina + "';";
                 return acceso.insertarDatos(modif);
 
             }

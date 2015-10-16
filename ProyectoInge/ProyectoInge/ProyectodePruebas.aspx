@@ -243,7 +243,7 @@
                                         <br>
                                         <br>
                                         <%-- Botón para agregar miembros a un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkAgregarMiembros" Style="height: 100px" CssClass="col-sm-offset-11">
+                                        <asp:LinkButton runat="server" ID="lnkAgregarMiembros" Style="height: 100px" CssClass="col-sm-offset-11" OnClick="btnAgregarMiembro">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
                                         </asp:LinkButton>
                                     </div>
