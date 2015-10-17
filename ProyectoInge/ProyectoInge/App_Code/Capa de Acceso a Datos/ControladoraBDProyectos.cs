@@ -473,7 +473,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT O.id_oficina O.nombre_oficina, O.nombre_rep, O.ape1_rep, O.ape2_rep " + " FROM Oficina_Usuaria O, Proyecto P WHERE P.id_proyecto = '" + idProyecto + "'" + "AND P.id_oficina = O.id_oficina ";
+                consulta = "SELECT P.id_oficina, O.nombre_oficina, O.nombre_rep, O.ape1_rep, O.ape2_rep " + " FROM Oficina_Usuaria O, Proyecto P WHERE P.id_proyecto = '" + idProyecto + "'" + "AND P.id_oficina = O.id_oficina ";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

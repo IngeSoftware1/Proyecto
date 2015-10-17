@@ -21,6 +21,7 @@ namespace ProyectoInge
         private string idmiembroConsultado;
         Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -40,6 +41,28 @@ namespace ProyectoInge
             }*/
 
         }
+
+        /*Método para hacer visible el calendario cuando el usuario presiona el botón */
+        protected void lnkCalendario_Click(object sender, EventArgs e)
+        {
+            calendarFecha.Visible = true;
+            UpdatePanelCalendario.Update();
+        }
+
+        /*Método para leer la fecha seleccionada por el usuario */
+        protected void calendarioSeleccionado(object sender, EventArgs e)
+        {
+            UpdatePanelCalendario.Update();
+        }
+
+
+        /*Método para que la página no se actualice cada vez que el usuario elige un nuevo mes */
+        protected void cambioDeMes(object sender, MonthChangedEventArgs e)
+        {
+            UpdatePanelCalendario.Update();
+        }
+
+
 
         /* Método para llenar el comboBox según los tipos de estados de proceso almacenados en la BD
         * Modifica: llena el comboBox con los datos obtenidos de la BD
@@ -959,6 +982,10 @@ namespace ProyectoInge
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
                 this.calendarFecha.SelectedDate = this.calendarFecha.VisibleDate = (System.DateTime)datosFilaProyecto.Rows[0][2];
+                DateTime fecha = (System.DateTime)datosFilaProyecto.Rows[0][2];
+                this.txtCalendar.Text = fecha.ToString("MMMM dd, yyyy"); 
+          
+               
                 if (this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString()) != null)
                 {
                     ListItem estadoProceso = this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString());
@@ -977,11 +1004,17 @@ namespace ProyectoInge
 
             if (datosOficinaUsuaria.Rows.Count == 1)
             {
+
                 this.idOficinaConsultda = datosOficinaUsuaria.Rows[0][0].ToString();
                 this.txtnombreOficina.Text = datosOficinaUsuaria.Rows[0][1].ToString();
                 this.txtnombreRep.Text = datosOficinaUsuaria.Rows[0][2].ToString();
                 this.txtApellido1Rep.Text = datosOficinaUsuaria.Rows[0][3].ToString();
                 this.txtApellido2Rep.Text = datosOficinaUsuaria.Rows[0][4].ToString();
+            }
+            else
+            {
+     
+
             }
 
             //Se obtienen los teléfonos de la oficina usuaria en caso de que sea necesario 

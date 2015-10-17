@@ -72,6 +72,9 @@
                                 </div>
                             </div>
 
+                             <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
+
                             <div class="form-group">
                                 <%--Fecha de asignación--%>
                                 <div class="row">
@@ -80,14 +83,21 @@
                                         <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                     </div>
                                     <div class="">
-                                        <asp:LinkButton runat="server" ID="lnkCalendario" CssClass=".glyphicon.glyphicon-calendar">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor"></span>
+
+                                        <asp:LinkButton runat="server" ID="lnkCalendario"  CssClas=".glyphicon.glyphicon-calendar"  OnClick="lnkCalendario_Click" >
+                                        <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
                                         </asp:LinkButton>
                                     </div>
-                                    <asp:Calendar runat="server" ID="calendarFecha" Visible="false"></asp:Calendar>
-                                    <%--No se si hay que agregarle un estilo--%>
+                                    <br>
+
+                                    <div class ="row col-sm-6 col-sm-offset-3">
+                                    <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes"  OnSelectionChanged="calendarioSeleccionado" ></asp:Calendar>         
+                                        <%--No se si hay que agregarle un estilo--%>
+                                        </div>
                                 </div>
                             </div>
+                              </ContentTemplate>
+                </asp:UpdatePanel>
 
                             <div class="form-group">
 
