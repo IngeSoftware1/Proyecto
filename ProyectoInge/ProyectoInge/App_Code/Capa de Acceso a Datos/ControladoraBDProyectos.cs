@@ -196,6 +196,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         }
 
+
+        public bool eliminarProyecto(int idProyecto)
+        {
+            try
+            {
+                string borradoProyecto = "Delete from Proyecto where id_proyecto ='" + idProyecto + "';";
+                acceso.eliminarDatos(borradoProyecto);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+
+        }
+
         /*Método para obtiene el id de un proyecto apartir de su nombre
         * Requiere: el nombre del proyecto del cual se quiere saber el id
         * Modifica: consulta el id de un proyecto
@@ -259,19 +275,21 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         */
         public bool eliminarOficinaProyecto(int idProyecto)
         {
-
+            bool indicador = false;
             int resultado = consultarOficinaProyecto(idProyecto);
             DataTable datosProyecto = new DataTable();
             try
             {
-                string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + resultado+ "';";
+                string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='"+resultado+"';";
                 acceso.eliminarDatos(borrarOficina);
-                return true;
+                indicador = true;
             }
             catch (SqlException e)
             {
-                return false;
+                indicador = false;
             }
+
+            return indicador;
 
         }
 

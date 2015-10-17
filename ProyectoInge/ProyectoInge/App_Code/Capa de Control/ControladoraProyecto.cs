@@ -142,6 +142,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraBDProyecto.eliminarOficina(idOficina);
         }
 
+
+        public void eliminarProyecto(int idProyecto)
+        {
+            controladoraBDProyecto.eliminarOficina(idProyecto);
+        }
+
         /*
          */
         public int obtenerIDconNombreProyecto(string nomProyecto)
@@ -162,27 +168,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 if (idProyecto != -1)
                 {
 
-                    if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto))
+                    if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto) == true)
                     {
-                        if (controladoraBDProyecto.eliminarOficina(idProyecto))
+                        if (controladoraBDProyecto.eliminarProyecto(idProyecto)== true)
                         {
+                            controladoraBDProyecto.eliminarOficina(idOficina);
                             resultado = true;
                         }
-                        else
-                        {
-                            resultado = false;
-                        }
-
-                    }
-                    else
-                    {
-                        resultado = false;
                     }
                 }
-                else
-                {
-                    resultado = false;
-                }
+             
             }
             else
             {
@@ -190,17 +185,20 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                 if (idProyecto != -1)
                 {
-                    controladoraBDProyecto.cambiarEstado(idProyecto);
-                    resultado = true;
-                }
-                else
-                {
-                    resultado = false;
+                    if (controladoraBDProyecto.cambiarEstado(idProyecto) == true)
+                    {
+                        resultado = true;
+                    }
                 }
             }
 
             return resultado;
-        }        public DataTable consultarEstados()
+        }        
+        
+        
+        
+        
+        public DataTable consultarEstados()
         {
    
             DataTable resultado = controladoraBDProyecto.consultarEstados();
@@ -239,6 +237,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
 
             DataTable resultado = controladoraBDProyecto.consultarOficina(idProyecto);
+            return resultado;
+        }
+
+        public int consultarOficinaProyecto(int idProyecto)
+        {
+
+            int resultado = controladoraBDProyecto.consultarOficinaProyecto(idProyecto);
             return resultado;
         }
 

@@ -158,12 +158,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: Modifica el valor del atributo de login.
         * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
         */
-        public Boolean modificarEstado(Boolean es, string user)
+        public Boolean modificarEstadoAbrir(string cedula)
         {
             string modif;
             try
             {
-                modif = "UPDATE Funcionario SET login ='" + es + "' WHERE usuario ='" + user + "'";
+                modif = "UPDATE Funcionario SET login = 'True' WHERE cedula ='" + cedula + "'";
                 return acceso.insertarDatos(modif);
             }
             catch (SqlException e)

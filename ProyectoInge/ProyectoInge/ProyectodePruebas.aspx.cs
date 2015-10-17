@@ -258,7 +258,6 @@ namespace ProyectoInge
 
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idProyectoConsultado = lnkConsulta.CommandArgument;
-
                 controlarCampos(false);
                 llenarDatos(idProyectoConsultado);
                 cambiarEnabled(true, this.btnModificar);
@@ -816,6 +815,8 @@ namespace ProyectoInge
             modo = 3;
             controlarCampos(false);
 
+            
+            
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 mensaje = "<script>window.alert('Está seguro que desea eliminar este proyecto?');</script>";
@@ -837,6 +838,10 @@ namespace ProyectoInge
         {
             
             string perfil = Session["perfil"].ToString();
+            idProyectoConsultado = Convert.ToString(controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text));
+            idOficinaConsultda = Convert.ToString(controladoraProyecto.consultarOficinaProyecto(Int32.Parse(idProyectoConsultado)));
+
+           
 
             if (perfil.Equals("Administrador"))
             {
@@ -851,6 +856,8 @@ namespace ProyectoInge
 
                     string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
                     Response.Write(mensaje);
+                    cargarMiembrosSinAsignar();
+                    llenarGrid(Session["cedula"].ToString());
                 }
                 vaciarCampos();
 
@@ -859,8 +866,8 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
-                //llenarDropDownPerfil();
-                //llenarDropDownRol();
+                
+                
             }else if(perfil.Equals("Miembro")) {
 
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
@@ -873,17 +880,17 @@ namespace ProyectoInge
 
                     string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
                     Response.Write(mensaje);
+                    cargarMiembrosSinAsignar();
+                    llenarGrid(Session["cedula"].ToString());
                 }
 
                 vaciarCampos();
-
                 controlarCampos(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
-                //llenarDropDownPerfil();
-                //llenarDropDownRol();
+               
 
             } else
             {
@@ -1026,8 +1033,7 @@ namespace ProyectoInge
             DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto);
             string nombreLider;
             ListItem lider;
-
-
+         
             if (datosFilaProyecto.Rows.Count == 1)
             {
 

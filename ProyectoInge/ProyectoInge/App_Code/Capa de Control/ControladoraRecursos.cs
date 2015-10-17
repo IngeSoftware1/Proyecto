@@ -48,9 +48,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: Modifica el valor del atributo de login.
         * Retorna: Devuelve un true si se ejecutó la actualización correctamente yendo a la controladora de base de datos.
         */
-        public Boolean modificarEstado(Boolean es, string user)
+        public Boolean modificarEstadoAbrir(string ced)
         {
-            Boolean resultado = controladoraBDRecurso.modificarEstado(es, user);
+            Boolean resultado = controladoraBDRecurso.modificarEstadoAbrir(ced);
             return resultado;
         }
 

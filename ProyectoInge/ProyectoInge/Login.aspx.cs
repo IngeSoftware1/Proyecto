@@ -53,14 +53,15 @@ namespace ProyectoInge
                 if (cedulaDeFuncionario.Equals("") == false)
                 {
                     string estaLogueado = controladora.consultarEstadoFuncionario(cedulaDeFuncionario);
-                    Response.Write(estaLogueado);
+                    
                     if (estaLogueado.Equals("False") == true)
                     {
                         Session["cedula"] = cedulaDeFuncionario;
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
+                        controladora.modificarEstadoAbrir(cedulaDeFuncionario);
                         Response.Redirect("~/RecursosHumanos.aspx");
-                        controladora.modificarEstado(true, txtUsuario.Text);
+                        
                          
                     }
                     else

@@ -22,7 +22,7 @@
                     <li><a runat="server" style="color: white">Diseño de pruebas</a></li>
                     <li><a runat="server" style="color: white">Caso de pruebas</a></li>
                     <li><a runat="server" style="color: white">Ejecución de pruebas</a></li>
-                    <li><a runat="server" href="~/Login.aspx" style="color: white">Cerrar sesión</a></li>
+                    <li><a runat="server" onserverclick="cerrarSesion"  href="~/Login.aspx" style="color: white">Cerrar sesión</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -40,7 +40,7 @@
             <div id="btnsControl" style="float: right">
                 <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
                 <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click"/>
             </div>
         </div>
 

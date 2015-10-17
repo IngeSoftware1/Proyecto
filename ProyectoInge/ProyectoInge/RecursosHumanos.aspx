@@ -24,7 +24,7 @@
             <li><a runat="server" style="color:white" >Diseño de pruebas</a></li>
             <li><a runat="server" style="color:white" >Caso de pruebas</a></li>
             <li><a runat="server" style="color:white">Ejecución de pruebas</a></li>
-            <li><a runat="server" href="~/Login.aspx" style="color:white">Cerrar sesión</a></li>      </ul>
+            <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx" style="color:white">Cerrar sesión</a></li>      </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
