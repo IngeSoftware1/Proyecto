@@ -110,7 +110,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      public DataTable consultarRH(string ced)
      {
          DataTable datosFuncionario = new DataTable();
-         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, F.Email, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
+         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, F.Email, F.contrasena, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
          datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
          return datosFuncionario;
      }
@@ -431,9 +431,18 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             DataTable dt = new DataTable();
             string consulta;
 
-            consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_Rol, F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro ";
+            try
+            {
+                consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_Rol, F.cedula " + " FROM Funcionario F, Miembro M WHERE NOT EXISTS (SELECT NULL From Miembro M WHERE F.cedula = M.cedula_miembro AND M.tipo_rol = '" + "Líder de pruebas" + "'" + ")" + " AND F.cedula = M.cedula_miembro ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
 
-            dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+
+
+            }
+
             return dt;
         }
 

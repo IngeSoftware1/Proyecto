@@ -25,27 +25,42 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
-            {
-                llenarComboEstado();
-                llenarComboLideres();
-                cargarMiembrosSinAsignar();
-            }
- 
-            llenarGrid(null); //Por el momento se pone null, pero en realidad se debe verificar si es un miembro o un administrador 
-                              //el que se encuentra usando el sistema
-            /*if (Session["cedula"] == null)
+            if (Session["cedula"] == null)
             {
                 Response.Redirect("~/Login.aspx");
 
-            }*/
+            }
 
+            if(!IsPostBack)
+            {
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                llenarComboEstado();
+                llenarComboLideres();          
+            }
+
+            
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+
+                cambiarEnabled(true, this.btnInsertar);
+                llenarGrid(null);
+            }
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+                llenarGrid(Session["cedula"].ToString());
+            }
         }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
         protected void lnkCalendario_Click(object sender, EventArgs e)
         {
             calendarFecha.Visible = true;
+            calendarFecha.SelectedDate = calendarFecha.TodaysDate;
             UpdatePanelCalendario.Update();
         }
 
@@ -116,6 +131,7 @@ namespace ProyectoInge
 
                         if (numColumna == 2)
                         {
+                             
                             cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
                         
                         }
@@ -126,13 +142,14 @@ namespace ProyectoInge
 
                         ++numColumna;
                     }
+
                     datos[i] = nombre;
-                    numColumna = 0;
+                    numColumna = 0; //Contador para saber el número de columna actual.
 
                 }
                 this.comboLider.DataSource = datos;
                 this.comboLider.DataBind();
-                Session["vectorCedulasLideres"] = cedulasLideres;
+                Session["vectorCedulasLideres"] = cedulasLideres; //Se le asocia a la variable global el diccionario con las cédulas de los líderes
 
             }
         }
@@ -157,28 +174,21 @@ namespace ProyectoInge
 
                     foreach (DataColumn column in datosMiembros.Columns)
                     {
-                        if (numColumna == 4)
+                        if (numColumna == 4) //Se utiliza para saber que es el cuarto atributo que corresponde a la cédula
                         {
                             cedulasTodosMiembros.Add(filaMiembro, datosMiembros.Rows[i][column].ToString());
                         }
                         else
                         {
-                            if (numColumna == 3)
+
+                            if (numColumna == 3) //Se utiliza para hacer la separación entre el nombre y el rol
                             {
-                                if(datosMiembros.Rows[i][column].ToString() == "Líder de pruebas")
-                                {
-                                    filaMiembro = filaMiembro + ":" + " " + "Líder";
-                                }
-                                else
-                                {
-                                    filaMiembro = filaMiembro + ":" + " " + datosMiembros.Rows[i][column].ToString();
-                                }
+                                filaMiembro = filaMiembro + ":" + " " + datosMiembros.Rows[i][column].ToString();
                             }
                             else
                             {
                                 filaMiembro = filaMiembro + " " + datosMiembros.Rows[i][column].ToString();
-                            }
-                                
+                            }                         
                         }
 
                         ++numColumna;
@@ -249,21 +259,24 @@ namespace ProyectoInge
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idProyectoConsultado = lnkConsulta.CommandArgument;
 
+                controlarCampos(false);
                 llenarDatos(idProyectoConsultado);
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
-                cambiarEnabled(false, this.btnInsertar);
+                cambiarEnabled(true, this.btnEliminar);
 
-                /*    //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                   //El unico botón que cambia de acuerdo al perfil es el de eliminar
                     if (Session["perfil"].ToString().Equals("Administrador"))
                     {
 
-                        cambiarEnabled(true, this.btnEliminar);
+                        cambiarEnabled(true, this.btnInsertar);
                     }
                     else
                     {
-                        cambiarEnabled(false, this.btnEliminar);
-                    } */
+                        cambiarEnabled(false, this.btnInsertar);
+                    }
+
+                    listMiembrosDisponibles.Items.Clear();
             }
 
         }
@@ -273,6 +286,7 @@ namespace ProyectoInge
         {
             vaciarCampos();
             controlarCampos(true);
+            cargarMiembrosSinAsignar();
             modo = 1;
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
@@ -332,6 +346,7 @@ namespace ProyectoInge
         protected void vaciarCampos()
         {
             this.txtNombreProy.Text = "";
+            this.txtCalendar.Text = "";
             this.txtObjetivo.Text="";
             this.txtnombreOficina.Text = "";
             this.txtnombreRep.Text = "";
@@ -341,6 +356,7 @@ namespace ProyectoInge
             this.listTelefonosOficina.Items.Clear();
             this.listMiembrosDisponibles.Items.Clear();
             this.listMiembrosAgregados.Items.Clear();
+            
         }
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
@@ -353,7 +369,9 @@ namespace ProyectoInge
             this.txtNombreProy.Enabled = condicion;
             this.txtObjetivo.Enabled = condicion;
             this.comboEstado.Enabled = condicion;
+            this.txtCalendar.Enabled = condicion;
             this.calendarFecha.Enabled = condicion;
+            this.lnkCalendario.Enabled = condicion;
             this.txtnombreOficina.Enabled = condicion;
             this.txtnombreRep.Enabled = condicion;
             this.txtApellido1Rep.Enabled = condicion;
@@ -362,6 +380,8 @@ namespace ProyectoInge
             this.comboLider.Enabled = condicion;
             this.lnkNumero.Enabled = condicion;
             this.lnkQuitar.Enabled = condicion;
+            this.lnkAgregarMiembros.Enabled = condicion;
+            this.lnkQuitarMiembros.Enabled = condicion;
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -412,6 +432,38 @@ namespace ProyectoInge
 
             }
         }
+
+        /*Método para la acción del botón cancelar
+      * Modifica: Deshabilita los textbox, los botones y limpia los textbox
+      * Retorna: no retorna ningún valor
+      */
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            //Si es un administrador puede insertar
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                cambiarEnabled(true, this.btnInsertar);
+
+            }
+            //Si es un miembro no puede insertar
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+            }
+
+            vaciarCampos();
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+
+            llenarComboEstado();
+            llenarComboLideres();
+            listMiembrosDisponibles.Items.Clear();
+            listMiembrosAgregados.Items.Clear();
+        }
+
         /*Método para la acción de aceptar modificar
         * Requiere: No requiere ningún parámetro
         * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
@@ -981,7 +1033,6 @@ namespace ProyectoInge
 
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
-                this.calendarFecha.SelectedDate = this.calendarFecha.VisibleDate = (System.DateTime)datosFilaProyecto.Rows[0][2];
                 DateTime fecha = (System.DateTime)datosFilaProyecto.Rows[0][2];
                 this.txtCalendar.Text = fecha.ToString("MMMM dd, yyyy"); 
           

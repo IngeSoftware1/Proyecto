@@ -90,7 +90,7 @@
                                     </div>
                                     <br>
 
-                                    <div class ="row col-sm-6 col-sm-offset-3">
+                                    <div class ="row col-sm-6 col-sm-offset-5">
                                     <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes"  OnSelectionChanged="calendarioSeleccionado" ></asp:Calendar>         
                                         <%--No se si hay que agregarle un estilo--%>
                                         </div>
@@ -304,7 +304,7 @@
             <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
                 <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" />
             </div>
         </div>
         <br>

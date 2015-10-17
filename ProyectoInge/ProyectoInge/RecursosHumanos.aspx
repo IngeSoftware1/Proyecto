@@ -157,7 +157,7 @@
                                 <div class="row">
                                     <asp:Label ID="lblContrasena" runat="server" Text="Contraseña" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-4">
-                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control" TextMode="Password" MaxLength="30"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtContrasena" CssClass="form-control" MaxLength="30"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -165,28 +165,34 @@
                                 <div class="row">
                                     <asp:Label ID="lblConfirmar" runat="server" Text="Confirmar contraseña:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
-                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control" TextMode="Password" MaxLength="30"></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtConfirmar" CssClass="form-control" MaxLength="30"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
+
+                             <asp:UpdatePanel ID="UpdatePanelDropDown" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
+
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label" ></asp:Label>
                                     <div class="col-sm-6">
-                                        <asp:DropDownList runat="server" ID="comboPerfil" CssClass="form-control">
+                                        <asp:DropDownList runat="server" ID="comboPerfil" AutoPostBack="True"  CssClass="form-control" onselectedindexchanged="perfilSeleccionado" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label "></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
+                         </ContentTemplate>
+                             </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>

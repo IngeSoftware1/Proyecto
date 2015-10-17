@@ -64,6 +64,27 @@ namespace ProyectoInge
             datos[1] = "Miembro de equipo de pruebas";
             this.comboPerfil.DataSource = datos;
             this.comboPerfil.DataBind();
+            UpdatePanelDropDown.Update();
+        }
+
+       /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
+       * Modifica: el campo del rol de acuerdo al campo del perfil
+       * Retorna: no retorna ningún valor */
+        protected void perfilSeleccionado(object sender, EventArgs e)
+        {
+           if(this.comboPerfil.SelectedIndex != -1)
+           {
+               if(this.comboPerfil.Items[this.comboPerfil.SelectedIndex].Text == "Administrador")
+               {
+                   this.comboRol.Enabled = false;
+               }
+               else
+               {
+                   this.comboRol.Enabled = true;
+               }
+           }
+
+           UpdatePanelDropDown.Update();
         }
 
         /* Método para llenar el comboBox según los datos datos almacenados en la BD
@@ -92,6 +113,13 @@ namespace ProyectoInge
                 this.comboRol.DataBind();
 
             }
+
+            if(this.comboPerfil.Text == "Administrador")
+            {
+                this.comboRol.Enabled = false;
+            }
+
+            UpdatePanelDropDown.Update();
         }
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
@@ -107,7 +135,7 @@ namespace ProyectoInge
             this.txtApellido2.Enabled = condicion;
             this.txtEmail.Enabled = condicion;
             this.comboPerfil.Enabled = condicion;
-            this.comboRol.Enabled = condicion;
+          //  this.comboRol.Enabled = condicion;
             this.txtUsuario.Enabled = condicion;
             this.txtContrasena.Enabled = condicion;
             this.txtConfirmar.Enabled = condicion;
@@ -130,20 +158,22 @@ namespace ProyectoInge
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idRH = lnkConsulta.CommandArgument;
 
+                controlarCampos(false);
                 llenarDatos(idRH);
                 cambiarEnabled(true, this.btnModificar); 
                 cambiarEnabled(true, this.btnCancelar);
-                cambiarEnabled(false, this.btnInsertar);
-
+  
                 //El unico botón que cambia de acuerdo al perfil es el de eliminar
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
 
                     cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(true, this.btnInsertar);
                 }
                 else
                 {
                     cambiarEnabled(false, this.btnEliminar);
+                    cambiarEnabled(false, this.btnInsertar);
                 }
             }
 
@@ -758,8 +788,8 @@ namespace ProyectoInge
                         }
                         else
                         {
-                         
-                            datos[4] = "Miembro";
+
+                            datos[4] = fila[4].ToString();
                         }
                         dt.Rows.Add(datos);
                     }
@@ -845,7 +875,7 @@ namespace ProyectoInge
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Perfil";
+            columna.ColumnName = "Rol";
             dt.Columns.Add(columna);
 
             return dt;
@@ -873,12 +903,13 @@ namespace ProyectoInge
                 this.txtApellido2.Text = datosFilaFuncionario.Rows[0][3].ToString();
                 this.txtUsuario.Text = datosFilaFuncionario.Rows[0][4].ToString();
                 this.txtEmail.Text = datosFilaFuncionario.Rows[0][5].ToString();
+                this.txtContrasena.Text = datosFilaFuncionario.Rows[0][6].ToString(); 
 
 
-                if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][6].ToString()) != null)
+                if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][7].ToString()) != null)
                 {
 
-                    ListItem rol = this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][6].ToString());
+                    ListItem rol = this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][7].ToString());
                     this.comboRol.SelectedValue = rol.Value;
                     tipoPerfil = comboPerfil.Items.FindByText("Miembro de equipo de pruebas");
                     perfilGuardadoBD = "Miembro de equipo de pruebas";
