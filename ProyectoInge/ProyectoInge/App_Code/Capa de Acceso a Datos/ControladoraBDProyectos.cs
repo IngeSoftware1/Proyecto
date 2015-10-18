@@ -410,6 +410,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             throw new NotImplementedException();
         }
 
+
+        /* Método para obtener los estados que podría contener un proyecto.
+         * Requiere: no requiere parámetros.
+         * Modifica: no realiza modificaciones.
+         * Retorna: un DataTable con los estados que tiene almacenada la base de datos.
+         */
         public DataTable consultarEstados()
         {
             DataTable dt = new DataTable();
@@ -417,10 +423,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                
+
                 consulta = "SELECT E.tipo_estado " + " FROM Estado_Proceso E ";
                 dt = acceso.ejecutarConsultaTabla(consulta);
-               
+
             }
             catch
             {
@@ -430,6 +436,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para consultar un proyecto
+       * Requiere: un string con el id del proyecto que se va a consultar
+       * Modifica: no realiza modificaciones
+       * Retorna: un DataTable con los resultados de la consulta 
+       */
         public DataTable consultarProyectoTotal(string idProyecto)
         {
             DataTable dt = new DataTable();
@@ -437,11 +448,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT P.nombre_proyecto, P.obj_general, P.fecha_asignacion, P.tipo_estado, F.nombre, F.apellido1 " + " FROM Proyecto P JOIN  Funcionario F ON P.cedula_creador = F.cedula WHERE P.id_proyecto ='" + idProyecto + "'"; ;
+                consulta = "SELECT P.nombre_proyecto, P.obj_general, P.fecha_asignacion, P.tipo_estado, P.cedula_lider " + " FROM Proyecto P JOIN  Funcionario F ON P.cedula_creador = F.cedula WHERE P.id_proyecto ='" + idProyecto + "'";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
-            catch
+            catch (SqlException e)
             {
                 dt = null;
             }
@@ -449,20 +460,28 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-        public DataTable consultarProyectos(string idMiembro)
+        /*Método para consultar todos los proyectos en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
+        * en los proyectos que se encuentra asociado en caso de que el usuario sea un miembro
+        * Requiere: un DataTable con los identificadores de el/los proyecto(s) en los cuales el miembro labora en caso de que éste sea el usuario,
+        * sino se envía null. 
+        * Modifica: no realiza modificaciones
+        * Retorna: un DataTable con los resultados de la consulta 
+        */
+        public DataTable consultarProyectos(DataTable idProyectos)
         {
             DataTable dt = new DataTable();
-            string consulta;
+            string consulta = "";
+            int contador = 0;
 
-            if (idMiembro == null)
+            if (idProyectos == null) //Si es null significa que el usuario del sistema es el administrador
             {
                 try
                 {
-                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, F.nombre, F.apellido1, F.apellido2 " + " FROM Proyecto P, Oficina_Usuaria O, Funcionario F WHERE P.id_oficina = O.id_oficina AND P.cedula_lider = F.cedula ";
+                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider " + " FROM Proyecto P, Oficina_Usuaria O WHERE P.id_oficina = O.id_oficina";
                     dt = acceso.ejecutarConsultaTabla(consulta);
 
                 }
-                catch
+                catch (SqlException e)
                 {
                     dt = null;
                 }
@@ -472,10 +491,23 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 try
                 {
-                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre, F.nombre, F.apellido1, F.apellido2" + " FROM Proyecto P, Trabaja_En T,  Oficina_Usuaria O, Funcionario F WHERE P.id_proyecto = T.id_proyecto AND T.cedulaMiembro = '" + idMiembro + "'" + " AND P.id_oficina = O.id_oficina AND P.cedula_lider = F.cedula ";
+
+                    for (int i = 0; i < idProyectos.Rows.Count; ++i)
+                    {
+                        ++contador;
+                        Debug.WriteLine("Estoy en el for de consultar proyectos, el contador vale: " + contador);
+                        consulta = consulta + " " + "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.id_proyecto = '" + idProyectos.Rows[i][0].ToString() + "'";
+                        if (contador != idProyectos.Rows.Count)
+                        {
+                            consulta = consulta + "UNION";
+                        }
+
+                    }
+
                     dt = acceso.ejecutarConsultaTabla(consulta);
+
                 }
-                catch
+                catch (SqlException e)
                 {
                     dt = null;
                 }
@@ -484,6 +516,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para consultar una oficina
+        * Requiere: un string con el id del proyecto para consultar la oficina asociada a éste.
+        * Modifica: no realiza modificaciones
+        * Retorna: un DataTable con los resultados de la consulta sobre la oficina
+        */
         public DataTable consultarOficina(string idProyecto)
         {
             DataTable dt = new DataTable();
@@ -495,7 +532,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
-            catch
+            catch (SqlException e)
             {
                 dt = null;
             }
@@ -504,6 +541,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+        /*Método para consultar los teléfonos de una oficina
+        * Requiere: un string con el id del proyecto para consultar los teléfonos de la oficina asociada a éste.
+        * Modifica: no realiza modificaciones
+        * Retorna: un DataTable con los resultados de la consulta sobre los teléfonos de la oficina. 
+        */
         public DataTable consultarTelOficina(string idProyecto)
         {
             DataTable dt = new DataTable();
@@ -515,7 +557,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
-            catch
+            catch (SqlException e)
             {
                 dt = null;
             }

@@ -160,10 +160,10 @@ namespace ProyectoInge
         protected void cargarMiembrosSinAsignar()
         {
 
+            //Se obtiene un DataTable con los datos de los miembros de un proyecto (su nombre, apellidos y rol)
             DataTable datosMiembros = controladoraProyecto.consultarMiembros();
             string filaMiembro = "";
             int numColumna = 0;
-
 
 
             if (datosMiembros.Rows.Count >= 1)
@@ -188,7 +188,7 @@ namespace ProyectoInge
                             else
                             {
                                 filaMiembro = filaMiembro + " " + datosMiembros.Rows[i][column].ToString();
-                            }                         
+                            }
                         }
 
                         ++numColumna;
@@ -197,7 +197,7 @@ namespace ProyectoInge
                     listMiembrosDisponibles.Items.Add(filaMiembro);
                     filaMiembro = "";
                     numColumna = 0;
-                    
+
                 }
             }
 
@@ -910,14 +910,32 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaProyectos();
             DataTable proyectos;
+            DataTable nombresLideres;
+            DataTable idProyectos;
             Object[] datos = new Object[5];
+            List<string> lideres = new List<string>();
             string lider = "";
+
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos los recursos humanos del sistema
             {
+                //Se obtienen todos los proyectos pues el administrador es el usuario del sistema
                 proyectos = controladoraProyecto.consultarProyectos(null);
-                if (proyectos.Rows.Count > 0)
+
+                for (int i = 0; i < proyectos.Rows.Count; ++i)
+                {
+                    foreach (DataRow fila in proyectos.Rows)
+                    {
+                        lideres.Add(fila[4].ToString());
+                    }
+
+                }
+
+                //Se obtiene un DataTable compuesto por el nombre y apellido del líder 
+                nombresLideres = controladoraProyecto.obtenerNombresLideres(lideres);
+
+                if (proyectos.Rows.Count > 0 && nombresLideres.Rows.Count > 0)
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {
@@ -925,13 +943,14 @@ namespace ProyectoInge
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
-                        lider = fila[4].ToString();
-                        lider = lider + " " + fila[5].ToString();
-                        lider = lider + " " + fila[6].ToString();
+                        lider = nombresLideres.Rows[0][0].ToString();
+                        lider = lider + " " + nombresLideres.Rows[0][1].ToString();
+                        lider = lider + " " + nombresLideres.Rows[0][2].ToString();
                         datos[4] = lider;
-
                         dt.Rows.Add(datos);
                     }
+
+                    lider = "";
                 }
                 else
                 {
@@ -945,23 +964,44 @@ namespace ProyectoInge
             }
             else
             {
-                proyectos = controladoraProyecto.consultarProyectos(idUsuario);
-                if (proyectos.Rows.Count == 1)
+                //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
+                idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
+                Debug.WriteLine("Los ids de los trabajos son: " + idProyectos.Rows.Count);
+
+
+                //Se obtiene un DataTable con los datos del o los proyectos 
+                proyectos = controladoraProyecto.consultarProyectos(idProyectos);
+
+                for (int i = 0; i < proyectos.Rows.Count; ++i)
                 {
+                    foreach (DataRow fila in proyectos.Rows)
+                    {
+                        lideres.Add(fila[4].ToString());
+                    }
+
+                }
+
+                //Se obtiene un DataTable compuesto por el nombre y apellido del líder 
+                nombresLideres = controladoraProyecto.obtenerNombresLideres(lideres);
+
+                if (proyectos.Rows.Count > 0 && nombresLideres.Rows.Count > 0)
+                {
+                    Debug.WriteLine("La cantidad de proyectos en los cuales trabaja es: " + proyectos.Rows.Count);
                     foreach (DataRow fila in proyectos.Rows)
                     {
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
-                        lider = fila[4].ToString();
-                        lider = lider + " " + fila[5].ToString();
-                        lider = lider + " " + fila[6].ToString();
+                        lider = nombresLideres.Rows[0][0].ToString();
+                        lider = lider + " " + nombresLideres.Rows[0][1].ToString();
+                        lider = lider + " " + nombresLideres.Rows[0][2].ToString();
                         datos[4] = lider;
-
                         dt.Rows.Add(datos);
 
                     }
+
+                    lider = "";
                 }
                 else
                 {
@@ -976,6 +1016,7 @@ namespace ProyectoInge
 
             this.gridProyecto.DataSource = dt;
             this.gridProyecto.DataBind();
+
 
         }
 
@@ -1026,31 +1067,38 @@ namespace ProyectoInge
        */
         public void llenarDatos(string idProyecto)
         {
-          
-            DataTable datosFilaProyecto = controladoraProyecto.consultarProyectoTotal(idProyecto);
-            DataTable datosFilaMiembros = controladoraProyecto.consultarMiembrosProyecto(idProyecto);
-            DataTable datosOficinaUsuaria = controladoraProyecto.consultarOficina(idProyecto);
-            DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto);
+
+            List<string> nombreDelLider = new List<string>(); //Lista que contiene la cédula del líder del proyecto
+            DataTable datosFilaProyecto = controladoraProyecto.consultarProyectoTotal(idProyecto); //Se obtienen los datos del proyecto
+            DataTable datosFilaMiembros = controladoraProyecto.consultarMiembrosProyecto(idProyecto); //Se obtienen los miembros que trabajan en el proyecto
+            DataTable datosOficinaUsuaria = controladoraProyecto.consultarOficina(idProyecto); //Se obtiene los datos de la oficina asociada al proyecto
+            DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto); //Se obtiene los teléfonos de la oficina usuaria
+            DataTable datosLider; //DataTable que contiene el nombre y apellido del líder del proyecto
             string nombreLider;
             ListItem lider;
-         
+
             if (datosFilaProyecto.Rows.Count == 1)
             {
 
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
                 DateTime fecha = (System.DateTime)datosFilaProyecto.Rows[0][2];
-                this.txtCalendar.Text = fecha.ToString("MMMM dd, yyyy"); 
-          
-               
+                this.txtCalendar.Text = fecha.ToString("MMMM dd, yyyy");
+
+
                 if (this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString()) != null)
                 {
                     ListItem estadoProceso = this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString());
                     this.comboEstado.SelectedValue = estadoProceso.Value;
                 }
 
-                nombreLider = datosFilaProyecto.Rows[0][4].ToString();
-                nombreLider = nombreLider + " " + datosFilaProyecto.Rows[0][5].ToString();
+                //Se obtiene el nombre y apellido del líder de acuerdo a la cédula de éste en el proyecto consultado
+                nombreDelLider.Add(datosFilaProyecto.Rows[0][4].ToString());
+                datosLider = controladoraProyecto.obtenerNombresLideres(nombreDelLider);
+
+
+                nombreLider = datosLider.Rows[0][0].ToString();
+                nombreLider = nombreLider + " " + datosLider.Rows[0][1].ToString();
 
                 if (this.comboLider.Items.FindByText(nombreLider) != null)
                 {
@@ -1059,6 +1107,7 @@ namespace ProyectoInge
                 }
             }
 
+            //Datos de la oficina Usuaria asociada al proyecto
             if (datosOficinaUsuaria.Rows.Count == 1)
             {
 
@@ -1070,7 +1119,7 @@ namespace ProyectoInge
             }
             else
             {
-     
+
 
             }
 
@@ -1087,16 +1136,18 @@ namespace ProyectoInge
                 }
             }
 
+
             listMiembrosAgregados.Items.Clear();
             string integrantes = "";
             int numColumna = 0;
+
+            //Se obtienen los miembros que trabajan en el proyecto consultado
             if (datosFilaMiembros.Rows.Count >= 1)
             {
                 listMiembrosAgregados.Items.Clear();
 
                 for (int i = 0; i < datosFilaMiembros.Rows.Count; ++i)
                 {
-
 
                     foreach (DataColumn column in datosFilaMiembros.Columns)
                     {
@@ -1120,6 +1171,7 @@ namespace ProyectoInge
 
                         ++numColumna;
                     }
+
                     listMiembrosAgregados.Items.Add(integrantes);
                     integrantes = "";
                     numColumna = 0;

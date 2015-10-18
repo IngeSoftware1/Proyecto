@@ -408,6 +408,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+        /*Método para obtener el nombre y apellido de los miembros que tienen como rol: líder de pruebas
+         * Requiere: no requiere parámetros.
+         * Retorna: un DataTable con el nombre y apellido de los miembros que son líderes.
+         */
         public DataTable consultarLideres()
         {
             DataTable dt = new DataTable();
@@ -426,6 +430,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para obtener el nombre y apellidos de los miembros del sistema
+        * Requiere: no requiere parámetros.
+        * Retorna: un DataTable con el nombre y apellidos de los miembros
+        */
         public DataTable consultarMiembros()
         {
             DataTable dt = new DataTable();
@@ -446,7 +454,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-       
+
+        /*Método para obtener el nombre y apellidos de los miembros asociados a un determinado proyecto
+        * Requiere: un string con el identificador del proyecto para conocer los miembros que trabajan en éste.
+        * Retorna: un DataTable con el nombre y apellidos de los miembros del proyecto
+        */
         public DataTable consultarMiembrosProyecto(string idProyecto)
         {
             DataTable dt = new DataTable();
@@ -457,6 +469,62 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_rol " + " FROM Funcionario F, Miembro M, Trabaja_En T WHERE T.id_proyecto = '" + idProyecto + "'" + "AND T.cedula_miembro = F.cedula AND T.cedula_miembro = M.cedula_miembro ";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        /*Método para obtener el/los proyectos a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con el identificador del o los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarProyectosAsociados(string idUsuario)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "'";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        /*Método para obtener el nombre y apellido de los líderes
+        * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
+        * Retorna: un DataTable con el nombre y apellido de los líderes
+        */
+        public DataTable obtenerNombresLideres(List<string> cedLideres)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+
+            try
+            {
+                for (int i = 0; i < cedLideres.Count; ++i)
+                {
+                    ++contador;
+                    consulta = consulta + " " + "SELECT F.nombre, F.apellido1, F.apellido2 FROM Funcionario F WHERE F.cedula = '" + cedLideres[i] + "'";
+
+                    if (contador != cedLideres.Count)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+                }
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch
             {

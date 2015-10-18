@@ -193,18 +193,25 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             }
 
             return resultado;
-        }        
-        
-        
-        
-        
+        }
+
+        /* Método para obtener los estados que podría contener un proyecto.
+         * Requiere: no requiere parámetros.
+         * Modifica: llama al consultar estados de la controladora de BD de proyecto
+         * Retorna: un DataTable con los estados que tiene almacenada la base de datos
+         */
         public DataTable consultarEstados()
         {
-   
+
             DataTable resultado = controladoraBDProyecto.consultarEstados();
             return resultado;
         }
 
+        /* Método para obtener los miembros que tienen como rol: líder de pruebas 
+         * Requiere: no requiere parámetros.
+         * Modifica: llama al consultar líderes de la controladora de Recursos Humanos
+         * Retorna: un DataTable con el nombre y apellido de los miembros que tienen como rol: líder de pruebas. 
+         */
         public DataTable consultarLideres()
         {
             controladoraRH = new ControladoraRecursos();
@@ -212,6 +219,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        /* Método para obtener los miembros almacenados en la base de datos.
+        * Requiere: no requiere parámetros.
+        * Modifica: llama al consultar miembros de la controladora de Recursos Humanos
+        * Retorna: un DataTable con el nombre y apellidos de los miembros 
+        */
         public DataTable consultarMiembros()
         {
             controladoraRH = new ControladoraRecursos();
@@ -219,6 +231,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        /* Método para obtener los datos asociados a un proyecto en específico
+        * Requiere: un string con el identificador del proyecto que se desea consultar.
+        * Modifica: llama al consultar Proyecto Total de la controladora de BD de proyecto.
+        * Retorna: un DataTable con los datos del proyecto
+        */
         public DataTable consultarProyectoTotal(string idProyecto)
         {
 
@@ -226,13 +243,25 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-        public DataTable consultarProyectos(string idMiembro)
+        /* Método para obtener los proyectos almacenados en la BD
+        * Requiere: un DataTable con los identificadores de los proyectos que se desean consultar, en caso de que el parámetro
+        sea null significa que se desea obtener todos los proyectos.
+        * Modifica: llama al consultar Proyectos de la controladora de BD de proyecto.
+        * Retorna: un DataTable con los proyectos (solo se obtienen ciertos atributos como el ID, el nombre del proyecto y de la oficina y 
+        y el líder).
+        */
+        public DataTable consultarProyectos(DataTable idProyectos)
         {
 
-            DataTable resultado = controladoraBDProyecto.consultarProyectos(idMiembro);
+            DataTable resultado = controladoraBDProyecto.consultarProyectos(idProyectos);
             return resultado;
         }
 
+        /* Método para obtener los datos de la oficina asociada a un proyecto.
+       * Requiere: un string con el identificador del proyecto para consultar la oficina asociada a éste.
+       * Modifica: llama al consultar Oficina de la controladora de BD de proyecto.
+       * Retorna: un DataTable con los datos de la oficina
+       */
         public DataTable consultarOficina(string idProyecto)
         {
 
@@ -247,6 +276,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        /* Método para obtener el/los teléfono(s) de la oficina asociada a un proyecto.
+        * Requiere: un string con el identificador del proyecto para consultar los teloficina asociada a éste.
+        * Modifica: llama al consultar Tel Oficina de la controladora de BD de proyecto.
+        * Retorna: un DataTable con los teléfonos de la oficina
+        */
         public DataTable consultarTelOficina(string idProyecto)
         {
 
@@ -254,12 +288,43 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        /* Método para obtener los miembros asociados a un determinado proyecto.
+        * Requiere: un string con el identificador del proyecto.
+        * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
+        * Retorna: un DataTable con los miembros asociados al proyecto especificado
+        */
         public DataTable consultarMiembrosProyecto(string idProyecto)
         {
             controladoraRH = new ControladoraRecursos();
             DataTable resultado = controladoraRH.consultarMiembrosProyecto(idProyecto);
             return resultado;
         }
+
+        /* Método para obtener el/los proyectos en los cuales el miembro trabaja
+        * Requiere: un string con la cédula del miembro.
+        * Modifica: llama al consultar Proyectos Asociados de la controladora de recursos humanos.
+        * Retorna: un DataTable con los identificadores de los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarProyectosAsociados(string idUsuario)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarProyectosAsociados(idUsuario);
+            return resultado;
+        }
+
+        /* Método para obtener el nombre y apellido del líder de un proyecto
+        * Requiere: una lista con la cédula de los líderes que se desea consultar
+        * Modifica: llama al obtener Nombres Lideres de la controladora de recursos humanos.
+        * Retorna: un DataTable con el nombre y apellido del líder
+        */
+        public DataTable obtenerNombresLideres(List<string> cedLideres)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.obtenerNombresLideres(cedLideres);
+            return resultado;
+        }
+
+     
 
 
         

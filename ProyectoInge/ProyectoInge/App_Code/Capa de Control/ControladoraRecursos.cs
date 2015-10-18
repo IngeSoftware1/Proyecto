@@ -229,19 +229,50 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.buscarPerfil(cedulaDeFuncionario);
         }
 
+        /*Método para obtener el nombre y apellido de los miembros que tienen como rol: líder de pruebas
+          * Requiere: no requiere parámetros.
+          * Retorna: un DataTable con el nombre y apellido de los miembros que son líderes.
+          */
         public DataTable consultarLideres()
         {
             return controladoraBDRecurso.consultarLideres();
         }
 
+        /*Método para obtener el nombre y apellidos de los miembros del sistema
+        * Requiere: no requiere parámetros.
+        * Retorna: un DataTable con el nombre y apellidos de los miembros
+        */
         public DataTable consultarMiembros()
         {
             return controladoraBDRecurso.consultarMiembros();
         }
 
+        /*Método para obtener el nombre y apellidos de los miembros asociados a un determinado proyecto
+        * Requiere: un string con el identificador del proyecto para conocer los miembros que trabajan en éste.
+        * Retorna: un DataTable con el nombre y apellidos de los miembros del proyecto
+        */
         public DataTable consultarMiembrosProyecto(string idProyecto)
         {
             return controladoraBDRecurso.consultarMiembrosProyecto(idProyecto);
+        }
+
+        /*Método para obtener el/los proyectos a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con el identificador del o los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarProyectosAsociados(string idUsuario)
+        {
+            return controladoraBDRecurso.consultarProyectosAsociados(idUsuario);
+        }
+
+        /*Método para obtener el nombre y apellido de los líderes
+        * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
+        * Retorna: un DataTable con el nombre y apellido de los líderes
+        */
+        public DataTable obtenerNombresLideres(List<string> cedLideres)
+        {
+            return controladoraBDRecurso.obtenerNombresLideres(cedLideres);
+
         }
 
     }
