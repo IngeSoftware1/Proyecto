@@ -20,7 +20,6 @@ namespace ProyectoInge
         private string idOficinaConsultda;       
         Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
-       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -66,6 +65,8 @@ namespace ProyectoInge
         /*Método para leer la fecha seleccionada por el usuario */
         protected void calendarioSeleccionado(object sender, EventArgs e)
         {
+            calendarFecha.Visible = false;
+            txtCalendar.Text = calendarFecha.SelectedDate.ToString().Substring(0,10);
             UpdatePanelCalendario.Update();
         }
 
@@ -279,7 +280,8 @@ namespace ProyectoInge
 
         }
 
-
+        /*
+         */
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
             vaciarCampos();
@@ -361,6 +363,7 @@ namespace ProyectoInge
             this.txtApellido1Rep.Text = "";
             this.txtApellido2Rep.Text = "";
             this.txtTelefonoOficina.Text = "";
+            this.txtCalendar.Text = "";
             this.listTelefonosOficina.Items.Clear();
             this.listMiembrosDisponibles.Items.Clear();
             this.listMiembrosAgregados.Items.Clear();
@@ -390,6 +393,7 @@ namespace ProyectoInge
             this.lnkQuitar.Enabled = condicion;
             this.lnkAgregarMiembros.Enabled = condicion;
             this.lnkQuitarMiembros.Enabled = condicion;
+            this.txtCalendar.Enabled = false;
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -546,6 +550,43 @@ namespace ProyectoInge
             }
         }
 
+        /*Método para la acción del botón agregar telefonos al listbox
+         * Modifica: agrega al listbox el telefono escrito en el textbox de telefono
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnAgregarTelefono(object sender, EventArgs e)
+        {
+
+            if (txtTelefonoOficina.Text != "")
+            {
+                listTelefonosOficina.Items.Add(txtTelefonoOficina.Text);
+                txtTelefonoOficina.Text = "";
+            }
+
+            if (modo == 1)
+            {
+                habilitarCamposInsertar();
+            }
+            else if (modo == 2)
+            {
+            }
+        }
+
+        /*Método para la acción de eliminar telefonos del listbox
+         * Modifica: Elimina el telefono seleccionado del listbox
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnEliminarTelefono(object sender, EventArgs e)
+        {
+            if (modo == 1 || modo == 2)
+            {
+                if (listTelefonosOficina.SelectedIndex != -1)
+                {
+                    listTelefonosOficina.Items.RemoveAt(listTelefonosOficina.SelectedIndex);
+                }
+            }
+        }
+
         /*Método para la acción de aceptar cuando esta en modo de inserción
          * Requiere: No requiere ningún parámetro
          * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
@@ -583,7 +624,7 @@ namespace ProyectoInge
                     Object[] nuevoProyecto = new Object[7];
                     nuevoProyecto[0] = this.txtNombreProy.Text;
                     nuevoProyecto[1] = this.txtObjetivo.Text;
-                    nuevoProyecto[2] = this.calendarFecha.SelectedDate.ToString();
+                    nuevoProyecto[2] = this.txtCalendar.Text;
                     nuevoProyecto[3] = this.comboEstado.Text;
                     nuevoProyecto[4] = Session["cedula"].ToString();
                     nuevoProyecto[5] = obtenerCedula(this.comboLider.Text, true);
@@ -606,25 +647,21 @@ namespace ProyectoInge
                         llenarGrid(null);
                         llenarComboEstado();
                         llenarComboLideres();
-                        cargarMiembrosSinAsignar();
 
-                        string mensaje = "<script>window.alert('Nuevo proyecto creado con éxito.');</script>";
-                        Response.Write(mensaje);
+                        Response.Write("<script>window.alert('Nuevo proyecto creado con éxito.');</script>");
                     }
                     //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
                     else
                     {
                         controladoraProyecto.eliminarOficina(idOficina);
-                        string mensaje = "<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>";
-                        Response.Write(mensaje);
+                        Response.Write("<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>");
                         habilitarCamposInsertar();
                     }
                 }
                 //La oficina usuaria no se pudo registrar en la BD
                 else
                 {
-                    string mensaje = "<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>";
-                    Response.Write(mensaje);
+                    Response.Write("<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>");
                     habilitarCamposInsertar();
                 }
             }
@@ -770,7 +807,7 @@ namespace ProyectoInge
             //Pregunta por todas las cajas
             if (modo == 1)
             {
-                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "")
+                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || txtCalendar.Text=="")
                 {
                     resultado = true;
                 }
@@ -1091,8 +1128,7 @@ namespace ProyectoInge
                 this.idProyectoConsultado = idProyecto;
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
-                DateTime fecha = (System.DateTime)datosFilaProyecto.Rows[0][2];
-                this.txtCalendar.Text = fecha.ToString("MMMM dd, yyyy");
+                this.txtCalendar.Text = datosFilaProyecto.Rows[0][2].ToString();
 
 
                 if (this.comboEstado.Items.FindByText(datosFilaProyecto.Rows[0][3].ToString()) != null)

@@ -117,7 +117,7 @@
                                     <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                 </div>
                                 <div class="row col-sm-11">
-                                    <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70"></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                             ForeColor="Red" ValidationExpression="^[0-9]*"> </asp:RegularExpressionValidator>
                                     </div>
                                     <div class="">
-                                        <asp:LinkButton runat="server" ID="lnkNumero" CssClass="glyphicon.glyphicon-plus-sign">
+                                        <asp:LinkButton runat="server" ID="lnkNumero" CssClass="glyphicon.glyphicon-plus-sign" OnClick="btnAgregarTelefono">
                                         <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor"></span>
                                         </asp:LinkButton>
                                     </div>
@@ -210,7 +210,7 @@
                                         <asp:ListBox runat="server" ID="listTelefonosOficina" CssClass="form-control"></asp:ListBox>
                                     </div>
                                     <div class="">
-                                        <asp:LinkButton runat="server" ID="lnkQuitar" Style="height: 100px" CssClass="">
+                                        <asp:LinkButton runat="server" ID="lnkQuitar" Style="height: 100px" CssClass="" OnClick="btnEliminarTelefono">
                                         <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor"></span>
                                         </asp:LinkButton>
                                     </div>

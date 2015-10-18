@@ -8,7 +8,7 @@ cedula varchar(9) PRIMARY KEY ,
 nombre varchar(20),
 apellido1 varchar(20),
 apellido2 varchar(20),
-email varchar(30),
+email varchar(30) UNIQUE,
 usuario varchar(20) UNIQUE,
 contrasena varchar(100),
 login bit 
@@ -80,8 +80,8 @@ INSERT INTO Estado_Proceso VALUES('Cancelado');
 CREATE TABLE Proyecto(
 id_proyecto int IDENTITY(1,1) PRIMARY KEY,
 nombre_proyecto varchar(20) UNIQUE,
-obj_general varchar(30),
-fecha_asignacion date,
+obj_general varchar(70),
+fecha_asignacion varchar(15),
 tipo_estado varchar(25) FOREIGN KEY REFERENCES Estado_Proceso(tipo_Estado)
 ON DELETE CASCADE
 ON UPDATE CASCADE,

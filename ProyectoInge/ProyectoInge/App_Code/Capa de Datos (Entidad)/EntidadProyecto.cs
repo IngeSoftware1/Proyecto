@@ -18,7 +18,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 
         /* 
          * Encapsula los atributos de un proyecto.
-         * @param atributosUsuario Vector de tipo Object con los datos del usuario que se desea encapsular.
+         *Vector de tipo Object con los datos del proyecto que se desea encapsular.
          */
         public EntidadProyecto(Object[] datos)
         {

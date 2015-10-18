@@ -89,6 +89,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, fecha_asignacion, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getFechaAsignacion + "', '" + nuevo.getTipoEstado + "', '" +nuevo.getCedulaCreador+ "', '"+nuevo.getCedulaLider+"', '"+nuevo.getIdOficina+"')";
+                //string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getTipoEstado + "', '" + nuevo.getCedulaCreador + "', '" + nuevo.getCedulaLider + "', '" + nuevo.getIdOficina + "')";
                 return acceso.insertarDatos(insercion);
 
             }
