@@ -219,8 +219,8 @@
                 </div>   
                     <div class ="row">
                 <div class="col-sm-6 col-sm-offset-1"> 
-                    <div id ="scroll" style ="height: 183px; width:670px; overflow:auto;" >
-                        <asp:GridView ID="gridRH" runat="server"  style ="width: 650px" AutoGenerateColumns="true"  OnRowCommand ="gridFuncionarios_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">                                           
+                    <div id ="scroll" style ="height: 183px; width:700px; overflow:auto;" >
+                        <asp:GridView ID="gridRH" runat="server" style ="width: 680px" font-size = "14px" AutoGenerateColumns="true"  OnRowCommand ="gridFuncionarios_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">                                           
                             <Columns>
                                 <asp:TemplateField HeaderText="Consultar Funcionario"><ItemTemplate>
                                     <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarRH" CommandArgument='<%#Eval("Cédula") %>'   > Consultar </asp:LinkButton>

@@ -656,6 +656,17 @@ namespace ProyectoInge
                     {
                         string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
                         Response.Write(mensaje);
+
+                        if (Session["perfil"].ToString().Equals("Administrador"))
+                        {
+                            llenarGrid(null);
+                        }
+                        else
+                        {
+                            llenarGrid(Session["cedula"].ToString());
+                        }
+
+
                         //Elimino los tels
                         tipoModificacion = 2;//LLAMAR AL DE RO
                         if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels

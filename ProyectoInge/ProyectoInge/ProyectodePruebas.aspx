@@ -319,8 +319,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-1">
-                    <div id="scroll" style="height: 183px; width: 670px; overflow: auto;">
-                        <asp:GridView ID="gridProyecto" runat="server" Style="width: 650px" AutoGenerateColumns="true" OnRowCommand="gridProyectos_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                    <div id="scroll" style="height: 183px; width: 700px; overflow: auto;">
+                        <asp:GridView ID="gridProyecto" runat="server" Style="width: 680px" font-size = "14px" AutoGenerateColumns="true" OnRowCommand="gridProyectos_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
                                 <asp:TemplateField HeaderText="Consultar Proyecto">
                                     <ItemTemplate>
