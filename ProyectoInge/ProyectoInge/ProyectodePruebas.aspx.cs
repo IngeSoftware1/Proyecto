@@ -17,8 +17,7 @@ namespace ProyectoInge
 
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
         private string idProyectoConsultado;
-        private string idOficinaConsultda;
-        private string idmiembroConsultado;
+        private string idOficinaConsultda;       
         Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
        
@@ -331,9 +330,19 @@ namespace ProyectoInge
             this.listMiembrosDisponibles.Enabled = true;
             this.lnkAgregarMiembros.Enabled = true;
             this.lnkQuitarMiembros.Enabled = true;
+
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 //Fecha habilitada para administrador;
+                this.calendarFecha.Enabled = true;
+                this.txtCalendar.Enabled = true;
+                this.lnkCalendario.Enabled = true;
+            }
+            else
+            {
+                this.calendarFecha.Enabled = false;
+                this.txtCalendar.Enabled = false;
+                this.lnkCalendario.Enabled = false;
             }
         }
 
@@ -481,25 +490,24 @@ namespace ProyectoInge
             {
                 //Se crea el objeto para encapsular los datos de la interfaz para modificar proyecto
                 //los encapsula todos, sea administrador o miembro
-                Object[] datosProyecto = new Object[8];
-                datosProyecto[0] = this.idProyectoConsultado;//id_proyecto
-                datosProyecto[1] = this.txtNombreProy.Text;//nombre_proyecto
-                datosProyecto[2] = this.txtObjetivo.Text;//obj_general
-                datosProyecto[3] = "01/01/01";//fecha_asignacion
-                datosProyecto[4] = this.comboEstado.Text;//tipo_estado
+                Object[] datosProyecto = new Object[7];
+                datosProyecto[0] = this.txtNombreProy.Text;//nombre_proyecto
+                datosProyecto[1] = this.txtObjetivo.Text;//obj_general
+                datosProyecto[2] = this.txtCalendar.Text;//fecha_asignacion
+                datosProyecto[3] = this.comboEstado.Text;//tipo_estado
+                datosProyecto[4] = "";//creador
                 datosProyecto[5] = this.comboLider.Text;
                 datosProyecto[6] = this.idOficinaConsultda;//ID DE DONDE LO SACO?
                 //El creador no se cambia. Y no se como encontrarlo
-                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, "", ""))
+                if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, idProyectoConsultado, ""))
                 {
                     //Se crea el objeto para encapsular los datos de la interfaz para modificar oficina usuaria
                     tipoModificacion = 2;//Va a cambiar la oficina usuaria
-                    Object[] datosOfUsuaria = new Object[5];
-                    datosOfUsuaria[0] = this.idOficinaConsultda;//id_oficina
-                    datosOfUsuaria[1] = this.txtnombreOficina;//nombre_oficina
-                    datosOfUsuaria[2] = this.txtnombreRep;//nombre_rep
-                    datosOfUsuaria[3] = this.txtApellido1Rep;//ape1_rep
-                    datosOfUsuaria[4] = this.txtApellido2Rep;//ape2_rep
+                    Object[] datosOfUsuaria = new Object[4];
+                    datosOfUsuaria[0] = this.txtnombreOficina;//nombre_oficina
+                    datosOfUsuaria[1] = this.txtnombreRep;//nombre_rep
+                    datosOfUsuaria[2] = this.txtApellido1Rep;//ape1_rep
+                    datosOfUsuaria[3] = this.txtApellido2Rep;//ape2_rep
                     if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosOfUsuaria, "", ""))
                     {
                         //Para modificar los telefonos de la oficina en la oficina usuaria modificar oficina usuaria
@@ -508,41 +516,34 @@ namespace ProyectoInge
                         if (controladoraProyecto.ejecutarAccion(3, tipoModificacion, null, idOficinaConsultda, ""))//modo 3 para eliminar, le mando el id de la oficina
                         {
                             //Insertar los telefonos
-                            bool insertados = insertarTelefonosOficinaUsuaria();
+                            int idOficinaUsuaria = Int32.Parse(idOficinaConsultda);
+                            bool insertados = guardarTelefonos(idOficinaUsuaria);
                             //Si todo bien
                             if (insertados)
                             {
-                                //Para asociar y desasociar recursos, en la tabla Trabaja_En
-                                /**
-                                 * ESTO DEBERIA HACERLO EL BOTON DE AGREGAR RECURSO, CADA QUE LO HACE
-                                 */
-                                tipoModificacion = 4;//Va a cambiar trabaja_en
-                                if (controladoraProyecto.ejecutarAccion(1, tipoModificacion, null, idmiembroConsultado, idProyectoConsultado))//lo mando con 1 para que agregue
-                                //le mando el id del que debo asociar y el proyecto al que lo debo asociar
+                                tipoModificacion = 4;//Va a cambiar trabaja_en, eliminará todos
+                                if (controladoraProyecto.ejecutarAccion(3, tipoModificacion, null, idProyectoConsultado, ""))//lo mando con 3 pars que elimine
                                 {
+                                    int idProyecto = Int32.Parse(idProyectoConsultado);
+                                    guardarMiembros(idProyecto);
 
+                                    //se carga la interfaz de nuevo
+                                    controlarCampos(false);
+                                    cambiarEnabled(false, this.btnModificar);
+                                    cambiarEnabled(false, this.btnEliminar);
+                                    cambiarEnabled(false, this.btnAceptar);
+                                    cambiarEnabled(false, this.btnCancelar);
+                                    cambiarEnabled(true, this.btnInsertar);
+                                    llenarGrid(null);
+                                    llenarComboEstado();
+                                    llenarComboLideres();
+                                    cargarMiembrosSinAsignar();
                                 }
-                                /**
-                                 * ESTO DEBERIA HACERLO EL BOTON DE QUITAR RECURSO, CADA QUE LO HACE
-                                 */
-                                tipoModificacion = 4;//Va a cambiar trabaja_en
-                                if (controladoraProyecto.ejecutarAccion(3, tipoModificacion, null, idmiembroConsultado, idProyectoConsultado))//lo mando con 3 pars que elimine
-                                {
-
-                                }
-
                             }
                         }
-
                     }
-
                 }
             }
-
-        }
-        private bool insertarTelefonosOficinaUsuaria()
-        {
-            throw new NotImplementedException();
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -634,8 +635,10 @@ namespace ProyectoInge
          * Modifica: Revisa que efectivamente se esten insertando telefonos en la caja de texto y que no se inserten repetidos
          * Retorna: No retorna ningún valor
          */
-        protected void guardarTelefonos(int idOficina)
+        protected bool guardarTelefonos(int idOficina)
         {
+            int malas = 0;
+            bool resp = false;
             int i = 0;
 
             while (i < listTelefonosOficina.Items.Count && listTelefonosOficina.Items[i].Text.Equals("") == false)
@@ -657,10 +660,16 @@ namespace ProyectoInge
                     mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.');</script>";
                     Response.Write(mensaje);
                     habilitarCamposInsertar();
+                    malas++;
                 }
 
                 i++;
             }
+            if (malas == 0)
+            {
+                resp = true;
+            }
+            return resp;
         }
 
         /*
@@ -1079,7 +1088,7 @@ namespace ProyectoInge
 
             if (datosFilaProyecto.Rows.Count == 1)
             {
-
+                this.idProyectoConsultado = idProyecto;
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 this.txtObjetivo.Text = datosFilaProyecto.Rows[0][1].ToString();
                 DateTime fecha = (System.DateTime)datosFilaProyecto.Rows[0][2];

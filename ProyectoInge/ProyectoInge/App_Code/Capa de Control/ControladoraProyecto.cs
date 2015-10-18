@@ -79,44 +79,32 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             EntidadProyecto proyecto = new EntidadProyecto(datos);
                             resultado = controladoraBDProyecto.insertarProyecto(proyecto);
                         }
-                        else if(accion == 4) //insertar miembros de un equipo de pruebas
+                        else if (accion == 4) //insertar miembros de un equipo de pruebas
                         {
                             EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
                             resultado = controladoraBDProyecto.insertarMiembro(miembro);
                         }
-                        
                     }
                     break;
                 case 2:
                     { // MODIFICAR
-                       
+
                         if (accion == 1)//PROYECTO
                         {
-                            EntidadProyecto entidadP = new EntidadProyecto(datos);                       
+                            EntidadProyecto entidadP = new EntidadProyecto(datos);
                             int idProyecto = Int32.Parse(nombre); //supongo que nombre viene el id sino habría que hacer llamado de otro método
-                            resultado = controladoraBDProyecto.modificarProyecto(entidadP,idProyecto);
+                            resultado = controladoraBDProyecto.modificarProyecto(entidadP, idProyecto);
                         }
-                        else if (accion == 2)
+                        else if (accion == 2)//OFICINA USUARIA
                         {
                             EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
                             int idOficina = Int32.Parse(nombre); //supongo que en nombre viene el id de la oficina que se requiere modificar
-                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU,idOficina);
-                        }
-                        else if (accion == 3)//TELEFONOOFICINAUSUARIA
-                        {
-                            EntidadTelOficina telefonosOficina = new EntidadTelOficina(datos);
-                            resultado = controladoraBDProyecto.insertarTelefonoOficinaUsuaria(telefonosOficina);//en nombre viene el id de la oficina usuaria, para eliminarlo
-                        }
-                        else if (accion == 4)//TRABAJA_EN
-                        {
-                            resultado = controladoraBDProyecto.eliminarTrabaja_En(datos);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
+                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU, idOficina);
                         }
                     }
                     break;
                 case 3:
                     { //ELIMINAR
-
-                        
                         if (accion == 3)//TELEFONOOFICINAUSUARIA
                         {
                             int idOficinaUsuaria = Int32.Parse(nombre); //en nombre viene el id de la oficina usuaria, para eliminarlo
@@ -124,7 +112,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         }
                         else if (accion == 4)//TRABAJA_EN
                         {
-                            resultado = controladoraBDProyecto.eliminarTrabaja_En(nombre, perfil);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
+                            int idProyecto = Int32.Parse(nombre);
+                            resultado = controladoraBDProyecto.eliminarTrabaja_En(idProyecto);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
                         }
                     }
                     break;

@@ -52,9 +52,10 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnInsertar);
                     llenarGrid(Session["cedula"].ToString());
                 }
-            }        
+            }
         }
 
+      
         protected void llenarDropDownPerfil()
         {
             this.comboPerfil.Items.Clear();
@@ -67,24 +68,24 @@ namespace ProyectoInge
             UpdatePanelDropDown.Update();
         }
 
-       /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
-       * Modifica: el campo del rol de acuerdo al campo del perfil
-       * Retorna: no retorna ningún valor */
+        /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
+        * Modifica: el campo del rol de acuerdo al campo del perfil
+        * Retorna: no retorna ningún valor */
         protected void perfilSeleccionado(object sender, EventArgs e)
         {
-           if(this.comboPerfil.SelectedIndex != -1)
-           {
-               if(this.comboPerfil.Items[this.comboPerfil.SelectedIndex].Text == "Administrador")
-               {
-                   this.comboRol.Enabled = false;
-               }
-               else
-               {
-                   this.comboRol.Enabled = true;
-               }
-           }
+            if (this.comboPerfil.SelectedIndex != -1)
+            {
+                if (this.comboPerfil.Items[this.comboPerfil.SelectedIndex].Text == "Administrador")
+                {
+                    this.comboRol.Enabled = false;
+                }
+                else
+                {
+                    this.comboRol.Enabled = true;
+                }
+            }
 
-           UpdatePanelDropDown.Update();
+            UpdatePanelDropDown.Update();
         }
 
         /* Método para llenar el comboBox según los datos datos almacenados en la BD
@@ -97,13 +98,13 @@ namespace ProyectoInge
             DataTable tiposRoles = controladoraRH.consultarRoles();
             int numDatos = tiposRoles.Rows.Count;
             Object[] datos;
-    
+
             if (tiposRoles.Rows.Count >= 1)
             {
-               
+
                 numDatos = tiposRoles.Rows.Count;
                 datos = new Object[numDatos];
- 
+
                 for (int i = 0; i < tiposRoles.Rows.Count; ++i)
                 {
                     datos[i] = tiposRoles.Rows[i][0].ToString();
@@ -114,7 +115,7 @@ namespace ProyectoInge
 
             }
 
-            if(this.comboPerfil.Text == "Administrador")
+            if (this.comboPerfil.Text == "Administrador")
             {
                 this.comboRol.Enabled = false;
             }
@@ -135,7 +136,7 @@ namespace ProyectoInge
             this.txtApellido2.Enabled = condicion;
             this.txtEmail.Enabled = condicion;
             this.comboPerfil.Enabled = condicion;
-          //  this.comboRol.Enabled = condicion;
+            //  this.comboRol.Enabled = condicion;
             this.txtUsuario.Enabled = condicion;
             this.txtContrasena.Enabled = condicion;
             this.txtConfirmar.Enabled = condicion;
@@ -144,7 +145,7 @@ namespace ProyectoInge
             this.lnkQuitar.Enabled = condicion;
         }
 
-      
+
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
         * Modifica: el valor del la variable idRH con la cédula del funcionario que se desea consultar y se realiza el llamado al 
         método llenarDatos(idRH) el cual llena los campos de la interfaz con los resultados de la consulta especificada mediante el número de cédula.
@@ -160,9 +161,9 @@ namespace ProyectoInge
 
                 controlarCampos(false);
                 llenarDatos(idRH);
-                cambiarEnabled(true, this.btnModificar); 
+                cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
-  
+
                 //El unico botón que cambia de acuerdo al perfil es el de eliminar
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
@@ -196,11 +197,11 @@ namespace ProyectoInge
             modo = 2;
 
             habilitarCamposModificar();
-            
+
 
         }
 
-     
+
         /*Método para habilitar/deshabilitar el botón
           * Requiere: el booleano para la acción
           * Modifica: La propiedad enable del botón
@@ -236,8 +237,8 @@ namespace ProyectoInge
             this.comboPerfil.Enabled = false;
             this.comboRol.Enabled = false;
             this.txtUsuario.Enabled = true;
-            this.txtContrasena.Enabled = false;
-            this.txtConfirmar.Enabled = false;
+            this.txtContrasena.Enabled = true;
+            this.txtConfirmar.Enabled = true;
             this.txtTelefono.Enabled = true;
             this.lnkNumero.Enabled = true;
             this.lnkQuitar.Enabled = true;
@@ -280,6 +281,9 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
+            llenarDropDownPerfil();
+            llenarDropDownRol();
+            UpdatePanelDropDown.Update();
         }
 
         /*Método para distinguir las diferentes situaciones en las que se puede seleccionar el botón de aceptar.
@@ -321,24 +325,24 @@ namespace ProyectoInge
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 cambiarEnabled(true, this.btnInsertar);
-               
+
             }
             //Si es un miembro no puede insertar
             else
             {
                 cambiarEnabled(false, this.btnInsertar);
             }
-                   
+
             controlarCampos(false);
             vaciarCampos();
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-                        
+
             llenarDropDownPerfil();
             llenarDropDownRol();
-              
+
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
@@ -404,14 +408,15 @@ namespace ProyectoInge
             this.listTelefonos.Items.Clear();
         }
 
-     
+
         /*Método para la acción de aceptar cuando esta en modo de inserción
          * Requiere: No requiere ningún parámetro
          * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
          * valida que todos los datos se encuentren para la inserción
          * Retorna: No retorna ningún valor
          */
-        protected void btnAceptar_Insertar() {
+        protected void btnAceptar_Insertar()
+        {
 
             //La inserción 1 es insertar un funcionario
             int tipoInsercion = 1;
@@ -419,7 +424,7 @@ namespace ProyectoInge
             if (contrasenasIguales())
             {
                 //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
-                if (faltanDatos(1))
+                if (faltanDatos())
                 {
                     string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
                     Response.Write(mensaje);
@@ -440,7 +445,7 @@ namespace ProyectoInge
                     datosNuevos[7] = false;
 
                     //Si la inserción fue correcta insertará en otras tablas
-                    if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos,""))
+                    if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                     {
                         string mensaje;
 
@@ -452,7 +457,7 @@ namespace ProyectoInge
                             tipoInsercion = 2;                          //inserción de tipo 2 es nuevo administrador
 
                             //Se insertó un nuevo administrador
-                            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin,""))
+                            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin, ""))
                             {
                                 guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
@@ -465,7 +470,7 @@ namespace ProyectoInge
                                 cambiarEnabled(true, this.btnInsertar);
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
-                                
+
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
                             }
@@ -486,7 +491,7 @@ namespace ProyectoInge
                             tipoInsercion = 3;                              //inserción de tipo 3 es nuevo miembro
 
                             //Se insertó un nuevo miembro de equipo
-                            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro,""))
+                            if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro, ""))
                             {
                                 guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
@@ -499,7 +504,7 @@ namespace ProyectoInge
                                 cambiarEnabled(true, this.btnInsertar);
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
-                                
+
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
                             }
@@ -549,7 +554,7 @@ namespace ProyectoInge
                 int tipoInsercion = 4;                              //inserción de tipo 4 es agregar telefonos
 
                 //Se insertó un nuevo telefono para el funcionario
-                if (controladoraRH.ejecutarAccion(1, tipoInsercion, telefono,""))
+                if (controladoraRH.ejecutarAccion(1, tipoInsercion, telefono, ""))
                 {
                 }
                 //La inserción de un nuevo telefono para un funcionario en la base de datos falló porque ya estaba en la base
@@ -559,7 +564,7 @@ namespace ProyectoInge
                     Response.Write(mensaje);
                     habilitarCamposInsertar();
                 }
-               
+
                 i++;
             }
         }
@@ -577,9 +582,9 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabledTel(true, this.lnkNumero);
-            cambiarEnabledTel(true, this.lnkQuitar);           
+            cambiarEnabledTel(true, this.lnkQuitar);
             cambiarEnabled(true, this.btnCancelar);
-  
+
         }
 
         /*Método para obtener si las contraseñas son diferentes
@@ -590,7 +595,7 @@ namespace ProyectoInge
         protected bool contrasenasIguales()
         {
             bool resultado = false;
- 
+
             if (txtContrasena.Text == txtConfirmar.Text)
             {
                 resultado = true;
@@ -603,33 +608,18 @@ namespace ProyectoInge
          * Modifica:  Verifica si faltan datos en alguna caja de texto
          * Retorna: retorna true si alguna caja no tiene texto, false si todas las cajas tienen texto
          */
-        protected bool faltanDatos(int modo2){
-            
-            bool resultado = false;
-            if (modo2 == 1)
-            {
-                //Pregunta por todas las cajas
-                if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtConfirmar.Text == "" || txtContrasena.Text == "" || txtEmail.Text == "")
-                {
-                    resultado = true;
-                }
-                else
-                {
-                    resultado = false;
-                }
-            }
-            else if (modo2 == 2) 
-            {
-                //Pregunta por algunas cajas
-                if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtEmail.Text == "" )
-                {
-                    resultado = true;
-                }
-                else
-                {
-                    resultado = false;
-                }
+        protected bool faltanDatos()
+        {
 
+            bool resultado = false;
+            //Pregunta por todas las cajas
+            if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtConfirmar.Text == "" || txtContrasena.Text == "" || txtEmail.Text == "")
+            {
+                resultado = true;
+            }
+            else
+            {
+                resultado = false;
             }
             return resultado;
         }
@@ -642,58 +632,67 @@ namespace ProyectoInge
         protected void btnAceptar_Modificar()
         {
             int tipoModificacion = 1;//Funcionario
-            if (faltanDatos(2))//2 indica los datos que pueden faltar en el modificar
+            if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
                 string mensaje = "<script>window.alert('Para modificar un funcionario debe completar todos los datos habilitados.');</script>";
                 Response.Write(mensaje);
             }
             else
             {
-                //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
-                //los encapsula todos, sea administrador o miembro
-                Object[] datosNuevos = new Object[8];
-                datosNuevos[0] = this.txtCedula.Text;
-                datosNuevos[1] = this.txtNombre.Text;
-                datosNuevos[2] = this.txtApellido1.Text;
-                datosNuevos[3] = this.txtApellido2.Text;
-                datosNuevos[4] = this.txtEmail.Text;
-                datosNuevos[5] = this.txtUsuario.Text;
-                datosNuevos[6] = this.txtContrasena.Text;
-                datosNuevos[7] = false;
-                if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
+                if (contrasenasIguales())
                 {
-                    string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
-                    Response.Write(mensaje);
-                    //Elimino los tels
-                    tipoModificacion = 2;//LLAMAR AL DE RO
-                    if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels
+                    //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
+                    //los encapsula todos, sea administrador o miembro
+                    Object[] datosNuevos = new Object[8];
+                    datosNuevos[0] = this.txtCedula.Text;
+                    datosNuevos[1] = this.txtNombre.Text;
+                    datosNuevos[2] = this.txtApellido1.Text;
+                    datosNuevos[3] = this.txtApellido2.Text;
+                    datosNuevos[4] = this.txtEmail.Text;
+                    datosNuevos[5] = this.txtUsuario.Text;
+                    datosNuevos[6] = this.txtContrasena.Text;
+                    datosNuevos[7] = false;
+                    if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
                     {
-                        //Inserto los tels
-                        guardarTelefonos();
-                        vaciarCampos();
-                        controlarCampos(false);
-                        llenarDropDownPerfil();
-                        llenarDropDownRol();
-                        cambiarEnabled(false, this.btnModificar);
-                        cambiarEnabled(false, this.btnEliminar);
-                        cambiarEnabled(false, this.btnAceptar);
-                        cambiarEnabled(false, this.btnCancelar);
-                        if (Session["perfil"] == "Miembro")
+                        string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
+                        Response.Write(mensaje);
+                        //Elimino los tels
+                        tipoModificacion = 2;//LLAMAR AL DE RO
+                        if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels
                         {
-                            cambiarEnabled(false, this.btnInsertar);
+                            //Inserto los tels
+                            guardarTelefonos();
+                            vaciarCampos();
+                            controlarCampos(false);
+                            llenarDropDownPerfil();
+                            llenarDropDownRol();
+                            cambiarEnabled(false, this.btnModificar);
+                            cambiarEnabled(false, this.btnEliminar);
+                            cambiarEnabled(false, this.btnAceptar);
+                            cambiarEnabled(false, this.btnCancelar);
+                            if (Session["perfil"] == "Miembro")
+                            {
+                                cambiarEnabled(false, this.btnInsertar);
+                            }
+                            else
+                            {
+                                cambiarEnabled(true, this.btnInsertar);
+                            }
+
                         }
-                        else
-                        {
-                            cambiarEnabled(true, this.btnInsertar);
-                        }
-                        
+                    }
+                    else
+                    {
+                        string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
+                        Response.Write(mensaje);
+                        habilitarCamposInsertar();
+
                     }
                 }
                 else
                 {
-                    string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
+                    string mensaje = "<script>window.alert('Las contraseñas deben ser iguales.');</script>";
                     Response.Write(mensaje);
-                    habilitarCamposInsertar();
 
                 }
             }
@@ -782,7 +781,7 @@ namespace ProyectoInge
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
 
-                        if(fila[4].ToString() == "")
+                        if (fila[4].ToString() == "")
                         {
                             datos[4] = "Administrador";
                         }
@@ -840,6 +839,7 @@ namespace ProyectoInge
 
             this.gridRH.DataSource = dt;
             this.gridRH.DataBind();
+
 
         }
 
@@ -903,8 +903,8 @@ namespace ProyectoInge
                 this.txtApellido2.Text = datosFilaFuncionario.Rows[0][3].ToString();
                 this.txtUsuario.Text = datosFilaFuncionario.Rows[0][4].ToString();
                 this.txtEmail.Text = datosFilaFuncionario.Rows[0][5].ToString();
-                this.txtContrasena.Text = datosFilaFuncionario.Rows[0][6].ToString(); 
-
+                this.txtContrasena.Text = datosFilaFuncionario.Rows[0][6].ToString();
+                this.txtConfirmar.Text = datosFilaFuncionario.Rows[0][6].ToString();
 
                 if (this.comboRol.Items.FindByText(datosFilaFuncionario.Rows[0][7].ToString()) != null)
                 {
@@ -921,7 +921,7 @@ namespace ProyectoInge
                     tipoPerfil = comboPerfil.Items.FindByText("Administrador");
                     perfilGuardadoBD = "Administrador";
                     this.comboPerfil.SelectedValue = tipoPerfil.Value;
-                    this.comboRol.Items.Clear(); 
+                    this.comboRol.Items.Clear();
                 }
             }
 

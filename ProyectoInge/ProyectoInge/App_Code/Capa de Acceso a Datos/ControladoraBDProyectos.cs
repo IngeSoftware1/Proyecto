@@ -299,8 +299,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
         public bool eliminarOficina(int idOficina)
-        {
-            
+        {       
             try
             {
                 string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + idOficina + "';";
@@ -311,11 +310,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
-
         }
-
-
-       
 
         /*Método para cancelar un proyecto
         * Requiere: un string con el nombre del proyecto que se va a cancelar
@@ -357,11 +352,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
 
         //recibe datos del proyecto y id del proyecto
-        internal bool modificarProyecto(EntidadProyecto entidadP, int idProyecto)
+        public bool modificarProyecto(EntidadProyecto entidadP, int idProyecto)
         {
             try
             {
-                string modif = "UPDATE Proyecto SET  nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_creador = '" + entidadP.getCedulaCreador + "',cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
+                string modif = "UPDATE Proyecto SET  nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -386,10 +381,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-        public bool eliminarTrabaja_En(string idmiembroConsultado, string idProyectoConsultado)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public bool insertarTelefonoOficinaUsuaria(EntidadTelOficina nuevo)
         {
@@ -404,10 +396,19 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-
-        internal bool eliminarTrabaja_En(object[] datos)
+        //DEBERÍA IR EN LA CONTROLADORA DE RH
+        public bool eliminarTrabaja_En(int idProyectoConsultado)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string borrarTrabaja_En = "Delete from Trabaja_En where id_proyecto ='" + idProyectoConsultado + "';";
+                acceso.eliminarDatos(borrarTrabaja_En);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
         }
 
 
