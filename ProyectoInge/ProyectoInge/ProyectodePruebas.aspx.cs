@@ -202,6 +202,7 @@ namespace ProyectoInge
             }
 
             Session["vectorCedulasMiembros"] = cedulasTodosMiembros;
+          //  UpdateDatos.Update();
         }
 
          /*Método para obtener la cédula de un miembro a partir del nombre
@@ -226,13 +227,6 @@ namespace ProyectoInge
             else
             {
                 Dictionary<string, string> cedulasLid = (Dictionary<string, string>)Session["vectorCedulasLideres"];
-
-                foreach (KeyValuePair<string, string> pair in cedulasLid)
-                {
-                    Console.WriteLine("{0}, {1}",
-                    pair.Key,
-                    pair.Value);
-                }
 
 
                 if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
@@ -287,6 +281,9 @@ namespace ProyectoInge
             vaciarCampos();
             controlarCampos(true);
             cargarMiembrosSinAsignar();
+            llenarComboEstado();
+            llenarComboLideres();
+
             modo = 1;
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
@@ -474,6 +471,7 @@ namespace ProyectoInge
             llenarComboLideres();
             listMiembrosDisponibles.Items.Clear();
             listMiembrosAgregados.Items.Clear();
+            this.calendarFecha.Visible = false;
         }
 
         /*Método para la acción de aceptar modificar
@@ -570,6 +568,8 @@ namespace ProyectoInge
             else if (modo == 2)
             {
             }
+
+            Update_Tel.Update();
         }
 
         /*Método para la acción de eliminar telefonos del listbox
@@ -585,6 +585,8 @@ namespace ProyectoInge
                     listTelefonosOficina.Items.RemoveAt(listTelefonosOficina.SelectedIndex);
                 }
             }
+
+            Update_Tel.Update();
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -760,6 +762,8 @@ namespace ProyectoInge
             {
            
             }
+
+            UpdateAsociarDesasociarMiembros.Update();
         }
 
         /*
@@ -774,6 +778,8 @@ namespace ProyectoInge
                     listMiembrosAgregados.Items.RemoveAt(listMiembrosAgregados.SelectedIndex);
                 }
             }
+
+            UpdateAsociarDesasociarMiembros.Update();
         }
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
@@ -1012,7 +1018,7 @@ namespace ProyectoInge
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
                 idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
-                Debug.WriteLine("Los ids de los trabajos son: " + idProyectos.Rows.Count);
+   
 
 
                 //Se obtiene un DataTable con los datos del o los proyectos 
@@ -1032,7 +1038,7 @@ namespace ProyectoInge
 
                 if (proyectos.Rows.Count > 0 && nombresLideres.Rows.Count > 0)
                 {
-                    Debug.WriteLine("La cantidad de proyectos en los cuales trabaja es: " + proyectos.Rows.Count);
+                  
                     foreach (DataRow fila in proyectos.Rows)
                     {
                         datos[0] = fila[0].ToString();

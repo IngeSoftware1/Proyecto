@@ -179,7 +179,8 @@
                                 </div>
                             </div>
 
-
+<asp:UpdatePanel ID= "Update_Tel" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
                             <div class="form-group">
 
                                 <%-- Telefonos de la oficina usuaria--%>
@@ -216,6 +217,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                                </ContentTemplate>
+                </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>
@@ -226,6 +230,8 @@
             </div>
             <br>
 
+                         <asp:UpdatePanel ID="UpdateAsociarDesasociarMiembros" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                     <div class="panel panel-default" style="height: 280px;">
@@ -277,7 +283,7 @@
                                 <div class="row">
                                     <div class="">
                                         <%-- Botón para quitar miembros de un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkQuitarMiembros" Style="height: 100px" CssClass="col-sm-offset-11">
+                                        <asp:LinkButton runat="server" ID="lnkQuitarMiembros" Style="height: 100px" CssClass="col-sm-offset-11" OnClick="btnEliminarMiembro">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
                                         </asp:LinkButton>
                                     </div>
@@ -297,6 +303,8 @@
                     </div>
                 </div>
             </div>
+            </ContentTemplate>
+                </asp:UpdatePanel>
             <%--Cierra el div de datos de proyecto en general--%>
         </div>
 

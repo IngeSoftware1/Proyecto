@@ -497,7 +497,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     for (int i = 0; i < idProyectos.Rows.Count; ++i)
                     {
                         ++contador;
-                        Debug.WriteLine("Estoy en el for de consultar proyectos, el contador vale: " + contador);
+                      
                         consulta = consulta + " " + "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.id_proyecto = '" + idProyectos.Rows[i][0].ToString() + "'";
                         if (contador != idProyectos.Rows.Count)
                         {
