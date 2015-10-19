@@ -194,7 +194,12 @@ namespace ProyectoInge
                         ++numColumna;
                     }
 
-                    listMiembrosDisponibles.Items.Add(filaMiembro);
+                    
+                    if (listMiembrosAgregados.Items.FindByText(filaMiembro) == null)
+                    {
+                        listMiembrosDisponibles.Items.Add(filaMiembro);
+                    }
+                    
                     filaMiembro = "";
                     numColumna = 0;
 
@@ -305,7 +310,7 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
             habilitarCamoposModificar();
-
+            cargarMiembrosSinAsignar();
         }
         
         /*Método que habilita la ventana modificar dependiendo del pefil actual
