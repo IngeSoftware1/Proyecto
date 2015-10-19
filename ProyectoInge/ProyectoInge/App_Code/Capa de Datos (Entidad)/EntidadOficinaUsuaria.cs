@@ -16,15 +16,14 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
         /* 
          * Encapsula los atributos de una oficina.
          * @param atributosOficinaUsuaria Vector de tipo Object con los datos de la oficina que se desea encapsular.
-         */
+        */
+
         public EntidadOficinaUsuaria(Object[] datos)
         {
             nombreOficina = datos[0].ToString();
             nombreRep = datos[1].ToString();
             ape1Rep = datos[2].ToString();
             ape2Rep = datos[3].ToString();
-            
-
         }
 
         //Metodos set y get del atributo nombreOficina

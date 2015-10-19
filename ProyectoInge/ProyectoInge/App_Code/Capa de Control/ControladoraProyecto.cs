@@ -59,6 +59,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         */
         public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre, string perfil)
         {
+            
             Boolean resultado = false;
             switch (modo)
             {
@@ -88,18 +89,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-
+                
                         if (accion == 1)//PROYECTO
                         {
                             EntidadProyecto entidadP = new EntidadProyecto(datos);
-                            int idProyecto = Int32.Parse(nombre); //supongo que nombre viene el id sino habría que hacer llamado de otro método
-                            resultado = controladoraBDProyecto.modificarProyecto(entidadP, idProyecto);
+                            //int idProyecto = Int32.Parse(nombre); //supongo que nombre viene el id sino habría que hacer llamado de otro método
+                            return controladoraBDProyecto.modificarProyecto(entidadP, nombre);
                         }
                         else if (accion == 2)//OFICINA USUARIA
                         {
                             EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
-                            int idOficina = Int32.Parse(nombre); //supongo que en nombre viene el id de la oficina que se requiere modificar
-                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU, idOficina);
+                            
+                            resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU, nombre);
                         }
                     }
                     break;
@@ -119,6 +120,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
             }
             return resultado;
+                            
         }
 
 		/*Método para eliminar una oficina usuaria mediante su id

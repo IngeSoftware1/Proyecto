@@ -337,11 +337,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
        * Modifica: Modifica los datos de una oficina
        * Retorna: Devuelve un true si se ejecutó la actualización correctamente en la base de datos.
        */
-        public bool modificarOfUsuaria(EntidadOficinaUsuaria nuevo, int idOficina)
+        public bool modificarOfUsuaria(EntidadOficinaUsuaria nuevo, string idOficina)
         {
             try
             {
                 string modif = "UPDATE Oficina_Usuaria SET  nombre_oficina ='" + nuevo.getNombreOficina + "', nombre_rep= '" + nuevo.getNombreRep + "', ape1_rep= '" + nuevo.getApe1Rep + "', ape2_rep = '" + nuevo.getApe2Rep + "' WHERE id_Oficina ='" + idOficina + "';";
+                Debug.Write(modif);
                 return acceso.insertarDatos(modif);
 
             }
@@ -353,11 +354,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
 
         //recibe datos del proyecto y id del proyecto
-        public bool modificarProyecto(EntidadProyecto entidadP, int idProyecto)
+        public bool modificarProyecto(EntidadProyecto entidadP, String idProyecto)
         {
             try
             {
-                string modif = "UPDATE Proyecto SET  nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
+                string modif = "UPDATE Proyecto SET nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
                 return acceso.insertarDatos(modif);
 
             }
