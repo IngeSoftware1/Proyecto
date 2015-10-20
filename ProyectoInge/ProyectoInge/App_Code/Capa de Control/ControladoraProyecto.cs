@@ -116,7 +116,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         else if (accion == 4)//TRABAJA_EN
                         {
                             int idProyecto = Int32.Parse(nombre);
-                            resultado = controladoraBDProyecto.eliminarTrabaja_En(idProyecto);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
+                            controladoraRH = new ControladoraRecursos();
+                            resultado = controladoraRH.eliminarTrabaja_En(idProyecto);//en nombre viene elidmiembroConsultado, idProyectoConsultado, para eliminarlo
                         }
                     }
                     break;

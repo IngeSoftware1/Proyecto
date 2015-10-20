@@ -547,6 +547,23 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+        /*Método que elimina un miembro de la tabla trabaja en
+        * Requiere: id del proyecto
+        * Retorna: booleano si lo logra
+        */
+        public bool eliminarTrabaja_En(int idProyectoConsultado)
+        {
+            try
+            {
+                string borrarTrabaja_En = "Delete from Trabaja_En where id_proyecto ='" + idProyectoConsultado + "';";
+                acceso.eliminarDatos(borrarTrabaja_En);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
 
 
     }

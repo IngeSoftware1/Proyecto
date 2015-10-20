@@ -527,7 +527,7 @@ namespace ProyectoInge
                 String idO = (string)Session["idOficinaS"];
                 if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, idP, ""))
                 {
-                
+
                     //Se crea el objeto para encapsular los datos de la interfaz para modificar oficina usuaria
                     tipoModificacion = 2;//Va a cambiar la oficina usuaria
                     Object[] datosOfUsuaria = new Object[4];
@@ -567,12 +567,14 @@ namespace ProyectoInge
                                     llenarComboLideres();
                                     //cargarMiembrosSinAsignar();
                                 }
-                                else {
+                                else
+                                {
                                     string mensaje = "<script>window.alert('No elimino trabaja_en');</script>";
                                     Response.Write(mensaje);
                                 }
                             }
-                            else {
+                            else
+                            {
                                 string mensaje = "<script>window.alert('No inserto los telefonos');</script>";
                                 Response.Write(mensaje);
                             }
@@ -583,12 +585,14 @@ namespace ProyectoInge
                             Response.Write(mensaje);
                         }
                     }
-                    else {
+                    else
+                    {
                         string mensaje = "<script>window.alert('No modifico oficina usuaria');</script>";
                         Response.Write(mensaje);
                     }
                 }
-                else {
+                else
+                {
                     string mensaje = "<script>window.alert('No modifico proyecto');</script>";
                     Response.Write(mensaje);
                 }

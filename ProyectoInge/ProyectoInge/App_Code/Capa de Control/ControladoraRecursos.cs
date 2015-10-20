@@ -280,6 +280,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.obtenerNombresLideres(cedLideres);
 
         }
+        /*Método para comunicar las controladoras RH y Proyectos
+        * Requiere: id del proyecto
+        * Retorna: un booleano
+        * 
+        */
+        public bool eliminarTrabaja_En(int idProyecto)
+        {
+            return controladoraBDRecurso.eliminarTrabaja_En(idProyecto);
+
+        }
 
     }
 
