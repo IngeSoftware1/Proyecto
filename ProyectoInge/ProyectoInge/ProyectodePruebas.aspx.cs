@@ -529,6 +529,7 @@ namespace ProyectoInge
                     datosOfUsuaria[1] = this.txtnombreRep.Text;//nombre_rep
                     datosOfUsuaria[2] = this.txtApellido1Rep.Text;//ape1_rep
                     datosOfUsuaria[3] = this.txtApellido2Rep.Text;//ape2_rep
+
                     if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosOfUsuaria, idO, ""))
                     {
                         //Para modificar los telefonos de la oficina en la oficina usuaria modificar oficina usuaria
@@ -731,7 +732,7 @@ namespace ProyectoInge
                 int tipoInsercion = 2;                              //inserción de tipo 2 es agregar telefonos
 
                 //Se insertó un nuevo telefono para la oficina usuaria
-                if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, telefonoOficina, "", ""))
+                if (controladoraProyecto.ejecutarAccion(1, tipoInsercion, telefonoOficina, "", ""))//lo mando con 1 porque aquí siempre va a insertar
                 {
                 }
                 //La inserción de un nuevo telefono para una oficina usuaria en la base de datos falló porque ya estaba en la base
