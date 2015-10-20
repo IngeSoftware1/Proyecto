@@ -950,16 +950,9 @@ namespace ProyectoInge
 
                     string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
                     Response.Write(mensaje);
-                    cargarMiembrosSinAsignar();
-                    llenarGrid(Session["cedula"].ToString());
+                   
                 }
-                vaciarCampos();
-
-                controlarCampos(false);
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
+                
                 
                 
             }else if(perfil.Equals("Miembro")) {
@@ -974,16 +967,10 @@ namespace ProyectoInge
 
                     string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
                     Response.Write(mensaje);
-                    cargarMiembrosSinAsignar();
-                    llenarGrid(Session["cedula"].ToString());
+                    
                 }
 
-                vaciarCampos();
-                controlarCampos(false);
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
+                
                
 
             } else
@@ -991,6 +978,26 @@ namespace ProyectoInge
                 string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
                 Response.Write(mensaje);
             }
+
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+
+                cambiarEnabled(true, this.btnInsertar);
+                llenarGrid(null);
+            }
+            else
+            {
+                cambiarEnabled(false, this.btnInsertar);
+                llenarGrid(Session["cedula"].ToString());
+            }
+
+            vaciarCampos();
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+
        }
 
 
