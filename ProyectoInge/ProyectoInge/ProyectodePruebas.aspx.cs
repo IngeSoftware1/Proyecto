@@ -272,6 +272,7 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
                 cambiarEnabled(true, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
 
                    //El unico botón que cambia de acuerdo al perfil es el de eliminar
                     if (Session["perfil"].ToString().Equals("Administrador"))
@@ -1056,7 +1057,7 @@ namespace ProyectoInge
 
                     indiceColumna = 0; //Contador para saber el número de columna actual.
                     nombreLider = "";
-                  
+
                 }
 
                 Session["nombreLideres_Consultados"] = nombreLideresConsultados;
@@ -1091,57 +1092,69 @@ namespace ProyectoInge
             else
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
+
                 idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
-
-                //Se obtiene un DataTable con los datos del o los proyectos 
-                proyectos = controladoraProyecto.consultarProyectos(idProyectos);
-
-                lideres = controladoraProyecto.consultarLideres();
-
-
-                for (int i = 0; i < lideres.Rows.Count; ++i)
+                if (idProyectos.Rows.Count > 0)
                 {
-                    foreach (DataColumn column in lideres.Columns)
+                    //Se obtiene un DataTable con los datos del o los proyectos 
+                    proyectos = controladoraProyecto.consultarProyectos(idProyectos);
+
+                    lideres = controladoraProyecto.consultarLideres();
+
+
+                    for (int i = 0; i < lideres.Rows.Count; ++i)
                     {
-
-                        if (indiceColumna == 3)
+                        foreach (DataColumn column in lideres.Columns)
                         {
-                            nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
 
-                        }
-                        else
-                        {
-                            nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                            if (indiceColumna == 3)
+                            {
+                                nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
+
+                            }
+                            else
+                            {
+                                nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                            }
+
+                            ++indiceColumna;
                         }
 
-                        ++indiceColumna;
+                        indiceColumna = 0; //Contador para saber el número de columna actual.
+                        nombreLider = "";
+                        Session["nombreLideres_Consultados"] = nombreLideresConsultados;
+
                     }
 
-                    indiceColumna = 0; //Contador para saber el número de columna actual.
-                    nombreLider = "";
-                    Session["nombreLideres_Consultados"] = nombreLideresConsultados;
-
-                }
 
 
 
-
-                if (proyectos.Rows.Count > 0)
-                {
-
-                    foreach (DataRow fila in proyectos.Rows)
+                    if (proyectos.Rows.Count > 0)
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-                        nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
-                        datos[4] = lider;
+
+                        foreach (DataRow fila in proyectos.Rows)
+                        {
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString();
+                            datos[2] = fila[2].ToString();
+                            datos[3] = fila[3].ToString();
+                            nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
+                            datos[4] = lider;
+                            dt.Rows.Add(datos);
+
+                        }
+
+                        lider = "";
+                    }
+                    else
+                    {
+                        datos[0] = "-";
+                        datos[1] = "-";
+                        datos[2] = "-";
+                        datos[3] = "-";
+                        datos[4] = "-";
                         dt.Rows.Add(datos);
-
                     }
-
-                    lider = "";
                 }
                 else
                 {
@@ -1152,6 +1165,7 @@ namespace ProyectoInge
                     datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
+
             }
 
             this.gridProyecto.DataSource = dt;

@@ -20,30 +20,6 @@ input[type="email"] {
     max-width: 280px;
 }
 
-.navbar-default {
-    background-color: #555555;
-    border-color: white;
-    color:white;
-
-}
- 
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
- a:hover, .navbar-default .navbar-nav > .active > a:focus {
-color: #ff0000; /*BACKGROUND color for active*/
-background-color: #ff0000;
-} 
-
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-color:  white;  /*Sets the text hover color on navbar*/
-}
-
-.navbar-nav > li > a:link
-{
-color:#4cff00;
-}
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .jumbotron {
@@ -186,4 +162,21 @@ margin-right:1em;
 .dataGridTable th
 {
 	text-align:center;	
+}
+
+
+/*Se utiliza para cambiar el color del fondo del navbar*/
+.navbar-default { 
+  background-color:#808080;
+  font-weight: bold;
+ }
+
+ /*Se utiliza para cambiar el color de la letra */
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+ /*Se utiliza para cambiar el color al presionar label */
+.navbar-default .nav > li > a:hover{
+    color:#1bafe8;
 }

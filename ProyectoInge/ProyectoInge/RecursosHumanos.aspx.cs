@@ -163,6 +163,7 @@ namespace ProyectoInge
                 llenarDatos(idRH);
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
+                cambiarEnabled(false, this.btnAceptar);
 
                 //El unico botón que cambia de acuerdo al perfil es el de eliminar
                 if (Session["perfil"].ToString().Equals("Administrador"))
@@ -438,7 +439,7 @@ namespace ProyectoInge
                 if (faltanDatos())
                 {
                     lblModalTitle.Text = "AVISO";
-                    lblModalBody.Text = "Para insertar un nuevo funcionario debe completar todos los datos";
+                    lblModalBody.Text = "Para insertar un nuevo funcionario debe completar todos los datos.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     //string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
@@ -491,7 +492,7 @@ namespace ProyectoInge
 
 
                                 lblModalTitle.Text = "AVISO";
-                                lblModalBody.Text = "Nuevo funcionario creado con éxito";
+                                lblModalBody.Text = "Nuevo funcionario creado con éxito.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
 
@@ -505,7 +506,7 @@ namespace ProyectoInge
                                 //Response.Write(mensaje);
 
                                 lblModalTitle.Text = "AVISO";
-                                lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como administrador";
+                                lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como administrador.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
@@ -531,8 +532,12 @@ namespace ProyectoInge
                                 cambiarEnabled(false, this.btnAceptar);
                                 cambiarEnabled(false, this.btnCancelar);
                                 cambiarEnabled(true, this.btnInsertar);
-                                mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
-                                Response.Write(mensaje);
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "Nuevo funcionario creado con éxito.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                                //mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
+                              //  Response.Write(mensaje);
 
 
 
@@ -542,8 +547,14 @@ namespace ProyectoInge
                             //La inserción de un nuevo miembro de equipo de pruebas falló porque ya estaba en la base
                             else
                             {
-                                mensaje = "<script>window.alert('Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.');</script>";
-                                Response.Write(mensaje);
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+
+
+                               // mensaje = "<script>window.alert('Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.');</script>";
+                               // Response.Write(mensaje);
                                 habilitarCamposInsertar();
                             }
                         }
@@ -551,8 +562,13 @@ namespace ProyectoInge
                     //La inserción del funcionario no se pudo realizar en la base de datos
                     else
                     {
-                        string mensaje = "<script>window.alert('La inserción no fue exitosa.');</script>";
-                        Response.Write(mensaje);
+                       // string mensaje = "<script>window.alert('La inserción no fue exitosa.');</script>";
+                       // Response.Write(mensaje);
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "La inserción no fue exitossa.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+
                         habilitarCamposInsertar();
                     }
 
@@ -561,8 +577,14 @@ namespace ProyectoInge
             //Las contraseñas no coinciden
             else
             {
-                string mensaje = "<script>window.alert('Las contraseñas son distintas.');</script>";
-                Response.Write(mensaje);
+               //string mensaje = "<script>window.alert('Las contraseñas son distintas.');</script>";
+              //  Response.Write(mensaje);
+
+
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Las contraseñas son distintas.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
                 habilitarCamposInsertar();
             }
         }
@@ -591,8 +613,12 @@ namespace ProyectoInge
                 //La inserción de un nuevo telefono para un funcionario en la base de datos falló porque ya estaba en la base
                 else
                 {
-                    mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a este funcionario.');</script>";
-                    Response.Write(mensaje);
+                   // mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a este funcionario.');</script>";
+                  //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "El teléfono ya se encuentra asociado en el sistema a este funcionario.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                     habilitarCamposInsertar();
                 }
 
@@ -665,8 +691,12 @@ namespace ProyectoInge
             int tipoModificacion = 1;//Funcionario
             if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
-                string mensaje = "<script>window.alert('Para modificar un funcionario debe completar todos los datos habilitados.');</script>";
-                Response.Write(mensaje);
+                //string mensaje = "<script>window.alert('Para modificar un funcionario debe completar todos los datos habilitados.');</script>";
+               //Response.Write(mensaje);
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para modificar un funcionario debe completar todos los datos habilitados.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             }
             else
             {
@@ -685,9 +715,14 @@ namespace ProyectoInge
                     datosNuevos[7] = false;
                     if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
                     {
-                        string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
-                        Response.Write(mensaje);
+                        //string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
+                        //Response.Write(mensaje);
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
 
+                                
                         if (Session["perfil"].ToString().Equals("Administrador"))
                         {
                             llenarGrid(null);
@@ -725,16 +760,24 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
-                        Response.Write(mensaje);
+                        // string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
+                        //Response.Write(mensaje);
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "No se pudo modificar, recuerde: la cédula y el usuario son únicos.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                         habilitarCamposInsertar();
 
                     }
                 }
                 else
                 {
-                    string mensaje = "<script>window.alert('Las contraseñas deben ser iguales.');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Las contraseñas deben ser iguales.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                  //  string mensaje = "<script>window.alert('Las contraseñas deben ser iguales.');</script>";
+                  //  Response.Write(mensaje);
 
                 }
             }
@@ -755,14 +798,21 @@ namespace ProyectoInge
             {
                 if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
                 {
-                    string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
-                    Response.Write(mensaje);
+                   // string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
+                    //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                 }
                 else
                 {
-
-                    string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                   // string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
+                   // Response.Write(mensaje);
                 }
                 idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
                 llenarGrid(null);
@@ -790,8 +840,13 @@ namespace ProyectoInge
             }
             else
             {
-                string mensaje = "<script>window.alert('No es posible eliminar el funcionario ya que posee una sesión abierta en el sistema');</script>";
-                Response.Write(mensaje);
+
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "No es posible eliminar el funcionario ya que posee una sesión abierta en el sistema.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+               // string mensaje = "<script>window.alert('No es posible eliminar el funcionario ya que posee una sesión abierta en el sistema');</script>";
+           //     Response.Write(mensaje);
             }
         }
 
