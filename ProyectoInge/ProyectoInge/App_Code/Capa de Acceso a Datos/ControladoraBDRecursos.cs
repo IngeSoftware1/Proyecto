@@ -10,43 +10,43 @@ using System.Data.SqlClient;
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
 
-
+    
     public class ControladoraBDRecursos
-    {
+      {
+                      
+      AccesoBaseDatos acceso = new AccesoBaseDatos();
+      public ControladoraBDRecursos()
+      {
+      }
 
-        AccesoBaseDatos acceso = new AccesoBaseDatos();
-        public ControladoraBDRecursos()
+     /*Método para consultar los datos de un recurso humano específico.
+     * Requiere: requiere la cédula y contraseña del usuario al cual se le consultarán los datos.
+     * Modifica: lleva a cabo las consultas en la base de datos
+     * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
+     */
+     public bool consultarUsuario(String user, String pass)
         {
-        }
 
-        /*Método para consultar los datos de un recurso humano específico.
-        * Requiere: requiere la cédula y contraseña del usuario al cual se le consultarán los datos.
-        * Modifica: lleva a cabo las consultas en la base de datos
-        * Retorna: Un booleano con el valor en true cuando se ha encontrado el usuario con el que coincide la cédula y el password de entrada.
-        */
-        public bool consultarUsuario(String user, String pass)
-        {
+         bool resultado = false;
+          try
+         {
+             string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
+             DataTable data = acceso.ejecutarConsultaTabla(consulta);
+             if (data.Rows.Count==1)
+             {
 
-            bool resultado = false;
-            try
-            {
-                string consulta = "SELECT * FROM Funcionario WHERE usuario =" + user + " and contrasena = " + pass;
-                DataTable data = acceso.ejecutarConsultaTabla(consulta);
-                if (data.Rows.Count == 1)
-                {
+                 resultado = true;
 
-                    resultado = true;
+             } 
+         }
+          catch (SqlException e)
+          {
+              resultado = false;
+          }
 
-                }
-            }
-            catch (SqlException e)
-            {
-                resultado = false;
-            }
-
-            return resultado;
-
-        }
+          return resultado;
+         
+     }
 
         /*Método para modificar la contraseña de un usuario.
         * Requiere: requiere la cédula y contraseña anterior del usuario y contraseña actual.
@@ -54,17 +54,17 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: Devuelve un boolean true en caso de que se ejecute la actualización correctamente.
         */
         public Boolean modificarContrasena(String ced, String pass, String newPass)
-        {
-            try
-            {
-                string modif = "UPDATE FUNCIONARIO SET contrasena ='" + newPass + "' WHERE cedula ='" + ced + "' and contrasena = '" + pass + "'";
-                return acceso.insertarDatos(modif);
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+     {
+         try
+         {
+             string modif = "UPDATE FUNCIONARIO SET contrasena ='"+ newPass+"' WHERE cedula ='" + ced + "' and contrasena = '" + pass +"'";
+             return acceso.insertarDatos(modif);
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
 
         /*Método para consultar los datos de un recurso humano específico.
         * Requiere: requiere la cédula y contraseña del usuario al cual se le consultarán los datos.
@@ -72,74 +72,71 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con la tabla funcionario en caso de que encuentre el usuario y contraseña y en caso de que no esta retorna null .
         */
         public string consultarCedula(string user, string password)
-        {
-            string resultado = "";
-            DataTable datosFuncionario = new DataTable();
-            string consulta = "SELECT cedula FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password + "'";
-            try
-            {
-                datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
-                if (datosFuncionario != null && datosFuncionario.Rows.Count == 1)
-                {
-                    resultado = datosFuncionario.Rows[0][0].ToString();
-                }
+     {
+         string resultado="";
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT cedula FROM Funcionario WHERE usuario='" + user + "' and contrasena = '" + password +"'";
+         try{
+             datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+             if(datosFuncionario != null && datosFuncionario.Rows.Count == 1){
+                 resultado = datosFuncionario.Rows[0][0].ToString();
+             }
+              
+         }
+         catch (SqlException e) {
+             resultado = "";
+         }
 
-            }
-            catch (SqlException e)
-            {
-                resultado = "";
-            }
+         return resultado;
+     }
+       /*Método para consultar los tipos de Rol de la tabla Rol.
+       * Requiere: no requiere ningún dato de entrada.
+       * Modifica: lleva a cabo la consulta en la base de datos
+       * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los tipos de rol.
+       */
+       public DataTable consultarRoles()
+       {
+         DataTable Roles;
+         string consulta = "SELECT R.tipo_rol " + " FROM Rol R ";
+         Roles = acceso.ejecutarConsultaTabla(consulta);
+         return Roles;
+       }
 
-            return resultado;
-        }
-        /*Método para consultar los tipos de Rol de la tabla Rol.
-        * Requiere: no requiere ningún dato de entrada.
-        * Modifica: lleva a cabo la consulta en la base de datos
-        * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los tipos de rol.
-        */
-        public DataTable consultarRoles()
-        {
-            DataTable Roles;
-            string consulta = "SELECT R.tipo_rol " + " FROM Rol R ";
-            Roles = acceso.ejecutarConsultaTabla(consulta);
-            return Roles;
-        }
-
-        /*Método para consultar todos los dtos personales de un recurso humano específico.
-        * Requiere: requiere la cédula del usuario al cual se le consultarán los datos personales.
-        * Modifica: lleva a cabo la consulta en la base de datos
-        * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los datos personales de un recurso humano específico.
-        */
-        public DataTable consultarRH(string ced)
-        {
-            DataTable datosFuncionario = new DataTable();
-            string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, F.Email, F.contrasena, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
-            datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
-            return datosFuncionario;
-        }
+     /*Método para consultar todos los dtos personales de un recurso humano específico.
+     * Requiere: requiere la cédula del usuario al cual se le consultarán los datos personales.
+     * Modifica: lleva a cabo la consulta en la base de datos
+     * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los datos personales de un recurso humano específico.
+     */
+     public DataTable consultarRH(string ced)
+     {
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, F.usuario, F.Email, F.contrasena, M.tipo_rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + ced + "'";
+         datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+         return datosFuncionario;
+     }
 
 
-        public string consultarEstadoFuncionario(string ced)
-        {
-            string resultado = "";
-            DataTable datosFuncionario = new DataTable();
-            string consulta = "SELECT * FROM Funcionario WHERE cedula ='" + ced + "';";
-            try
-            {
-                datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
-                if (datosFuncionario != null && datosFuncionario.Rows.Count == 1)
-                {
-                    resultado = datosFuncionario.Rows[0][7].ToString();
-                }
+     public string consultarEstadoFuncionario(string ced)
+     {
+         string resultado = "";
+         DataTable datosFuncionario = new DataTable();
+         string consulta = "SELECT * FROM Funcionario WHERE cedula ='" + ced + "';";
+         try
+         {
+             datosFuncionario = acceso.ejecutarConsultaTabla(consulta);
+             if (datosFuncionario != null && datosFuncionario.Rows.Count == 1)
+             {
+                 resultado = datosFuncionario.Rows[0][7].ToString();
+             }
+             
+         }
+         catch (SqlException e)
+         {
+             resultado = "";
+         }
 
-            }
-            catch (SqlException e)
-            {
-                resultado = "";
-            }
-
-            return resultado;
-        }
+         return resultado;
+     }
 
 
 
@@ -149,12 +146,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
        * Retorna: Devuelve un datatable (la fila de la base de datos que reponde a la consulta) con los teléfonos de un recurso humano específico.
        */
         public DataTable consultarTelefonosRH(string cedula)
-        {
-            DataTable telefonos = new DataTable();
-            string consulta = "SELECT T.num_telefono " + " FROM Telefono_Funcionario T " + " WHERE T.cedula_funcionario = '" + cedula + "'";
-            telefonos = acceso.ejecutarConsultaTabla(consulta);
-            return telefonos;
-        }
+     {
+         DataTable telefonos = new DataTable();
+         string consulta = "SELECT T.num_telefono " + " FROM Telefono_Funcionario T " + " WHERE T.cedula_funcionario = '" + cedula + "'";
+         telefonos = acceso.ejecutarConsultaTabla(consulta);
+         return telefonos;
+     }
 
         /*Método para asignar un estado de sesión en la base de datos, para un usuario específico.
         * Requiere: requiere la cédula del usuario al cual se le asignará un estado específico para la sesión (abierta o cerrada), y el estado de la sesión.
@@ -182,102 +179,102 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * un usuario particular.
         */
         public DataTable consultarRecursosHumanos(string cedula)
-        {
-            DataTable dt = new DataTable();
-            string consulta;
+     {
+         DataTable dt = new DataTable();
+         string consulta;
 
-            if (cedula == null)
-            {
-                consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro ";
-            }
-            else
-            {
-                consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + cedula + "'";
-            }
+         if (cedula == null)
+         {
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro ";
+         }
+         else
+         {
+             consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2, M.tipo_Rol " + " FROM Funcionario F LEFT OUTER JOIN Miembro M ON F.cedula = M.cedula_miembro " + " WHERE F.cedula = '" + cedula + "'"; 
+         }
 
-            dt = acceso.ejecutarConsultaTabla(consulta);
-            return dt;
-        }
-
-
-        /*Método para insertar funcionario en la base de datos
-         * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
-         * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
-         * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
-         */
-        public bool insertarFuncionario(Funcionario nuevo)
-        {
-            try
-            {
-                string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, email, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" + nuevo.getNombre + "', '" + nuevo.getApellido1 + "', '" + nuevo.getApellido2 + "', '" + nuevo.getEmail + "','" + nuevo.getUsuario + "', '" + nuevo.getContrasena + "', '" + nuevo.getLogin + "')";
-                return acceso.insertarDatos(insercion);
-
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+         dt = acceso.ejecutarConsultaTabla(consulta);
+         return dt;
+     }
 
 
-        /*Método para insertar administrador en la base de datos
-         * Requiere: un objeto tipo EntidadAdministrador el cual trae todos los datos encapsulados
-         * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
-         * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
-         */
-        public bool insertarAdministrador(EntidadAdministrador nuevo)
-        {
-            try
-            {
-                string insercion = "INSERT INTO Administrador (cedula_admin) VALUES ('" + nuevo.getCedula_Admin + "')";
-                return acceso.insertarDatos(insercion);
-
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
-
-
-        /*Método para insertar miembro en la base de datos
-         * Requiere: un objeto tipo EntidadMiembro el cual trae todos los datos encapsulados
-         * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
-         * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
-         */
-        public bool insertarMiembro(EntidadMiembro nuevo)
-        {
-            try
-            {
-                string insercion = "INSERT INTO Miembro (cedula_miembro, tipo_rol) VALUES ('" + nuevo.getCedulaMiembro + "', '" + nuevo.getTipoRol + "')";
-                return acceso.insertarDatos(insercion);
-
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+   /*Método para insertar funcionario en la base de datos
+    * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
+    * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+    * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+    */
+     public bool insertarFuncionario(Funcionario nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Funcionario (cedula, nombre, apellido1, apellido2, email, usuario, contrasena, login) VALUES ('" + nuevo.getCedula + "', '" + nuevo.getNombre + "', '" + nuevo.getApellido1 + "', '" + nuevo.getApellido2 + "', '" + nuevo.getEmail + "','" + nuevo.getUsuario + "', '" +nuevo.getContrasena+ "', '"+nuevo.getLogin+ "')";
+             return acceso.insertarDatos(insercion);
+           
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
 
 
-        /*Método para insertar telefono de un funcionario en la base de datos
-         * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
-         * Modifica: Crea el string EntidadTelFuncionario la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
-         * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
-         */
-        public bool insertarTelefono(EntidadTelFuncionario nuevo)
-        {
-            try
-            {
-                string insercion = "INSERT INTO Telefono_Funcionario (cedula_funcionario, num_telefono) VALUES ('" + nuevo.getCedulaFuncionario + "', '" + nuevo.getNumTelefono + "')";
-                return acceso.insertarDatos(insercion);
+     /*Método para insertar administrador en la base de datos
+      * Requiere: un objeto tipo EntidadAdministrador el cual trae todos los datos encapsulados
+      * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
+     public bool insertarAdministrador(EntidadAdministrador nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Administrador (cedula_admin) VALUES ('" + nuevo.getCedula_Admin + "')";
+             return acceso.insertarDatos(insercion);
 
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
+
+     /*Método para insertar miembro en la base de datos
+      * Requiere: un objeto tipo EntidadMiembro el cual trae todos los datos encapsulados
+      * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
+     public bool insertarMiembro(EntidadMiembro nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Miembro (cedula_miembro, tipo_rol) VALUES ('" + nuevo.getCedulaMiembro + "', '"+nuevo.getTipoRol +"')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
+
+     /*Método para insertar telefono de un funcionario en la base de datos
+      * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
+      * Modifica: Crea el string EntidadTelFuncionario la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+      * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+      */
+     public bool insertarTelefono(EntidadTelFuncionario nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Telefono_Funcionario (cedula_funcionario, num_telefono) VALUES ('" + nuevo.getCedulaFuncionario+ "', '" + nuevo.getNumTelefono + "')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
 
         /*Método para llevar a cabo la modificación de los datos personales de un usuario.
         * Requiere: un objeto Funcionario para ser modificado con los nuevos valores y la cédula de este, para localizarlo en la Base de datos.
@@ -288,7 +285,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Funcionario SET cedula ='" + nuevo.getCedula + "', nombre='" + nuevo.getNombre + "' , apellido1= '" + nuevo.getApellido1 + "', apellido2= '" + nuevo.getApellido2 + "', email = '" + nuevo.getEmail + "', usuario='" + nuevo.getUsuario + "' WHERE cedula='" + cedula + "';";
+                string modif = "UPDATE Funcionario SET cedula ='" + nuevo.getCedula + "', nombre='" + nuevo.getNombre + "' , apellido1= '" + nuevo.getApellido1 + "', apellido2= '" + nuevo.getApellido2 + "', email = '"+nuevo.getEmail+"', usuario='" + nuevo.getUsuario + "' WHERE cedula='" + cedula+"';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -298,7 +295,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-
+        
 
 
 
@@ -333,23 +330,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             String resultado = "";
             try
             {
-                string consulta = "SELECT * FROM Administrador WHERE cedula_admin ='" + cedulaDeFuncionario + "'";
+                string consulta = "SELECT * FROM Administrador WHERE cedula_admin ='" + cedulaDeFuncionario+"'";
                 DataTable data = acceso.ejecutarConsultaTabla(consulta);
                 if (data.Rows.Count == 1)
                 {
                     resultado = "Administrador";
-                }
-                else
+                }else
                 {
                     try
                     {
-                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula_miembro ='" + cedulaDeFuncionario + "'";
+                        string consultaMiembro = "SELECT * FROM Miembro WHERE cedula_miembro ='" + cedulaDeFuncionario+"'";
                         DataTable dataMiembro = acceso.ejecutarConsultaTabla(consultaMiembro);
                         if (dataMiembro.Rows.Count == 1)
                         {
                             resultado = "Miembro";
                         }
-
+              
 
 
                     }
@@ -357,16 +353,16 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     {
                         resultado = "";
                     }
-                }
-
+                }                 
+                
             }
             catch (SqlException e)
             {
-                resultado = "";
+               resultado = "";
             }
 
             return resultado;
-
+          
         }
 
 
@@ -380,9 +376,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                string borrado = "Delete from Funcionario where cedula ='" + cedulaDeFuncionario + "'";
+                string borrado = "Delete from Funcionario where cedula ='" + cedulaDeFuncionario +"'";
                 acceso.eliminarDatos(borrado);
-                string borrado2 = "Delete from Trabaja_En where cedula_miembro ='" + cedulaDeFuncionario + "'";
+                string borrado2 = "Delete from Trabaja_En where cedula_miembro ='" + cedulaDeFuncionario+"'";
                 acceso.eliminarDatos(borrado);
 
                 return true;
@@ -537,22 +533,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-        /*Método para eliminar 
-        * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
-        * Retorna: un DataTable con el nombre y apellido de los líderes
-        */
-        public bool eliminarTrabaja_En(int idProyectoConsultado)
-        {
-            try
-            {
-                string borrarTrabaja_En = "Delete from Trabaja_En where id_proyecto ='" + idProyectoConsultado + "';";
-                acceso.eliminarDatos(borrarTrabaja_En);
-                return true;
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
+
+
     }
+
 }

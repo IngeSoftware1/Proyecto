@@ -275,15 +275,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         }
 
-        /*Método para eliminar todos los miembros asociados a un proyecto.
-        * Requiere: el id del proyecto que tiene a los miembros.
-        * Retorna: un bool diciendo si pudo realizar la consulta.
-        */
-        public bool eliminarTrabaja_En(int idProyecto)
-        {
-            return controladoraBDRecurso.eliminarTrabaja_En(idProyecto);
-             
-        }
     }
 
 }
