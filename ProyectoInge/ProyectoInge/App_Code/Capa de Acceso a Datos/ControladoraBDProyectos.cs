@@ -398,21 +398,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-        //DEBERÍA IR EN LA CONTROLADORA DE RH
-        public bool eliminarTrabaja_En(int idProyectoConsultado)
-        {
-            try
-            {
-                string borrarTrabaja_En = "Delete from Trabaja_En where id_proyecto ='" + idProyectoConsultado + "';";
-                acceso.eliminarDatos(borrarTrabaja_En);
-                return true;
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
-
 
         /* Método para obtener los estados que podría contener un proyecto.
          * Requiere: no requiere parámetros.
