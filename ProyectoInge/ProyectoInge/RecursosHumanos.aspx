@@ -108,6 +108,10 @@
                                     </div>
                                 </div>
                             </div>  
+
+                            <asp:UpdatePanel ID="Update_Telefonos" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
+
                             <div class="form-group">
                                 <div class="row">
                                     <asp:Label ID="lblTelefono" runat="server" Text="Teléfono:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
@@ -139,6 +143,9 @@
 
                                     </div>
                                 </div>
+
+                             </ContentTemplate>
+                </asp:UpdatePanel>
                 </div>
                 </div>
                     </div>

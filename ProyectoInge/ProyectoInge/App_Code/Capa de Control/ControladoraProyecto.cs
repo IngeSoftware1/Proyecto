@@ -82,8 +82,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         }
                         else if (accion == 4) //insertar miembros de un equipo de pruebas
                         {
-                            EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
-                            resultado = controladoraBDProyecto.insertarMiembro(miembro);
+                           // EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
+                          //  resultado = controladoraBDProyecto.insertarMiembro(miembro);
+                            ControladoraRecursos controladoraRH = new ControladoraRecursos();
+                            resultado = controladoraRH.ejecutarAccion(1, 5, datos, "");
                         }
                     }
                     break;

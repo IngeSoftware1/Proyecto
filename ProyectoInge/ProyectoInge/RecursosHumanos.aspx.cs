@@ -375,6 +375,8 @@ namespace ProyectoInge
             {
                 habilitarCamposModificar();
             }
+
+            Update_Telefonos.Update();
         }
 
         /*Método para la acción de eliminar telefonos del listbox
@@ -392,6 +394,8 @@ namespace ProyectoInge
                     listTelefonos.Items.RemoveAt(listTelefonos.SelectedIndex);
                 }
             }
+
+            Update_Telefonos.Update();
         }
 
         /*Método para limpiar los textbox

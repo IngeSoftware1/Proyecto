@@ -256,6 +256,20 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          }
      }
 
+     public bool insertarMiembroProyecto(EntidadTrabajaEn nuevo)
+     {
+         try
+         {
+             string insercion = "INSERT INTO Trabaja_En (cedula_miembro, id_proyecto) VALUES ('" + nuevo.getCedulaMiembro + "', '" + nuevo.geIdProyecto + "')";
+             return acceso.insertarDatos(insercion);
+
+         }
+         catch (SqlException e)
+         {
+             return false;
+         }
+     }
+
 
      /*Método para insertar telefono de un funcionario en la base de datos
       * Requiere: un objeto tipo Funcionario el cual trae todos los datos encapsulados
@@ -419,7 +433,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT F.nombre, F.apellido1, F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE M.tipo_rol ='" + "Líder de pruebas" + "'"; ;
+                consulta = "SELECT F.nombre, F.apellido1, F.apellido2, F.cedula " + " FROM Funcionario F JOIN Miembro M ON F.cedula = M.cedula_miembro WHERE M.tipo_rol ='" + "Líder de pruebas" + "'"; ;
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch

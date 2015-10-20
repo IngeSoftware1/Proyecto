@@ -22,6 +22,7 @@ namespace ProyectoInge
         private string nombOfConsultada;
         Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
+        Dictionary<string, string> nombreLideresConsultados = new Dictionary<string, string>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -114,11 +115,13 @@ namespace ProyectoInge
         protected void llenarComboLideres()
         {
             this.comboLider.Items.Clear();
+            cedulasLideres.Clear();
             DataTable Lideres = controladoraProyecto.consultarLideres();
             int numDatos = Lideres.Rows.Count;
             Object[] datos;
             string nombre = "";
             int numColumna = 0;
+
 
             if (Lideres.Rows.Count >= 1)
             {
@@ -131,7 +134,7 @@ namespace ProyectoInge
                     foreach (DataColumn column in Lideres.Columns)
                     {
 
-                        if (numColumna == 2)
+                        if (numColumna == 3)
                         {
                              
                             cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
@@ -147,6 +150,7 @@ namespace ProyectoInge
 
                     datos[i] = nombre;
                     numColumna = 0; //Contador para saber el número de columna actual.
+                    nombre = "";
 
                 }
                 this.comboLider.DataSource = datos;
@@ -166,6 +170,7 @@ namespace ProyectoInge
             DataTable datosMiembros = controladoraProyecto.consultarMiembros();
             string filaMiembro = "";
             int numColumna = 0;
+            cedulasTodosMiembros.Clear();
 
 
             if (datosMiembros.Rows.Count >= 1)
@@ -1011,11 +1016,14 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaProyectos();
             DataTable proyectos;
-            DataTable nombresLideres;
             DataTable idProyectos;
             Object[] datos = new Object[5];
-            List<string> lideres = new List<string>();
             string lider = "";
+            int indiceColumna = 0;
+            string nombreLider = "";
+            DataTable lideres;
+            nombreLideresConsultados.Clear();
+
 
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
@@ -1024,19 +1032,37 @@ namespace ProyectoInge
                 //Se obtienen todos los proyectos pues el administrador es el usuario del sistema
                 proyectos = controladoraProyecto.consultarProyectos(null);
 
-                for (int i = 0; i < proyectos.Rows.Count; ++i)
+                //Se obtienen todos los lideres del sistema
+                lideres = controladoraProyecto.consultarLideres();
+
+
+                for (int i = 0; i < lideres.Rows.Count; ++i)
                 {
-                    foreach (DataRow fila in proyectos.Rows)
+                    foreach (DataColumn column in lideres.Columns)
                     {
-                        lideres.Add(fila[4].ToString());
+
+                        if (indiceColumna == 3)
+                        {
+                            nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
+
+                        }
+                        else
+                        {
+                            nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                        }
+
+                        ++indiceColumna;
                     }
 
+                    indiceColumna = 0; //Contador para saber el número de columna actual.
+                    nombreLider = "";
+                  
                 }
 
-                //Se obtiene un DataTable compuesto por el nombre y apellido del líder 
-                nombresLideres = controladoraProyecto.obtenerNombresLideres(lideres);
+                Session["nombreLideres_Consultados"] = nombreLideresConsultados;
 
-                if (proyectos.Rows.Count > 0 && nombresLideres.Rows.Count > 0)
+
+                if (proyectos.Rows.Count > 0)
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {
@@ -1044,14 +1070,13 @@ namespace ProyectoInge
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
-                        lider = nombresLideres.Rows[0][0].ToString();
-                        lider = lider + " " + nombresLideres.Rows[0][1].ToString();
-                        lider = lider + " " + nombresLideres.Rows[0][2].ToString();
+                        nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
                         datos[4] = lider;
                         dt.Rows.Add(datos);
                     }
 
                     lider = "";
+
                 }
                 else
                 {
@@ -1067,36 +1092,50 @@ namespace ProyectoInge
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
                 idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
-   
-
 
                 //Se obtiene un DataTable con los datos del o los proyectos 
                 proyectos = controladoraProyecto.consultarProyectos(idProyectos);
 
-                for (int i = 0; i < proyectos.Rows.Count; ++i)
+                lideres = controladoraProyecto.consultarLideres();
+
+
+                for (int i = 0; i < lideres.Rows.Count; ++i)
                 {
-                    foreach (DataRow fila in proyectos.Rows)
+                    foreach (DataColumn column in lideres.Columns)
                     {
-                        lideres.Add(fila[4].ToString());
+
+                        if (indiceColumna == 3)
+                        {
+                            nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
+
+                        }
+                        else
+                        {
+                            nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                        }
+
+                        ++indiceColumna;
                     }
+
+                    indiceColumna = 0; //Contador para saber el número de columna actual.
+                    nombreLider = "";
+                    Session["nombreLideres_Consultados"] = nombreLideresConsultados;
 
                 }
 
-                //Se obtiene un DataTable compuesto por el nombre y apellido del líder 
-                nombresLideres = controladoraProyecto.obtenerNombresLideres(lideres);
 
-                if (proyectos.Rows.Count > 0 && nombresLideres.Rows.Count > 0)
+
+
+                if (proyectos.Rows.Count > 0)
                 {
-                  
+
                     foreach (DataRow fila in proyectos.Rows)
                     {
                         datos[0] = fila[0].ToString();
                         datos[1] = fila[1].ToString();
                         datos[2] = fila[2].ToString();
                         datos[3] = fila[3].ToString();
-                        lider = nombresLideres.Rows[0][0].ToString();
-                        lider = lider + " " + nombresLideres.Rows[0][1].ToString();
-                        lider = lider + " " + nombresLideres.Rows[0][2].ToString();
+                        nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
                         datos[4] = lider;
                         dt.Rows.Add(datos);
 
@@ -1117,7 +1156,6 @@ namespace ProyectoInge
 
             this.gridProyecto.DataSource = dt;
             this.gridProyecto.DataBind();
-
 
         }
 
@@ -1169,14 +1207,14 @@ namespace ProyectoInge
         public void llenarDatos(string idProyecto)
         {
             idProyectoConsultado = idProyecto;
-            List<string> nombreDelLider = new List<string>(); //Lista que contiene la cédula del líder del proyecto
             DataTable datosFilaProyecto = controladoraProyecto.consultarProyectoTotal(idProyecto); //Se obtienen los datos del proyecto
             DataTable datosFilaMiembros = controladoraProyecto.consultarMiembrosProyecto(idProyecto); //Se obtienen los miembros que trabajan en el proyecto
             DataTable datosOficinaUsuaria = controladoraProyecto.consultarOficina(idProyecto); //Se obtiene los datos de la oficina asociada al proyecto
             DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto); //Se obtiene los teléfonos de la oficina usuaria
-            DataTable datosLider; //DataTable que contiene el nombre y apellido del líder del proyecto
             string nombreLider;
+            string nombre = "";
             ListItem lider;
+            Dictionary<string, string> nombresDelLider = (Dictionary<string, string>)Session["nombreLideres_Consultados"];
 
             if (datosFilaProyecto.Rows.Count == 1)
             {
@@ -1194,17 +1232,13 @@ namespace ProyectoInge
                     this.comboEstado.SelectedValue = estadoProceso.Value;
                 }
 
-                //Se obtiene el nombre y apellido del líder de acuerdo a la cédula de éste en el proyecto consultado
-                nombreDelLider.Add(datosFilaProyecto.Rows[0][4].ToString());
-                datosLider = controladoraProyecto.obtenerNombresLideres(nombreDelLider);
+                //Se obtiene el nombre y apellidos del líder de acuerdo a la cédula de éste en el proyecto consultado
+                nombresDelLider.TryGetValue(datosFilaProyecto.Rows[0][4].ToString(), out nombreLider);
+                nombre = nombre + nombreLider;
 
-
-                nombreLider = datosLider.Rows[0][0].ToString();
-                nombreLider = nombreLider + " " + datosLider.Rows[0][1].ToString();
-
-                if (this.comboLider.Items.FindByText(nombreLider) != null)
+                if (this.comboLider.Items.FindByText(nombre) != null)
                 {
-                    lider = this.comboLider.Items.FindByText(nombreLider);
+                    lider = this.comboLider.Items.FindByText(nombre);
                     this.comboLider.SelectedValue = lider.Value;
                 }
             }

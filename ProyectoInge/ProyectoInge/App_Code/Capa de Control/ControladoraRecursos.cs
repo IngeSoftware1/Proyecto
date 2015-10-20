@@ -122,6 +122,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             EntidadTelFuncionario telefonos = new EntidadTelFuncionario(datos);
                             resultado = controladoraBDRecurso.insertarTelefono(telefonos);
                         }
+                        else if (accion == 5) //Insertar miembro de equipo de pruebas en un determinado proyecto
+                        {
+                            EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
+                            resultado = controladoraBDRecurso.insertarMiembroProyecto(miembro);
+                        }
+
                     }
                     break;
                 case 2:

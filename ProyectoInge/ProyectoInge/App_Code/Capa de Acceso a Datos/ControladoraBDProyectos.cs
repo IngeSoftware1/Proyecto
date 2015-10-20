@@ -99,7 +99,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-        public bool insertarMiembro(EntidadTrabajaEn nuevo)
+    /*    public bool insertarMiembro(EntidadTrabajaEn nuevo)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
-        }
+        } */
 
         /*Método para buscar si en la base de datos existe un proyecto asociado a un usuario con una cedula particular
         * Requiere: un string con la cedula de un funcionario específico
