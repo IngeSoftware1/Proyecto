@@ -262,8 +262,15 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
             modo = 3;
             controlarCampos(false);
-            string mensaje = "<script>window.alert('Está seguro que desea eliminar este recurso humano?');</script>";
-            Response.Write(mensaje);
+
+
+            lblModalTitle.Text = "AVISO";
+            lblModalBody.Text = "Está seguro que desea eliminar este recurso humano?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
+
+            //string mensaje = "<script>window.alert('Está seguro que desea eliminar este recurso humano?');</script>";
+            //Response.Write(mensaje);
         }
 
         /*Método para crear la acción de insertar un nuevo funcionario
@@ -426,8 +433,15 @@ namespace ProyectoInge
                 //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
                 if (faltanDatos())
                 {
-                    string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "Para insertar un nuevo funcionario debe completar todos los datos";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    //string mensaje = "<script>window.alert('Para insertar un nuevo funcionario debe completar todos los datos.');</script>";
+                    //Response.Write(mensaje);
+
+
+
                     habilitarCamposInsertar();
                 }
                 //Los datos obligatorios se encuentran completos 
@@ -468,8 +482,14 @@ namespace ProyectoInge
                                 cambiarEnabled(false, this.btnAceptar);
                                 cambiarEnabled(false, this.btnCancelar);
                                 cambiarEnabled(true, this.btnInsertar);
-                                mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
-                                Response.Write(mensaje);
+                                //mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
+                                //Response.Write(mensaje);
+
+
+                                lblModalTitle.Text = "AVISO";
+                                lblModalBody.Text = "Nuevo funcionario creado con éxito";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
 
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
@@ -477,8 +497,13 @@ namespace ProyectoInge
                             //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
                             else
                             {
-                                mensaje = "<script>window.alert('Esta cédula ya se encuentra registrada en el sistema como administrador.');</script>";
-                                Response.Write(mensaje);
+                               // mensaje = "<script>window.alert('Esta cédula ya se encuentra registrada en el sistema como administrador.');</script>";
+                                //Response.Write(mensaje);
+
+                                lblModalTitle.Text = "AVISO";
+                                lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como administrador";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
                                 habilitarCamposInsertar();
                             }
                         }
@@ -504,6 +529,8 @@ namespace ProyectoInge
                                 cambiarEnabled(true, this.btnInsertar);
                                 mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 Response.Write(mensaje);
+
+
 
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
