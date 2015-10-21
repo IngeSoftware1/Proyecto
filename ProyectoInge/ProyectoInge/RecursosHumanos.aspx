@@ -6,7 +6,7 @@
     
    <nav class="navbar navbar-default navbar-static-top">
     <ul class="navbar-default nav navbar-nav">
-         <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
+         <li><a runat="server" style ="background-color:ActiveCaption"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
             <li ><a runat="server" href="~/ProyectodePruebas.aspx" >Proyecto</a></li>
             <li ><a runat="server" >Diseño de pruebas</a></li>
             <li ><a runat="server" >Caso de pruebas</a></li>

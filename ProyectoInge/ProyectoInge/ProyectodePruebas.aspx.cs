@@ -236,8 +236,12 @@ namespace ProyectoInge
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
-                    Response.Write(mensaje);
+                    //string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
+                    //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nombre del miembro es inválido.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                 }
             }
             else
@@ -247,8 +251,12 @@ namespace ProyectoInge
 
                 if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nombre del miembro es inválido.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    // string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
+                    //Response.Write(mensaje);
                 }
             }
 
@@ -512,8 +520,12 @@ namespace ProyectoInge
             int tipoModificacion = 1;//Va a cambiar la tabla proyecto
             if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
-                string mensaje = "<script>window.alert('Para modificar un proyecto debe completar todos los datos habilitados.');</script>";
-                Response.Write(mensaje);
+                //string mensaje = "<script>window.alert('Para modificar un proyecto debe completar todos los datos habilitados.');</script>";
+                //Response.Write(mensaje);
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para modificar un proyecto debe completar todos los datos habilitados.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             }
             else
             {
@@ -573,32 +585,52 @@ namespace ProyectoInge
                                 }
                                 else
                                 {
-                                    string mensaje = "<script>window.alert('No elimino trabaja_en');</script>";
-                                    Response.Write(mensaje);
+                                    //string mensaje = "<script>window.alert('No elimino trabaja_en');</script>";
+                                    //Response.Write(mensaje);
+                                    lblModalTitle.Text = " ";
+                                    lblModalBody.Text = "No elimino trabaja_en.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
                                 }
                             }
                             else
                             {
-                                string mensaje = "<script>window.alert('No inserto los telefonos');</script>";
-                                Response.Write(mensaje);
+                                // string mensaje = "<script>window.alert('No inserto los telefonos');</script>";
+                                // Response.Write(mensaje);
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "No inserto los telefonos.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
                             }
                         }
                         else
                         {
-                            string mensaje = "<script>window.alert('No elimino los telefonos');</script>";
-                            Response.Write(mensaje);
+                            //string mensaje = "<script>window.alert('No elimino los telefonos');</script>";
+                            //Response.Write(mensaje);
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "No elimino los telefonos.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
                         }
                     }
                     else
                     {
-                        string mensaje = "<script>window.alert('No modifico oficina usuaria');</script>";
-                        Response.Write(mensaje);
+                        //string mensaje = "<script>window.alert('No modifico oficina usuaria');</script>";
+                        //Response.Write(mensaje);
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "No modifico oficina usuaria.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                     }
                 }
                 else
                 {
-                    string mensaje = "<script>window.alert('No modifico proyecto');</script>";
-                    Response.Write(mensaje);
+                    //string mensaje = "<script>window.alert('No modifico proyecto');</script>";
+                    //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "No modifico oficina proyecto.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                 }
             }
         }
@@ -658,8 +690,12 @@ namespace ProyectoInge
             //si faltan datos no deja insertar
             if (faltanDatos())
             {
-                string mensaje = "<script>window.alert('Para insertar un nuevo proyecto debe completar todos los datos.');</script>";
-                Response.Write(mensaje);
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para insertar un nuevo proyecto debe completar todos los datos.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //string mensaje = "<script>window.alert('Para insertar un nuevo proyecto debe completar todos los datos.');</script>";
+                //Response.Write(mensaje);
                 habilitarCamposInsertar();
             }
             else
@@ -705,21 +741,32 @@ namespace ProyectoInge
                         llenarGrid(null);
                         llenarComboEstado();
                         llenarComboLideres();
-
-                        Response.Write("<script>window.alert('Nuevo proyecto creado con éxito.');</script>");
-                    }
+                        //Response.Write("<script>window.alert('Nuevo proyecto creado con éxito.');</script>");
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Nuevo proyecto creado con éxito.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                   }
                     //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
                     else
                     {
                         controladoraProyecto.eliminarOficina(idOficina);
-                        Response.Write("<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>");
+                        //Response.Write("<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>");
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Este proyecto ya se encuentra registrado en el sistema.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                         habilitarCamposInsertar();
                     }
                 }
                 //La oficina usuaria no se pudo registrar en la BD
                 else
                 {
-                    Response.Write("<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>");
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Esta oficina usuaria ya se encuentra registrada en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    //Response.Write("<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>");
                     habilitarCamposInsertar();
                 }
             }
@@ -752,8 +799,12 @@ namespace ProyectoInge
                 //La inserción de un nuevo telefono para una oficina usuaria en la base de datos falló porque ya estaba en la base
                 else
                 {
-                    mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    //mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.');</script>";
+                    //Response.Write(mensaje);
                     habilitarCamposInsertar();
                     malas++;
                 }
@@ -792,8 +843,12 @@ namespace ProyectoInge
                 //La inserción de un nuevo miembro de equipo de pruebas en la base de datos falló porque ya estaba en la base
                 else
                 {
-                    mensaje = "<script>window.alert('El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.');</script>";
-                    Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    //mensaje = "<script>window.alert('El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.');</script>";
+                    //Response.Write(mensaje);
                     habilitarCamposInsertar();
                 }
 
@@ -932,13 +987,20 @@ namespace ProyectoInge
 
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
-                mensaje = "<script>window.alert('Está seguro que desea eliminar este proyecto?');</script>";
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Está seguro que desea eliminar este proyecto?";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             }
             else
             {
-                mensaje = "<script>window.alert('Está seguro que desea cambiar el estado del proyecto?');</script>";
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Está seguro que desea cambiar el estado del proyecto?";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //mensaje = "<script>window.alert('Está seguro que desea cambiar el estado del proyecto?');</script>";
             }
-            Response.Write(mensaje);
+
         }
 
 
@@ -961,14 +1023,24 @@ namespace ProyectoInge
 
                     if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                     {
-                        string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
-                        Response.Write(mensaje);
+                       // string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
+                       // Response.Write(mensaje);
+
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "No se puede eliminar este proyecto.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                     }
                     else
                     {
 
-                        string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
-                        Response.Write(mensaje);
+                        //string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
+                        //Response.Write(mensaje);
+
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Proyecto eiminado con éxito.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
 
                     }
 
@@ -986,22 +1058,34 @@ namespace ProyectoInge
 
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
-                    string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
-                    Response.Write(mensaje);
+                    //string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
+                    //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "No se puede cancelar este proyecto.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                 }
                 else
                 {
 
-                    string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
-                    Response.Write(mensaje);
+                    //string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
+                    //Response.Write(mensaje);
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Proyecto cancelado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
 
                 }
 
             }
             else
             {
-                string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
-                Response.Write(mensaje);
+                // string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
+                //Response.Write(mensaje);
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "No es posible eliminar el proyecto.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             }
 
             if (Session["perfil"].ToString().Equals("Administrador"))
