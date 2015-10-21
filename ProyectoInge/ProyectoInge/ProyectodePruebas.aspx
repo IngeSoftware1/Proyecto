@@ -327,7 +327,7 @@
     </div>
 
 
-    <!-- Modal Dialog -->
+    <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
                 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">

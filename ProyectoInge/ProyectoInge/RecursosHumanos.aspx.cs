@@ -860,6 +860,23 @@ namespace ProyectoInge
         }
 
 
+
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+         *Requiere: nada
+         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+         *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraRH.consultarRH(idRH);
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+
+            }
+        }
+
+
+
         /*Método para llenar el grid con el registro del recurso humano correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
        con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.
        * Requiere: Requiere la cédula del usuario que está utilizando el sistema en caso de que éste sea un miembro, sino se especifica el parámetro
