@@ -313,7 +313,7 @@
                     <div id="scroll" style="height: 183px; width: 700px; overflow: auto;">
                         <asp:GridView ID="gridProyecto" runat="server" Style="width: 680px; text-align:center" CssClass ="dataGridTable" font-size = "14px" AutoGenerateColumns="true" OnRowCommand="gridProyectos_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
-                                <asp:TemplateField HeaderText="Consultar Proyecto">
+                                <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
                                         <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarProyecto" CommandArgument='<%#Eval("ID Proyecto") %>'> Consultar </asp:LinkButton>
                                     </ItemTemplate>

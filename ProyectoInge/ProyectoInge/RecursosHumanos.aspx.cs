@@ -20,6 +20,7 @@ namespace ProyectoInge
         private static string idRH = "";
         private static String cedulaGuardadaBD = "";
         private static String perfilGuardadoBD = "";
+        private static String funcionarioInsertado = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -480,6 +481,7 @@ namespace ProyectoInge
                             {
                                 guardarTelefonos();
                                 //Se debe llenar el grid con el nuevo
+                                funcionarioInsertado = this.txtCedula.Text; 
                                 llenarGrid(null);
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
@@ -492,12 +494,13 @@ namespace ProyectoInge
 
 
                                 lblModalTitle.Text = "AVISO";
-                                lblModalBody.Text = "Nuevo funcionario creado con éxito.";
+                                lblModalBody.Text = "Nuevo funcionario creado con éxito.";                         
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
 
                                 llenarDropDownPerfil();
                                 llenarDropDownRol();
+                                funcionarioInsertado = "";
                             }
                             //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
                             else
@@ -524,8 +527,10 @@ namespace ProyectoInge
                             if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro, ""))
                             {
                                 guardarTelefonos();
+                                funcionarioInsertado = this.txtCedula.Text; 
                                 //Se debe llenar el grid con el nuevo
                                 llenarGrid(null);
+                                
                                 controlarCampos(false);
                                 cambiarEnabled(false, this.btnModificar);
                                 cambiarEnabled(false, this.btnEliminar);
@@ -533,6 +538,7 @@ namespace ProyectoInge
                                 cambiarEnabled(false, this.btnCancelar);
                                 cambiarEnabled(true, this.btnInsertar);
                                 lblModalTitle.Text = " ";
+                                funcionarioInsertado = "";
                                 lblModalBody.Text = "Nuevo funcionario creado con éxito.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
@@ -863,31 +869,94 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaFuncionarios();
             DataTable funcionarios;
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[3];
+            Object[] tuplaInsertada = new Object[3];
+            int indiceColumnas = 0;
+            int ubicacionFuncionario = 0;
+
 
             if (idRH == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos los recursos humanos del sistema
             {
                 funcionarios = controladoraRH.consultarRecursosHumanos(null);
+                int numeroFuncionarios = funcionarios.Rows.Count;
                 if (funcionarios.Rows.Count > 0)
                 {
-                    foreach (DataRow fila in funcionarios.Rows)
+
+                    if (funcionarioInsertado != "")
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-
-                        if (fila[4].ToString() == "")
+                        
+                        for(int i = 0; i < funcionarios.Rows.Count; ++i)
                         {
-                            datos[4] = "Administrador";
+                            if(funcionarioInsertado == funcionarios.Rows[i][0].ToString())
+                            {  
+                                ubicacionFuncionario = i;
+                                datos[0] = funcionarios.Rows[i][0].ToString();
+                                datos[1] = funcionarios.Rows[i][1].ToString() + " " + funcionarios.Rows[i][2].ToString() + " " + funcionarios.Rows[i][3].ToString();
+
+
+                                if (funcionarios.Rows[i][3].ToString() == "")
+                                {
+                                    datos[2] = "Administrador";
+                                }
+                                else
+                                {
+
+                                    datos[2] = funcionarios.Rows[i][3].ToString();
+                                }
+
+                                dt.Rows.Add(datos);
+
+                            }
                         }
-                        else
+                        
+
+                        foreach (DataRow fila in funcionarios.Rows)
                         {
 
-                            datos[4] = fila[4].ToString();
+                            if (indiceColumnas != ubicacionFuncionario )
+                            {
+                                datos[0] = fila[0].ToString();
+                                datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+                                
+
+                                if (fila[4].ToString() == "")
+                                {
+                                    datos[2] = "Administrador";
+                                }
+                                else
+                                {
+
+                                    datos[2] = fila[4].ToString();
+                                }
+
+                                dt.Rows.Add(datos);
+                            }
+
+                            ++indiceColumnas;
                         }
-                        dt.Rows.Add(datos);
+                    }
+
+                    else
+                    {
+                        foreach (DataRow fila in funcionarios.Rows)
+                        {
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+
+
+                            if (fila[4].ToString() == "")
+                            {
+                                datos[2] = "Administrador";
+                            }
+                            else
+                            {
+
+                                datos[2] = fila[4].ToString();
+                            }
+
+                            dt.Rows.Add(datos);
+                        }
                     }
                 }
                 else
@@ -895,8 +964,6 @@ namespace ProyectoInge
                     datos[0] = "-";
                     datos[1] = "-";
                     datos[2] = "-";
-                    datos[3] = "-";
-                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -908,17 +975,15 @@ namespace ProyectoInge
                     foreach (DataRow fila in funcionarios.Rows)
                     {
                         datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-
+                        datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+ 
                         if (fila[4].ToString() == null)
                         {
-                            datos[4] = "Administrador";
+                            datos[2] = "Administrador";
                         }
                         else
                         {
-                            datos[4] = "Miembro";
+                            datos[2] = "Miembro";
                         }
                         dt.Rows.Add(datos);
                     }
@@ -928,8 +993,6 @@ namespace ProyectoInge
                     datos[0] = "-";
                     datos[1] = "-";
                     datos[2] = "-";
-                    datos[3] = "-";
-                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -957,10 +1020,10 @@ namespace ProyectoInge
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Nombre";
+            columna.ColumnName = "Nombre Funcionario";
             dt.Columns.Add(columna);
 
-            columna = new DataColumn();
+       /*     columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Primer Apellido";
             dt.Columns.Add(columna);
@@ -968,7 +1031,7 @@ namespace ProyectoInge
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Segundo Apellido";
-            dt.Columns.Add(columna);
+            dt.Columns.Add(columna); */
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");

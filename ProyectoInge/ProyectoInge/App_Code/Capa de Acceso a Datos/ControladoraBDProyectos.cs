@@ -451,7 +451,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT P.nombre_proyecto, P.obj_general, P.fecha_asignacion, P.tipo_estado, P.cedula_lider " + " FROM Proyecto P JOIN  Funcionario F ON P.cedula_creador = F.cedula WHERE P.id_proyecto ='" + idProyecto + "'";
+                consulta = "SELECT P.nombre_proyecto, P.obj_general, P.fecha_asignacion, P.tipo_estado, P.cedula_lider " + " FROM Proyecto P JOIN  Funcionario F ON P.cedula_creador = F.cedula  WHERE P.id_proyecto ='" + idProyecto + "'";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -480,7 +480,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 try
                 {
-                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider " + " FROM Proyecto P, Oficina_Usuaria O WHERE P.id_oficina = O.id_oficina";
+                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider " + " FROM Proyecto P, Oficina_Usuaria O WHERE P.id_oficina = O.id_oficina ORDER BY P.id_proyecto DESC";
                     dt = acceso.ejecutarConsultaTabla(consulta);
 
                 }
