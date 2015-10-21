@@ -152,6 +152,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.obtenerIdProyecto(nomProyecto);
         }
 
+
+        public string consultarEstadoProyecto(int idProyecto)
+        {
+            return controladoraBDProyecto.consultarEstadoProyecto(idProyecto);
+        }
+
         /*Método para eliminar un proyecto
          * Requiere: el id del proyecto, el id de la oficina asociada y el perfil de la persona que realiza la acción
          * Modifica: llama al eliminar de la controladora de BD

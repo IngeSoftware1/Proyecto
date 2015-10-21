@@ -56,9 +56,10 @@ namespace ProyectoInge
          */
         protected void vaciarCampos()
         {
-            this.txtUsuario.Text = "";
+            
             this.txtAntPassword.Text = "";
             this.txtNewPassword.Text = "";
+            this.txtConfPassword.Text = "";
         }
 
 

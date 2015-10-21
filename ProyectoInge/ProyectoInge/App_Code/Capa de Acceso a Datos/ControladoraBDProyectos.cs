@@ -332,6 +332,37 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
+
+      /*Método para consultar el estado del proyecto
+      * Requiere: el id del proyecto
+      * Modifica: no modifica datos
+      * Retorna: Devuelve un string que indica el estado del proyecto
+      */
+        public string consultarEstadoProyecto(int idProyecto)
+        {
+            string resultado = "";
+            DataTable datosProyecto = new DataTable();
+            string consulta = "SELECT tipo_estado FROM Proyecto WHERE id_proyecto='" + idProyecto + "';";
+            try
+            {
+                datosProyecto = acceso.ejecutarConsultaTabla(consulta);
+                if (datosProyecto.Rows.Count > 0)
+                {
+                    resultado = datosProyecto.Rows[0][0].ToString();
+                }
+
+            }
+            catch (SqlException e)
+            {
+
+            }
+
+            return resultado;
+        }
+
+
+
+
         /*Método para llevar a cabo la modificación de los datos de la oficina usuaria
        * Requiere: un objeto con los datos de la oficina usuaria
        * Modifica: Modifica los datos de una oficina

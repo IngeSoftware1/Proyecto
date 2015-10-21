@@ -956,21 +956,31 @@ namespace ProyectoInge
 
             if (perfil.Equals("Administrador"))
             {
-
-                if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
+                
+                if ( controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("Cancelada") == false)
                 {
-                    string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
-                    Response.Write(mensaje);
+
+                    if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
+                    {
+                        string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
+                        Response.Write(mensaje);
+                    }
+                    else
+                    {
+
+                        string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
+                        Response.Write(mensaje);
+
+                    }
+
                 }
                 else
                 {
-
-                    string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
-                    Response.Write(mensaje);
-                   
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "El proyecto está en ejecución.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                 }
-                
-                
                 
             }else if(perfil.Equals("Miembro")) {
 
