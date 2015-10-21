@@ -14,6 +14,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraProyecto
     {
         ControladoraBDProyectos controladoraBDProyecto = new ControladoraBDProyectos();
+        ControladoraCasosPrueba controladoraCasoPrueba = new ControladoraCasosPrueba();
         ControladoraRecursos controladoraRH;
         public ControladoraProyecto()
         {
@@ -187,7 +188,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 if (idProyecto != -1)
                 {
 
-                    if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto) == true)
+                    if (controladoraCasoPrueba.eliminarProyectoCasoPueba(idProyecto) == true)
                     {
                         if (controladoraBDProyecto.eliminarProyecto(idProyecto) == true)
                         {
