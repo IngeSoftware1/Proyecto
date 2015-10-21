@@ -83,7 +83,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDRecurso.consultarCedula(user, password);
         }
-
+        /*Método para consultar el estado de un funcionario
+         * Requiere: La céduladel funcionario
+         * Retorna: el estado del funcionario
+         */
         public string consultarEstadoFuncionario(string ced)
         {
             return controladoraBDRecurso.consultarEstadoFuncionario(ced);
@@ -283,14 +286,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         /*Método para comunicar las controladoras RH y Proyectos
         * Requiere: id del proyecto
         * Retorna: un booleano
-        * 
         */
         public bool eliminarTrabaja_En(int idProyecto)
         {
             return controladoraBDRecurso.eliminarTrabaja_En(idProyecto);
 
         }
-
     }
-
 }
