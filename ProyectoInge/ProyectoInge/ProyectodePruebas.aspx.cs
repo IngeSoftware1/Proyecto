@@ -35,7 +35,7 @@ namespace ProyectoInge
 
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 controlarCampos(false);
                 cambiarEnabled(false, this.btnModificar);
@@ -43,10 +43,10 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarComboEstado();
-                llenarComboLideres();          
+                llenarComboLideres();
             }
 
-            
+
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
 
@@ -72,7 +72,7 @@ namespace ProyectoInge
         protected void calendarioSeleccionado(object sender, EventArgs e)
         {
             calendarFecha.Visible = false;
-            txtCalendar.Text = calendarFecha.SelectedDate.ToString().Substring(0,10);
+            txtCalendar.Text = calendarFecha.SelectedDate.ToString().Substring(0, 10);
             UpdatePanelCalendario.Update();
         }
 
@@ -112,9 +112,9 @@ namespace ProyectoInge
 
         }
 
-       /* Método para llenar el comboBox según los miembros que sean almacenados como líderes en la BD
-       * Modifica: llena el comboBox con los datos obtenidos de la BD
-       * Retorna: no retorna ningún valor */
+        /* Método para llenar el comboBox según los miembros que sean almacenados como líderes en la BD
+        * Modifica: llena el comboBox con los datos obtenidos de la BD
+        * Retorna: no retorna ningún valor */
         protected void llenarComboLideres()
         {
             this.comboLider.Items.Clear();
@@ -139,9 +139,9 @@ namespace ProyectoInge
 
                         if (numColumna == 3)
                         {
-                             
+
                             cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
-                        
+
                         }
                         else
                         {
@@ -205,12 +205,12 @@ namespace ProyectoInge
                         ++numColumna;
                     }
 
-                    
+
                     if (listMiembrosAgregados.Items.FindByText(filaMiembro) == null)
                     {
                         listMiembrosDisponibles.Items.Add(filaMiembro);
                     }
-                    
+
                     filaMiembro = "";
                     numColumna = 0;
 
@@ -218,14 +218,14 @@ namespace ProyectoInge
             }
 
             Session["vectorCedulasMiembros"] = cedulasTodosMiembros;
-          //  UpdateDatos.Update();
+            //  UpdateDatos.Update();
         }
 
-         /*Método para obtener la cédula de un miembro a partir del nombre
-         * Requiere: el nombre del miembro y el tipo de búsqueda, ya sea sobre un líder o sobre un miembro asignado a un proyecto.
-         * Modifica: el valor de la cédula solicitada.
-         * Retorna: la cédula del miembro solicitado.
-         */
+        /*Método para obtener la cédula de un miembro a partir del nombre
+        * Requiere: el nombre del miembro y el tipo de búsqueda, ya sea sobre un líder o sobre un miembro asignado a un proyecto.
+        * Modifica: el valor de la cédula solicitada.
+        * Retorna: la cédula del miembro solicitado.
+        */
         protected string obtenerCedula(string nombreMiembro, bool lider)
         {
             string cedula = "";
@@ -254,7 +254,7 @@ namespace ProyectoInge
 
             return cedula;
 
-        }   
+        }
 
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
@@ -269,7 +269,7 @@ namespace ProyectoInge
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idProyectoConsultado = lnkConsulta.CommandArgument;
                 Session["idProyectoS"] = idProyectoConsultado;
-         
+
                 controlarCampos(false);
                 llenarDatos(idProyectoConsultado);
                 cambiarEnabled(true, this.btnModificar);
@@ -277,18 +277,18 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
 
-                   //El unico botón que cambia de acuerdo al perfil es el de eliminar
-                    if (Session["perfil"].ToString().Equals("Administrador"))
-                    {
+                //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
 
-                        cambiarEnabled(true, this.btnInsertar);
-                    }
-                    else
-                    {
-                        cambiarEnabled(false, this.btnInsertar);
-                    }
+                    cambiarEnabled(true, this.btnInsertar);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                }
 
-                    listMiembrosDisponibles.Items.Clear();
+                listMiembrosDisponibles.Items.Clear();
             }
 
         }
@@ -303,14 +303,14 @@ namespace ProyectoInge
             cargarMiembrosSinAsignar();
             llenarComboEstado();
             llenarComboLideres();
-            
+
             modo = 1;
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
-            this.lnkQuitarMiembros.Enabled=true;
+            this.lnkQuitarMiembros.Enabled = true;
             this.lnkAgregarMiembros.Enabled = true;
         }
         /*Método para preparar la ventana cuando quiera modificar
@@ -329,7 +329,7 @@ namespace ProyectoInge
             habilitarCamposModificar();
             cargarMiembrosSinAsignar();
         }
-        
+
         /*Método que habilita la ventana modificar dependiendo del pefil actual
          * Requiere: No requiere parámetros
          * Modifica: Habilita y deshabilita botones y texbox
@@ -355,7 +355,7 @@ namespace ProyectoInge
             this.lnkQuitarMiembros.Enabled = true;
             this.lnkNumero.Enabled = true;
             this.lnkQuitar.Enabled = true;
-            
+
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 //Fecha habilitada para administrador;
@@ -380,7 +380,7 @@ namespace ProyectoInge
         {
             this.txtNombreProy.Text = "";
             this.txtCalendar.Text = "";
-            this.txtObjetivo.Text="";
+            this.txtObjetivo.Text = "";
             this.txtnombreOficina.Text = "";
             this.txtnombreRep.Text = "";
             this.txtApellido1Rep.Text = "";
@@ -390,7 +390,7 @@ namespace ProyectoInge
             this.listTelefonosOficina.Items.Clear();
             this.listMiembrosDisponibles.Items.Clear();
             this.listMiembrosAgregados.Items.Clear();
-            
+
         }
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
@@ -624,7 +624,7 @@ namespace ProyectoInge
             {
                 habilitarCamposModificar();
             }
-            
+
             Update_Tel.Update();
         }
 
@@ -724,7 +724,7 @@ namespace ProyectoInge
                 }
             }
         }
-        
+
         /*Método para  controlar la inserción de el o los teléfonos de una oficina en particular
          * Requiere: no recibe parámetros
          * Modifica: Revisa que efectivamente se esten insertando telefonos en la caja de texto y que no se inserten repetidos
@@ -766,9 +766,11 @@ namespace ProyectoInge
             }
             return resp;
         }
-        
-        /*
-        */ 
+
+        /*Modifica: Método para  guardar los miembros que trabajan en un proyecto
+         * Requiere: recibe el id del proyecto
+ \       * Retorna: No retorna ningún valor
+         */
         protected void guardarMiembros(int idProyecto)
         {
             int i = 0;
@@ -780,7 +782,7 @@ namespace ProyectoInge
                 Object[] nuevoMiembro = new Object[2];
                 nuevoMiembro[0] = obtenerCedula(this.listMiembrosAgregados.Items[i].Text, false);
                 nuevoMiembro[1] = idProyecto;
-                
+
                 int tipoInsercion = 4;                              //inserción de tipo 4 es agregar miembros
 
                 //Se insertó un nuevo miembro de equipo de pruebas
@@ -798,7 +800,7 @@ namespace ProyectoInge
                 i++;
             }
         }
-        
+
         /*
          * Método para poder asignar recursos al proyecto respectivo
          */
@@ -817,7 +819,7 @@ namespace ProyectoInge
             }
             else if (modo == 2)
             {
-           
+
             }
 
             UpdateAsociarDesasociarMiembros.Update();
@@ -872,7 +874,7 @@ namespace ProyectoInge
             //Pregunta por todas las cajas
             if (modo == 1)
             {
-                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || txtCalendar.Text=="")
+                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || txtCalendar.Text == "")
                 {
                     resultado = true;
                 }
@@ -882,7 +884,7 @@ namespace ProyectoInge
                 }
             }
             else if (modo == 2)
-            {//FALTA LA FECHA
+            {
                 if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || this.comboEstado.Text == "" || this.comboLider.Text == "")
                 {
                     resultado = true;
@@ -896,12 +898,12 @@ namespace ProyectoInge
             return resultado;
         }
 
-       /** Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
-         * Requiere: recibe el evento cuando se presiona el botón para cerrar sesión.
-         * Modifica: Modifica el valor booleano del estado de la sesión
-         * Retorna: No retorna ningún valor
-         */
-        
+        /** Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
+          * Requiere: recibe el evento cuando se presiona el botón para cerrar sesión.
+          * Modifica: Modifica el valor booleano del estado de la sesión
+          * Retorna: No retorna ningún valor
+          */
+
         protected void cerrarSesion(object sender, EventArgs e)
         {
 
@@ -918,7 +920,7 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            string mensaje ;
+            string mensaje;
             cambiarEnabled(false, this.btnInsertar);
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(true, this.btnAceptar);
@@ -926,8 +928,8 @@ namespace ProyectoInge
             modo = 3;
             controlarCampos(false);
 
-            
-            
+
+
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
                 mensaje = "<script>window.alert('Está seguro que desea eliminar este proyecto?');</script>";
@@ -947,13 +949,10 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Eliminar()
         {
-            
+
             string perfil = Session["perfil"].ToString();
             idProyectoConsultado = Convert.ToString(controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text));
             idOficinaConsultda = Convert.ToString(controladoraProyecto.consultarOficinaProyecto(Int32.Parse(idProyectoConsultado)));
-
-           
-
             if (perfil.Equals("Administrador"))
             {
                 
@@ -976,13 +975,14 @@ namespace ProyectoInge
                 }
                 else
                 {
-                    lblModalTitle.Text = "AVISO";
+					lblModalTitle.Text = "AVISO";
                     lblModalBody.Text = "El proyecto está en ejecución.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-                
-            }else if(perfil.Equals("Miembro")) {
+                    upModal.Update();                }
+           
+            }
+            else if (perfil.Equals("Miembro"))
+            {
 
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
@@ -994,13 +994,11 @@ namespace ProyectoInge
 
                     string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
                     Response.Write(mensaje);
-                    
+
                 }
 
-                
-               
-
-            } else
+            }
+            else
             {
                 string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
                 Response.Write(mensaje);
@@ -1025,10 +1023,7 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
 
-       }
-
-
-
+        }
         /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
       * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
       * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
@@ -1253,7 +1248,7 @@ namespace ProyectoInge
 
             if (datosFilaProyecto.Rows.Count == 1)
             {
-                
+
                 this.txtNombreProy.Text = datosFilaProyecto.Rows[0][0].ToString();
                 nombProyConsultado = datosFilaProyecto.Rows[0][0].ToString();
 

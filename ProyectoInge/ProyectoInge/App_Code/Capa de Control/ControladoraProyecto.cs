@@ -17,14 +17,22 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         ControladoraRecursos controladoraRH;
         public ControladoraProyecto()
         {
-            
-        }
 
-		public bool buscarAsignacionProyectos(string cedula)
+        }
+        /*Método buscar la asignación del proyecto con la cédula
+        * Requiere: la cedula de la persona 
+        * Modifica: no modifica
+        * Retorna: true si es exitosa la búsqueda
+        */
+        public bool buscarAsignacionProyectos(string cedula)
         {
             return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
         }
-
+        /*Método buscar la asignación de los miembros del proyecto con la cédula
+        * Requiere: la cedula de la persona 
+        * Modifica: no modifica
+        * Retorna: true si es exitosa la búsqueda
+        */
         public bool buscarAsignacionMiembrosProyecto(string cedula)
         {
             return controladoraBDProyecto.buscarAsignacionProyectos(cedula);
@@ -35,7 +43,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica el estado de login de la persona, para indicar que ha cerrado la sesión
         * Retorna el valor de la variable booleana.
         */
-		public bool cerrarSesion(string ced)
+        public bool cerrarSesion(string ced)
         {
             controladoraRH = new ControladoraRecursos();
             Boolean a = controladoraRH.modificarEstadoCerrar(ced);
@@ -59,7 +67,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         */
         public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre, string perfil)
         {
-            
+
             Boolean resultado = false;
             switch (modo)
             {
@@ -82,8 +90,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         }
                         else if (accion == 4) //insertar miembros de un equipo de pruebas
                         {
-                           // EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
-                          //  resultado = controladoraBDProyecto.insertarMiembro(miembro);
+                            // EntidadTrabajaEn miembro = new EntidadTrabajaEn(datos);
+                            //  resultado = controladoraBDProyecto.insertarMiembro(miembro);
                             ControladoraRecursos controladoraRH = new ControladoraRecursos();
                             resultado = controladoraRH.ejecutarAccion(1, 5, datos, "");
                         }
@@ -91,7 +99,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-                
+
                         if (accion == 1)//PROYECTO
                         {
                             EntidadProyecto entidadP = new EntidadProyecto(datos);
@@ -101,7 +109,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         else if (accion == 2)//OFICINA USUARIA
                         {
                             EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
-                            
+
                             resultado = controladoraBDProyecto.modificarOfUsuaria(entidadOU, nombre);
                         }
                     }
@@ -123,10 +131,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
             }
             return resultado;
-                            
+
         }
 
-		/*Método para eliminar una oficina usuaria mediante su id
+        /*Método para eliminar una oficina usuaria mediante su id
          * Requiere: el id de la oficina usuaria
          * Modifica: llama al eliminar de la controladora de BD
          * Retorna: no retorna ningún valor
@@ -136,7 +144,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraBDProyecto.eliminarOficina(idOficina);
         }
 
-
+        /*Método para comunicarse con la controladora de BD de Proyectos para eliminar un proyecto
+        * Requiere: el id del proyecto
+        * Modifica: modifica la BD con el llamado
+        * Retorna: no retorna
+        */
         public void eliminarProyecto(int idProyecto)
         {
             controladoraBDProyecto.eliminarOficina(idProyecto);
@@ -168,7 +180,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             bool resultado = false;
             int idProyecto = Int32.Parse(idProyectoS);
             int idOficina = Int32.Parse(idOficinaS);
-           
+
             if (perfil.Equals("Administrador"))
             {
 
@@ -177,14 +189,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                     if (controladoraBDProyecto.eliminarProyectoCasoPueba(idProyecto) == true)
                     {
-                        if (controladoraBDProyecto.eliminarProyecto(idProyecto)== true)
+                        if (controladoraBDProyecto.eliminarProyecto(idProyecto) == true)
                         {
                             controladoraBDProyecto.eliminarOficina(idOficina);
                             resultado = true;
                         }
                     }
                 }
-             
+
             }
             else
             {
@@ -331,13 +343,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-     
+    }
 
 
-        
-
-
-	}
-
-    
 }

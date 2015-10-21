@@ -260,7 +260,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
              return false;
          }
      }
-
+     /*Método para insertar miembro de proyecto
+       * Requiere: objeto de entidad trabaja en
+       * Modifica: Crea el string con la consulta y la envia a la clase que maneja la conexion con la base de datos para insertarlo
+       * Retorna: true si la inserción fue exitosa, false si hubo algún error y no se insertó
+       */
      public bool insertarMiembroProyecto(EntidadTrabajaEn nuevo)
      {
          try
@@ -313,10 +317,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-
-        
-
-
 
         /*Método para asignar el valor de sesión cerrada en la base de datos
         * Requiere: requiere la cédula del usuario al cual se le asignará la sesión como cerrada en la base de datos.
@@ -472,7 +472,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-
 
         /*Método para obtener el nombre y apellidos de los miembros asociados a un determinado proyecto
         * Requiere: un string con el identificador del proyecto para conocer los miembros que trabajan en éste.

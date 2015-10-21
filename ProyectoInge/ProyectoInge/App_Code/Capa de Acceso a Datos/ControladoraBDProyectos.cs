@@ -196,7 +196,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
 
         }
-
+        /*Método para eliminar un proyecto de la BD
+        * Requiere: el id del proyecto
+        * Modifica: la BD
+        * Retorna: boolean si logra eliminar
+        */
 
         public bool eliminarProyecto(int idProyecto)
         {
@@ -414,8 +418,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-
-
+       /*Método para insertar los telefonos de las oficinas usuarias
+       * Requiere: la entidad de telefonos
+       * Modifica: modifica la tabla telefonos usuario
+       * Retorna:booleano si logra insertar el telefono
+       */
         public bool insertarTelefonoOficinaUsuaria(EntidadTelOficina nuevo)
         {
             try
@@ -429,21 +436,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-        //DEBERÍA IR EN LA CONTROLADORA DE RH
-        public bool eliminarTrabaja_En(int idProyectoConsultado)
-        {
-            try
-            {
-                string borrarTrabaja_En = "Delete from Trabaja_En where id_proyecto ='" + idProyectoConsultado + "';";
-                acceso.eliminarDatos(borrarTrabaja_En);
-                return true;
-            }
-            catch (SqlException e)
-            {
-                return false;
-            }
-        }
-
 
         /* Método para obtener los estados que podría contener un proyecto.
          * Requiere: no requiere parámetros.
