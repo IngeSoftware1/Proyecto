@@ -14,7 +14,7 @@ using Owin;
 using ProyectoInge.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-//Revisar:
+
 using System.Web.Security;
 
 

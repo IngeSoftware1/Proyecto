@@ -24,6 +24,9 @@ namespace ProyectoInge
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
         Dictionary<string, string> nombreLideresConsultados = new Dictionary<string, string>();
 
+        /* Método para actualizar la interfaz de proyectos
+         * Modifica: no modifica nada
+         * Retorna: no retorna ningún valor */
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["cedula"] == null)
@@ -291,6 +294,7 @@ namespace ProyectoInge
         }
 
         /*
+         * Método para poder indicar que se va a generar la operación de insertar.
          */
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
@@ -796,6 +800,7 @@ namespace ProyectoInge
         }
         
         /*
+         * Método para poder asignar recursos al proyecto respectivo
          */
         protected void btnAgregarMiembro(object sender, EventArgs e)
         {
@@ -819,6 +824,8 @@ namespace ProyectoInge
         }
 
         /*
+         * Método para pooder desasociar un recurso a un proyecto, el cambio se refleja en la base y en la interfaz al cambiar la lista de recursos
+         * no asignados y asignados.
         */
         protected void btnEliminarMiembro(object sender, EventArgs e)
         {

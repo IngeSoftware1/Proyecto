@@ -142,14 +142,21 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraBDProyecto.eliminarOficina(idProyecto);
         }
 
-        /*
+        /*Método para obtener el id del proyecto mediante el nombre.
+         * Requiere: el id del proyecto a consultar.
+         * Modifica: no modifica datos
+         * Retorna: el id del proyecto consultado
          */
         public int obtenerIDconNombreProyecto(string nomProyecto)
         {
             return controladoraBDProyecto.obtenerIdProyecto(nomProyecto);
-        } 		
-        
-        
+        }
+
+        /*Método para eliminar un proyecto
+         * Requiere: el id del proyecto, el id de la oficina asociada y el perfil de la persona que realiza la acción
+         * Modifica: llama al eliminar de la controladora de BD
+         * Retorna: retorna el resultado de la operación
+         */
         public bool eliminarProyecto(string idProyectoS, string idOficinaS, string perfil)
         {
             bool resultado = false;

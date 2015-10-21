@@ -116,6 +116,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
      }
 
 
+     /*Método para consultar el estado de un funcionario, para poder observar si está activo o no
+    * Requiere: requiere la cédula del usuario.
+    * Modifica: No modifica datos.
+    * Retorna: un True o False en forma de string
+  */
      public string consultarEstadoFuncionario(string ced)
      {
          string resultado = "";
