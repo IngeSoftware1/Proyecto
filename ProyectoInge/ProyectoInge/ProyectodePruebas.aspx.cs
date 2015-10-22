@@ -949,7 +949,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "")
+            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == ""|| this.txtnombreOficina.Text =="")
             {
                 resultado = true;
             }

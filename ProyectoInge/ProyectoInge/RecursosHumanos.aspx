@@ -168,7 +168,7 @@
 
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblPerfil" runat="server" Text="Perfil:" CssClass="col-sm-5 col-sm-offset-1 control-label" ></asp:Label>
+                                    <asp:Label ID="lblPerfil" runat="server" Text="Perfil*:" CssClass="col-sm-5 col-sm-offset-1 control-label" ></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboPerfil" AutoPostBack="True"  CssClass="form-control" onselectedindexchanged="perfilSeleccionado" >
                                         </asp:DropDownList>
@@ -177,7 +177,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label "></asp:Label>
+                                    <asp:Label ID="lblRol" runat="server" Text="Rol*:" CssClass="col-sm-5 col-sm-offset-1 control-label "></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
                                         </asp:DropDownList>

@@ -74,7 +74,7 @@
                                 <%--Fecha de asignación--%>
                                
                                 <div class="row">
-                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-2 ">
                                         <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                     </div>
@@ -99,7 +99,7 @@
 
                                 <%--Estado del proceso de pruebas--%>
                                 <div class="row">
-                                    <asp:Label ID="lblEstado" runat="server" Text="Estado:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblEstado" runat="server" Text="Estado*:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-pull-1">
                                         <asp:DropDownList runat="server" ID="comboEstado" CssClass="form-control">
                                         </asp:DropDownList>
@@ -120,7 +120,7 @@
 
                                 <%--Nombre Oficina Usuaria--%>
                                 <div class="row">
-                                    <asp:Label ID="lblNombreOficina" runat="server" Text="Nombre oficina:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblNombreOficina" runat="server" Text="Nombre oficina*:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:TextBox runat="server" ID="txtnombreOficina" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
@@ -315,7 +315,7 @@
                             <%--Líder del Proyecto --%>
                             <div class="form-group col-sm-5">
                                 <div class="row">
-                                    <asp:Label ID="lblLider" runat="server" Text="Líder:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblLider" runat="server" Text="Líder*:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                 </div>
                             </div>
 
