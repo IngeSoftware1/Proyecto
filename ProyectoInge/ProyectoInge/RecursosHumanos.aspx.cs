@@ -200,10 +200,12 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
+            llenarDropDownPerfil();
 
             modo = 2;
 
             habilitarCamposModificar();
+            llenarDropDownRol();
 
 
         }
@@ -489,11 +491,12 @@ namespace ProyectoInge
                                 funcionarioInsertado = this.txtCedula.Text;
                                 llenarGrid(null);
                                 controlarCampos(false);
-                                cambiarEnabled(false, this.btnModificar);
-                                cambiarEnabled(false, this.btnEliminar);
+                                cambiarEnabled(true, this.btnModificar);
+                                cambiarEnabled(true, this.btnEliminar);
                                 cambiarEnabled(false, this.btnAceptar);
                                 cambiarEnabled(false, this.btnCancelar);
                                 cambiarEnabled(true, this.btnInsertar);
+                                idRH = this.txtCedula.Text; 
                                 //mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 //Response.Write(mensaje);
 
@@ -503,8 +506,6 @@ namespace ProyectoInge
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
 
-                                llenarDropDownPerfil();
-                                llenarDropDownRol();
                                 funcionarioInsertado = "";
                             }
                             //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
@@ -537,8 +538,8 @@ namespace ProyectoInge
                                 llenarGrid(null);
 
                                 controlarCampos(false);
-                                cambiarEnabled(false, this.btnModificar);
-                                cambiarEnabled(false, this.btnEliminar);
+                                cambiarEnabled(true, this.btnModificar);
+                                cambiarEnabled(true, this.btnEliminar);
                                 cambiarEnabled(false, this.btnAceptar);
                                 cambiarEnabled(false, this.btnCancelar);
                                 cambiarEnabled(true, this.btnInsertar);
@@ -550,10 +551,6 @@ namespace ProyectoInge
                                 //mensaje = "<script>window.alert('Nuevo funcionario creado con éxito.');</script>";
                                 //  Response.Write(mensaje);
 
-
-
-                                llenarDropDownPerfil();
-                                llenarDropDownRol();
                             }
                             //La inserción de un nuevo miembro de equipo de pruebas falló porque ya estaba en la base
                             else
@@ -750,21 +747,23 @@ namespace ProyectoInge
                         {
                             //Inserto los tels
                             guardarTelefonos();
-                            vaciarCampos();
+                          //  vaciarCampos();
                             controlarCampos(false);
-                            llenarDropDownPerfil();
-                            llenarDropDownRol();
-                            cambiarEnabled(false, this.btnModificar);
-                            cambiarEnabled(false, this.btnEliminar);
+                      //      llenarDropDownPerfil();
+                       //     llenarDropDownRol();
+                            cambiarEnabled(true, this.btnModificar);
+                         //   cambiarEnabled(false, this.btnEliminar);
                             cambiarEnabled(false, this.btnAceptar);
                             cambiarEnabled(false, this.btnCancelar);
-                            if (Session["perfil"] == "Miembro")
+                            if (Session["perfil"].Equals("Miembro"))
                             {
                                 cambiarEnabled(false, this.btnInsertar);
+                                cambiarEnabled(false, this.btnEliminar);
                             }
                             else
                             {
                                 cambiarEnabled(true, this.btnInsertar);
+                                cambiarEnabled(true, this.btnEliminar);
                             }
 
                         }

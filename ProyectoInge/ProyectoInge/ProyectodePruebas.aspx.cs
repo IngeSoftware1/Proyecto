@@ -336,6 +336,8 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnInsertar);
             habilitarCamposModificar();
             cargarMiembrosSinAsignar();
+            llenarComboEstado();
+            llenarComboLideres();
         }
 
         /*Método que habilita la ventana modificar dependiendo del pefil actual
@@ -573,14 +575,26 @@ namespace ProyectoInge
 
                                     //se carga la interfaz de nuevo
                                     controlarCampos(false);
-                                    cambiarEnabled(false, this.btnModificar);
-                                    cambiarEnabled(false, this.btnEliminar);
+                                    cambiarEnabled(true, this.btnModificar);
+                                    cambiarEnabled(true, this.btnEliminar);
                                     cambiarEnabled(false, this.btnAceptar);
                                     cambiarEnabled(false, this.btnCancelar);
                                     cambiarEnabled(true, this.btnInsertar);
-                                    llenarGrid(null);
-                                    llenarComboEstado();
-                                    llenarComboLideres();
+
+                                    if (Session["perfil"].ToString().Equals("Administrador"))
+                                    {
+
+                                        cambiarEnabled(true, this.btnInsertar);
+                                        llenarGrid(null);
+                                    }
+                                    else
+                                    {
+                                        cambiarEnabled(false, this.btnInsertar);
+                                        llenarGrid(Session["cedula"].ToString());
+                                    }
+
+                                //    llenarComboEstado();
+                                //    llenarComboLideres();
                                     //cargarMiembrosSinAsignar();
                                 }
                                 else
@@ -711,6 +725,8 @@ namespace ProyectoInge
                 if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
                 {
                     int idOficina = controladoraProyecto.obtenerOficinaAgregada(this.txtnombreOficina.Text);
+                    Session["idOficinaS"] = Convert.ToString(idOficina);
+
                     guardarTelefonos(idOficina);
 
                     //Ya guardados la oficina usuaria y sus telefonos se guarda el proyecto en el sistema
@@ -729,18 +745,22 @@ namespace ProyectoInge
                     {
                         //Se guardan los miembros del equipo para el proyecto
                         int idProyecto = controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text);
+                        Session["idProyectoS"] = Convert.ToString(idProyecto);
                         guardarMiembros(idProyecto);
 
                         //se carga la interfaz de nuevo
                         controlarCampos(false);
-                        cambiarEnabled(false, this.btnModificar);
-                        cambiarEnabled(false, this.btnEliminar);
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(true, this.btnEliminar);
                         cambiarEnabled(false, this.btnAceptar);
                         cambiarEnabled(false, this.btnCancelar);
                         cambiarEnabled(true, this.btnInsertar);
                         llenarGrid(null);
-                        llenarComboEstado();
-                        llenarComboLideres();
+
+                      
+                      
+                     //   llenarComboEstado();
+                     //   llenarComboLideres();
                         //Response.Write("<script>window.alert('Nuevo proyecto creado con éxito.');</script>");
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Nuevo proyecto creado con éxito.";
