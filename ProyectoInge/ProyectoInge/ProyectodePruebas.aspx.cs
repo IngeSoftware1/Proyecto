@@ -469,7 +469,7 @@ namespace ProyectoInge
                     break;
                 case 3:
                     {
-                        btnAceptar_Eliminar();
+                        //btnAceptar_Eliminar();
                     }
                     break;
 
@@ -978,8 +978,8 @@ namespace ProyectoInge
             string mensaje;
             cambiarEnabled(false, this.btnInsertar);
             cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(true, this.btnAceptar);
-            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
             modo = 3;
             controlarCampos(false);
 
@@ -987,9 +987,9 @@ namespace ProyectoInge
 
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
-                lblModalTitle.Text = " ";
-                lblModalBody.Text = "Está seguro que desea eliminar este proyecto?";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                //lblModalTitle.Text = " ";
+                //lblModalBody.Text = "Está seguro que desea eliminar este proyecto?";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
                 upModal.Update();
             }
             else
@@ -1009,7 +1009,7 @@ namespace ProyectoInge
          * Modifica:Elimina un recurso humano si es valido llevar acabo la acción
          * Retorna: No retorna ningún valor
          */
-        protected void btnAceptar_Eliminar()
+        protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
 
             string perfil = Session["perfil"].ToString();
