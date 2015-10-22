@@ -34,12 +34,12 @@
         <div id="DatosProyectos">
             <%--Almacena todos los datos necesarios para el proyecto--%>
             <div class="row">
-                <asp:Label runat="server" ID="lblDatosProy" Text="Datos del Proyecto" CssClass="col-sm-7 col-sm-offset-1 control-label"></asp:Label>
-                <asp:Label runat="server" ID="lblOficina" Text="Datos Oficina Usuaria:" CssClass="col-sm-4 col-sm-pull-2 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblDatosProy" Font-Bold="True" Text="Datos del Proyecto" CssClass="col-sm-7 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblOficina" Font-Bold="True" Text="Datos Oficina Usuaria" CssClass="col-sm-4 col-sm-pull-2 control-label"></asp:Label>
 
             </div>
             <div class="row">
-                <br>
+                
                 <div class="col-sm-5 col-sm-offset-1">
                     <div class="panel panel-default" style="height: 500px">
                         <div class="panel-body">
@@ -55,14 +55,27 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+
+                                <%--Objetivo general--%>
+                                <div class="row">
+                                    <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                </div>
+                                <div class="row col-sm-12">
+                                    <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70"></asp:TextBox>
+                                </div>
+                            </div>
+                            
                              <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                          <ContentTemplate>
-
+                             <br>
+                            
                             <div class="form-group">
                                 <%--Fecha de asignación--%>
+                               
                                 <div class="row">
-                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-offset-3 ">
+                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-6 col-sm-offset-2 ">
                                         <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                     </div>
                                     <div class="">
@@ -93,16 +106,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-
-                                <%--Objetivo general--%>
-                                <div class="row">
-                                    <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
-                                </div>
-                                <div class="row col-sm-11">
-                                    <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70"></asp:TextBox>
-                                </div>
-                            </div>
+                            
                         </div>
                         <%--Cierra el panel body--%>
                     </div>
@@ -208,12 +212,99 @@
                 </div>
             </div>
             <br>
-            <div class="row">
-                <asp:Label runat="server" ID="lblRecursosHumanos" Text="Datos Recursos Humanos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
-            </div>
-            <br>
 
-                         <asp:UpdatePanel ID="UpdateAsociarDesasociarMiembros" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+             <%--Panel Requerimientos --%>
+
+                <div class="row">
+                <asp:Label runat="server" ID="lblRequerimientos"  Font-Bold="True" Text="Datos Requerimientos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
+            </div>
+          
+          
+            <asp:UpdatePanel ID="UpdateRequerimientos" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                         <ContentTemplate>
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="panel panel-default" style="height: 280px;">
+                        <div class="panel-body">
+
+
+                            <div class="form-group col-sm-5">
+                                <div class="row">
+
+                                    <%-- Miembros no asignados a un proyecto --%>
+                                    <asp:Label ID="lblNuevoReq" runat="server" Text="Nuevo requerimiento:" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                    <br>
+                                    <br>
+                                    <asp:Label ID="lblSiglaReq" runat="server" Text="Sigla:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    <div class="col-sm-8 col-sm-offset-1">
+                                        <asp:TextBox runat="server" ID="txtIdReq" Style = "width: 500%" CssClass="form-control" ></asp:TextBox>
+                                    </div>
+                                    <br> 
+                                    <br>
+                                    <br>
+                                     <asp:Label ID="lblNombreReq" runat="server" Text="Nombre:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                    
+                                       <div class="col-sm-8 col-sm-offset-1">
+                                        <asp:TextBox runat="server" ID="txtNombreReq" CssClass="form-control" Style="height: 116px; width: 118%" MultiLine="true" TextMode="MultiLine" ></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-1">
+                                <div class="row">
+                                    <div class="">
+                                        <br>
+                                        <br>
+                                        <br>
+                                       
+                                        <%-- Botón para agregar requerimientos a un proyecto --%>
+                                        <asp:LinkButton runat="server" ID="lnkAgregarRequerimientos" Style="height: 100px" CssClass="">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor col-sm-push-11"></span>
+                                        </asp:LinkButton>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                              
+                                <div class="row">
+                                    <div class="">
+                                        <%-- Botón para quitar requerimientos de un proyecto --%>
+                                        <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" Style="height: 100px" CssClass="">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor col-sm-push-11"></span>
+                                        </asp:LinkButton>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-5">
+                                <div class="row">
+                                    <%-- Requerimientos asignados a un proyecto --%>
+                                    <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos agregados:" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
+                                    <br>
+                                    <br>
+                                   
+                                    <div class="col-sm-12 col-sm-offset-2">
+                                        <asp:ListBox runat="server" ID="listRequerimientosAgregados" CssClass="form-control" Style="height: 190px"></asp:ListBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </ContentTemplate>
+                </asp:UpdatePanel>
+
+            <br>
+             <%--Panel Recursos Humanos --%>
+
+            <div class="row">
+                <asp:Label runat="server" ID="lblRecursosHumanos" Font-Bold="True" Text="Datos Recursos Humanos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
+            </div>
+                         
+            
+            <asp:UpdatePanel ID="UpdateAsociarDesasociarMiembros" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                          <ContentTemplate>
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
