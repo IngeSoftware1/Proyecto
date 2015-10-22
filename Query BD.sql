@@ -140,6 +140,7 @@ id_diseno varchar(20) PRIMARY KEY,
 proposito_dise varchar(30),
 fecha date, 
 procedimiento varchar(100),
+ambiente varchar(100),
 criterios_aceptacion varchar(100),
 tecnica varchar(20) FOREIGN KEY REFERENCES Tecnica (tipo_tecnica)
 ON DELETE CASCADE
