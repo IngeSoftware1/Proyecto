@@ -1018,14 +1018,12 @@ namespace ProyectoInge
             if (perfil.Equals("Administrador"))
             {
                 
-                if ( controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("Cancelada") == false)
+                if ( controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("En ejecución") == false)
                 {
 
                     if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                     {
-                       // string mensaje = "<script>window.alert('No se puede eliminar este proyecto');</script>";
-                       // Response.Write(mensaje);
-
+                       
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "No se puede eliminar este proyecto.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1033,9 +1031,6 @@ namespace ProyectoInge
                     }
                     else
                     {
-
-                        //string mensaje = "<script>window.alert('Proyecto eiminado con éxito.');</script>";
-                        //Response.Write(mensaje);
 
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Proyecto eiminado con éxito.";
@@ -1058,8 +1053,7 @@ namespace ProyectoInge
 
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
-                    //string mensaje = "<script>window.alert('No se puede cancelar este proyecto');</script>";
-                    //Response.Write(mensaje);
+                    
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "No se puede cancelar este proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1068,8 +1062,7 @@ namespace ProyectoInge
                 else
                 {
 
-                    //string mensaje = "<script>window.alert('Proyecto cancelado con éxito.');</script>";
-                    //Response.Write(mensaje);
+                   
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "Proyecto cancelado con éxito.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1080,8 +1073,7 @@ namespace ProyectoInge
             }
             else
             {
-                // string mensaje = "<script>window.alert('No es posible eliminar el proyecto);</script>";
-                //Response.Write(mensaje);
+               
                 lblModalTitle.Text = " ";
                 lblModalBody.Text = "No es posible eliminar el proyecto.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
