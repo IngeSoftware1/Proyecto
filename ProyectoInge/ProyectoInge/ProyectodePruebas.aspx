@@ -34,8 +34,8 @@
         <div id="DatosProyectos">
             <%--Almacena todos los datos necesarios para el proyecto--%>
             <div class="row">
-                <asp:Label runat="server" ID="lblDatosProy" Font-Bold="True" Text="Datos del Proyecto" CssClass="col-sm-7 col-sm-offset-1 control-label"></asp:Label>
-                <asp:Label runat="server" ID="lblOficina" Font-Bold="True" Text="Datos Oficina Usuaria" CssClass="col-sm-4 col-sm-pull-2 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblDatosProy" Font-Bold="True" Text="Datos del proyecto" CssClass="col-sm-7 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblOficina" Font-Bold="True" Text="Datos oficina usuaria" CssClass="col-sm-4 col-sm-pull-2 control-label"></asp:Label>
 
             </div>
             <div class="row">
@@ -216,7 +216,7 @@
              <%--Panel Requerimientos --%>
 
                 <div class="row">
-                <asp:Label runat="server" ID="lblRequerimientos"  Font-Bold="True" Text="Datos Requerimientos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblRequerimientos"  Font-Bold="True" Text="Datos requerimientos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
             </div>
           
           
@@ -300,7 +300,7 @@
              <%--Panel Recursos Humanos --%>
 
             <div class="row">
-                <asp:Label runat="server" ID="lblRecursosHumanos" Font-Bold="True" Text="Datos Recursos Humanos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label runat="server" ID="lblRecursosHumanos" Font-Bold="True" Text="Datos recursos humanos" CssClass="col-sm-6 col-sm-offset-1 control-label"></asp:Label>
             </div>
                          
             
@@ -396,7 +396,7 @@
         <div class="form-group">
             <div class="row">
                 <div id="consultar">
-                    <asp:Label ID="lblProyectos" runat="server" Text="Lista de Proyectos" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
+                    <asp:Label ID="lblProyectos" runat="server" Font-Bold="True" Text="Lista de proyectos" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
                 </div>
             </div>
             <div class="row">

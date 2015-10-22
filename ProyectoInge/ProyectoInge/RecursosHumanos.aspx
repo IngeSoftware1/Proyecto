@@ -36,12 +36,11 @@
         <br>
         <div id="Datos"> <%-- Div que almacena todos los div internos para los datos del RH --%>
              <div class ="row"> 
-                    <asp:Label runat="server" ID="lblDatosPersonales" Text="Datos Personales:" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                    <asp:Label runat="server" ID="lblDatosPersonales" Font-Bold="True" Text="Datos personales" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                    <asp:Label runat="server" ID="lblDatosUsuario" Font-Bold="True" Text="Datos de usuario" CssClass="col-sm-5  control-label"></asp:Label>
                 </div> 
             <div class="row">
-                
-                <br>
-                    <div class="col-sm-5 col-sm-offset-1">
+                  <div class="col-sm-5 col-sm-offset-1">
                     <div class="panel panel-default" style ="height: 600px">
                         <div class="panel-body" >
                             <div class="form-group">
@@ -207,7 +206,7 @@
       <div class="form-group">
              <div class="row">
             <div id="consultar">
-                <asp:Label ID="lblFuncionarios" runat="server" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblFuncionarios" runat="server" Font-Bold="True" Text="Lista de funcionarios" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
               </div> 
                 </div>   
                     <div class ="row">
