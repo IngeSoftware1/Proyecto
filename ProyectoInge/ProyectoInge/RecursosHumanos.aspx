@@ -46,7 +46,7 @@
                         <div class="panel-body" >
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblCedula" runat="server" Text="Cédula:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblCedula" runat="server" Text="Cédula*:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 "> 
                                         <asp:TextBox runat="server" ID="txtCedula" PlaceHolder ="Ej: 145680958" CssClass="form-control" MaxLength="9"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="ERValidator" runat="server" ControlToValidate="txtCedula" ErrorMessage="*Ingrese Valores Numéricos"
@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblNombre" runat="server" Text="Nombre*:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
                                         <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="ERNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*Ingrese solo letras"
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblApellido1" runat="server" Text="Primer apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblApellido1" runat="server" Text="Primer apellido*:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm -offset-1 ">
                                         <asp:TextBox runat="server" ID="txtApellido1" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="ERLetrasApe1" runat="server" ControlToValidate="txtApellido1" ErrorMessage="*Ingrese solo letras"
@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblApellido2" runat="server" Text="Segundo apellido:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblApellido2" runat="server" Text="Segundo apellido*:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 ">
                                         <asp:TextBox runat="server" ID="txtApellido2" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                         <asp:RegularExpressionValidator ID="ERApe2" runat="server" ControlToValidate="txtApellido2" ErrorMessage="*Ingrese solo letras"

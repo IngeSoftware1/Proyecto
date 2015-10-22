@@ -592,6 +592,10 @@ namespace ProyectoInge
                                         cambiarEnabled(false, this.btnInsertar);
                                         llenarGrid(Session["cedula"].ToString());
                                     }
+                                    lblModalTitle.Text = " ";
+                                    lblModalBody.Text = "Proyecto modificado con éxito.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
 
                                 //    llenarComboEstado();
                                 //    llenarComboLideres();
@@ -945,30 +949,14 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-
-            //Pregunta por todas las cajas
-            if (modo == 1)
+            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "")
             {
-                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || txtCalendar.Text == "")
-                {
-                    resultado = true;
-                }
-                else
-                {
-                    resultado = false;
-                }
+                resultado = true;
             }
-            else if (modo == 2)
+            else
             {
-                if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtnombreOficina.Text == "" || this.txtnombreRep.Text == "" || this.txtApellido1Rep.Text == "" || this.txtApellido2Rep.Text == "" || this.comboEstado.Text == "" || this.comboLider.Text == "")
-                {
-                    resultado = true;
-                }
-                else
-                {
-                    resultado = false;
-                }
-            }
+                resultado = false;
+            }         
 
             return resultado;
         }

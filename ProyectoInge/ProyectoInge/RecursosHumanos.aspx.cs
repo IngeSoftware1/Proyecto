@@ -677,8 +677,8 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            //Pregunta por todas las cajas
-            if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" || txtUsuario.Text == "" || txtConfirmar.Text == "" || txtContrasena.Text == "" || txtEmail.Text == "")
+            //Pregunta por las cajas que son obligatorios
+            if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" )
             {
                 resultado = true;
             }

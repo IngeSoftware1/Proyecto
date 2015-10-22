@@ -48,7 +48,7 @@
 
                                 <%--Nombre del proyecto--%>
                                 <div class="row">
-                                    <asp:Label ID="lblNombreProy" runat="server" Text="Nombre:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblNombreProy" runat="server" Text="Nombre*:" CssClass="col-sm-1 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-6 col-sm-offset-3 ">
                                         <asp:TextBox runat="server" ID="txtNombreProy" CssClass="form-control" MaxLength="20"></asp:TextBox>
                                     </div>
@@ -59,7 +59,7 @@
 
                                 <%--Objetivo general--%>
                                 <div class="row">
-                                    <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                    <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general*" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                 </div>
                                 <div class="row col-sm-12">
                                     <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70"></asp:TextBox>
