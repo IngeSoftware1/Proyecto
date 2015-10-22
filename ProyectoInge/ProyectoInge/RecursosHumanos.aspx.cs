@@ -265,15 +265,15 @@ namespace ProyectoInge
         {
             cambiarEnabled(false, this.btnInsertar);
             cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(true, this.btnAceptar);
-            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
             modo = 3;
             controlarCampos(false);
 
 
-            lblModalTitle.Text = "AVISO";
-            lblModalBody.Text = "Está seguro que desea eliminar este recurso humano?";
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            //lblModalTitle.Text = "AVISO";
+           // lblModalBody.Text = "Está seguro que desea eliminar este recurso humano?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
             upModal.Update();
 
             //string mensaje = "<script>window.alert('Está seguro que desea eliminar este recurso humano?');</script>";
@@ -322,7 +322,7 @@ namespace ProyectoInge
                     break;
                 case 3:
                     {
-                        btnAceptar_Eliminar();
+                        //btnAceptar_Eliminar();
                     }
                     break;
 
@@ -729,7 +729,7 @@ namespace ProyectoInge
                         //string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
                         //Response.Write(mensaje);
                         lblModalTitle.Text = " ";
-                        lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
+                        lblModalBody.Text = "La modificación de funcionario fue exitosa.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
 
@@ -799,7 +799,7 @@ namespace ProyectoInge
          * Modifica:Elimina un recurso humano si es valido llevar acabo la acción
          * Retorna: No retorna ningún valor
          */
-        protected void btnAceptar_Eliminar()
+        protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
             string cedulaUsuarioActual = Session["cedula"].ToString();
 
@@ -810,15 +810,15 @@ namespace ProyectoInge
                     // string mensaje = "<script>window.alert('No se puede eliminar este recurso humano ya que tiene proyectos, diseño de pruebas o ejecuciones de pruebas a su cargo.');</script>";
                     //Response.Write(mensaje);
                     lblModalTitle.Text = " ";
-                    lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
+                    lblModalBody.Text = "La modificación de funcionario fue exitosa.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
+                   upModal.Update();
                 }
                 else
                 {
                     lblModalTitle.Text = " ";
-                    lblModalBody.Text = "La modificacion de funcionario fue exitosa.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    lblModalBody.Text = "La eliminación de funcionario fue exitosa.";
+                   ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     // string mensaje = "<script>window.alert('Usuario eliminado con éxito.');</script>";
                     // Response.Write(mensaje);
