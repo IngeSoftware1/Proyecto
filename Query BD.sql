@@ -138,7 +138,7 @@ INSERT INTO Tipo_Prueba VALUES ('Instalación');
 CREATE TABLE Diseno_Pruebas(
 id_diseno int IDENTITY(1,1) PRIMARY KEY,
 proposito_diseno varchar(50),
-fecha date, 
+fecha varchar(15), 
 procedimiento_diseno varchar(100),
 ambiente_diseno varchar(100),
 criterios_aceptacion varchar(100),
