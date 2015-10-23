@@ -13,10 +13,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         /*En Initial Catalog se agrega la base de datos propia. Intregated Security es para utilizar Windows Authentication*/
         //String conexion = @"Data Source=ASUS; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI";
-        String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
+     //   String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=RAQUELCHAVADDEF; Initial Catalog=RAQUEL; Integrated Security=SSPI";
         //String conexion = @"Data Source=CAROLINA-HP\CAROLINA; Initial Catalog=Inge1; Integrated Security=SSPI";
-        //String conexion = @"Data Source=LARI-PC; Initial Catalog=Inge1; Integrated Security=SSPI";
+        String conexion = @"Data Source=LARI-PC; Initial Catalog=Inge1; Integrated Security=SSPI";
         //String conexion = @"Data Source=.; Initial Catalog=RAQUEL; Integrated Security=SSPI";
 
         public AccesoBaseDatos()

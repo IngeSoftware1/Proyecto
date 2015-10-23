@@ -10,10 +10,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraCasosPrueba
     {
         ControladoraBDCasosPrueba controladoraBDCasosPrueba = new ControladoraBDCasosPrueba();
+        ControladoraRecursos controladoraRH;
 
         public bool eliminarProyectoCasoPueba(int idProyecto)
         {
             return controladoraBDCasosPrueba.eliminarProyectoCasoPueba(idProyecto);
+        }
+
+        /*Método para poder hacer que la controladora proyecto y  recursos humanos se comuniquen y cerrar sesión
+       * Requiere: la cedula de la persona que se encuentra en la sesión
+       * Modifica el estado de login de la persona, para indicar que ha cerrado la sesión
+       * Retorna el valor de la variable booleana.
+       */
+        public bool cerrarSesion(string ced)
+        {
+            controladoraRH = new ControladoraRecursos();
+            Boolean a = controladoraRH.modificarEstadoCerrar(ced);
+            return a;
         }
     }
 }
