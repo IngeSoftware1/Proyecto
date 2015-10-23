@@ -136,11 +136,11 @@ INSERT INTO Tipo_Prueba VALUES ('Configuración');
 INSERT INTO Tipo_Prueba VALUES ('Instalación');
 
 CREATE TABLE Diseno_Pruebas(
-id_diseno varchar(20) PRIMARY KEY,
-proposito_dise varchar(100),
+id_diseno int IDENTITY(1,1) PRIMARY KEY,
+proposito_diseno varchar(50),
 fecha date, 
-procedimiento varchar(100),
-ambiente varchar(100),
+procedimiento_diseno varchar(100),
+ambiente_diseno varchar(100),
 criterios_aceptacion varchar(100),
 tecnica varchar(20) FOREIGN KEY REFERENCES Tecnica (tipo_tecnica)
 ON DELETE CASCADE
@@ -160,27 +160,27 @@ ON UPDATE NO ACTION/*Da problemas si es cascade*/
 );
 
 CREATE TABLE Requerimiento(
-id_req varchar(15),
+id_req varchar(10),
 id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
-id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
 ON DELETE NO ACTION /*El requerimiento puede quedar no asociado a otro diseño*/ 
 ON UPDATE NO ACTION, /*Da problemas si es cascade*/
-nombre_req varchar (30),
+nombre_req varchar (50),
 PRIMARY KEY (id_req, id_proyecto)
 );
 
 CREATE TABLE Caso_Prueba(
 id_caso varchar(20) PRIMARY KEY,
-proposito_caso varchar(30),
+proposito_caso varchar(100),
 flujo_central varchar(100),
 entrada_datos varchar(100),
-resultado_esperado varchar(30),
-id_diseno varchar(20) FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+resultado_esperado varchar(100),
+id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
-id_req varchar(15),
+id_req varchar(10),
 id_proyecto int,
 CONSTRAINT FkReq FOREIGN KEY (id_req, id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
 ON DELETE NO ACTION  /*Da problemas si es cascade*/
@@ -200,8 +200,8 @@ CREATE TABLE Ejecucion_Prueba(
 id_ejecucion int IDENTITY(1,1) PRIMARY KEY,
 justificacion varchar(40),
 desc_incidencia varchar(70),
-fecha date,
-hora time, 
+fecha varchar(15),
+hora varchar(15), 
 imagen image,
 estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
 ON DELETE CASCADE
