@@ -231,7 +231,7 @@
                             <div class="form-group col-sm-5">
                                 <div class="row">
 
-                                    <%-- Miembros no asignados a un proyecto --%>
+                                    <%-- --%>
                                     <asp:Label ID="lblNuevoReq" runat="server" Text="Nuevo requerimiento:" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                     <br>
                                     <br>

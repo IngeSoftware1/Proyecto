@@ -60,7 +60,7 @@ namespace ProyectoInge
                         string perfil = controladora.buscarPerfil(cedulaDeFuncionario);
                         Session["perfil"] = perfil;
                         controladora.modificarEstadoAbrir(cedulaDeFuncionario);
-                        Response.Redirect("~/RecursosHumanos.aspx");
+                        Response.Redirect("~/PanelPrincipal.aspx");
                         
                          
                     }
@@ -79,7 +79,7 @@ namespace ProyectoInge
                 else
                 {
 
-                    FailureText.Text = "usuario o contrasena incorrecta.";
+                    FailureText.Text = "usuario o contraseña incorrecta.";
                     ErrorMessage.Visible = true;
 
                 }
@@ -88,7 +88,7 @@ namespace ProyectoInge
             else
             {
 
-                FailureText.Text = "usuario o contrasena incorrecta.";
+                FailureText.Text = "usuario o contraseña incorrecta.";
                 ErrorMessage.Visible = true;
 
             }

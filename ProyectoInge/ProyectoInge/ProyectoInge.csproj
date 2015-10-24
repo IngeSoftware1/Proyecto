@@ -181,6 +181,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\EstiloMenu.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="DisenoPruebas.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="InterfazCambioContrasenna.aspx" />
     <Content Include="Login.aspx" />
@@ -189,18 +190,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
-    <Content Include="DataSet1.xsc">
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </Content>
-    <None Include="DataSet1.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet1.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="DataSet1.xss">
-      <DependentUpon>DataSet1.xsd</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="PanelPrincipal.aspx" />
     <Content Include="ProyectodePruebas.aspx" />
     <Content Include="RecursosHumanos.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -352,6 +343,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DisenoPruebas.aspx.cs">
+      <DependentUpon>DisenoPruebas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DisenoPruebas.aspx.designer.cs">
+      <DependentUpon>DisenoPruebas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -370,6 +368,13 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="PanelPrincipal.aspx.cs">
+      <DependentUpon>PanelPrincipal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PanelPrincipal.aspx.designer.cs">
+      <DependentUpon>PanelPrincipal.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProyectodePruebas.aspx.cs">
       <DependentUpon>ProyectodePruebas.aspx</DependentUpon>
