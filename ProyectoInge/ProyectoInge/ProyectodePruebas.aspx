@@ -78,7 +78,7 @@
                                 <div class="row">
                                     
                                     <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación*:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
-                                        <div class="row col-sm-5 ">
+                                        <div class="row col-sm-4 col-sm-offset-1 ">
                                             <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                         </div>
                                     <div class="">
