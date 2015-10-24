@@ -4,6 +4,7 @@ DROP TABLE Ejecucion_NC;
 DROP TABLE Tipo_NC;
 DROP TABLE Ejecucion_Prueba;
 DROP TABLE Estado_Ejecucion;
+DROP TABLE Requerimiento_CasosPrueba;
 DROP TABLE Caso_Prueba;
 DROP TABLE Requerimiento;
 DROP TABLE Diseno_Pruebas;

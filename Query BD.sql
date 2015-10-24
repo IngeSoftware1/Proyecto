@@ -172,7 +172,8 @@ PRIMARY KEY (id_req, id_proyecto)
 );
 
 CREATE TABLE Caso_Prueba(
-id_caso varchar(20) PRIMARY KEY,
+id_caso int IDENTITY(1,1) PRIMARY KEY,
+identificador_caso varchar(20) UNIQUE,
 proposito_caso varchar(100),
 flujo_central varchar(100),
 entrada_datos varchar(100),
@@ -189,8 +190,9 @@ id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
 ON DELETE CASCADE
 ON UPDATE NO ACTION,
 CONSTRAINT FkReq FOREIGN KEY (id_req, id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
-ON DELETE CASCADE
-ON UPDATE CASCADE 
+ON DELETE NO ACTION
+ON UPDATE CASCADE,
+PRIMARY KEY (id_caso, id_req, id_proyecto) 
 );
 
 CREATE TABLE Estado_Ejecucion(
@@ -214,7 +216,10 @@ ON DELETE CASCADE
 ON UPDATE CASCADE, 
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
 ON DELETE NO ACTION
-ON UPDATE CASCADE 
+ON UPDATE CASCADE,
+id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
+ON DELETE CASCADE
+ON UPDATE NO ACTION 
 );
 
 CREATE TABLE Tipo_NC(
