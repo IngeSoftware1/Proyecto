@@ -47,13 +47,14 @@
         <div class="form-group">
             <div class="row">
                 <asp:Label ID="lblProyecto" runat="server" Text="Proyecto:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                <div class="col-sm-4 col-sm-pull-1">
+                <div class="col-sm-3 ">
                     <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado">
                     </asp:DropDownList>
                 </div>
             </div>
         </div>
         <br>
+        
 
         <asp:UpdatePanel ID="UpdateAsociarDesasociarRequerimientos" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
             <ContentTemplate>
@@ -190,17 +191,23 @@
                 <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
                         
-                                <asp:Label ID="lblFecha" runat="server" Text="Fecha:" CssClass="col-sm-1 control-label"></asp:Label>
+                                <asp:Label ID="lblFecha" runat="server" Text="Fecha:" CssClass="col-sm-2  control-label"></asp:Label>
                                 <div class="col-sm-3 ">
                                     <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                 </div>
+                               <div class="col-sm-push-1 ">
                                     <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar" OnClick="lnkCalendario_Click">
                                      <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
                                     </asp:LinkButton>
-                                
-                                    <asp:Calendar runat="server" ID="calendarFecha" Visible="false" OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
-                            
-                        
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                     <div class="row">  
+                                        <div class="col-sm-3 col-sm-offset-8  ">
+                                            <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
+                                        </div>
+                                    </div>
+                                </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
