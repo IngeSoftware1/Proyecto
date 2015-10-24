@@ -6,7 +6,7 @@
     <ul class="navbar-default nav navbar-nav">
          <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
             <li ><a runat="server" style ="background-color:ActiveCaption"  href="~/ProyectodePruebas.aspx" >Proyecto</a></li>
-            <li ><a runat="server" >Diseño de pruebas</a></li>
+            <li ><a runat="server" href="~/DisenoPruebas.aspx" >Diseño de pruebas</a></li>
             <li ><a runat="server" href="~/CasoDePrueba.aspx" >Caso de pruebas</a></li>
             <li ><a runat="server" >Ejecución de pruebas</a></li>
             <li ><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx" >Cerrar sesión</a></li>
