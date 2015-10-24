@@ -89,7 +89,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, fecha_asignacion, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getFechaAsignacion + "', '" + nuevo.getTipoEstado + "', '" +nuevo.getCedulaCreador+ "', '"+nuevo.getCedulaLider+"', '"+nuevo.getIdOficina+"')";
-                //string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getTipoEstado + "', '" + nuevo.getCedulaCreador + "', '" + nuevo.getCedulaLider + "', '" + nuevo.getIdOficina + "')";
+         
                 return acceso.insertarDatos(insercion);
 
             }
@@ -99,11 +99,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-    /*    public bool insertarMiembro(EntidadTrabajaEn nuevo)
+        public bool insertarRequerimiento(EntidadRequerimiento nuevo)
         {
             try
             {
-                string insercion = "INSERT INTO Trabaja_En (cedula_miembro, id_proyecto) VALUES ('" + nuevo.getCedulaMiembro + "', '" + nuevo.geIdProyecto + "')";
+                string insercion = "INSERT INTO Requerimiento (id_req, id_proyecto, id_diseno, nombre_req) VALUES ('" + nuevo.getIdReq + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getIdDiseno + "', '" + nuevo.getNombreReq + "')";
                 return acceso.insertarDatos(insercion);
 
             }
@@ -111,7 +111,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
-        } */
+        }
 
         /*Método para buscar si en la base de datos existe un proyecto asociado a un usuario con una cedula particular
         * Requiere: un string con la cedula de un funcionario específico

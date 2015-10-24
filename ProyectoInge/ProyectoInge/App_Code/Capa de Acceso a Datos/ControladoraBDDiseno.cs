@@ -18,29 +18,49 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: true si se encontro que el funcionario tenía era líder y false si no.
         */
         public bool buscarAsignacionMiembrosDiseno(string cedulaDeFuncionario)
-    {
+        {
 
         bool resultado = false;
 
-        try
-        {
-            string consultaPruebas = "SELECT * FROM Diseno_Pruebas WHERE cedula_responsable ='" + cedulaDeFuncionario + "'";
-            DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaPruebas);
-            if (dataDiseno.Rows.Count >= 1)
+            try
             {
-                resultado = true;
+                string consultaPruebas = "SELECT * FROM Diseno_Pruebas WHERE cedula_responsable ='" + cedulaDeFuncionario + "'";
+                DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaPruebas);
+                if (dataDiseno.Rows.Count >= 1)
+                {
+                    resultado = true;
+                }
+                else
+                {
+                        resultado = false;
+                }
             }
-            else
+            catch (SqlException e)
             {
-                    resultado = false;
+                resultado = false;
             }
-        }
-        catch (SqlException e)
-        {
-            resultado = false;
-        }
 
         return resultado;
     }
+
+        public int obtenerIdDisenoPorProposito(string proposito)
+        {
+            int resultado = -1;
+
+            try
+            {
+                string consultaDiseno = "SELECT id_diseno FROM Diseno_Pruebas WHERE proposito_diseno ='" + proposito + "'";
+                DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaDiseno);
+                if (dataDiseno.Rows.Count >= 1)
+                {
+                    resultado = Convert.ToInt32(dataDiseno.Rows[0][0].ToString());
+                }
+            }
+            catch (SqlException e)
+            {
+            }
+
+            return resultado;
+        }
   }
 }

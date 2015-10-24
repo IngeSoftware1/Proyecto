@@ -236,8 +236,6 @@ namespace ProyectoInge
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    //string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
-                    //Response.Write(mensaje);
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "Nombre del miembro es inválido.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -255,8 +253,6 @@ namespace ProyectoInge
                     lblModalBody.Text = "Nombre del miembro es inválido.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    // string mensaje = "<script>window.alert('Nombre del miembro es inválido');</script>";
-                    //Response.Write(mensaje);
                 }
             }
 
@@ -365,6 +361,8 @@ namespace ProyectoInge
             this.lnkQuitarMiembros.Enabled = true;
             this.lnkNumero.Enabled = true;
             this.lnkQuitar.Enabled = true;
+            this.txtNombreReq.Enabled = true;
+            this.txtIdReq.Enabled = true;
 
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
@@ -427,6 +425,8 @@ namespace ProyectoInge
             this.lnkAgregarMiembros.Enabled = condicion;
             this.lnkQuitarMiembros.Enabled = condicion;
             this.txtCalendar.Enabled = false;
+            this.txtNombreReq.Enabled = condicion;
+            this.txtIdReq.Enabled = condicion;
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -522,8 +522,6 @@ namespace ProyectoInge
             int tipoModificacion = 1;//Va a cambiar la tabla proyecto
             if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
-                //string mensaje = "<script>window.alert('Para modificar un proyecto debe completar todos los datos habilitados.');</script>";
-                //Response.Write(mensaje);
                 lblModalTitle.Text = " ";
                 lblModalBody.Text = "Para modificar un proyecto debe completar todos los datos habilitados.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -603,8 +601,6 @@ namespace ProyectoInge
                                 }
                                 else
                                 {
-                                    //string mensaje = "<script>window.alert('No elimino trabaja_en');</script>";
-                                    //Response.Write(mensaje);
                                     lblModalTitle.Text = " ";
                                     lblModalBody.Text = "No elimino trabaja_en.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -613,8 +609,6 @@ namespace ProyectoInge
                             }
                             else
                             {
-                                // string mensaje = "<script>window.alert('No inserto los telefonos');</script>";
-                                // Response.Write(mensaje);
                                 lblModalTitle.Text = " ";
                                 lblModalBody.Text = "No inserto los telefonos.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -623,8 +617,6 @@ namespace ProyectoInge
                         }
                         else
                         {
-                            //string mensaje = "<script>window.alert('No elimino los telefonos');</script>";
-                            //Response.Write(mensaje);
                             lblModalTitle.Text = " ";
                             lblModalBody.Text = "No elimino los telefonos.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -633,8 +625,6 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        //string mensaje = "<script>window.alert('No modifico oficina usuaria');</script>";
-                        //Response.Write(mensaje);
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "No modifico oficina usuaria.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -643,8 +633,6 @@ namespace ProyectoInge
                 }
                 else
                 {
-                    //string mensaje = "<script>window.alert('No modifico proyecto');</script>";
-                    //Response.Write(mensaje);
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "No modifico oficina proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -749,6 +737,7 @@ namespace ProyectoInge
                         int idProyecto = controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text);
                         Session["idProyectoS"] = Convert.ToString(idProyecto);
                         guardarMiembros(idProyecto);
+                        guardarRequerimientos(idProyecto);
 
                         //se carga la interfaz de nuevo
                         controlarCampos(false);
@@ -759,11 +748,6 @@ namespace ProyectoInge
                         cambiarEnabled(true, this.btnInsertar);
                         llenarGrid(null);
 
-                      
-                      
-                     //   llenarComboEstado();
-                     //   llenarComboLideres();
-                        //Response.Write("<script>window.alert('Nuevo proyecto creado con éxito.');</script>");
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Nuevo proyecto creado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -773,7 +757,6 @@ namespace ProyectoInge
                     else
                     {
                         controladoraProyecto.eliminarOficina(idOficina);
-                        //Response.Write("<script>window.alert('Este proyecto ya se encuentra registrado en el sistema.');</script>");
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Este proyecto ya se encuentra registrado en el sistema.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -788,7 +771,6 @@ namespace ProyectoInge
                     lblModalBody.Text = "Esta oficina usuaria ya se encuentra registrada en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    //Response.Write("<script>window.alert('Esta oficina usuaria ya se encuentra registrada en el sistema.');</script>");
                     habilitarCamposInsertar();
                 }
             }
@@ -807,7 +789,6 @@ namespace ProyectoInge
 
             while (i < listTelefonosOficina.Items.Count && listTelefonosOficina.Items[i].Text.Equals("") == false)
             {
-                string mensaje;
                 //Objeto para guardar los telefonos de la oficina usuaria en el sistema
                 Object[] telefonoOficina = new Object[2];
                 telefonoOficina[0] = idOficina;
@@ -825,8 +806,6 @@ namespace ProyectoInge
                     lblModalBody.Text = "El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    //mensaje = "<script>window.alert('El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.');</script>";
-                    //Response.Write(mensaje);
                     habilitarCamposInsertar();
                     malas++;
                 }
@@ -850,7 +829,6 @@ namespace ProyectoInge
 
             while (i < listMiembrosAgregados.Items.Count && listMiembrosAgregados.Items[i].Text.Equals("") == false)
             {
-                string mensaje;
                 //Objeto para guardar los miembros de un equipo de trabajo para un proyecto
                 Object[] nuevoMiembro = new Object[2];
                 nuevoMiembro[0] = obtenerCedula(this.listMiembrosAgregados.Items[i].Text, false);
@@ -869,8 +847,85 @@ namespace ProyectoInge
                     lblModalBody.Text = "El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    //mensaje = "<script>window.alert('El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.');</script>";
-                    //Response.Write(mensaje);
+                    habilitarCamposInsertar();
+                }
+
+                i++;
+            }
+        }
+
+        /*Método para la acción del botón agregar requerimientos al listbox
+         * Modifica: agrega al listbox de requerimientos el requerimiento creado
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnAgregarRequerimiento(object sender, EventArgs e)
+        {
+            if (txtIdReq.Text != "" && txtNombreReq.Text!="" )
+            {
+                listRequerimientosAgregados.Items.Add(txtIdReq.Text + " " + txtNombreReq.Text);
+                txtIdReq.Text = "";
+                txtNombreReq.Text = "";
+            }
+
+            if (modo == 1)
+            {
+                habilitarCamposInsertar();
+            }
+            else if (modo == 2)
+            {
+                habilitarCamposModificar();
+            }
+
+            UpdateRequerimientos.Update();
+        }
+
+        /*Método para la acción de eliminar requerimientos del proyecto
+         * Modifica: Elimina el requerimiento seleccionado en el listbox
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnEliminarRequerimiento(object sender, EventArgs e)
+        {
+            if (modo == 1 || modo == 2)
+            {
+                if (listRequerimientosAgregados.SelectedIndex != -1)
+                {
+                    listRequerimientosAgregados.Items.RemoveAt(listRequerimientosAgregados.SelectedIndex);
+                }
+            }
+
+            UpdateRequerimientos.Update();
+        }
+
+        public void guardarRequerimientos(int idProyecto)
+        {
+            int i = 0;
+
+            while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
+            {
+                ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
+               
+                /*Aqui hay que partir el listbox*/
+                //Objeto para guardar los requerimientos de un proyecto
+                Object[] nuevoRequerimiento = new Object[2];
+                nuevoRequerimiento[0] = listRequerimientosAgregados.Items[i].ToString();
+                nuevoRequerimiento[1] = idProyecto;
+                nuevoRequerimiento[2] = controladoraDiseno.obtenerIdDisenoPorProposito("Dummy");; //Diseño dummy
+                nuevoRequerimiento[3] = listRequerimientosAgregados.Items[i].ToString();
+
+
+                int tipoInsercion = 5;                              //inserción de tipo 5 es agregar requerimientos
+
+                //Se insertó un nuevo requerimiento al proyecto
+                if (controladoraProyecto.ejecutarAccion(1, tipoInsercion, nuevoRequerimiento, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                {
+                }
+                //La inserción de un nuevo requerimiento en la base de datos falló porque ya estaba en la base
+                else
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Este requerimiento ya se encuentra asociado al proyecto.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
                     habilitarCamposInsertar();
                 }
 

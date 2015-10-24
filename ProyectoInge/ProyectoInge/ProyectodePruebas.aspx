@@ -242,7 +242,7 @@
                                     <br>
                                     <asp:Label ID="lblSiglaReq" runat="server" Text="Sigla:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     <div class="col-sm-8 col-sm-offset-1">
-                                        <asp:TextBox runat="server" ID="txtIdReq" Style = "width: 500%" CssClass="form-control" ></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtIdReq" Style = "width: 500%" MaxLength="20" CssClass="form-control" ></asp:TextBox>
                                     </div>
                                     <br> 
                                     <br>
@@ -250,7 +250,7 @@
                                      <asp:Label ID="lblNombreReq" runat="server" Text="Nombre:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                     
                                        <div class="col-sm-8 col-sm-offset-1">
-                                        <asp:TextBox runat="server" ID="txtNombreReq" CssClass="form-control" Style="height: 116px; width: 118%" MultiLine="true" TextMode="MultiLine" ></asp:TextBox>
+                                        <asp:TextBox runat="server" ID="txtNombreReq" CssClass="form-control" Style="height: 116px; width: 118%" MultiLine="true" TextMode="MultiLine" MaxLength="50" ></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
                                         <br>
                                        
                                         <%-- Botón para agregar requerimientos a un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkAgregarRequerimientos" Style="height: 100px" CssClass="">
+                                        <asp:LinkButton runat="server" ID="lnkAgregarRequerimientos" Style="height: 100px" CssClass="" OnClick="btnAgregarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor col-sm-push-11"></span>
                                         </asp:LinkButton>
                                     </div>
@@ -275,7 +275,7 @@
                                 <div class="row">
                                     <div class="">
                                         <%-- Botón para quitar requerimientos de un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" Style="height: 100px" CssClass="">
+                                        <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" Style="height: 100px" CssClass="" OnClick="btnEliminarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor col-sm-push-11"></span>
                                         </asp:LinkButton>
                                     </div>

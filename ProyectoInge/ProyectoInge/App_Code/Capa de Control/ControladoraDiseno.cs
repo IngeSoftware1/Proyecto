@@ -20,5 +20,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDDiseno.buscarAsignacionMiembrosDiseno(cedula);
         }
+
+        public int obtenerIdDisenoPorProposito(string proposito)
+        {
+            return controladoraBDDiseno.obtenerIdDisenoPorProposito(proposito);
+        }
     }
 }
