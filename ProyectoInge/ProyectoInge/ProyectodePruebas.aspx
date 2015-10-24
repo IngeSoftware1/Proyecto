@@ -61,35 +61,40 @@
                                 <div class="row">
                                     <asp:Label ID="lblObjetivo" runat="server" Text="Objetivo general*" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                                 </div>
-                                <div class="row col-sm-12">
+                                <div class="row col-sm-11">
                                     <asp:TextBox runat="server" ID="txtObjetivo" CssClass="col-sm-offset-1 form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70"></asp:TextBox>
                                 </div>
                             </div>
-                            
+                            <br>
+                            <br>
+                            <br>
+                            <br>
                              <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                          <ContentTemplate>
-                             <br>
                             
                             <div class="form-group">
                                 <%--Fecha de asignación--%>
                                
                                 <div class="row">
-                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                                    <div class="col-sm-6 col-sm-offset-2 ">
-                                        <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
-                                    </div>
+                                    
+                                    <asp:Label ID="lblFecha" runat="server" Text="Fecha asignación*:" CssClass="col-sm-4 col-sm-offset-1 control-label"></asp:Label>
+                                        <div class="row col-sm-5 ">
+                                            <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
+                                        </div>
                                     <div class="">
-
+                                       
+                                    <div class="col-sm-1 ">
                                         <asp:LinkButton runat="server" ID="lnkCalendario"  CssClas=".glyphicon.glyphicon-calendar"  OnClick="lnkCalendario_Click" >
                                         <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
                                         </asp:LinkButton>
                                     </div>
+                                    </div>
                                     <br>
 
                                     <div class ="row col-sm-6 col-sm-offset-5">
-                                    <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes"  OnSelectionChanged="calendarioSeleccionado" ></asp:Calendar>         
-                                        <%--No se si hay que agregarle un estilo--%>
-                                        </div>
+                                        <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes"  OnSelectionChanged="calendarioSeleccionado" ></asp:Calendar>         
+
+                                    </div>
                                 </div>
                             </div>
                               </ContentTemplate>
