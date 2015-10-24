@@ -37,7 +37,7 @@
         <div id="Datos"> <%-- Div que almacena todos los div internos para los datos del RH --%>
              <div class ="row"> 
                     <asp:Label runat="server" ID="lblDatosPersonales" Font-Bold="True" Text="Datos personales" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
-                    <asp:Label runat="server" ID="lblDatosUsuario" Font-Bold="True" Text="Datos de usuario" CssClass="col-sm-5  control-label"></asp:Label>
+                    <asp:Label runat="server" ID="lblDatosUsuario" Font-Bold="True" Text="Datos de la cuenta" CssClass="col-sm-5  control-label"></asp:Label>
                 </div> 
             <div class="row">
                   <div class="col-sm-5 col-sm-offset-1">
@@ -176,7 +176,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <asp:Label ID="lblRol" runat="server" Text="Rol*:" CssClass="col-sm-5 col-sm-offset-1 control-label "></asp:Label>
+                                    <asp:Label ID="lblRol" runat="server" Text="Rol:" CssClass="col-sm-5 col-sm-offset-1 control-label "></asp:Label>
                                     <div class="col-sm-6">
                                         <asp:DropDownList runat="server" ID="comboRol" CssClass="form-control">
                                         </asp:DropDownList>

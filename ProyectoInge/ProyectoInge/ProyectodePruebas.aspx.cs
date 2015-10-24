@@ -709,11 +709,9 @@ namespace ProyectoInge
             if (faltanDatos())
             {
                 lblModalTitle.Text = " ";
-                lblModalBody.Text = "Para insertar un nuevo proyecto debe completar todos los datos.";
+                lblModalBody.Text = "Para insertar un nuevo proyecto debe completar todos los datos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-                //string mensaje = "<script>window.alert('Para insertar un nuevo proyecto debe completar todos los datos.');</script>";
-                //Response.Write(mensaje);
                 habilitarCamposInsertar();
             }
             else
@@ -949,7 +947,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == ""|| this.txtnombreOficina.Text =="")
+            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtCalendar.Text == "" || this.txtnombreOficina.Text =="")
             {
                 resultado = true;
             }
