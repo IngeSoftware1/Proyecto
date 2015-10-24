@@ -180,11 +180,17 @@ resultado_esperado varchar(100),
 id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
+);
+
+CREATE TABLE Requerimientos_CasosPrueba(
 id_req varchar(10),
 id_proyecto int,
+id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
+ON DELETE CASCADE
+ON UPDATE NO ACTION,
 CONSTRAINT FkReq FOREIGN KEY (id_req, id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
-ON DELETE NO ACTION  /*Da problemas si es cascade*/
-ON UPDATE NO ACTION /*Da problemas si es cascade*/
+ON DELETE CASCADE
+ON UPDATE CASCADE 
 );
 
 CREATE TABLE Estado_Ejecucion(
