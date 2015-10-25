@@ -126,7 +126,7 @@ namespace ProyectoInge
             int numColumna = 0;
 
 
-            if (Lideres.Rows.Count >= 1)
+            if (Lideres.Rows.Count > 1)
             {
 
                 numDatos = Lideres.Rows.Count;
@@ -157,12 +157,7 @@ namespace ProyectoInge
                     {
                         datos[i] = nombre;
                     }
-                    else if(Lideres.Rows.Count == 1)
-                    {
-                        nombre = "";
-                        datos[i] = nombre;
-                    }
-               
+                              
                     numColumna = 0; //Contador para saber el número de columna actual.
                     nombre = "";
                 }
@@ -1230,7 +1225,7 @@ namespace ProyectoInge
                 Session["nombreLideres_Consultados"] = nombreLideresConsultados;
 
 
-                if (proyectos.Rows.Count > 0)
+                if (proyectos.Rows.Count > 1)
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {
