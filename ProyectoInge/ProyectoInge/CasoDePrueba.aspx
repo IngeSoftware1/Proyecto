@@ -34,7 +34,7 @@
 
 
         <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 350px">
+            <div class="panel panel-default" style="height: 320px">
                 <div class="panel-body">
                     <div class="form-group">       <%--Nombre del proyecto--%>              
                         <div class="row col-sm-6">
@@ -100,17 +100,22 @@
             </div>
         </div>
 
+        <div class="row col-sm-10 col-sm-offset-1">
+            <asp:Label runat="server" ID="lblDatosCasoPrueba" Font-Bold="True" Text="Datos del caso de prueba" CssClass="control-label"></asp:Label>
+        </div>
           <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 250px">
+            <div class="panel panel-default" style="height: 450px">
                 <div class="panel-body">
 
 
-                       <div class="form-group col-sm-5">  <%--Nombre del Requerimiento --%>                    
+                       <div class="form-group col-sm-6">  <%--Nombre del Requerimiento --%>                    
                         <div class="row">
                             <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimiento:" CssClass="col-sm-4 control-label"></asp:Label>                          
-                                <asp:DropDownList runat="server" style="position:absolute;top:0%; left:38%; width:61%"  ID="DropDownList1" CssClass=" form-control">
+                                <asp:DropDownList runat="server" style="position:absolute;top:0%; left:37%; width:52%"  ID="DropDownList1" CssClass=" form-control">
                                 </asp:DropDownList>
-                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="position:absolute;top:6%; left:38%; width:61%; height:100px" CssClass="form-control"></asp:ListBox>
+                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="position:absolute;top:6%; left:37%; width:52%; height:100px" CssClass="form-control"></asp:ListBox>
+                        
+                        
                         </div>
                            
                     </div>
@@ -119,8 +124,8 @@
                                 <div class="row">
                                     <div class="">
                                         
-                                        <%-- Botón para agregar miembros a un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkAgregarMiembros" Style="height: 100px" CssClass="col-sm-offset-11" >
+                                        <%-- Botón para agregar requerimientos a un caso de prueba --%>
+                                        <asp:LinkButton runat="server" ID="lnkAgregarMiembros" Style="height: 100px" CssClass="col-sm-offset-7" >
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
                                         </asp:LinkButton>
                                     </div>
@@ -129,26 +134,112 @@
                               
                                 <div class="row">
                                     <div class="">
-                                        <%-- Botón para quitar miembros de un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkQuitarMiembros" Style="height: 100px" CssClass="col-sm-offset-11" >
+                                        <%-- Botón para quitar requerimientos a un caso de prueba --%>
+                                        <asp:LinkButton runat="server" ID="lnkQuitarMiembros" Style="height: 100px" CssClass="col-sm-offset-7" >
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
                                         </asp:LinkButton>
                                     </div>
                                 </div>
                             </div>
 
+                    <div class="form-group col-sm-5">  <%--Nombre del Requerimiento --%>                    
+                        <div class="row">                         
+                            <asp:ListBox runat="server" ID="listRequerimientosAgregados" style="position:absolute;top:6%; left:23%; width:61%; height:100px" CssClass="form-control"></asp:ListBox>
+                        </div>                       
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                   <br>
+                    <br>
+                    
+
+                      <div class="form-group col-sm-6">  <%--Campo proposito--%>
+                        <div class="row ">
+                            <asp:Label ID="lblIdentificador" runat="server" Text="Identificador:" CssClass="col-sm-3 control-label"></asp:Label>
+                             <div class="col-sm-7 col-sm-offset-1" ">
+                             <asp:TextBox runat="server" ID="txtIdentificador" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                        </div>
+                                  </div>
+                          </div>
+
+         
+                       <div class="form-group col-sm-6">  <%--Campo entrada de datos --%>
+                        <div class="row ">
+                            <asp:Label ID="lblPropositoCasoPrueba" runat="server" Text="Propósito:" CssClass="col-sm-4 control-label"></asp:Label>
+                             <div class="col-sm-7 ">
+                             <asp:TextBox runat="server" ID="txtPropósito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                        </div>
+                                  </div>
+                          </div>
+
+               
+                       <div class="form-group col-sm-6">  <%--Resultado esperado --%>
+                        <div class="row ">
+                            <asp:Label ID="lblEntradaDatos" runat="server" Text="Entrada de datos:" CssClass="col-sm-4 control-label"></asp:Label>
+                             <div class="col-sm-7 ">
+                             <asp:TextBox runat="server" ID="txtEntradaDatos" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                        </div>
+                                  </div>
+                          </div>
 
 
+                       <div class="form-group col-sm-6 ">  <%--Flujo Central --%>
+                        <div class="row ">
+                            <asp:Label ID="lblResultadoEsperado" runat="server" Text="Resultado esperado:" CssClass="col-sm-4 control-label"></asp:Label>
+                             <div class="col-sm-7 ">
+                             <asp:TextBox runat="server" ID="txtResultadoEsperado" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                        </div>
+                                  </div>
+                          </div>
 
-
-
-
-
-
-
+                    <div class="form-group col-sm-6 ">  <%--Flujo Central --%>
+                        <div class="row ">
+                            <asp:Label ID="lblFlujoCentral" runat="server" Text="Flujo central:" CssClass="col-sm-4 control-label"></asp:Label>
+                             <div class="col-sm-7 ">
+                             <asp:TextBox runat="server" ID="txtFlujoCentral" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                        </div>
+                                  </div>
+                          </div>
                 </div>   <%--Cierra el panel body--%>           
             </div>
         </div>
     </div> <%--Div que cierra los datos de casos de prueba--%>
-      </div>  <%--Div que cierra el row principal --%>
+     
+      <div class="col-lg-11">
+            <%-- Botones para aceptar y cancelar --%>
+            <div id="btnsBD" style="float: right">
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary"  />
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary"  />
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <%-- Grid para mostrar los proyectos --%>
+        <div class="form-group">
+            <div class="row col-sm-10 col-sm-offset-1">
+                <div id="consultar">
+                    <asp:Label ID="lblCasosPrueba" runat="server" Font-Bold="True" Text="Lista de casos de prueba" CssClass="control-label"></asp:Label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-1">
+                    <div id="scroll" style="height: 183px; width: 700px; overflow: auto;">
+                        <asp:GridView ID="gridCasosPrueba" runat="server" Style="width: 680px; text-align:center" CssClass ="dataGridTable" font-size = "14px" AutoGenerateColumns="true"  HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                            <Columns>
+                                <asp:TemplateField HeaderText="">
+                                    <ItemTemplate>
+                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarProyecto"> Consultar </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+           </div>  <%--Div que cierra el row principal --%>
+
 </asp:Content>

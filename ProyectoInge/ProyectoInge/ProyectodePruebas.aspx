@@ -263,7 +263,7 @@
                                         <br>
                                        
                                         <%-- Botón para agregar requerimientos a un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkAgregarRequerimientos" Style="height: 100px" CssClass="">
+                                        <asp:LinkButton runat="server" ID="lnkAgregarRequerimientos" Style="height: 100px" CssClass=""  OnClick="btnAgregarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor col-sm-push-11"></span>
                                         </asp:LinkButton>
                                     </div>
@@ -275,7 +275,7 @@
                                 <div class="row">
                                     <div class="">
                                         <%-- Botón para quitar requerimientos de un proyecto --%>
-                                        <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" Style="height: 100px" CssClass="">
+                                        <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" Style="height: 100px" CssClass=""  OnClick="btnEliminarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor col-sm-push-11"></span>
                                         </asp:LinkButton>
                                     </div>

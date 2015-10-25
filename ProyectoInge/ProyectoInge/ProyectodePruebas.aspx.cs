@@ -324,6 +324,9 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnInsertar);
             this.lnkQuitarMiembros.Enabled = true;
             this.lnkAgregarMiembros.Enabled = true;
+            this.lnkAgregarRequerimientos.Enabled = true;
+            this.lnkQuitarRequerimientos.Enabled = true;
+          
         }
         /*Método para preparar la ventana cuando quiera modificar
          * Requiere: No requiere parámetros
@@ -907,18 +910,33 @@ namespace ProyectoInge
         public void guardarRequerimientos(int idProyecto)
         {
             int i = 0;
+            int indiceReq = 0;
+            string sigla = "";
+            string nombreRequerimiento = "";
 
             while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
             {
                 ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
                
                 /*Aqui hay que partir el listbox*/
+
+                indiceReq = 0;
+                sigla = "";
+                nombreRequerimiento = "";
+
+                while(indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ' )
+                {
+                    ++indiceReq;
+                }
+                sigla = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
+                nombreRequerimiento = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count()- indiceReq-1);
+
                 //Objeto para guardar los requerimientos de un proyecto
-                Object[] nuevoRequerimiento = new Object[2];
-                nuevoRequerimiento[0] = listRequerimientosAgregados.Items[i].ToString();
+                Object[] nuevoRequerimiento = new Object[4];
+                nuevoRequerimiento[0] = sigla;
                 nuevoRequerimiento[1] = idProyecto;
                 nuevoRequerimiento[2] = controladoraDiseno.obtenerIdDisenoPorProposito("Dummy");; //Diseño dummy
-                nuevoRequerimiento[3] = listRequerimientosAgregados.Items[i].ToString();
+                nuevoRequerimiento[3] = nombreRequerimiento;
 
 
                 int tipoInsercion = 5;                              //inserción de tipo 5 es agregar requerimientos
@@ -997,6 +1015,8 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabledTel(true, this.lnkNumero);
             cambiarEnabledTel(true, this.lnkQuitar);
+            cambiarEnabledTel(true, this.lnkAgregarRequerimientos);
+            cambiarEnabledTel(true, this.lnkQuitarRequerimientos);
             cambiarEnabled(true, this.btnCancelar);
 
         }
