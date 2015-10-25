@@ -474,6 +474,8 @@ namespace ProyectoInge
                                 datosNuevos[6] = this.txtContrasena.Text;
                                 datosNuevos[7] = false;
 
+                                tipoInsercion = 1;
+
                                 //Si la inserción fue correcta insertará en otras tablas
                                 if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                                 {
@@ -562,7 +564,7 @@ namespace ProyectoInge
                                 else
                                 {
                                     lblModalTitle.Text = " ";
-                                    lblModalBody.Text = "La inserción no fue exitossa.";
+                                    lblModalBody.Text = "La inserción no fue exitosa.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                     upModal.Update();
 
