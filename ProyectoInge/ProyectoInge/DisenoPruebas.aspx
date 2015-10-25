@@ -195,7 +195,7 @@
                                 <div class="col-sm-3 ">
                                     <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                 </div>
-                               <div class="col-sm-push-1 ">
+                               <div class="col-sm-push-12">
                                     <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar" OnClick="lnkCalendario_Click">
                                      <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
                                     </asp:LinkButton>
