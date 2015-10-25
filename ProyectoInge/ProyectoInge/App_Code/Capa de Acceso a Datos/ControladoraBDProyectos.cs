@@ -467,6 +467,58 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+         /*Método para consultar los identificadores de los proyectos
+       * Requiere: no requiere informacion
+       * Modifica: no realiza modificaciones
+       * Retorna: un DataTable con los id de los proyectos 
+       */
+        public DataTable consultarIdenficadoresProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT id_proyecto From Proyecto";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
+
+        /*Método para consultar los nombres de los proyectos
+      * Requiere: no requiere informacion
+      * Modifica: no realiza modificaciones
+      * Retorna: un DataTable con los nombres de los proyectos 
+      */
+        public DataTable consultarNombresProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT nombre_proyecto From Proyecto";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
+
+
+
         /*Método para consultar todos los proyectos en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los proyectos que se encuentra asociado en caso de que el usuario sea un miembro
         * Requiere: un DataTable con los identificadores de el/los proyecto(s) en los cuales el miembro labora en caso de que éste sea el usuario,

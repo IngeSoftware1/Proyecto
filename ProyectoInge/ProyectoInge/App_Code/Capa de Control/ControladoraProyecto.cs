@@ -266,6 +266,31 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        /* Método para obtener los id de todos los proyectos
+        * Requiere: no requiere informacion
+        * Modifica: no modifica datos
+        * Retorna: un DataTable con los id de los proyectos
+        */
+        public DataTable consultarIdentificadoresProyectos()
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarIdenficadoresProyectos();
+            return resultado;
+        }
+
+
+        /* Método para obtener los nombres de todos los proyectos
+       * Requiere: no requiere informacion
+       * Modifica: no modifica datos
+       * Retorna: un DataTable con los nombres de los proyectos
+       */
+        public DataTable consultarNombresProyectos()
+        {
+
+            DataTable resultado = controladoraBDProyecto.consultarNombresProyectos();
+            return resultado;
+        }
+
         /* Método para obtener los proyectos almacenados en la BD
         * Requiere: un DataTable con los identificadores de los proyectos que se desean consultar, en caso de que el parámetro
         sea null significa que se desea obtener todos los proyectos.

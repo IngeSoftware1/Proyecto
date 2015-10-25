@@ -62,5 +62,86 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return resultado;
         }
+
+        /* Método para obtener los niveles que puede tener un diseño
+        * Requiere: no requiere informacion
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los niveles
+        */
+        public DataTable consultarNiveles()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT nivel_Prueba FROM Nivel_Prueba ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        /* Método para obtener los tipos que puede tener un diseño
+        * Requiere: no requiere informacion
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los tipos
+        */
+        public DataTable consultarTipos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT tipo_Prueba FROM Tipo_Prueba ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        /* Método para obtener las tecnicas que puede tener un diseño
+        * Requiere: no requiere informacion
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene las tecnicas
+        */
+        public DataTable consultarTecnicas()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT tipo_Tecnica FROM Tecnica ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
+
   }
 }

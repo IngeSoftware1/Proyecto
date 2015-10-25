@@ -518,6 +518,30 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para obtener el/los nombres de proyectos a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con los nombres del o los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarNombresProyectos(string idUsuario)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT p.nombre_proyecto FROM Proyecto p WHERE p.id_proyecto =  (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
 
         /*Método para obtener el nombre y apellido de los líderes
         * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
