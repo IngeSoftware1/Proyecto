@@ -136,26 +136,37 @@ namespace ProyectoInge
                 {
                     foreach (DataColumn column in Lideres.Columns)
                     {
-
-                        if (numColumna == 3)
+                        if (Lideres.Rows[i][0].ToString() != "Dummy")
                         {
+                            if (numColumna == 3)
+                            {
 
-                            cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
+                                cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
 
+                            }
+                            else
+                            {
+                                nombre = nombre + " " + Lideres.Rows[i][column].ToString();
+                            }
+
+                            ++numColumna;
                         }
-                        else
-                        {
-                            nombre = nombre + " " + Lideres.Rows[i][column].ToString();
-                        }
-
-                        ++numColumna;
                     }
 
-                    datos[i] = nombre;
+                    if (Lideres.Rows[i][0].ToString() != "Dummy")
+                    {
+                        datos[i] = nombre;
+                    }
+                    else if(Lideres.Rows.Count == 1)
+                    {
+                        nombre = "";
+                        datos[i] = nombre;
+                    }
+               
                     numColumna = 0; //Contador para saber el número de columna actual.
                     nombre = "";
-
                 }
+                
                 this.comboLider.DataSource = datos;
                 this.comboLider.DataBind();
                 Session["vectorCedulasLideres"] = cedulasLideres; //Se le asocia a la variable global el diccionario con las cédulas de los líderes
@@ -1194,18 +1205,21 @@ namespace ProyectoInge
                 {
                     foreach (DataColumn column in lideres.Columns)
                     {
+                      
+                            if (indiceColumna == 3)
+                            {
+                                nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
 
-                        if (indiceColumna == 3)
-                        {
-                            nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
+                            }
+                            else
+                            {
+                                nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                            }
 
-                        }
-                        else
-                        {
-                            nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
-                        }
-
-                        ++indiceColumna;
+                           ++indiceColumna;
+                        
+                         
+                        
                     }
 
                     indiceColumna = 0; //Contador para saber el número de columna actual.
@@ -1220,13 +1234,16 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-                        nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
-                        datos[4] = lider;
-                        dt.Rows.Add(datos);
+                        if (fila[1].ToString() != "Dummy")
+                        {
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString();
+                            datos[2] = fila[2].ToString();
+                            datos[3] = fila[3].ToString();
+                            nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
+                            datos[4] = lider;
+                            dt.Rows.Add(datos);
+                        }
                     }
 
                     lider = "";
@@ -1287,13 +1304,16 @@ namespace ProyectoInge
 
                         foreach (DataRow fila in proyectos.Rows)
                         {
-                            datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString();
-                            datos[2] = fila[2].ToString();
-                            datos[3] = fila[3].ToString();
-                            nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
-                            datos[4] = lider;
-                            dt.Rows.Add(datos);
+                            if (fila[1].ToString() != "Dummy")
+                            {
+                                datos[0] = fila[0].ToString();
+                                datos[1] = fila[1].ToString();
+                                datos[2] = fila[2].ToString();
+                                datos[3] = fila[3].ToString();
+                                nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
+                                datos[4] = lider;
+                                dt.Rows.Add(datos);
+                            }
 
                         }
 

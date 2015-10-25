@@ -932,14 +932,14 @@ namespace ProyectoInge
                                 datos[1] = funcionarios.Rows[i][1].ToString() + " " + funcionarios.Rows[i][2].ToString() + " " + funcionarios.Rows[i][3].ToString();
 
 
-                                if (funcionarios.Rows[i][3].ToString() == "")
+                                if (funcionarios.Rows[i][4].ToString() == "")
                                 {
                                     datos[2] = "Administrador";
                                 }
                                 else
                                 {
 
-                                    datos[2] = funcionarios.Rows[i][3].ToString();
+                                    datos[2] = funcionarios.Rows[i][4].ToString();
                                 }
 
                                 dt.Rows.Add(datos);
@@ -948,7 +948,7 @@ namespace ProyectoInge
                         foreach (DataRow fila in funcionarios.Rows)
                         {
 
-                            if (indiceColumnas != ubicacionFuncionario)
+                            if (indiceColumnas != ubicacionFuncionario && fila[1].ToString() != "Dummy")
                             {
                                 datos[0] = fila[0].ToString();
                                 datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
@@ -975,21 +975,24 @@ namespace ProyectoInge
                     {
                         foreach (DataRow fila in funcionarios.Rows)
                         {
-                            datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
-
-
-                            if (fila[4].ToString() == "")
+                            if (fila[1].ToString() != "Dummy")
                             {
-                                datos[2] = "Administrador";
-                            }
-                            else
-                            {
+                                datos[0] = fila[0].ToString();
+                                datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
-                                datos[2] = fila[4].ToString();
-                            }
 
-                            dt.Rows.Add(datos);
+                                if (fila[4].ToString() == "")
+                                {
+                                    datos[2] = "Administrador";
+                                }
+                                else
+                                {
+
+                                    datos[2] = fila[4].ToString();
+                                }
+
+                                dt.Rows.Add(datos);
+                            }
                         }
                     }
                 }
@@ -1008,18 +1011,21 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in funcionarios.Rows)
                     {
-                        datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+                        if (fila[1].ToString() != "Dummy")
+                        {
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
-                        if (fila[4].ToString() == null)
-                        {
-                            datos[2] = "Administrador";
+                            if (fila[4].ToString() == null)
+                            {
+                                datos[2] = "Administrador";
+                            }
+                            else
+                            {
+                                datos[2] = "Miembro";
+                            }
+                            dt.Rows.Add(datos);
                         }
-                        else
-                        {
-                            datos[2] = "Miembro";
-                        }
-                        dt.Rows.Add(datos);
                     }
                 }
                 else
