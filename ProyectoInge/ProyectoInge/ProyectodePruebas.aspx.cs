@@ -124,13 +124,14 @@ namespace ProyectoInge
             Object[] datos;
             string nombre = "";
             int numColumna = 0;
+            int indiceLideres = 0;
 
 
             if (Lideres.Rows.Count > 1)
             {
 
                 numDatos = Lideres.Rows.Count;
-                datos = new Object[numDatos];
+                datos = new Object[numDatos-1];
 
                 for (int i = 0; i < Lideres.Rows.Count; ++i)
                 {
@@ -155,7 +156,8 @@ namespace ProyectoInge
 
                     if (Lideres.Rows[i][0].ToString() != "Dummy")
                     {
-                        datos[i] = nombre;
+                        datos[indiceLideres] = nombre;
+                        ++indiceLideres;
                     }
                               
                     numColumna = 0; //Contador para saber el número de columna actual.
