@@ -409,6 +409,7 @@ namespace ProyectoInge
             this.listTelefonosOficina.Items.Clear();
             this.listMiembrosDisponibles.Items.Clear();
             this.listMiembrosAgregados.Items.Clear();
+            this.listRequerimientosAgregados.Items.Clear();
 
         }
 
@@ -518,6 +519,7 @@ namespace ProyectoInge
             llenarComboLideres();
             listMiembrosDisponibles.Items.Clear();
             listMiembrosAgregados.Items.Clear();
+            listRequerimientosAgregados.Items.Clear();
             this.calendarFecha.Visible = false;
         }
 
@@ -1415,6 +1417,7 @@ namespace ProyectoInge
             DataTable datosFilaMiembros = controladoraProyecto.consultarMiembrosProyecto(idProyecto); //Se obtienen los miembros que trabajan en el proyecto
             DataTable datosOficinaUsuaria = controladoraProyecto.consultarOficina(idProyecto); //Se obtiene los datos de la oficina asociada al proyecto
             DataTable datosTelefOficinaUsuaria = controladoraProyecto.consultarTelOficina(idProyecto); //Se obtiene los teléfonos de la oficina usuaria
+            DataTable datosRequerimientos = controladoraProyecto.consultarReqProyecto(Int32.Parse(idProyecto));
             string nombreLider;
             string nombre = "";
             ListItem lider;
@@ -1517,6 +1520,15 @@ namespace ProyectoInge
                     listMiembrosAgregados.Items.Add(integrantes);
                     integrantes = "";
                     numColumna = 0;
+                }
+
+            }
+            //Se obtiene la sigla y el nombre de los requerimientos que posee el proyecto
+            if (datosRequerimientos.Rows.Count >= 1)
+            {
+                for (int i = 0; i < datosRequerimientos.Rows.Count; ++i)
+                {
+                    listRequerimientosAgregados.Items.Add(datosRequerimientos.Rows[i][0].ToString() + " " + datosRequerimientos.Rows[i][3].ToString());
                 }
 
             }

@@ -518,6 +518,54 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para obtener el/los diseños a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con el identificador del o los diseños en los cuales el miembro trabaja
+        */
+        public DataTable consultarDisenosAsociados(string idUsuario)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT id_diseno From Diseno_Prueba WHERE id_proyecto = (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
+        /*Método para obtener el/los nombres de proyectos a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con los nombres del o los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarNombresProyectos(string idUsuario)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT p.nombre_proyecto FROM Proyecto p WHERE p.id_proyecto =  (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
 
         /*Método para obtener el nombre y apellido de los líderes
         * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
@@ -567,6 +615,30 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
+        }
+
+
+        /* Método para consultar representante del diseño
+        * Requiere: un string con el id del representante
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del representante
+        */
+        public DataTable consultarRepresentanteDiseno(string cedula)
+        {
+            DataTable data;
+            try
+            {
+                string consulta = "SELECT * FROM Funcionario WHERE cedula ='" + cedula + "';";
+                data = acceso.ejecutarConsultaTabla(consulta);
+                
+            }
+            catch (SqlException e)
+            {
+                data = null;
+
+            }
+
+            return data;
         }
 
 

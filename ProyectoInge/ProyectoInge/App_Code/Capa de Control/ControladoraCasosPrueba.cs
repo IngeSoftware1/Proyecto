@@ -28,5 +28,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             Boolean a = controladoraRH.modificarEstadoCerrar(ced);
             return a;
         }
+
+        public bool ejecutarAccion(int modo, int tipoInsercion, object[] datosNuevos, string v1, string v2)
+        {
+            Boolean resultado = false;
+            switch (modo)
+            {
+                case 1:
+                    { // INSERTAR
+                   
+                        EntidadCaso nuevo = new EntidadCaso(datosNuevos);
+                        resultado = controladoraBDCasosPrueba.insertarCasoPrueba(nuevo);
+                    }
+                    break;
+            }
+            return resultado;
+
+        }
     }
+
 }

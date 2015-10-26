@@ -467,6 +467,58 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+         /*Método para consultar los identificadores de los proyectos
+       * Requiere: no requiere informacion
+       * Modifica: no realiza modificaciones
+       * Retorna: un DataTable con los id de los proyectos 
+       */
+        public DataTable consultarIdenficadoresProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT id_proyecto From Proyecto";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
+
+        /*Método para consultar los nombres de los proyectos
+      * Requiere: no requiere informacion
+      * Modifica: no realiza modificaciones
+      * Retorna: un DataTable con los nombres de los proyectos 
+      */
+        public DataTable consultarNombresProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT nombre_proyecto From Proyecto";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
+
+
+
         /*Método para consultar todos los proyectos en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los proyectos que se encuentra asociado en caso de que el usuario sea un miembro
         * Requiere: un DataTable con los identificadores de el/los proyecto(s) en los cuales el miembro labora en caso de que éste sea el usuario,
@@ -561,6 +613,55 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 consulta = "SELECT T.num_telefono " + " FROM Telefono_Oficina T, Proyecto P WHERE P.id_proyecto = '" + idProyecto + "'" + "AND P.id_oficina = T.id_oficina ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "'" + "AND id_diseno ='"+idDiseño+ "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqProyecto(int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

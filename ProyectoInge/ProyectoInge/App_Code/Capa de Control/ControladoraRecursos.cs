@@ -265,14 +265,24 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.consultarMiembrosProyecto(idProyecto);
         }
 
-        /*Método para obtener el/los proyectos a los cuales está asociado un miembro determinado
-        * Requiere: un string con la cédula del miembro 
-        * Retorna: un DataTable con el identificador del o los proyectos en los cuales el miembro trabaja
-        */
-        public DataTable consultarProyectosAsociados(string idUsuario)
-        {
-            return controladoraBDRecurso.consultarProyectosAsociados(idUsuario);
-        }
+            /*Método para obtener el/los proyectos a los cuales está asociado un miembro determinado
+            * Requiere: un string con la cédula del miembro 
+            * Retorna: un DataTable con el identificador del o los proyectos en los cuales el miembro trabaja
+            */
+            public DataTable consultarProyectosAsociados(string idUsuario)
+            {
+                return controladoraBDRecurso.consultarProyectosAsociados(idUsuario);
+            }
+
+
+            /*Método para obtener el/los diseños a los cuales está asociado un miembro determinado
+              * Requiere: un string con la cédula del miembro 
+              * Retorna: un DataTable con el identificador del o los diseños en los cuales el miembro trabaja
+             */
+            public DataTable consultarDisenosAsociados(string idUsuario)
+            {
+                return controladoraBDRecurso.consultarDisenosAsociados(idUsuario);
+            }
 
         /*Método para obtener el nombre y apellido de los líderes
         * Requiere: una lista compuesta por las cédulas de los miembros que son líderes de ciertos proyectos
@@ -292,5 +302,27 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.eliminarTrabaja_En(idProyecto);
 
         }
+
+        /*Método para obtener el/los nombres de proyectos a los cuales está asociado un miembro determinado
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un DataTable con el nombres del o los proyectos en los cuales el miembro trabaja
+        */
+        public DataTable consultarNombresProyectos(string idUsuario)
+        {
+            return controladoraBDRecurso.consultarNombresProyectos(idUsuario);
+        }
+
+        /* Método para consultar representante del diseño
+        * Requiere: un int con el identificador del miembro
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del representante
+        */
+        public DataTable consultarRepresentanteDiseno(string cedula)
+        {
+            return controladoraBDRecurso.consultarRepresentanteDiseno(cedula);
+        }
+        
+
+
     }
 }
