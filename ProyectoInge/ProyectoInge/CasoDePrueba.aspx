@@ -1,6 +1,9 @@
 ﻿<%@ Page Title="Caso de Prueba" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CasoDePrueba.aspx.cs" Inherits="ProyectoInge.CasoDePrueba" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="form-group">
+  <div class="row">
+    <div class="col-sm-9 ">     
     <nav class="navbar navbar-default navbar-static-top">
         <ul class="navbar-default nav navbar-nav">
             <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
@@ -11,7 +14,11 @@
             <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
         </ul>
     </nav>
-
+           </div>
+         <br/>
+         <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 col-sm-push-1 control-label"></asp:Label>
+       </div>
+    </div>
       <div class="row">
     <div class="col-lg-12">
         <%--Titulo de la pantalla de Caso de Pruebas --%>

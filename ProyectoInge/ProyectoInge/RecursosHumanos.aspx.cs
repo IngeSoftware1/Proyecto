@@ -34,6 +34,7 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
+                ponerNombreDeUsuarioLogueado();
                 controlarCampos(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
@@ -880,20 +881,20 @@ namespace ProyectoInge
 
 
 
+
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
-         *Requiere: nada
-         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
-         *Retorna: no retorna ningún valor*/
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
         protected void ponerNombreDeUsuarioLogueado()
         {
-            DataTable datosFilaFuncionario = controladoraRH.consultarRH(idRH);
+            DataTable datosFilaFuncionario = controladoraRH.consultarRH(Session["cedula"].ToString());
             if (datosFilaFuncionario.Rows.Count == 1)
             {
                 string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
-
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
             }
         }
-
 
 
         /*Método para llenar el grid con el registro del recurso humano correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
