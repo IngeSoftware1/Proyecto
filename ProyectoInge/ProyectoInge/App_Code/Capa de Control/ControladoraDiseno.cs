@@ -105,5 +105,79 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraRH.consultarNombresProyectos(cedula);
         }
 
+        /* Método para consultar un diseño
+        * Requiere: un int con el identificador del diseño
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del diseño
+        */
+        public DataTable consultarDiseño(int idDiseño)
+        {
+            return controladoraBDDiseno.consultarDiseño(idDiseño);
+        }
+
+        /* Método para consultar representante del diseño
+        * Requiere: el id del representante
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del representante
+        */
+        public DataTable consultarRepresentante(string ced)
+        {
+            controladoraRH = new ControladoraRecursos();
+            return controladoraRH.consultarRepresentanteDiseno(ced);
+        }
+
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarReqDisenoDeProyecto(idDiseño,idProyecto);
+        }
+
+        /* Método para consultar requerimientos de un proyecto
+        * Requiere: el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del proyecto
+        */
+        public DataTable consultarReqProyecto( int idProyecto)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarReqProyecto(idProyecto);
+        }
+
+
+        /* Método para obtener los diseños almacenados en la BD
+        * Requiere: un DataTable con los identificadores de los proyectos que se desean consultar, en caso de que el parámetro
+        sea null significa que se desea obtener todos los diseños
+        * Modifica: no modifica datos
+        * Retorna: un DataTable con los diseños
+        */
+        public DataTable consultarDisenos(DataTable idDisenos)
+        {
+
+            DataTable resultado = controladoraBDDiseno.consultarDisenos(idDisenos);
+            return resultado;
+        }
+
+
+
+        /* Método para obtener los diseños asociados a un proyecto
+      * Requiere: un string con la cédula del miembro.
+      * Modifica: llama al consultar diseños Asociados de la controladora de recursos humanos.
+      * Retorna: un DataTable con los identificadores de los diseños en los cuales el miembro trabaja
+      */
+        public DataTable consultarDisenosAsociados(string idUsuario)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarDisenosAsociados(idUsuario);
+            return resultado;
+        }
+      
+
+
     }
 }

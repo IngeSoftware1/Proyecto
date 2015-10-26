@@ -360,6 +360,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+       
+
         /* Método para obtener el nombre y apellido del líder de un proyecto
         * Requiere: una lista con la cédula de los líderes que se desea consultar
         * Modifica: llama al obtener Nombres Lideres de la controladora de recursos humanos.
@@ -371,6 +373,28 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable resultado = controladoraRH.obtenerNombresLideres(cedLideres);
             return resultado;
         }
+
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            return controladoraBDProyecto.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
+        }
+
+        /* Método para consultar requerimientos de un proyecto
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del proyecto
+        */
+        public DataTable consultarReqProyecto(int idProyecto)
+        {
+            return controladoraBDProyecto.consultarReqProyecto( idProyecto);
+        }
+
 
     }
 

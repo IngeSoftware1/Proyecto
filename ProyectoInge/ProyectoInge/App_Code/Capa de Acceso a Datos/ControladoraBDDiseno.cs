@@ -142,6 +142,90 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
 
 
+        /* Método para consultar un diseño
+        * Requiere: un int con el identificador del diseño
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del diseño
+        */
+        public DataTable consultarDiseño(int idDiseño)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT * FROM DisenoPruebas ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
+        * en los diseños que se encuentra asociado en caso de que el usuario sea un miembro
+        * Requiere: un DataTable con los identificadores de el/los diseño(s) en los cuales el miembro labora en caso de que éste sea el usuario,
+        * sino se envía null. 
+        * Modifica: no realiza modificaciones
+        * Retorna: un DataTable con los resultados de la consulta 
+        */
+        public DataTable consultarDisenos(DataTable idDiseños)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+
+            if (idDiseños == null) //Si es null significa que el usuario del sistema es el administrador
+            {
+                try
+                {
+                    consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedulaResponsable " + " FROM Diseno D";
+                    dt = acceso.ejecutarConsultaTabla(consulta);
+
+                }
+                catch (SqlException e)
+                {
+                    dt = null;
+                }
+            }
+
+            else
+            {
+                try
+                {
+
+                    for (int i = 0; i < idDiseños.Rows.Count; ++i)
+                    {
+                        ++contador;
+
+                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedulaResponsable " + " FROM Diseno D WHERE D.id_diseno='" +idDiseños.Rows[i][0].ToString() + "'";
+                        if (contador != idDiseños.Rows.Count)
+                        {
+                            consulta = consulta + "UNION";
+                        }
+
+                    }
+
+                    dt = acceso.ejecutarConsultaTabla(consulta);
+
+                }
+                catch (SqlException e)
+                {
+                    dt = null;
+                }
+            }
+
+            return dt;
+        }
+
+        
+
 
   }
 }
