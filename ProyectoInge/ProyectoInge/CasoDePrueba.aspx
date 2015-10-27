@@ -16,7 +16,7 @@
     </nav>
            </div>
          <br/>
-         <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 col-sm-push-1 control-label"></asp:Label>
+         <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
        </div>
     </div>
       <div class="row">

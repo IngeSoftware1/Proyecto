@@ -11,6 +11,7 @@ namespace ProyectoInge
 {
     public partial class DisenoPruebas : System.Web.UI.Page
     {
+        ControladoraRecursos controladoraRH = new ControladoraRecursos();
 
         ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
         private string idProyectoConsultado;
@@ -28,6 +29,7 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
+                ponerNombreDeUsuarioLogueado();
                 controlarCampos(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
@@ -58,6 +60,21 @@ namespace ProyectoInge
            
 
         }
+
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraRH.consultarRH(Session["cedula"].ToString());
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
+            }
+        }
+
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
         * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto

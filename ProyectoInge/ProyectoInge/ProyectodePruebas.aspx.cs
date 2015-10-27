@@ -12,6 +12,7 @@ namespace ProyectoInge
 {
     public partial class ProyectodePruebas : System.Web.UI.Page
     {
+        ControladoraRecursos controladoraRH = new ControladoraRecursos();
 
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
@@ -37,6 +38,7 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
+                ponerNombreDeUsuarioLogueado();
                 controlarCampos(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
@@ -111,6 +113,21 @@ namespace ProyectoInge
             }
 
         }
+
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraRH.consultarRH(Session["cedula"].ToString());
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
+            }
+        }
+
 
         /* Método para llenar el comboBox según los miembros que sean almacenados como líderes en la BD
         * Modifica: llena el comboBox con los datos obtenidos de la BD
