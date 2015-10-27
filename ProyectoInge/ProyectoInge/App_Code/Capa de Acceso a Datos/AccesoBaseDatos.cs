@@ -29,11 +29,15 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             return 2;
         }
+        public int dividir()
+        {
+            return 2/3;
+        }
+
         public int multiplicar()
         {
             return 5;
-        }
- //sdasdsadassadassdasdsad
+        } //sdasdsadassadassdasdsad
         public string devuelveCadena(int asas)
         {
             return "asdasd";
