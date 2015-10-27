@@ -1,3 +1,5 @@
+USE g3inge;
+
 INSERT INTO Funcionario
 (cedula, nombre, apellido1, apellido2, email, usuario, contrasena, login)
      VALUES('000000000','Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy', 'Dummy', 'False');
