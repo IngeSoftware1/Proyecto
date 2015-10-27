@@ -101,7 +101,7 @@ namespace ProyectoInge
            * Modifica: llena el comboBox con los datos obtenidos de la BD
            * Retorna: no retorna ningún valor */
 
-        protected void llenarComboProyecto()
+        /*protected void llenarComboProyecto()
         {
             this.comboProyecto.Items.Clear();
             DataTable Tipos = controladoraCasoPruebas.consultarProyectos();
@@ -122,7 +122,7 @@ namespace ProyectoInge
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
             }
-        }
+        }*/
 
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros

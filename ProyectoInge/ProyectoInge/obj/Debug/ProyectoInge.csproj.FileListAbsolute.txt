@@ -1746,3 +1746,13 @@ C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\es\Micr
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.xml

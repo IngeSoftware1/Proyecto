@@ -46,9 +46,8 @@
                     <div class="form-group">       <%--Nombre del proyecto--%>              
                         <div class="row col-sm-6">
                             <asp:Label ID="lblProyecto" runat="server" Text="Proyecto:" CssClass="col-sm-3  control-label"></asp:Label>
-                            <div class="col-sm-7 col-sm-offset-1 ">
-                                <asp:DropDownList runat="server" ID="comboProyecto" CssClass="form-control">
-                                </asp:DropDownList>
+                            <div class="col-sm-7 col-sm-offset-1">
+                                <asp:TextBox runat="server" ID="txtNombreProyecto" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -58,9 +57,8 @@
                     <div class="form-group">  <%--Nombre del diseño--%>                    
                         <div class="row col-sm-6">
                             <asp:Label ID="lblDiseño" runat="server" Text="Diseño:" CssClass="col-sm-3 control-label"></asp:Label>
-                            <div class="col-sm-7 col-sm-offset-1">
-                                <asp:DropDownList runat="server" ID="comboDiseño" CssClass="form-control">
-                                </asp:DropDownList>
+                            <div class="col-sm-7 col-sm-offset-1 ">
+                                <asp:TextBox runat="server" ID="txtNombreDiseño" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                     </div>
