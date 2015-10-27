@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
@@ -44,6 +45,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             }
             return resultado;
 
+        }
+
+        internal DataTable consultarProyectos()
+        {
+            throw new NotImplementedException();
         }
     }
 

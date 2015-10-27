@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
+using System.Data;
 
 namespace ProyectoInge
 {
@@ -94,6 +95,33 @@ namespace ProyectoInge
             llenarDropDownProyecto();
             //llenarDropDownProyecto();
             // UpdatePanelDropDown.Update();
+        }
+
+        /* Método para llenar el comboBox de los diferentes proyectos que existen
+           * Modifica: llena el comboBox con los datos obtenidos de la BD
+           * Retorna: no retorna ningún valor */
+
+        protected void llenarComboProyecto()
+        {
+            this.comboProyecto.Items.Clear();
+            DataTable Tipos = controladoraCasoPruebas.consultarProyectos();
+            int numDatos = Tipos.Rows.Count;
+            Object[] datos;
+
+
+            if (Tipos.Rows.Count >= 1)
+            {
+                numDatos = Tipos.Rows.Count;
+                datos = new Object[numDatos];
+
+                for (int i = 0; i < Tipos.Rows.Count; ++i)
+                {
+                    datos[i] = Tipos.Rows[i][0].ToString();
+                }
+
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+            }
         }
 
         /*Método para limpiar los textbox
@@ -191,7 +219,7 @@ namespace ProyectoInge
             }
             else
             {
-                Object[] datosNuevos = new Object[4];
+                Object[] datosNuevos = new Object[5];
                 datosNuevos[0] = this.txtIdentificador.Text;
                 datosNuevos[1] = this.txtPropósito.Text;
                 datosNuevos[2] = this.txtFlujoCentral.Text;
@@ -200,10 +228,28 @@ namespace ProyectoInge
 
                 if (controladoraCasoPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
                 {
+                    Object[] datosNuevos2 = new Object[3];
+                    datosNuevos[0] = obtenerIdReq();
+                    datosNuevos[1] = obtenerIdProyecto();
+                    datosNuevos[2] = obtenerIdCaso();
                 }
-
             }
 
+        }
+
+        private object obtenerIdCaso()
+        {
+            throw new NotImplementedException();
+        }
+
+        private object obtenerIdReq()
+        {
+            throw new NotImplementedException();
+        }
+
+        private object obtenerIdProyecto()
+        {
+            throw new NotImplementedException();
         }
 
         private void btnAceptar_Modificar()
