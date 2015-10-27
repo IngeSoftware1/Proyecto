@@ -38,7 +38,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 //id_caso no por que es un autonumérico ??
-                string insercion = "INSERT INTO Caso_Prueba ( identificador_caso, proposito_caso, flujo_central, entrada_datos, resultado_esperado, id_diseno) VALUES ('" + nuevo.getIdentificador_caso + "', '" + nuevo.getproposito_caso + "', '" + nuevo.getFlujo_central + "', '" + nuevo.getEntrada_datos+ "', '" + nuevo.getResultado_esperado + "', '" + nuevo.getId_diseno)";
+                string insercion = "INSERT INTO Caso_Prueba ( identificador_caso, proposito_caso, flujo_central, entrada_datos, resultado_esperado, id_diseno) VALUES ('" + nuevo.getIdentificador_caso + "', '" + nuevo.getproposito_caso + "', '" + nuevo.getFlujo_central + "', '" + nuevo.getEntrada_datos+ "', '" + nuevo.getResultado_esperado + "', '" + nuevo.getId_diseno+"'";
 
                 return acceso.insertarDatos(insercion);
 
