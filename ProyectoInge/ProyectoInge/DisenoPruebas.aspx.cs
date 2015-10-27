@@ -345,6 +345,16 @@ namespace ProyectoInge
 
                 //listMiembrosDisponibles.Items.Clear();
             }
+
+            if (e.CommandName == "seleccionarCaso")
+            {
+                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
+                idDiseñoConsultado = lnkConsulta.CommandArgument;
+                Session["idDiseñoCaso"] = idProyectoConsultado;
+         
+            }
+
+
         }
 
         /*Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
@@ -626,6 +636,8 @@ namespace ProyectoInge
                     datos[3] = "-";
                     datos[4] = "-";
                     datos[5] = "-";
+
+     
                     dt.Rows.Add(datos);
                 }
 
@@ -646,6 +658,7 @@ namespace ProyectoInge
         {
             DataTable dt = new DataTable();
             DataColumn columna;
+            DataRow row = dt.NewRow();
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
@@ -678,6 +691,8 @@ namespace ProyectoInge
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Nombre Representante";
             dt.Columns.Add(columna);
+
+      
 
             return dt;
         }

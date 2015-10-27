@@ -245,9 +245,21 @@
                         <Columns>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno"> Consultar </asp:LinkButton>
+                                     <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>                
+                                      
                                 </ItemTemplate>
+
                             </asp:TemplateField>
+
+                            <asp:TemplateField HeaderText="">
+                                <ItemTemplate>
+                                                    
+                                     <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar Casos </asp:LinkButton> 
+                                </ItemTemplate>
+
+                            </asp:TemplateField>
+                           
+
                         </Columns>
                     </asp:GridView>
                 </div>
