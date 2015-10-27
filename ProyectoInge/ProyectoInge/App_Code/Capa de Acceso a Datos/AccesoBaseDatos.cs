@@ -34,7 +34,18 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             ++x;
             return x;
 
-        }        /**
+        }
+
+        public int restar()
+        {
+
+            int x = 5;
+            --x;
+            return x;
+        }
+
+        
+        /**
          * Consulta para insertar datos
          */
         public bool insertarDatos(String consulta)
