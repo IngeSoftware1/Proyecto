@@ -41,7 +41,7 @@
 
 
         <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 320px">
+            <div class="panel panel-default" style="height: 400px">
                 <div class="panel-body">
                     <div class="form-group">       <%--Nombre del proyecto--%>              
                         <div class="row col-sm-6">
@@ -96,12 +96,25 @@
                         </div>
 
                         <div class="row col-sm-6">
-                            <asp:Label ID="lblProposito" runat="server" Text="Propósito:" CssClass="col-sm-5  control-label"></asp:Label>
+                            <asp:Label ID="lblProposito" runat="server" Text="Procedimiento:" CssClass="col-sm-5  control-label"></asp:Label>
 
                             <div class="col-sm-7">
                                 <asp:TextBox runat="server" ID="txtProposito" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
+
+                       <div class="form-group">  <%--Nombre del Requerimiento --%>                    
+                        <div class="row col-sm-6">
+                            <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimiento:" CssClass="col-sm-4 control-label"></asp:Label>                          
+                            
+                           <div class="col-sm-7 ">
+                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="height:100px" CssClass="form-control"></asp:ListBox>
+                        </div>
+                        
+                        </div>
+                           
+                    </div>
+
                     </div>
                 </div>   <%--Cierra el panel body--%>           
             </div>
@@ -111,57 +124,14 @@
             <asp:Label runat="server" ID="lblDatosCasoPrueba" Font-Bold="True" Text="Datos del caso de prueba" CssClass="control-label"></asp:Label>
         </div>
           <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 450px">
+            <div class="panel panel-default" style="height: 300px">
                 <div class="panel-body">
 
 
-                       <div class="form-group col-sm-6">  <%--Nombre del Requerimiento --%>                    
-                        <div class="row">
-                            <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimiento:" CssClass="col-sm-4 control-label"></asp:Label>                          
-                                <asp:DropDownList runat="server" style="position:absolute;top:0%; left:37%; width:52%"  ID="DropDownList1" CssClass=" form-control">
-                                </asp:DropDownList>
-                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="position:absolute;top:6%; left:37%; width:52%; height:100px" CssClass="form-control"></asp:ListBox>
-                        
-                        
-                        </div>
-                           
-                    </div>
+                   
 
-                     <div class="form-group col-sm-1">
-                                <div class="row">
-                                    <div class="">
-                                        
-                                        <%-- Botón para agregar requerimientos a un caso de prueba --%>
-                                        <asp:LinkButton runat="server" ID="lnkAgregarMiembros" Style="height: 100px" CssClass="col-sm-offset-7" >
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
-                                        </asp:LinkButton>
-                                    </div>
-                                </div>
-                                <br>
-                              
-                                <div class="row">
-                                    <div class="">
-                                        <%-- Botón para quitar requerimientos a un caso de prueba --%>
-                                        <asp:LinkButton runat="server" ID="lnkQuitarMiembros" Style="height: 100px" CssClass="col-sm-offset-7" >
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
-                                        </asp:LinkButton>
-                                    </div>
-                                </div>
-                            </div>
-
-                    <div class="form-group col-sm-5">  <%--Nombre del Requerimiento --%>                    
-                        <div class="row">                         
-                            <asp:ListBox runat="server" ID="listRequerimientosAgregados" style="position:absolute;top:6%; left:23%; width:61%; height:100px" CssClass="form-control"></asp:ListBox>
-                        </div>                       
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                   <br>
-                    <br>
-                    
-
+                   
+                    <%--  --%>
                       <div class="form-group col-sm-6">  <%--Campo proposito--%>
                         <div class="row ">
                             <asp:Label ID="lblIdentificador" runat="server" Text="Identificador:" CssClass="col-sm-3 control-label"></asp:Label>
@@ -180,8 +150,7 @@
                         </div>
                                   </div>
                           </div>
-
-               
+          
                        <div class="form-group col-sm-6">  <%--Resultado esperado --%>
                         <div class="row ">
                             <asp:Label ID="lblEntradaDatos" runat="server" Text="Entrada de datos:" CssClass="col-sm-4 control-label"></asp:Label>
