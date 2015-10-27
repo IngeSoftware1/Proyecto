@@ -23,6 +23,17 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public AccesoBaseDatos()
         {
         }
+
+
+        //  aca hay un conflicto
+        public int suma()
+        {
+            int x = 0;
+            ++x;
+            return x;
+
+        }
+
         /**
          * Consulta para insertar datos
          */
