@@ -24,39 +24,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
         }
 
-
-        public int suman()
-        {
-            return 2;
-        }
-        public int dividir()
-        {
-            return 2/3;
-        }
-
-        public int multiplicar()
-        {
-            return 5;
-        } //sdasdsadassadassdasdsad
-        public string devuelveCadena(int asas)
-        {
-            return "asdasd";
-        } public int suma()
-        {
-            int x = 0;
-            ++x;
-            return x;
-
-        }
-
-        public int restar()
-        {
-
-            int x = 5;
-            --x;
-            return x;
-        }
-
         
         /**
          * Consulta para insertar datos
