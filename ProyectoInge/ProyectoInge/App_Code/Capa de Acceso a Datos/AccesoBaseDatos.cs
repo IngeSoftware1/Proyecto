@@ -24,6 +24,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public AccesoBaseDatos()
         {
         }
+
+
+        public int suman()
+        {
+            return 2;
+        }
  //sdasdsadassadassdasdsad
         public string devuelveCadena(int asas)
         {
