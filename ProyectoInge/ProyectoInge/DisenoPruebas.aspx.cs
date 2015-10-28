@@ -38,7 +38,6 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnCancelar);
                 llenarComboNivel();
                 llenarComboTecnica();
-                llenarComboTipo();
                 
             }
 
@@ -74,7 +73,6 @@ namespace ProyectoInge
             llenarComboProyecto(Session["cedula"].ToString());
             llenarComboRecursos();
             llenarComboTecnica();
-            llenarComboTipo();
 
             modo = 2;
             //habilitarCamposModificar();
@@ -186,13 +184,14 @@ namespace ProyectoInge
             if (Niveles.Rows.Count >= 1)
             {
                 numDatos = Niveles.Rows.Count;
-                datos = new Object[numDatos];
+                datos = new Object[numDatos+1];
 
                 for (int i = 0; i < Niveles.Rows.Count; ++i)
                 {
-                    datos[i] = Niveles.Rows[i][0].ToString();
+                    datos[i+1] = Niveles.Rows[i][0].ToString();
                 }
 
+                datos[0] = "Seleccione";
                 this.comboNivel.DataSource = datos;
                 this.comboNivel.DataBind();
             }
@@ -200,34 +199,6 @@ namespace ProyectoInge
         
         }
 
-            /* Método para llenar el comboBox de los diferentes tipos de prueba que existen
-           * Modifica: llena el comboBox con los datos obtenidos de la BD
-           * Retorna: no retorna ningún valor */
-
-            protected void llenarComboTipo()
-            {
-                this.comboTipo.Items.Clear();
-                DataTable Tipos = controladoraDiseno.consultarTipos();
-                int numDatos = Tipos.Rows.Count;
-                Object[] datos;
-
-
-                if (Tipos.Rows.Count >= 1)
-                {
-                    numDatos = Tipos.Rows.Count;
-                    datos = new Object[numDatos];
-
-                    for (int i = 0; i < Tipos.Rows.Count; ++i)
-                    {
-                        datos[i] = Tipos.Rows[i][0].ToString();
-                    }
-
-                    this.comboTipo.DataSource = datos;
-                    this.comboTipo.DataBind();
-                }
-
-
-            }
 
             /* Método para llenar el comboBox de los diferentes tecnicas de prueba que existen
               * Modifica: llena el comboBox con los datos obtenidos de la BD
@@ -244,13 +215,14 @@ namespace ProyectoInge
                 if (Tecnicas.Rows.Count >= 1)
                 {
                     numDatos = Tecnicas.Rows.Count;
-                    datos = new Object[numDatos];
+                    datos = new Object[numDatos+1];
 
                     for (int i = 0; i < Tecnicas.Rows.Count; ++i)
                     {
-                        datos[i] = Tecnicas.Rows[i][0].ToString();
+                        datos[i+1] = Tecnicas.Rows[i][0].ToString();
                     }
 
+                    datos[0] = "Seleccione";
                     this.comboTecnica.DataSource = datos;
                     this.comboTecnica.DataBind();
                 }
@@ -544,7 +516,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.comboNivel.Text == "" || this.comboTecnica.Text == "" || this.comboTipo.Text == "" || this.comboResponsable.Text == "" || this.txtCalendar.Text == "")
+            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.txtProcedimiento.Text == ""  || this.comboResponsable.Text == "" || this.txtCalendar.Text == "")
             {
                 resultado = true;
             }

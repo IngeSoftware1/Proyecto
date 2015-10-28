@@ -80,7 +80,6 @@ namespace ProyectoInge
         {
             this.txtPrueba.Enabled = condicion;
             this.txtTecnicaPrueba.Enabled = condicion;
-            this.txtTipoPrueba.Enabled = condicion;
             this.txtProposito.Enabled = condicion;
             this.txtIdentificador.Enabled = condicion;
             this.txtEntradaDatos.Enabled = condicion;
