@@ -41,7 +41,7 @@
 
 
         <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 400px">
+            <div class="panel panel-default" style="height: 370px">
                 <div class="panel-body">
                     <div class="form-group">       <%--Nombre del proyecto--%>              
                         <div class="row col-sm-6">
@@ -50,22 +50,16 @@
                                 <asp:TextBox runat="server" ID="txtNombreProyecto" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <br>
-
-                    <div class="form-group">  <%--Nombre del diseño--%>                    
+                        
                         <div class="row col-sm-6">
                             <asp:Label ID="lblDiseño" runat="server" Text="Diseño:" CssClass="col-sm-3 control-label"></asp:Label>
-                            <div class="col-sm-7 col-sm-offset-1 ">
+                            <div class="col-sm-7 col-sm-offset-2 ">
                                 <asp:TextBox runat="server" ID="txtNombreDiseño" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                     </div>
-
                     <br>
                     <br>
-
                     <div class="form-group">           <%--Nivel de prueba--%>             
                         <div class="row col-sm-6">
                             <asp:Label ID="lblPrueba" runat="server" Text="Nivel de prueba:" CssClass="col-sm-4  control-label"></asp:Label>
@@ -97,13 +91,15 @@
                             <asp:Label ID="lblProposito" runat="server" Text="Procedimiento:" CssClass="col-sm-5  control-label"></asp:Label>
 
                             <div class="col-sm-7">
-                                <asp:TextBox runat="server" ID="txtProposito" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="70" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtProposito" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
+                      
+                    </div>
 
                        <div class="form-group">  <%--Nombre del Requerimiento --%>                    
                         <div class="row col-sm-6">
-                            <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimiento:" CssClass="col-sm-4 control-label"></asp:Label>                          
+                            <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos:" CssClass="col-sm-4 control-label"></asp:Label>                          
                             
                            <div class="col-sm-7 ">
                             <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="height:100px" CssClass="form-control"></asp:ListBox>
@@ -113,7 +109,6 @@
                            
                     </div>
 
-                    </div>
                 </div>   <%--Cierra el panel body--%>           
             </div>
         </div>
@@ -132,9 +127,9 @@
                     <%--  --%>
                       <div class="form-group col-sm-6">  <%--Campo proposito--%>
                         <div class="row ">
-                            <asp:Label ID="lblIdentificador" runat="server" Text="Identificador:" CssClass="col-sm-3 control-label"></asp:Label>
+                            <asp:Label ID="lblIdentificador" runat="server" Text="Código:" CssClass="col-sm-3 control-label"></asp:Label>
                              <div class="col-sm-7 col-sm-offset-1" ">
-                             <asp:TextBox runat="server" ID="txtIdentificador" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                             <asp:TextBox runat="server" ID="txtIdentificador" CssClass="form-control" MaxLength="20"></asp:TextBox>
                         </div>
                                   </div>
                           </div>
