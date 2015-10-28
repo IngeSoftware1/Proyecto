@@ -18,6 +18,7 @@ namespace ProyectoInge
         private string idDiseñoConsultado;
          Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
+        private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -268,11 +269,6 @@ namespace ProyectoInge
             }
 
 
-
-
-
-
-
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
            
@@ -303,6 +299,26 @@ namespace ProyectoInge
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            switch (modo)
+            {
+                case 1:
+                    {
+                        btnAceptar_Insertar();
+                    }
+                    break;
+
+                case 2:
+                    {
+                        // btnAceptar_Modificar();
+                    }
+                    break;
+                case 3:
+                    {
+                        //btnAceptar_Eliminar();
+                    }
+                    break;
+
+            }
         
         }
 
@@ -310,6 +326,160 @@ namespace ProyectoInge
         {
 
         }
+
+        /*Método para la acción de aceptar cuando esta en modo de inserción
+        * Requiere: No requiere ningún parámetro
+        * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
+        * valida que todos los datos se encuentren para la inserción
+        * Retorna: No retorna ningún valor
+        */
+        protected void btnAceptar_Insertar()
+        {
+            int tipoInsercion = 1;   //1 insertar oficina usuaria, 
+
+            //si faltan datos no deja insertar
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para insertar un nuevo diseño de prueba debe completar todos los datos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                habilitarCamposInsertar();
+            }
+            else
+            {
+
+                int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
+                Object[] datosNuevos = new Object[10];
+                datosNuevos[0] = this.txtProposito.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = this.txtProcedimiento.Text;
+                datosNuevos[3] = this.txtAmbiente.Text;
+                datosNuevos[4] = this.txtCriterios.Text;
+                datosNuevos[5] = this.comboTecnica.Text;
+                datosNuevos[6] = this.comboNivel.Text;
+                datosNuevos[7] = this.comboTipo.Text;
+                datosNuevos[8] = 3;//llamar metodo
+                // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+
+
+
+                //si la oficina usuaria se pudo insertar correctamente entra a este if
+       /*         if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                {
+                    int idOficina = controladoraProyecto.obtenerOficinaAgregada(this.txtnombreOficina.Text);
+                    Session["idOficinaS"] = Convert.ToString(idOficina);
+
+                    guardarTelefonos(idOficina);
+
+                    //Ya guardados la oficina usuaria y sus telefonos se guarda el proyecto en el sistema
+                    tipoInsercion = 3; //inserción de proyecto tipo 3
+                    Object[] nuevoProyecto = new Object[7];
+                    nuevoProyecto[0] = this.txtNombreProy.Text;
+                    nuevoProyecto[1] = this.txtObjetivo.Text;
+                    nuevoProyecto[2] = this.txtCalendar.Text;
+                    nuevoProyecto[3] = this.comboEstado.Text;
+                    nuevoProyecto[4] = Session["cedula"].ToString();
+                    nuevoProyecto[5] = obtenerCedula(this.comboLider.Text, true);
+                    nuevoProyecto[6] = idOficina;
+
+                    //El proyecto si se pudo insertar correctamente en la base
+                    if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, nuevoProyecto, "", ""))
+                    {
+                        //Se guardan los miembros del equipo para el proyecto
+                        int idProyecto = controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text);
+                        Session["idProyectoS"] = Convert.ToString(idProyecto);
+                        guardarMiembros(idProyecto);
+                        guardarRequerimientos(idProyecto);
+
+                        //se carga la interfaz de nuevo
+                        controlarCampos(false);
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(true, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar);
+                        llenarGrid(null);
+
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Nuevo proyecto creado con éxito.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
+                    else
+                    {
+                        controladoraProyecto.eliminarOficina(idOficina);
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Este proyecto ya se encuentra registrado en el sistema.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                        habilitarCamposInsertar();
+                    }
+                }
+                //La oficina usuaria no se pudo registrar en la BD
+                else
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Esta oficina usuaria ya se encuentra registrada en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposInsertar();
+                } */
+            } 
+        }
+
+        /*Método para habilitar/deshabilitar el botón tipo LinkButton
+       * Requiere: el booleano para la acción
+       * Modifica: La propiedad enable del botón
+       * Retorna: no retorna ningún valor
+       */
+        protected void cambiarEnabledTel(bool condicion, LinkButton boton)
+        {
+            boton.Enabled = condicion;
+        }
+
+        /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
+       * Requiere: no recibe parámetros
+       * Modifica: Modifica la propiedad enabled de los distintos controles
+       * Retorna: No retorna ningún valor
+       */
+        protected void habilitarCamposInsertar()
+        {
+            controlarCampos(true);
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabledTel(true, this.lnkAgregarReq);
+            cambiarEnabledTel(true, this.lnkQuitarReq);
+            cambiarEnabled(true, this.btnCancelar);
+
+        }
+
+
+        /*Método para saber si hay cajas de texto que no tienen datos en su interior
+       * Recibe: No recibe ningún parámetro
+       * Modifica:  Verifica si faltan datos en alguna caja de texto
+       * Retorna: retorna true si alguna caja no tiene texto, false si todas las cajas tienen texto
+       */
+        protected bool faltanDatos()
+        {
+
+            bool resultado = false;
+            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.comboNivel.Text == "" || this.comboTecnica.Text == "" || this.comboTipo.Text == "" || this.comboResponsable.Text == "" || this.txtCalendar.Text == "")
+            {
+                resultado = true;
+            }
+            else
+            {
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
        * Modifica: el valor del la variable idDiseño con el ID del diseño que se desea consultar.

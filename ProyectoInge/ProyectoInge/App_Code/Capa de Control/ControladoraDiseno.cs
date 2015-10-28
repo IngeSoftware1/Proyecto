@@ -194,10 +194,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-
-
-      
-
-
+        
+        //metodo para consultar el ID del proyecto a partir del nombre
+        public int obtenerIdProyecto(string nombreProyecto)
+        {
+            return 0;
+        }
     }
 }
