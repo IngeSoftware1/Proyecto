@@ -2,7 +2,6 @@
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-<<<<<<< HEAD
 <div class="form-group">
   <div class="row">
     <div class="col-sm-9 ">     
@@ -19,6 +18,7 @@
     </div>
       <br/>
       <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
+    </div>
 
     </div>
 
