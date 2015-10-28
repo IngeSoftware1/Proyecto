@@ -36,7 +36,6 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
-                llenarDropDownProyecto();
             }
         }
 
@@ -113,33 +112,10 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
-            llenarDropDownProyecto();
+            //llenarDropDownProyecto();
             //llenarDropDownProyecto();
             // UpdatePanelDropDown.Update();
         }
-
-        /* Método para llenar el comboBox de los diferentes proyectos que existen
-           * Modifica: llena el comboBox con los datos obtenidos de la BD
-           * Retorna: no retorna ningún valor */
-
-        /*protected void llenarComboProyecto()
-        {
-            this.comboProyecto.Items.Clear();
-            DataTable Tipos = controladoraCasoPruebas.consultarProyectos();
-            int numDatos = Tipos.Rows.Count;
-            Object[] datos;
-            if (Tipos.Rows.Count >= 1)
-            {
-                numDatos = Tipos.Rows.Count;
-                datos = new Object[numDatos];
-                for (int i = 0; i < Tipos.Rows.Count; ++i)
-                {
-                    datos[i] = Tipos.Rows[i][0].ToString();
-                }
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
-            }
-        }*/
 
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros
@@ -156,19 +132,6 @@ namespace ProyectoInge
             this.txtResultadoEsperado.Text = "";
             this.txtEntradaDatos.Text = "";
             this.txtFlujoCentral.Text = "";
-        }
-
-        /* Método para llenar el comboBox de proyecto
-       * Modifica: el campo del rol de acuerdo al campo del proyecto
-        * Requiere: No requiere
-       * Retorna: no retorna ningún valor */
-
-        protected void llenarDropDownProyecto()
-        {
-            Object[] datos = new Object[2];
-
-            datos[0] = "";
-            datos[1] = "";
         }
 
         /*Método para distinguir las diferentes situaciones en las que se puede seleccionar el botón de aceptar.
@@ -225,7 +188,8 @@ namespace ProyectoInge
          */
         private void btnAceptar_Insertar()
         {
-            int tipoInsercion = 1;   //1 insertar caso de prueba 
+            modo = 1;
+            int idDiseño = (int)Session["idDiseñoConsultado"];
 
             //si faltan datos no deja insertar
             if (faltanDatos())
@@ -244,16 +208,26 @@ namespace ProyectoInge
                 datosNuevos[2] = this.txtFlujoCentral.Text;
                 datosNuevos[3] = this.txtEntradaDatos.Text;
                 datosNuevos[4] = this.txtResultadoEsperado.Text;
+                datosNuevos[5] = idDiseño;
 
-                if (controladoraCasoPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                if (controladoraCasoPruebas.ejecutarAccion(modo, datosNuevos, "", ""))
                 {
-                    Object[] datosNuevos2 = new Object[3];
-                    datosNuevos[0] = obtenerIdReq();
-                    datosNuevos[1] = obtenerIdProyecto();
-                    datosNuevos[2] = obtenerIdCaso();
+                    //funcionarioInsertado = this.txtCedula.Text;
+                    //llenarGrid(null);
+                    controlarCampos(false);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    cambiarEnabled(true, this.btnInsertar);
+
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "Nuevo Caso de Prueba creado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+
                 }
             }
-
         }
 
         private object obtenerIdCaso()

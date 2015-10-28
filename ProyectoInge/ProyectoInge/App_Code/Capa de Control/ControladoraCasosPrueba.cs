@@ -30,7 +30,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return a;
         }
 
-        public bool ejecutarAccion(int modo, int tipoInsercion, object[] datosNuevos, string v1, string v2)
+        public bool ejecutarAccion(int modo, object[] datosNuevos, string v1, string v2)
         {
             Boolean resultado = false;
             switch (modo)
@@ -45,11 +45,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             }
             return resultado;
 
-        }
-
-        internal DataTable consultarProyectos()
-        {
-            throw new NotImplementedException();
         }
     }
 

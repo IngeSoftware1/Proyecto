@@ -228,9 +228,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                       
                     }
                     break;
-
-                    return resultado;
             }
+            return resultado;
         }
 
 

@@ -7,7 +7,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 {
     public class EntidadCaso
     {
-        int id_caso;
         String identificador_caso;
         String proposito_caso;
         String flujo_central;
@@ -17,7 +16,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
 
         public EntidadCaso(Object[] datos)
         {
-            this.id_caso = Convert.ToInt32(datos[1].ToString());
             this.identificador_caso = datos[0].ToString();
             this.proposito_caso = datos[0].ToString();
             this.flujo_central = datos[0].ToString();
@@ -26,12 +24,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             this.id_diseno = Convert.ToInt32(datos[1].ToString());
         }
 
-        //Metodos set y get del atributo id_caso
-        public int getId_caso
-        {
-            get { return id_caso; }
-            set { id_caso = value; }
-        }
 
         //Metodos set y get del atributo identificador_caso
         public String getIdentificador_caso
