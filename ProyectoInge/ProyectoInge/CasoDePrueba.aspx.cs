@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-﻿using System;
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,7 +19,7 @@ namespace ProyectoInge
         /* Método para actualizar la interfaz de recursos humanos
          * Modifica: no modifica nada
          * Retorna: no retorna ningún valor */
-        protected void Page_Load(object sender, EventArgs e)
+  /*      protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["cedula"] == null)
             {
@@ -44,7 +43,7 @@ namespace ProyectoInge
         *Requiere: nada
         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
         *Retorna: no retorna ningún valor*/
-        protected void ponerNombreDeUsuarioLogueado()
+    /*    protected void ponerNombreDeUsuarioLogueado()
         {
             DataTable datosFilaFuncionario = controladoraRH.consultarRH(Session["cedula"].ToString());
             if (datosFilaFuncionario.Rows.Count == 1)
@@ -60,7 +59,7 @@ namespace ProyectoInge
          * Retorna: No retorna ningún valor
          */
 
-        protected void cerrarSesion(object sender, EventArgs e)
+      /*  protected void cerrarSesion(object sender, EventArgs e)
         {
 
             string ced = (string)Session["cedula"];
@@ -74,7 +73,7 @@ namespace ProyectoInge
          * Modifica: Cambia la propiedad Enabled de las cajas y botones
          * Retorna: no retorna ningún valor
          */
-        protected void controlarCampos(Boolean condicion)
+        /*protected void controlarCampos(Boolean condicion)
         {
             this.txtPrueba.Enabled = condicion;
             this.txtTecnicaPrueba.Enabled = condicion;
@@ -90,7 +89,7 @@ namespace ProyectoInge
          * Modifica: La propiedad enable del botón
          * Retorna: no retorna ningún valor
          */
-        protected void cambiarEnabled(bool condicion, Button boton)
+        /*protected void cambiarEnabled(bool condicion, Button boton)
         {
             boton.Enabled = condicion;
         }
@@ -100,7 +99,7 @@ namespace ProyectoInge
          * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
          * Retorna: no retorna ningún valor
          */
-        protected void btnInsertar_Click(object sender, EventArgs e)
+        /*protected void btnInsertar_Click(object sender, EventArgs e)
         {
             vaciarCampos();
             controlarCampos(true);
@@ -120,7 +119,7 @@ namespace ProyectoInge
          * Modifica: Establece la propiedad text de los textbox en ""
          * Retorna: no retorna ningún valor
          */
-        protected void vaciarCampos()
+        /*protected void vaciarCampos()
         {
             //this.txtPrueba.Text = "";
             //this.txtTecnicaPrueba.Text = "";
@@ -137,7 +136,7 @@ namespace ProyectoInge
         * Requiere: No requiere
        * Retorna: no retorna ningún valor */
 
-        protected void llenarDropDownProyecto()
+        /*protected void llenarDropDownProyecto()
         {
             Object[] datos = new Object[2];
 
@@ -150,7 +149,7 @@ namespace ProyectoInge
          * Modifica: Contiene un case el cual depende del tipo de modo en que se encuentre la aplicación ya sea Insertar, Modificar o Eliminar (1,2,3 respectivamente)
          * Retorna: no retorna ningún valor
          */
-        protected void btnAceptar_Click(object sender, EventArgs e)
+        /*protected void btnAceptar_Click(object sender, EventArgs e)
         {
             switch (modo)
             {
@@ -179,7 +178,7 @@ namespace ProyectoInge
         * Modifica: Modifica la propiedad enabled de los distintos controles
         * Retorna: No retorna ningún valor
         */
-        protected void habilitarCamposInsertar()
+        /*protected void habilitarCamposInsertar()
         {
             controlarCampos(true);
             cambiarEnabled(false, this.btnInsertar);
@@ -195,7 +194,7 @@ namespace ProyectoInge
          * valida que todos los datos se encuentren para la inserción
          * Retorna: No retorna ningún valor
          */
-        private void btnAceptar_Insertar()
+       /* private void btnAceptar_Insertar()
         {
             int tipoInsercion = 1;   //1 insertar caso de prueba 
 
@@ -240,7 +239,7 @@ namespace ProyectoInge
          * Modifica:  Verifica si faltan datos en alguna caja de texto
          * Retorna: retorna true si alguna caja no tiene texto, false si todas las cajas tienen texto
          */
-        protected bool faltanDatos()
+        /*protected bool faltanDatos()
         {
 
             bool resultado = false;
@@ -257,7 +256,7 @@ namespace ProyectoInge
         }
     }
 
-=======
+*/
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -361,7 +360,7 @@ namespace ProyectoInge
            * Modifica: llena el comboBox con los datos obtenidos de la BD
            * Retorna: no retorna ningún valor */
 
-        /*protected void llenarComboProyecto()
+      /*  protected void llenarComboProyecto()
         {
             this.comboProyecto.Items.Clear();
             DataTable Tipos = controladoraCasoPruebas.consultarProyectos();
@@ -382,7 +381,7 @@ namespace ProyectoInge
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
             }
-        }*/
+        }
 
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros
@@ -544,5 +543,4 @@ namespace ProyectoInge
         }
     }
 
->>>>>>> 775cf08a2909ec91384aa956804ab2a39b0102ba
 }

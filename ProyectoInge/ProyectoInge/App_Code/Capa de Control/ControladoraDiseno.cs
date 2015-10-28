@@ -110,9 +110,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: no modifica datos
         * Retorna: un DataTable que contiene los datos del diseño
         */
-        public DataTable consultarDiseño(int idDiseño)
+        public DataTable consultarDiseno(int idDiseño)
         {
-            return controladoraBDDiseno.consultarDiseño(idDiseño);
+            return controladoraBDDiseno.consultarDiseno(idDiseño);
         }
 
         /* Método para consultar representante del diseño
@@ -120,7 +120,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: no modifica datos
         * Retorna: un DataTable que contiene los datos del representante
         */
-        public DataTable consultarRepresentante(string ced)
+        public DataTable consultarRepresentanteDiseno(string ced)
         {
             controladoraRH = new ControladoraRecursos();
             return controladoraRH.consultarRepresentanteDiseno(ced);
@@ -156,10 +156,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: no modifica datos
         * Retorna: un DataTable con los diseños
         */
-        public DataTable consultarDisenos(DataTable idDisenos)
+        public DataTable consultarDisenos(DataTable idProyectos)
         {
 
-            DataTable resultado = controladoraBDDiseno.consultarDisenos(idDisenos);
+            DataTable resultado = controladoraBDDiseno.consultarDisenos(idProyectos);
+            return resultado;
+        }
+
+        //Metodo para consultar representantes de los diseños
+        public DataTable consultarRepresentantesDisenos()
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarRepresentantesDisenos();
             return resultado;
         }
 
@@ -176,6 +184,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable resultado = controladoraRH.consultarDisenosAsociados(idUsuario);
             return resultado;
         }
+
+
+        //metodo para consultar proyectos en los que trabaja el usuario
+        public DataTable consultarProyectosAsociados(string idUsuario)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarProyectosAsociados(idUsuario);
+            return resultado;
+        }
+
+
+
       
 
 

@@ -1224,7 +1224,7 @@ namespace ProyectoInge
             string nombreLider = "";
             DataTable lideres;
             nombreLideresConsultados.Clear();
-
+           
 
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 

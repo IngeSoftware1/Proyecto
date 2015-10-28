@@ -642,6 +642,28 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+        //Metodo para consultar representantes de los diseños
+        public DataTable consultarRepresentantesDisenos()
+        {
+
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT F.nombre, F.apellido1, F.apellido2, F.cedula " + " FROM Funcionario F JOIN Diseno_Pruebas D ON F.cedula = D.cedula_responsable;" ;
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
     }
 
 }

@@ -19,25 +19,7 @@
     </div>
       <br/>
       <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
-=======
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-9 ">
-                <nav class="navbar navbar-default navbar-static-top">
-                    <ul class="navbar-default nav navbar-nav">
-                        <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
-                        <li><a runat="server" style="background-color: ActiveCaption" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
-                        <li><a runat="server" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
-                        <li><a runat="server" href="~/CasoDePrueba.aspx">Caso de pruebas</a></li>
-                        <li><a runat="server">Ejecución de pruebas</a></li>
-                        <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <br />
-            <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 col-sm-push-1 control-label"></asp:Label>
-        </div>
->>>>>>> 775cf08a2909ec91384aa956804ab2a39b0102ba
+
     </div>
 
     <div class="row">

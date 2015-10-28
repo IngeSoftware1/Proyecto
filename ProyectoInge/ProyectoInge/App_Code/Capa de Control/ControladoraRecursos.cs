@@ -321,6 +321,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDRecurso.consultarRepresentanteDiseno(cedula);
         }
+
+
+        //Metodo para consultar representantes de los diseños
+        public DataTable consultarRepresentantesDisenos()
+        {
+
+            DataTable resultado = controladoraBDRecurso.consultarRepresentantesDisenos();
+            return resultado;
+        }
+
         
 
 

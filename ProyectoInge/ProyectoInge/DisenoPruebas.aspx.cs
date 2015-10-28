@@ -45,7 +45,6 @@ namespace ProyectoInge
 
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
-
                 cambiarEnabled(true, this.btnInsertar);
                 llenarGrid(null);
                 llenarComboProyecto(null);
@@ -83,7 +82,7 @@ namespace ProyectoInge
         */
         protected void controlarCampos(Boolean condicion)
         {
-            this.comboProyecto.Enabled = condicion;
+            //this.comboProyecto.Enabled = condicion;
             this.listReqAgregados.Enabled = condicion;
             this.listReqProyecto.Enabled = condicion;
             this.lnkAgregarReq.Enabled = condicion;
@@ -318,7 +317,7 @@ namespace ProyectoInge
        */
         protected void gridDisenos_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "seleccionarDiseño")
+            if (e.CommandName == "seleccionarDiseno")
             {
 
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
@@ -385,7 +384,8 @@ namespace ProyectoInge
             Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
             String cedulaRepresentante="";
             idDiseñoConsultado = idDiseño;
-            DataTable datosFilaDiseño = controladoraDiseno.consultarDiseño(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+            Response.Write(idDiseño);
+            DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
             DataTable datosMiembro = null;
             DataTable datosReqProyecto = null;
             DataTable datosReqDiseno = null;
@@ -400,7 +400,7 @@ namespace ProyectoInge
                 this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
                 idProyectoConsultado = datosFilaDiseño.Rows[0][9].ToString();
                 cedulaRepresentante = datosFilaDiseño.Rows[0][10].ToString();
-                datosMiembro = controladoraDiseno.consultarRepresentante(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
                 datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
                 datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
 
@@ -419,39 +419,39 @@ namespace ProyectoInge
                     ListItem tipo = this.comboTipo.Items.FindByText(datosFilaDiseño.Rows[0][8].ToString());
                     this.comboTipo.SelectedValue = tipo.Value;
                 }
+                
 
-                //Se obtiene el nombre y apellidos del líder de acuerdo a la cédula de éste en el proyecto consultado
-                nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][10].ToString(), out nombreRepresentante);
-                nombre = nombre + nombreRepresentante;
-
-                if (this.comboResponsable.Items.FindByText(nombre) != null)
+                if (this.comboResponsable.Items.FindByText(datosMiembro.Rows[0][0].ToString()) != null)
                 {
-                    representante = this.comboResponsable.Items.FindByText(nombre);
-                    this.comboResponsable.SelectedValue = representante.Value;
+
+                    nombre = datosMiembro.Rows[0][1].ToString()+ " " + datosMiembro.Rows[0][2].ToString();
+                    ListItem represent = this.comboResponsable.Items.FindByText(nombre);
+                    this.comboResponsable.SelectedValue = represent.Value;
                 }
                 
             }
            
             listReqAgregados.Items.Clear();
+            string requerimiento = "";
             if (datosReqDiseno.Rows.Count >= 1)
             {
                 listReqAgregados.Items.Clear();
                 for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
                 {
-
-                    listReqAgregados.Items.Add(datosReqDiseno.Rows[i][0].ToString());
+                    requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
+                    listReqAgregados.Items.Add(requerimiento);
 
                 }
             }
-            
+            requerimiento = "";
             listReqProyecto.Items.Clear();
             if (datosReqProyecto.Rows.Count >= 1)
             {
                 listReqAgregados.Items.Clear();
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-
-                    listReqProyecto.Items.Add(datosReqProyecto.Rows[i][0].ToString());
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][3].ToString();
+                    listReqProyecto.Items.Add(requerimiento);
 
                 }
             }
@@ -476,6 +476,7 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaDisenos();
             DataTable diseños;
+            DataTable idProyectos;
             DataTable idDiseños;
             Object[] datos = new Object[6];
             string representante = "";
@@ -484,16 +485,17 @@ namespace ProyectoInge
             DataTable representantes;
             nombreRepresentantesConsultados.Clear();
 
-
+            
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos los recursos humanos del sistema
             {
                 //Se obtienen todos los proyectos pues el administrador es el usuario del sistema
+                
                 diseños = controladoraDiseno.consultarDisenos(null);
 
                 //Se obtienen todos los lideres del sistema
-                representantes = controladoraDiseno.consultarRecursos(idProyectoConsultado);
+                representantes = controladoraDiseno.consultarRepresentantesDisenos();
 
 
                 for (int i = 0; i < representantes.Rows.Count; ++i)
@@ -559,14 +561,16 @@ namespace ProyectoInge
             else
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
-
-                idDiseños = controladoraDiseno.consultarDisenosAsociados(idUsuario);
-                if (idDiseños.Rows.Count > 0)
+                
+                idProyectos = controladoraDiseno.consultarProyectosAsociados(idUsuario);
+                
+                if (idProyectos.Rows.Count > 0)
                 {
+                    
                     //Se obtiene un DataTable con los datos del o los proyectos 
-                    diseños = controladoraDiseno.consultarDisenos(idDiseños);
+                    diseños = controladoraDiseno.consultarDisenos(idProyectos);
 
-                    representantes = controladoraDiseno.consultarRecursos(idProyectoConsultado);
+                    representantes = controladoraDiseno.consultarRepresentantesDisenos();
 
 
                     for (int i = 0; i < representantes.Rows.Count; ++i)

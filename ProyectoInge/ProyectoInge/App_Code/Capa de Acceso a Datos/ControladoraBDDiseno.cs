@@ -147,7 +147,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: no modifica datos
         * Retorna: un DataTable que contiene los datos del diseño
         */
-        public DataTable consultarDiseño(int idDiseño)
+        public DataTable consultarDiseno(int idDiseño)
         {
             DataTable dt = new DataTable();
             string consulta;
@@ -155,7 +155,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT * FROM DisenoPruebas ";
+                consulta = "SELECT * FROM Diseno_Pruebas WHERE id_diseno = '"+idDiseño+"';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -175,17 +175,17 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: no realiza modificaciones
         * Retorna: un DataTable con los resultados de la consulta 
         */
-        public DataTable consultarDisenos(DataTable idDiseños)
+        public DataTable consultarDisenos(DataTable idProyectos)
         {
             DataTable dt = new DataTable();
             string consulta = "";
             int contador = 0;
 
-            if (idDiseños == null) //Si es null significa que el usuario del sistema es el administrador
+            if (idProyectos == null) //Si es null significa que el usuario del sistema es el administrador
             {
                 try
                 {
-                    consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedulaResponsable " + " FROM Diseno D";
+                    consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedula_responsable FROM Diseno_Pruebas D;";
                     dt = acceso.ejecutarConsultaTabla(consulta);
 
                 }
@@ -200,12 +200,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 try
                 {
 
-                    for (int i = 0; i < idDiseños.Rows.Count; ++i)
+                    for (int i = 0; i < idProyectos.Rows.Count; ++i)
                     {
                         ++contador;
 
-                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedulaResponsable " + " FROM Diseno D WHERE D.id_diseno='" +idDiseños.Rows[i][0].ToString() + "'";
-                        if (contador != idDiseños.Rows.Count)
+                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedula_responsable FROM Diseno_Pruebas D WHERE D.id_proyecto='" +idProyectos.Rows[i][0].ToString() + "'";
+                        if (contador != idProyectos.Rows.Count)
                         {
                             consulta = consulta + "UNION";
                         }

@@ -12,16 +12,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
    
         /*En Initial Catalog se agrega la base de datos propia. Intregated Security es para utilizar Windows Authentication*/
         //String conexion = @"Data Source=ASUS; Initial Catalog=g3inge; Integrated Security=SSPI";
-        //String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI";
-<<<<<<< HEAD
+        String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=RAQUELCHAVADDEF; Initial Catalog=RAQUEL; Integrated Security=SSPI";
-        String conexion = @"Data Source=.; Initial Catalog=baseRaque; Integrated Security=SSPI";
-=======
-        String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
+        //String conexion = @"Data Source=.; Initial Catalog=baseRaque; Integrated Security=SSPI";
+        //String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=RAQUELCHAVADDEF; Initial Catalog=RAQUEL; Integrated Security=SSPI";
         //String conexion = @"Data Source=.; Initial Catalog=baseRaque; Integrated Security=SSPI";
->>>>>>> 775cf08a2909ec91384aa956804ab2a39b0102ba
         //String conexion = @"Data Source=CAROLINA-HP\CAROLINA; Initial Catalog=Inge1; Integrated Security=SSPI";
         //String conexion = @"Data Source=LARI-PC; Initial Catalog=Inge1; Integrated Security=SSPI";
         //String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
