@@ -37,7 +37,6 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarComboNivel();
-                llenarComboRecursos();
                 llenarComboTecnica();
                 llenarComboTipo();
                 
@@ -56,9 +55,30 @@ namespace ProyectoInge
                 llenarGrid(Session["cedula"].ToString());
                 llenarComboProyecto(Session["cedula"].ToString());
             }
+            llenarComboRecursos();
+         }
+        /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
+        * Requiere: object sender, EventArgs e
+        * Modifica: Cambia la propiedad Enabled de las cajas y botones
+        * Retorna: no retorna ningún valor
+        */
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnModificar);
+            //llenar los txtbox con la table
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            llenarComboNivel();
+            llenarComboProyecto(Session["cedula"].ToString());
+            llenarComboRecursos();
+            llenarComboTecnica();
+            llenarComboTipo();
 
-           
-
+            modo = 2;
+            //habilitarCamposModificar();
+            //llenarDropDownRol();
         }
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -245,11 +265,13 @@ namespace ProyectoInge
 
             protected void llenarComboRecursos()
             {
-                this.comboTipo.Items.Clear();
-                DataTable Recursos = controladoraDiseno.consultarRecursos(idProyectoConsultado);
+
+                this.comboProyecto.Items.Clear();
+                int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+                DataTable Recursos = controladoraDiseno.consultarMiembrosProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
-
+                string nombre = "";
 
                 if (Recursos.Rows.Count >= 1)
                 {
@@ -258,7 +280,8 @@ namespace ProyectoInge
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
-                        datos[i] = Recursos.Rows[i][0].ToString();
+                        nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
+                        datos[i] = nombre;
                     }
 
                     this.comboResponsable.DataSource = datos;
