@@ -427,7 +427,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-        /*Método para obtener el nombre y apellido de los miembros que tienen como rol: líder de pruebas
+        /*Método para 
+         * el nombre y apellido de los miembros que tienen como rol: líder de pruebas
          * Requiere: no requiere parámetros.
          * Retorna: un DataTable con el nombre y apellido de los miembros que son líderes.
          */
@@ -661,8 +662,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-
-
+  
 
     }
 

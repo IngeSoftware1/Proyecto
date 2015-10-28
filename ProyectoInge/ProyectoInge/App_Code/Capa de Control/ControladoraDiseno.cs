@@ -233,5 +233,30 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
+        /* Método para obtener los miembros asociados a un determinado proyecto.
+        * Requiere: un string con el identificador del proyecto.
+        * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
+        * Retorna: un DataTable con los miembros asociados al proyecto especificado
+        */
+        public DataTable consultarMiembrosProyecto(string idProyecto)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarMiembrosProyecto(idProyecto);
+            return resultado;
+        }
+
+
+        /*Método para obtener el id del proyecto mediante el nombre.
+         * Requiere: el id del proyecto a consultar.
+         * Modifica: no modifica datos
+         * Retorna: el id del proyecto consultado
+         */
+        public int obtenerIDconNombreProyecto(string nomProyecto)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
+        }
+
+
     }
 }

@@ -37,7 +37,6 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarComboNivel();
-                llenarComboRecursos();
                 llenarComboTecnica();
                 llenarComboTipo();
                 
@@ -56,6 +55,8 @@ namespace ProyectoInge
                 llenarGrid(Session["cedula"].ToString());
                 llenarComboProyecto(Session["cedula"].ToString());
             }
+
+            llenarComboRecursos();
 
            
 
@@ -246,10 +247,12 @@ namespace ProyectoInge
             protected void llenarComboRecursos()
             {
                 this.comboTipo.Items.Clear();
-                DataTable Recursos = controladoraDiseno.consultarRecursos(idProyectoConsultado);
+
+                int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+                DataTable Recursos = controladoraDiseno.consultarMiembrosProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
-
+                string nombre = "";
 
                 if (Recursos.Rows.Count >= 1)
                 {
@@ -258,7 +261,8 @@ namespace ProyectoInge
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
-                        datos[i] = Recursos.Rows[i][0].ToString();
+                        nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
+                        datos[i] = nombre;
                     }
 
                     this.comboResponsable.DataSource = datos;
