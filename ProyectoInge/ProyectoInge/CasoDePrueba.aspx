@@ -41,7 +41,7 @@
 
 
         <div class="col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default" style="height: 370px">
+            <div class="panel panel-default" style="height: 280px">
                 <div class="panel-body">
                     <div class="form-group">       <%--Nombre del proyecto--%>              
                         <div class="row col-sm-6">
@@ -80,34 +80,26 @@
                     <br>
                  
                     <div class="form-group">  <%--Tipo de prueba--%>
-                        <div class="row col-sm-6">
-                            <asp:Label ID="lblTipoPrueba" runat="server" Text="Tipo de prueba:" CssClass="col-sm-4 control-label"></asp:Label>
-                            <div class="col-sm-7 ">
-                                <asp:TextBox runat="server" ID="txtTipoPrueba" CssClass="form-control" MaxLength="20"></asp:TextBox>
-                            </div>
-                        </div>
 
                         <div class="row col-sm-6">
                             <asp:Label ID="lblProposito" runat="server" Text="Procedimiento:" CssClass="col-sm-5  control-label"></asp:Label>
 
-                            <div class="col-sm-7">
+                            <div class="col-sm-7 col-sm-pull-1">
                                 <asp:TextBox runat="server" ID="txtProposito" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                       
-                    </div>
-
-                       <div class="form-group">  <%--Nombre del Requerimiento --%>                    
+                              
                         <div class="row col-sm-6">
                             <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos:" CssClass="col-sm-4 control-label"></asp:Label>                          
                             
-                           <div class="col-sm-7 ">
+                           <div class="col-sm-7 col-sm-offset-1">
                             <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="height:100px" CssClass="form-control"></asp:ListBox>
                         </div>
                         
                         </div>
                            
-                    </div>
+                   </div>   
 
                 </div>   <%--Cierra el panel body--%>           
             </div>

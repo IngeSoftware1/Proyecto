@@ -130,24 +130,6 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.TextBox txtTecnicaPrueba;
         
         /// <summary>
-        /// Control lblTipoPrueba.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTipoPrueba;
-        
-        /// <summary>
-        /// Control txtTipoPrueba.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTipoPrueba;
-        
-        /// <summary>
         /// Control lblProposito.
         /// </summary>
         /// <remarks>
