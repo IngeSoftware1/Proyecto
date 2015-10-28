@@ -123,18 +123,6 @@ INSERT INTO Nivel_Prueba VALUES ('De Integración');
 INSERT INTO Nivel_Prueba VALUES ('Del Sistema');
 INSERT INTO Nivel_Prueba VALUES ( 'De Aceptación');
 
-CREATE TABLE Tipo_Prueba(
-tipo_prueba varchar(20) PRIMARY KEY
-);
-
-INSERT INTO Tipo_Prueba VALUES ('Funcional');
-INSERT INTO Tipo_Prueba VALUES ('Interfaz de Usuario');
-INSERT INTO Tipo_Prueba VALUES ('Rendimiento');
-INSERT INTO Tipo_Prueba VALUES ('Stress');
-INSERT INTO Tipo_Prueba VALUES ('Volumen');
-INSERT INTO Tipo_Prueba VALUES ('Configuración');
-INSERT INTO Tipo_Prueba VALUES ('Instalación');
-
 CREATE TABLE Diseno_Pruebas(
 id_diseno int IDENTITY(1,1) PRIMARY KEY,
 proposito_diseno varchar(50),
@@ -143,14 +131,11 @@ procedimiento_diseno varchar(100),
 ambiente_diseno varchar(100),
 criterios_aceptacion varchar(100),
 tecnica varchar(20) FOREIGN KEY REFERENCES Tecnica (tipo_tecnica)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
+ON DELETE SET NULL
+ON UPDATE SET NULL,
 nivel varchar(20) FOREIGN KEY REFERENCES Nivel_Prueba(nivel_prueba)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
-tipo varchar(20) FOREIGN KEY REFERENCES Tipo_Prueba(tipo_prueba)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
+ON DELETE SET NULL
+ON UPDATE SET NULL,
 id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
@@ -164,11 +149,19 @@ id_req varchar(10),
 id_proyecto int FOREIGN KEY REFERENCES Proyecto(id_proyecto)
 ON DELETE CASCADE 
 ON UPDATE CASCADE,
-id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
-ON DELETE NO ACTION /*El requerimiento puede quedar no asociado a otro diseño*/ 
-ON UPDATE NO ACTION, /*Da problemas si es cascade*/
 nombre_req varchar (50),
 PRIMARY KEY (id_req, id_proyecto)
+);
+
+CREATE TABLE Requerimiento_Diseno(
+id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+id_req varchar(10),
+id_proyecto int,
+CONSTRAINT fkReq Foreign key(id_req,id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
 );
 
 CREATE TABLE Caso_Prueba(
