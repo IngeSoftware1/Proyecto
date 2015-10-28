@@ -198,7 +198,41 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         //metodo para consultar el ID del proyecto a partir del nombre
         public int obtenerIdProyecto(string nombreProyecto)
         {
-            return 0;
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.obtenerIDconNombreProyecto(nombreProyecto);
         }
+
+     /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+        * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+        * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+        * Retorna el valor de la variable booleana.
+        */
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre, string perfil)
+        {
+
+            Boolean resultado = false;
+            switch (modo)
+            {
+                case 1:
+                    { // INSERTAR
+                        if (accion == 1) //insertar diseño de prueba
+                        {
+                            EntidadDiseno nuevo = new EntidadDiseno(datos);
+                            resultado = controladoraBDDiseno.insertarDiseno(nuevo);
+                        }
+                        else if (accion == 2) //actualizar requerimientos
+                        {
+                            controladoraProyectos = new ControladoraProyecto();
+                            resultado = controladoraProyectos.actualizarRequerimiento(datos);
+                        }
+                      
+                    }
+                    break;
+
+                    return resultado;
+            }
+        }
+
+
     }
 }

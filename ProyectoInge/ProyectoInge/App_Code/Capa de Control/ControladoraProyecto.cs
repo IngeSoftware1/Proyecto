@@ -395,6 +395,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.consultarReqProyecto( idProyecto);
         }
 
+        /* Método para actualizar los requerimientos de un proyecto
+        * Requiere: el id del requerimiento, el id del proyecto asociado, el id del diseño y el nombre del requerimiento
+        * Modifica: modifica la tabla requerimiento
+        * Retorna: un booleano que indica si fue posible realizar la actualización
+        */
+        public bool actualizarRequerimiento(Object[] datos)
+        {
+            bool resultado = controladoraBDProyecto.actualizarRequerimiento(datos);
+            return resultado;
+        }
+
 
     }
 

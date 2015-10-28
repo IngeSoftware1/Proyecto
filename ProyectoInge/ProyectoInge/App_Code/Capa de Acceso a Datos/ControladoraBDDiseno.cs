@@ -224,8 +224,24 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-        
+       /*Método para insertar un diseño
+       * Requiere: la entidad de diseño
+       * Modifica: modifica la tabla Diseno_Pruebas
+       * Retorna:booleano si logra insertar el diseño
+       */
+        public bool insertarDiseno(EntidadDiseno nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Diseno_Pruebas (id_diseno, proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, tipo, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', '" + nuevo.getNivel + "', '" + nuevo.getTipo + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                return acceso.insertarDatos(insercion);
 
-
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+   
   }
 }

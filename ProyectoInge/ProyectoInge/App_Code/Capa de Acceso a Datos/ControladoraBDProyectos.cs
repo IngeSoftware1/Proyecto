@@ -674,5 +674,21 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+        public bool actualizarRequerimiento(Object[] datos)
+        {
+            try
+            {
+                string actualizacion = "UPDATE Requerimiento SET id_diseno ='" + datos[2] + "' WHERE id_req ='" + datos[0] + "' AND id_proyecto = '" + datos[1] + "' AND nombre_req = '" + datos[3] + "';";
+                return acceso.insertarDatos(actualizacion);
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+       
+
+
     }
 }

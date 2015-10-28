@@ -360,40 +360,102 @@ namespace ProyectoInge
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
                 datosNuevos[7] = this.comboTipo.Text;
-                datosNuevos[8] = 3;//llamar metodo
+                datosNuevos[8] = idProyecto;
                 // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
 
 
-
-                //si la oficina usuaria se pudo insertar correctamente entra a este if
-       /*         if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                //si el diseño de prueba se pudo insertar correctamente entra a este if
+                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
                 {
-                    int idOficina = controladoraProyecto.obtenerOficinaAgregada(this.txtnombreOficina.Text);
-                    Session["idOficinaS"] = Convert.ToString(idOficina);
+                    
 
-                    guardarTelefonos(idOficina);
+                    //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
+                    
+                    int i = 0;
+                    int indiceReq = 0;
+                    string sigla = "";
+                    string nombreRequerimiento = "";
 
-                    //Ya guardados la oficina usuaria y sus telefonos se guarda el proyecto en el sistema
-                    tipoInsercion = 3; //inserción de proyecto tipo 3
-                    Object[] nuevoProyecto = new Object[7];
-                    nuevoProyecto[0] = this.txtNombreProy.Text;
-                    nuevoProyecto[1] = this.txtObjetivo.Text;
-                    nuevoProyecto[2] = this.txtCalendar.Text;
-                    nuevoProyecto[3] = this.comboEstado.Text;
-                    nuevoProyecto[4] = Session["cedula"].ToString();
-                    nuevoProyecto[5] = obtenerCedula(this.comboLider.Text, true);
-                    nuevoProyecto[6] = idOficina;
 
-                    //El proyecto si se pudo insertar correctamente en la base
-                    if (controladoraProyecto.ejecutarAccion(modo, tipoInsercion, nuevoProyecto, "", ""))
+                    if (this.comboNivel.Text == "Unitaria")
                     {
-                        //Se guardan los miembros del equipo para el proyecto
-                        int idProyecto = controladoraProyecto.obtenerIDconNombreProyecto(txtNombreProy.Text);
-                        Session["idProyectoS"] = Convert.ToString(idProyecto);
-                        guardarMiembros(idProyecto);
-                        guardarRequerimientos(idProyecto);
+                        while (listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
+                        {
+                            ++indiceReq;
+                        }
 
-                        //se carga la interfaz de nuevo
+                        sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
+                        nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
+                        Object[] requerimientoActualizado = new Object[4];
+                        requerimientoActualizado[0] = sigla;
+                        requerimientoActualizado[1] = idProyecto;
+                        requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                        requerimientoActualizado[3] = nombreRequerimiento;
+                        tipoInsercion = 2;
+
+                        //Se actualizó un requerimiento
+                        if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                        {
+                        }
+                        //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                        else
+                        {
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                            habilitarCamposInsertar();
+                        }
+                    }
+
+                    else
+                    {
+                        // PREGUNTAR SI ESTO ES PARA  INTEGRACION DE SISTEMA Y DE ACEPTACION  O SOLO INTEGRACION
+
+                        while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                        {
+
+                            indiceReq = 0;
+                            sigla = "";
+                            nombreRequerimiento = "";
+
+
+
+                            while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                            {
+                                ++indiceReq;
+                            }
+                            sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                            nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+
+
+                            Object[] requerimientoActualizado = new Object[4];
+                            requerimientoActualizado[0] = sigla;
+                            requerimientoActualizado[1] = idProyecto;
+                            requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            requerimientoActualizado[3] = nombreRequerimiento;
+                            tipoInsercion = 2;
+
+                            //Se actualizó un requerimiento
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            {
+                            }
+                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                            else
+                            {
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                                habilitarCamposInsertar();
+                            }
+
+                            i++;
+
+                        }
+                    }
+
+                      //se carga la interfaz de nuevo
                         controlarCampos(false);
                         cambiarEnabled(true, this.btnModificar);
                         cambiarEnabled(true, this.btnEliminar);
@@ -403,30 +465,21 @@ namespace ProyectoInge
                         llenarGrid(null);
 
                         lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Nuevo proyecto creado con éxito.";
+                        lblModalBody.Text = "Nuevo diseño creado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
-                    }
-                    //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
-                    else
-                    {
-                        controladoraProyecto.eliminarOficina(idOficina);
+
+                }
+                else
+                {
+
                         lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Este proyecto ya se encuentra registrado en el sistema.";
+                        lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                         habilitarCamposInsertar();
-                    }
                 }
-                //La oficina usuaria no se pudo registrar en la BD
-                else
-                {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "Esta oficina usuaria ya se encuentra registrada en el sistema.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                    habilitarCamposInsertar();
-                } */
+
             } 
         }
 

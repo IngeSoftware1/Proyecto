@@ -54,7 +54,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             }
 
             //Metodos set y get del atributo procedimiento
-            public String getApellido1
+            public String getProcedimiento
             {
                 get { return procedimiento; }
                 set { procedimiento = value; }
