@@ -57,8 +57,30 @@ namespace ProyectoInge
                 llenarComboProyecto(Session["cedula"].ToString());
             }
 
-           
+        }
 
+        /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
+        * Requiere: object sender, EventArgs e
+        * Modifica: Cambia la propiedad Enabled de las cajas y botones
+        * Retorna: no retorna ningún valor
+        */
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnModificar);
+            //llenar los txtbox con la table
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            llenarComboNivel();
+            llenarComboProyecto(Session["cedula"].ToString());
+            llenarComboRecursos();
+            llenarComboTecnica();
+            llenarComboTipo();
+
+            modo = 2;
+            //habilitarCamposModificar();
+            //llenarDropDownRol();
         }
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
