@@ -662,6 +662,31 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+
+        /* Método para obtener los miembros asociados a un determinado proyecto junto con la cédula
+       * Requiere: un string con el identificador del proyecto.
+       * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
+       * Retorna: un DataTable con los miembros asociados al proyecto especificado
+       */
+        public DataTable consultarMiembrosDeProyecto(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT F.nombre, F.apellido1, F.apellido2, M.tipo_rol, F.cedula " + " FROM Funcionario F, Miembro M, Trabaja_En T WHERE T.id_proyecto = '" + idProyecto + "'" + "AND T.cedula_miembro = F.cedula AND T.cedula_miembro = M.cedula_miembro ";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
   
 
     }

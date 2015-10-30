@@ -331,6 +331,20 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+
+
+        /* Método para obtener los miembros asociados a un determinado proyecto junto con la cédula
+       * Requiere: un string con el identificador del proyecto.
+       * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
+       * Retorna: un DataTable con los miembros asociados al proyecto especificado
+       */
+        public DataTable consultarMiembrosDeProyecto(string idProyecto)
+        {
+            
+            return controladoraBDRecurso.consultarMiembrosDeProyecto(idProyecto);
+           
+        }
+
         
 
 

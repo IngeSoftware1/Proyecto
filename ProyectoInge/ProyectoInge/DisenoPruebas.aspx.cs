@@ -56,6 +56,7 @@ namespace ProyectoInge
             }
             llenarComboRecursos();
          }
+
         /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
         * Requiere: object sender, EventArgs e
         * Modifica: Cambia la propiedad Enabled de las cajas y botones
@@ -69,6 +70,7 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
+            this.comboProyecto.Enabled = false;
             llenarComboNivel();
             llenarComboProyecto(Session["cedula"].ToString());
             llenarComboRecursos();
@@ -240,10 +242,13 @@ namespace ProyectoInge
 
               
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-                DataTable Recursos = controladoraDiseno.consultarMiembrosProyecto(id.ToString());
+          
+                DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
                 string nombre = "";
+                int numColumna = 0;
+                int indiceResponsables = 0;
 
                 if (Recursos.Rows.Count >= 1)
                 {
@@ -252,15 +257,34 @@ namespace ProyectoInge
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
-                        nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
-                        datos[i] = nombre;
+
+
+                        foreach(DataColumn column in Recursos.Columns)
+                        {
+                            if(numColumna == 4 ){
+
+                                cedulasRepresentantes.Add(nombre,Recursos.Rows[i][column].ToString());
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+                        
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        numColumna = 0;
+                        nombre = "";
 
                     }
 
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
+                    Session["vectorCedulasResponsables"] = cedulasRepresentantes;
                 }
-
 
             }
 
@@ -305,7 +329,8 @@ namespace ProyectoInge
 
                 case 2:
                     {
-                        // btnAceptar_Modificar();
+
+                         btnAceptar_Modificar();
                     }
                     break;
                 case 3:
@@ -321,6 +346,159 @@ namespace ProyectoInge
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /*Método para la acción de aceptar cuando esta en modo de inserción
+       * Requiere: No requiere ningún parámetro
+       * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
+       * valida que todos los datos se encuentren para la modificacion
+       * Retorna: No retorna ningún valor
+       */
+        private void btnAceptar_Modificar()
+        {
+            int tipoInsercion = 1;
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //habilitarCamposModificar();
+            }
+            else
+            {
+                int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
+                Object[] datosNuevos = new Object[10];
+                datosNuevos[0] = this.txtProposito.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = this.txtProcedimiento.Text;
+                datosNuevos[3] = this.txtAmbiente.Text;
+                datosNuevos[4] = this.txtCriterios.Text;
+                datosNuevos[5] = this.comboTecnica.Text;
+                datosNuevos[6] = this.comboNivel.Text;
+                datosNuevos[7] = this.comboTipo.Text;
+                datosNuevos[8] = idProyecto;
+                // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+
+
+                //si el diseño de prueba se pudo insertar correctamente entra a este if
+                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                {
+
+
+                    //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
+
+                    int i = 0;
+                    int indiceReq = 0;
+                    string sigla = "";
+                    string nombreRequerimiento = "";
+
+
+                    if (this.comboNivel.Text == "Unitaria")
+                    {
+                        while (listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
+                        {
+                            ++indiceReq;
+                        }
+
+                        sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
+                        nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
+                        Object[] requerimientoActualizado = new Object[4];
+                        requerimientoActualizado[0] = sigla;
+                        requerimientoActualizado[1] = idProyecto;
+                        requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                        requerimientoActualizado[3] = nombreRequerimiento;
+                        tipoInsercion = 2;
+
+                        //Se actualizó un requerimiento
+                        if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                        {
+                        }
+                        //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                        else
+                        {
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                            habilitarCamposInsertar();
+                        }
+                    }
+
+                    else
+                    {
+                        // PREGUNTAR SI ESTO ES PARA  INTEGRACION DE SISTEMA Y DE ACEPTACION  O SOLO INTEGRACION
+
+                        while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                        {
+
+                            indiceReq = 0;
+                            sigla = "";
+                            nombreRequerimiento = "";
+
+
+
+                            while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                            {
+                                ++indiceReq;
+                            }
+                            sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                            nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+
+
+                            Object[] requerimientoActualizado = new Object[4];
+                            requerimientoActualizado[0] = sigla;
+                            requerimientoActualizado[1] = idProyecto;
+                            requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            requerimientoActualizado[3] = nombreRequerimiento;
+                            tipoInsercion = 2;
+
+                            //Se actualizó un requerimiento
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            {
+                            }
+                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                            else
+                            {
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                                habilitarCamposInsertar();
+                            }
+
+                            i++;
+
+                        }
+                    }
+
+                    //se carga la interfaz de nuevo
+                    controlarCampos(false);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nuevo diseño creado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+
+                }
+                else
+                {
+
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposInsertar();
+                }
+
+            }
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -568,7 +746,7 @@ namespace ProyectoInge
             {
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idDiseñoConsultado = lnkConsulta.CommandArgument;
-                Session["idDiseñoCaso"] = idProyectoConsultado;
+                Session["idDiseñoS"] = idProyectoConsultado;
          
             }
 
@@ -598,84 +776,83 @@ namespace ProyectoInge
         public void llenarDatos(string idDiseño)
         {
 
-            string nombreRepresentante = "";
-            string nombre = "";
-            ListItem representante;
-            Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
-            String cedulaRepresentante="";
-            idDiseñoConsultado = idDiseño;
-            DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
-            DataTable datosMiembro = null;
-            DataTable datosReqProyecto = null;
-            DataTable datosReqDiseno = null;
-            
-            if (datosFilaDiseño.Rows.Count == 1)
+            if (idDiseño != null && idDiseño.Equals("-") == false )
             {
+                string nombreRepresentante = "";
+                string nombre = "";
+                ListItem representante;
+                Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
+                String cedulaRepresentante = "";
+                idDiseñoConsultado = idDiseño;
+                DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+                DataTable datosMiembro = null;
+                DataTable datosReqProyecto = null;
+                DataTable datosReqDiseno = null;
 
-                this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
-                this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
-                this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
-                this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
-                this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
-                idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
-                cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
-                datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
-                datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
-                datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
-
-                if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                if (datosFilaDiseño.Rows.Count == 1)
                 {
-                    ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
-                    this.comboNivel.SelectedValue = niveles.Value;
-                }
-                if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
-                {
-                    ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
-                    this.comboTecnica.SelectedValue = tecnica.Value;
+
+                    this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
+                    this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
+                    this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
+                    this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
+                    this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
+                    idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                    cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
+                    datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                    datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
+                    datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+
+                    if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                    {
+                        ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
+                        this.comboNivel.SelectedValue = niveles.Value;
+                    }
+                    if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
+                    {
+                        ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
+                        this.comboTecnica.SelectedValue = tecnica.Value;
+                    }
+
+
+                    nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                    nombre = nombre + nombreRepresentante;
+
+                    if (this.comboResponsable.Items.FindByText(nombre) != null)
+                    {
+                        representante = this.comboResponsable.Items.FindByText(nombre);
+                        this.comboResponsable.SelectedValue = representante.Value;
+                    }
+
                 }
 
-               
-                nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
-                nombre = nombre + nombreRepresentante;
-
-                if (this.comboResponsable.Items.FindByText(nombre) != null)
-                {
-                    representante = this.comboResponsable.Items.FindByText(nombre);
-                    this.comboResponsable.SelectedValue = representante.Value;
-                }
-                
-            }
-           
-            listReqAgregados.Items.Clear();
-            string requerimiento = "";
-            if (datosReqDiseno.Rows.Count >= 1)
-            {
                 listReqAgregados.Items.Clear();
-                for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                string requerimiento = "";
+                if (datosReqDiseno.Rows.Count >= 1)
                 {
-                    requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
-                    listReqAgregados.Items.Add(requerimiento);
+                    listReqAgregados.Items.Clear();
+                    for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                    {
+                        requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
+                        listReqAgregados.Items.Add(requerimiento);
 
+                    }
                 }
-            }
-            requerimiento = "";
-            listReqProyecto.Items.Clear();
-            if (datosReqProyecto.Rows.Count >= 1)
-            {
-                listReqAgregados.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                requerimiento = "";
+                listReqProyecto.Items.Clear();
+                if (datosReqProyecto.Rows.Count >= 1)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
+                    listReqAgregados.Items.Clear();
+                    for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                    {
+                        requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                        listReqProyecto.Items.Add(requerimiento);
 
+                    }
                 }
+
+
             }
-
-            
-
-            
-
-
             
 
 
@@ -912,13 +1089,11 @@ namespace ProyectoInge
         * Modifica: el valor de la cédula solicitada.
         * Retorna: la cédula del miembro solicitado.
         */
-        protected string obtenerCedula(string nombreMiembro, bool lider)
+        protected string obtenerCedula(string nombreMiembro)
         {
             string cedula = "";
 
-            if (lider == false)
-            {
-                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasMiembros"];
+                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasResponsables"];
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
@@ -927,20 +1102,6 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-            }
-            else
-            {
-                Dictionary<string, string> cedulasLid = (Dictionary<string, string>)Session["vectorCedulasLideres"];
-
-
-                if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
-                {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "Nombre del miembro es inválido.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-            }
 
             return cedula;
 

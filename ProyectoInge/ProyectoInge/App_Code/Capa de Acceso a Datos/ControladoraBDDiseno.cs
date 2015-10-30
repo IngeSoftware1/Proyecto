@@ -242,8 +242,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-
-        internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
+internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
         {
             try
             {
@@ -256,5 +255,33 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false; 
             }
         }
-    }
+/* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT *  FROM Requerimiento where id_diseno = (Select id_diseno From Requerimiento_Diseno WHERE id_proyecto = '" + idProyecto + "'" + "AND id_diseno ='" + idDiseño + "');";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
+
+
+
 }

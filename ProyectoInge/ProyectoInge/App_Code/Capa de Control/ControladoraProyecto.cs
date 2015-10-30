@@ -375,15 +375,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
-        /* Método para consultar requerimientos de un diseño
-        * Requiere: el id del diseño y el proyecto al que pertenece
-        * Modifica: no modifica datos
-        * Retorna: un DataTable que contiene los requerimientos del diseño
-        */
-        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
-        {
-            return controladoraBDProyecto.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
-        }
+        
 
         /* Método para consultar requerimientos de un proyecto
         * Requiere: el id del diseño y el proyecto al que pertenece
@@ -413,11 +405,25 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-        internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
+
+
+
+
+/* Método para obtener los miembros asociados a un determinado proyecto junto con la cédula
+        * Requiere: un string con el identificador del proyecto.
+        * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
+        * Retorna: un DataTable con los miembros asociados al proyecto especificado
+        */
+        public DataTable consultarMiembrosDeProyecto(string idProyecto)
+        {
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarMiembrosDeProyecto(idProyecto);
+            return resultado;
+        }
+		internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
         {
             return controladoraBDProyecto.eliminarRequerimiento(sigla, nombreReq, idProyecto);
-        }
-    }
+        }}
 
 
 }
