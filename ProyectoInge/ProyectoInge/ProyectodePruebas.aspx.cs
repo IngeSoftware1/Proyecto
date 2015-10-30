@@ -600,34 +600,37 @@ namespace ProyectoInge
                                 {
                                     int idProyecto = Int32.Parse(idP);
                                     guardarMiembros(idProyecto);
-
-                                    //se carga la interfaz de nuevo
-                                    controlarCampos(false);
-                                    cambiarEnabled(true, this.btnModificar);
-                                    cambiarEnabled(true, this.btnEliminar);
-                                    cambiarEnabled(false, this.btnAceptar);
-                                    cambiarEnabled(false, this.btnCancelar);
-                                    cambiarEnabled(true, this.btnInsertar);
-
-                                    if (Session["perfil"].ToString().Equals("Administrador"))
+                                    tipoModificacion=5;
+                                    if (modificarRequeriminetos(idProyecto))//Elimina los requerimientos
                                     {
-
+                                        guardarRequerimientos(idProyecto);//este metodo los agrega los nuevos requerimientos
+      
+                                        controlarCampos(false);
+                                        //se carga la interfaz de nuevo
+                                        cambiarEnabled(true, this.btnModificar);
+                                        cambiarEnabled(true, this.btnEliminar);
+                                        cambiarEnabled(false, this.btnAceptar);
+                                        cambiarEnabled(false, this.btnCancelar);
                                         cambiarEnabled(true, this.btnInsertar);
-                                        llenarGrid(null);
-                                    }
-                                    else
-                                    {
-                                        cambiarEnabled(false, this.btnInsertar);
-                                        llenarGrid(Session["cedula"].ToString());
-                                    }
-                                    lblModalTitle.Text = " ";
-                                    lblModalBody.Text = "Proyecto modificado con éxito.";
-                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                    upModal.Update();
 
-                                //    llenarComboEstado();
-                                //    llenarComboLideres();
-                                    //cargarMiembrosSinAsignar();
+                                        if (Session["perfil"].ToString().Equals("Administrador"))
+                                        {
+
+                                            cambiarEnabled(true, this.btnInsertar);
+                                            llenarGrid(null);
+                                        }
+                                        else
+                                        {
+                                            cambiarEnabled(false, this.btnInsertar);
+                                            llenarGrid(Session["cedula"].ToString());
+                                        }
+                                        lblModalTitle.Text = " ";
+                                        lblModalBody.Text = "Proyecto modificado con éxito.";
+                                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                        upModal.Update();
+                                        
+                                    }
+                                    
                                 }
                                 else
                                 {
@@ -669,6 +672,51 @@ namespace ProyectoInge
                     upModal.Update();
                 }
             }
+        }
+
+        private bool modificarRequeriminetos(int idProyecto)
+        {
+            int i = 0;
+            int indiceReq = 0;
+            int encontroIgual = 0;
+            string sigla = "";
+            string nombreRequerimiento = "";
+            DataTable tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);
+
+            int tamTabla = tablaReq.Rows.Count;
+            foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
+            {
+                if (fila[1].ToString() != "Dummy")
+                {
+                    while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
+                    {
+                        ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
+
+                        indiceReq = 0;
+                        sigla = "";
+                        nombreRequerimiento = "";
+
+                        while (indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                        {
+                            ++indiceReq;
+                        }
+                        sigla = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
+                        nombreRequerimiento = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                        if (fila[1].ToString() == sigla && fila[3].ToString() == nombreRequerimiento)
+                        {
+                            encontroIgual++;
+                        }
+                    }
+
+                    //Aqui va a eliminar de la base si lo requiere
+                    if (encontroIgual == 0)//significa que no encontro en la lista y debe eliminarlo
+                    {
+                        controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
+                        controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
+                    }
+                }
+            }
+            return false;
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
@@ -954,7 +1002,7 @@ namespace ProyectoInge
                 Object[] nuevoRequerimiento = new Object[4];
                 nuevoRequerimiento[0] = sigla;
                 nuevoRequerimiento[1] = idProyecto;
-                nuevoRequerimiento[2] = controladoraDiseno.obtenerIdDisenoPorProposito("Dummy");; //Diseño dummy
+                nuevoRequerimiento[2] = controladoraDiseno.obtenerIdDisenoPorProposito("Dummy"); //Diseño dummy
                 nuevoRequerimiento[3] = nombreRequerimiento;
 
 
@@ -967,11 +1015,13 @@ namespace ProyectoInge
                 //La inserción de un nuevo requerimiento en la base de datos falló porque ya estaba en la base
                 else
                 {
+                   
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "Este requerimiento ya se encuentra asociado al proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposInsertar();
+                    
                 }
 
                 i++;

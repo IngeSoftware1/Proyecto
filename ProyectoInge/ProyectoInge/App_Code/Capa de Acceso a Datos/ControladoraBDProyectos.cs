@@ -687,8 +687,19 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-       
 
-
+        internal bool eliminarRequerimiento(string sigla, string nombreReq, int idProyecto)
+        {
+            try
+            {
+                string borrarRequerimiento = "Delete from Requerimiento where id_proyecto ='" + idProyecto + " AND id_req ="+sigla + " AND nombre_req = " + nombreReq +" ';";
+                acceso.eliminarDatos(borrarRequerimiento);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
     }
 }

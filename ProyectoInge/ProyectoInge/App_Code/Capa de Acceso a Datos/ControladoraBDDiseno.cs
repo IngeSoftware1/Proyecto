@@ -242,6 +242,19 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-   
-  }
+
+        internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
+        {
+            try
+            {
+                string borrarRequerimientoDiseno = "Delete from Requerimiento_Diseno where id_proyecto ='" + idProyecto + " AND id_req =" + sigla + " ';";
+                acceso.eliminarDatos(borrarRequerimientoDiseno);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false; 
+            }
+        }
+    }
 }

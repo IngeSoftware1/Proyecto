@@ -406,7 +406,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        internal bool eliminarRequerimientosDiseno(string sigla, string nombreReq, int idProyecto)
+        {
+            ControladoraBDDiseno controladoraBDDiseno = new ControladoraBDDiseno();
+            bool resultado = controladoraBDDiseno.eliminarRequerimientoDiseno(sigla,nombreReq,idProyecto);
+            return resultado;
+        }
 
+        internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
+        {
+            return controladoraBDProyecto.eliminarRequerimiento(sigla, nombreReq, idProyecto);
+        }
     }
 
 
