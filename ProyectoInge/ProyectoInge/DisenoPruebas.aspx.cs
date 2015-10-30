@@ -307,7 +307,7 @@ namespace ProyectoInge
 
                 case 2:
                     {
-                        // btnAceptar_Modificar();
+                         btnAceptar_Modificar();
                     }
                     break;
                 case 3:
@@ -323,6 +323,159 @@ namespace ProyectoInge
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /*Método para la acción de aceptar cuando esta en modo de inserción
+       * Requiere: No requiere ningún parámetro
+       * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
+       * valida que todos los datos se encuentren para la modificacion
+       * Retorna: No retorna ningún valor
+       */
+        private void btnAceptar_Modificar()
+        {
+            int tipoInsercion = 1;
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //habilitarCamposModificar();
+            }
+            else
+            {
+                int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
+                Object[] datosNuevos = new Object[10];
+                datosNuevos[0] = this.txtProposito.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = this.txtProcedimiento.Text;
+                datosNuevos[3] = this.txtAmbiente.Text;
+                datosNuevos[4] = this.txtCriterios.Text;
+                datosNuevos[5] = this.comboTecnica.Text;
+                datosNuevos[6] = this.comboNivel.Text;
+                datosNuevos[7] = this.comboTipo.Text;
+                datosNuevos[8] = idProyecto;
+                // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+
+
+                //si el diseño de prueba se pudo insertar correctamente entra a este if
+                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                {
+
+
+                    //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
+
+                    int i = 0;
+                    int indiceReq = 0;
+                    string sigla = "";
+                    string nombreRequerimiento = "";
+
+
+                    if (this.comboNivel.Text == "Unitaria")
+                    {
+                        while (listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
+                        {
+                            ++indiceReq;
+                        }
+
+                        sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
+                        nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
+                        Object[] requerimientoActualizado = new Object[4];
+                        requerimientoActualizado[0] = sigla;
+                        requerimientoActualizado[1] = idProyecto;
+                        requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                        requerimientoActualizado[3] = nombreRequerimiento;
+                        tipoInsercion = 2;
+
+                        //Se actualizó un requerimiento
+                        if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                        {
+                        }
+                        //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                        else
+                        {
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                            habilitarCamposInsertar();
+                        }
+                    }
+
+                    else
+                    {
+                        // PREGUNTAR SI ESTO ES PARA  INTEGRACION DE SISTEMA Y DE ACEPTACION  O SOLO INTEGRACION
+
+                        while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                        {
+
+                            indiceReq = 0;
+                            sigla = "";
+                            nombreRequerimiento = "";
+
+
+
+                            while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                            {
+                                ++indiceReq;
+                            }
+                            sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                            nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+
+
+                            Object[] requerimientoActualizado = new Object[4];
+                            requerimientoActualizado[0] = sigla;
+                            requerimientoActualizado[1] = idProyecto;
+                            requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            requerimientoActualizado[3] = nombreRequerimiento;
+                            tipoInsercion = 2;
+
+                            //Se actualizó un requerimiento
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            {
+                            }
+                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                            else
+                            {
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                                habilitarCamposInsertar();
+                            }
+
+                            i++;
+
+                        }
+                    }
+
+                    //se carga la interfaz de nuevo
+                    controlarCampos(false);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nuevo diseño creado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+
+                }
+                else
+                {
+
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposInsertar();
+                }
+
+            }
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
