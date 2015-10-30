@@ -194,7 +194,7 @@ namespace ProyectoInge
             if (faltanDatos())
             {
                 lblModalTitle.Text = " ";
-                lblModalBody.Text = "Para insertar un nuevo caso de prueba debe completar todos los datos obligatorios.";
+                lblModalBody.Text = "Para insertar un nuevo caso de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
                 habilitarCamposInsertar();
@@ -264,7 +264,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtPropósito.Text == "" || this.txtIdentificador.Text == "" || this.txtFlujoCentral.Text == "" || this.txtEntradaDatos.Text == "" || this.txtResultadoEsperado.Text == "")
+            if (this.txtPropósito.Text == "" || this.txtIdentificador.Text == "" )
             {
                 resultado = true;
             }

@@ -56,6 +56,7 @@ namespace ProyectoInge
             }
             llenarComboRecursos();
          }
+
         /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
         * Requiere: object sender, EventArgs e
         * Modifica: Cambia la propiedad Enabled de las cajas y botones
@@ -69,8 +70,9 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
+            this.comboProyecto.Enabled = false;
             llenarComboNivel();
-            llenarComboProyecto(Session["cedula"].ToString());
+            //llenarComboProyecto(Session["cedula"].ToString());
             llenarComboRecursos();
             llenarComboTecnica();
 
