@@ -20,7 +20,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public bool buscarAsignacionMiembrosDiseno(string cedulaDeFuncionario)
         {
 
-        bool resultado = false;
+            bool resultado = false;
 
             try
             {
@@ -32,7 +32,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 }
                 else
                 {
-                        resultado = false;
+                    resultado = false;
                 }
             }
             catch (SqlException e)
@@ -40,8 +40,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 resultado = false;
             }
 
-        return resultado;
-    }
+            return resultado;
+        }
 
         public int obtenerIdDisenoPorProposito(string proposito)
         {
@@ -155,7 +155,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT * FROM Diseno_Pruebas WHERE id_diseno = '"+idDiseño+"';";
+                consulta = "SELECT * FROM Diseno_Pruebas WHERE id_diseno = '" + idDiseño + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -204,7 +204,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     {
                         ++contador;
 
-                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedula_responsable FROM Diseno_Pruebas D WHERE D.id_proyecto='" +idProyectos.Rows[i][0].ToString() + "'";
+                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.tipo, D.cedula_responsable FROM Diseno_Pruebas D WHERE D.id_proyecto='" + idProyectos.Rows[i][0].ToString() + "'";
                         if (contador != idProyectos.Rows.Count)
                         {
                             consulta = consulta + "UNION";
@@ -224,11 +224,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-       /*Método para insertar un diseño
-       * Requiere: la entidad de diseño
-       * Modifica: modifica la tabla Diseno_Pruebas
-       * Retorna:booleano si logra insertar el diseño
-       */
+        /*Método para insertar un diseño
+        * Requiere: la entidad de diseño
+        * Modifica: modifica la tabla Diseno_Pruebas
+        * Retorna:booleano si logra insertar el diseño
+        */
         public bool insertarDiseno(EntidadDiseno nuevo)
         {
             try
@@ -242,7 +242,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
+        internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
         {
             try
             {
@@ -252,14 +252,14 @@ internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int id
             }
             catch (SqlException e)
             {
-                return false; 
+                return false;
             }
         }
-/* Método para consultar requerimientos de un diseño
-        * Requiere: el id del diseño y el proyecto al que pertenece
-        * Modifica: no modifica datos
-        * Retorna: un DataTable que contiene los requerimientos del diseño
-        */
+        /* Método para consultar requerimientos de un diseño
+                * Requiere: el id del diseño y el proyecto al que pertenece
+                * Modifica: no modifica datos
+                * Retorna: un DataTable que contiene los requerimientos del diseño
+                */
         public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
         {
             DataTable dt = new DataTable();
@@ -281,7 +281,7 @@ internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int id
 
 
 
-
+    }
 
 
 }
