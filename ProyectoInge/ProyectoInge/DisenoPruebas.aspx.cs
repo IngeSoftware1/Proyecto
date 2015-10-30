@@ -238,7 +238,7 @@ namespace ProyectoInge
             protected void llenarComboRecursos()
             {
 
-                this.comboProyecto.Items.Clear();
+              
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 DataTable Recursos = controladoraDiseno.consultarMiembrosProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
@@ -254,6 +254,7 @@ namespace ProyectoInge
                     {
                         nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
                         datos[i] = nombre;
+
                     }
 
                     this.comboResponsable.DataSource = datos;
@@ -596,13 +597,13 @@ namespace ProyectoInge
       */
         public void llenarDatos(string idDiseño)
         {
-            string nombreRepresentante;
+
+            string nombreRepresentante = "";
             string nombre = "";
             ListItem representante;
             Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
             String cedulaRepresentante="";
             idDiseñoConsultado = idDiseño;
-            Response.Write(idDiseño);
             DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
             DataTable datosMiembro = null;
             DataTable datosReqProyecto = null;
@@ -616,8 +617,8 @@ namespace ProyectoInge
                 this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
                 this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
                 this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
-                idProyectoConsultado = datosFilaDiseño.Rows[0][9].ToString();
-                cedulaRepresentante = datosFilaDiseño.Rows[0][10].ToString();
+                idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
                 datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
                 datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
                 datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
@@ -632,19 +633,15 @@ namespace ProyectoInge
                     ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
                     this.comboTecnica.SelectedValue = tecnica.Value;
                 }
-                if (this.comboTipo.Items.FindByText(datosFilaDiseño.Rows[0][8].ToString()) != null)
-                {
-                    ListItem tipo = this.comboTipo.Items.FindByText(datosFilaDiseño.Rows[0][8].ToString());
-                    this.comboTipo.SelectedValue = tipo.Value;
-                }
-                
 
-                if (this.comboResponsable.Items.FindByText(datosMiembro.Rows[0][0].ToString()) != null)
-                {
+               
+                nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                nombre = nombre + nombreRepresentante;
 
-                    nombre = datosMiembro.Rows[0][1].ToString()+ " " + datosMiembro.Rows[0][2].ToString();
-                    ListItem represent = this.comboResponsable.Items.FindByText(nombre);
-                    this.comboResponsable.SelectedValue = represent.Value;
+                if (this.comboResponsable.Items.FindByText(nombre) != null)
+                {
+                    representante = this.comboResponsable.Items.FindByText(nombre);
+                    this.comboResponsable.SelectedValue = representante.Value;
                 }
                 
             }
@@ -668,7 +665,7 @@ namespace ProyectoInge
                 listReqAgregados.Items.Clear();
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][3].ToString();
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     listReqProyecto.Items.Add(requerimiento);
 
                 }
@@ -696,7 +693,7 @@ namespace ProyectoInge
             DataTable diseños;
             DataTable idProyectos;
             DataTable idDiseños;
-            Object[] datos = new Object[6];
+            Object[] datos = new Object[5];
             string representante = "";
             int indiceColumna = 0;
             string nombreRepresentante = "";
@@ -711,7 +708,6 @@ namespace ProyectoInge
                 //Se obtienen todos los proyectos pues el administrador es el usuario del sistema
                 
                 diseños = controladoraDiseno.consultarDisenos(null);
-
                 //Se obtienen todos los lideres del sistema
                 representantes = controladoraDiseno.consultarRepresentantesDisenos();
 
@@ -723,6 +719,7 @@ namespace ProyectoInge
 
                         if (indiceColumna == 3)
                         {
+                            
                             nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
 
                         }
@@ -742,10 +739,10 @@ namespace ProyectoInge
 
                 }
 
-                Session["nombreRepresentates_Consultados"] = nombreRepresentantesConsultados;
+                Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
 
 
-                if (diseños.Rows.Count > 1)
+                if (diseños.Rows.Count > 0)
                 {
                     foreach (DataRow fila in diseños.Rows)
                     {
@@ -755,9 +752,8 @@ namespace ProyectoInge
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();
                             datos[3] = fila[3].ToString();
-                            datos[4] = fila[4].ToString();
-                            nombreRepresentantesConsultados.TryGetValue(fila[5].ToString(), out representante);
-                            datos[5] = representante;
+                            nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                            datos[4] = representante;
                             dt.Rows.Add(datos);
                         }
                     }
@@ -772,7 +768,6 @@ namespace ProyectoInge
                     datos[2] = "-";
                     datos[3] = "-";
                     datos[4] = "-";
-                    datos[5] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -829,8 +824,7 @@ namespace ProyectoInge
                                 datos[1] = fila[1].ToString();
                                 datos[2] = fila[2].ToString();
                                 datos[3] = fila[3].ToString();
-                                datos[4] = fila[4].ToString();
-                                nombreRepresentantesConsultados.TryGetValue(fila[5].ToString(), out representante);
+                                nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
                                 datos[5] = representante;
                                 dt.Rows.Add(datos);
                             }
@@ -846,7 +840,6 @@ namespace ProyectoInge
                         datos[2] = "-";
                         datos[3] = "-";
                         datos[4] = "-";
-                        datos[5] = "-";
                         dt.Rows.Add(datos);
                     }
                 }
@@ -857,7 +850,6 @@ namespace ProyectoInge
                     datos[2] = "-";
                     datos[3] = "-";
                     datos[4] = "-";
-                    datos[5] = "-";
 
      
                     dt.Rows.Add(datos);
@@ -903,11 +895,6 @@ namespace ProyectoInge
             columna.ColumnName = "Nivel";
             dt.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Tipo";
-            dt.Columns.Add(columna);
-
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
@@ -917,6 +904,46 @@ namespace ProyectoInge
       
 
             return dt;
+        }
+
+
+        /*Método para obtener la cédula de un miembro a partir del nombre
+        * Requiere: nombre
+        * Modifica: el valor de la cédula solicitada.
+        * Retorna: la cédula del miembro solicitado.
+        */
+        protected string obtenerCedula(string nombreMiembro, bool lider)
+        {
+            string cedula = "";
+
+            if (lider == false)
+            {
+                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasMiembros"];
+
+                if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nombre del miembro es inválido.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
+            else
+            {
+                Dictionary<string, string> cedulasLid = (Dictionary<string, string>)Session["vectorCedulasLideres"];
+
+
+                if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nombre del miembro es inválido.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
+
+            return cedula;
+
         }
 
 

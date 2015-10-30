@@ -199,7 +199,7 @@ namespace ProyectoInge
             string filaMiembro = "";
             int numColumna = 0;
             cedulasTodosMiembros.Clear();
-
+           
 
             if (datosMiembros.Rows.Count >= 1)
             {
