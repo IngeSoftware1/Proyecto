@@ -127,17 +127,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
-        /* Método para consultar requerimientos de un diseño
-        * Requiere: el id del diseño y el proyecto al que pertenece
-        * Modifica: no modifica datos
-        * Retorna: un DataTable que contiene los requerimientos del diseño
-        */
-        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
-        {
-            controladoraProyectos = new ControladoraProyecto();
-            return controladoraProyectos.consultarReqDisenoDeProyecto(idDiseño,idProyecto);
-        }
-
         /* Método para consultar requerimientos de un proyecto
         * Requiere: el id del proyecto
         * Modifica: no modifica datos
@@ -238,10 +227,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
         * Retorna: un DataTable con los miembros asociados al proyecto especificado
         */
-        public DataTable consultarMiembrosProyecto(string idProyecto)
+        public DataTable consultarMiembrosDeProyecto(string idProyecto)
         {
             controladoraRH = new ControladoraRecursos();
-            DataTable resultado = controladoraRH.consultarMiembrosProyecto(idProyecto);
+            DataTable resultado = controladoraRH.consultarMiembrosDeProyecto(idProyecto);
             return resultado;
         }
 
@@ -255,6 +244,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
+        }
+
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            return controladoraBDDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
         }
 
 

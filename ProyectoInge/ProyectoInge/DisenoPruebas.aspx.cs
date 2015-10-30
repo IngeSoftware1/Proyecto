@@ -240,10 +240,12 @@ namespace ProyectoInge
 
               
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-                DataTable Recursos = controladoraDiseno.consultarMiembrosProyecto(id.ToString());
+                DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
                 string nombre = "";
+                int numColumna = 0;
+                int indiceResponsables = 0;
 
                 if (Recursos.Rows.Count >= 1)
                 {
@@ -252,15 +254,34 @@ namespace ProyectoInge
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
-                        nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
-                        datos[i] = nombre;
+
+
+                        foreach(DataColumn column in Recursos.Columns)
+                        {
+                            if(numColumna == 4 ){
+
+                                cedulasRepresentantes.Add(nombre,Recursos.Rows[i][column].ToString());
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+                        
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        numColumna = 0;
+                        nombre = "";
 
                     }
 
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
+                    Session["vectorCedulasResponsables"] = cedulasRepresentantes;
                 }
-
 
             }
 
@@ -544,6 +565,7 @@ namespace ProyectoInge
                 Session["idDiseñoS"] = idProyectoConsultado;
 
                 controlarCampos(false);
+                Response.Write("acadx"+idDiseñoConsultado);
                 llenarDatos(idDiseñoConsultado);
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
@@ -568,7 +590,7 @@ namespace ProyectoInge
             {
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idDiseñoConsultado = lnkConsulta.CommandArgument;
-                Session["idDiseñoCaso"] = idProyectoConsultado;
+                Session["idDiseñoS"] = idProyectoConsultado;
          
             }
 
@@ -597,85 +619,83 @@ namespace ProyectoInge
       */
         public void llenarDatos(string idDiseño)
         {
-
-            string nombreRepresentante = "";
-            string nombre = "";
-            ListItem representante;
-            Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
-            String cedulaRepresentante="";
-            idDiseñoConsultado = idDiseño;
-            DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
-            DataTable datosMiembro = null;
-            DataTable datosReqProyecto = null;
-            DataTable datosReqDiseno = null;
-            
-            if (datosFilaDiseño.Rows.Count == 1)
+            if (idDiseño != null && idDiseño.Equals("-") == false )
             {
+                string nombreRepresentante = "";
+                string nombre = "";
+                ListItem representante;
+                Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
+                String cedulaRepresentante = "";
+                idDiseñoConsultado = idDiseño;
+                DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+                DataTable datosMiembro = null;
+                DataTable datosReqProyecto = null;
+                DataTable datosReqDiseno = null;
 
-                this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
-                this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
-                this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
-                this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
-                this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
-                idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
-                cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
-                datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
-                datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
-                datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
-
-                if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                if (datosFilaDiseño.Rows.Count == 1)
                 {
-                    ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
-                    this.comboNivel.SelectedValue = niveles.Value;
-                }
-                if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
-                {
-                    ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
-                    this.comboTecnica.SelectedValue = tecnica.Value;
+
+                    this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
+                    this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
+                    this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
+                    this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
+                    this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
+                    idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                    cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
+                    datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                    datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
+                    datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+
+                    if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                    {
+                        ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
+                        this.comboNivel.SelectedValue = niveles.Value;
+                    }
+                    if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
+                    {
+                        ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
+                        this.comboTecnica.SelectedValue = tecnica.Value;
+                    }
+
+
+                    nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                    nombre = nombre + nombreRepresentante;
+
+                    if (this.comboResponsable.Items.FindByText(nombre) != null)
+                    {
+                        representante = this.comboResponsable.Items.FindByText(nombre);
+                        this.comboResponsable.SelectedValue = representante.Value;
+                    }
+
                 }
 
-               
-                nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
-                nombre = nombre + nombreRepresentante;
-
-                if (this.comboResponsable.Items.FindByText(nombre) != null)
-                {
-                    representante = this.comboResponsable.Items.FindByText(nombre);
-                    this.comboResponsable.SelectedValue = representante.Value;
-                }
-                
-            }
-           
-            listReqAgregados.Items.Clear();
-            string requerimiento = "";
-            if (datosReqDiseno.Rows.Count >= 1)
-            {
                 listReqAgregados.Items.Clear();
-                for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                string requerimiento = "";
+                if (datosReqDiseno.Rows.Count >= 1)
                 {
-                    requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
-                    listReqAgregados.Items.Add(requerimiento);
+                    listReqAgregados.Items.Clear();
+                    for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                    {
+                        requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
+                        listReqAgregados.Items.Add(requerimiento);
 
+                    }
                 }
-            }
-            requerimiento = "";
-            listReqProyecto.Items.Clear();
-            if (datosReqProyecto.Rows.Count >= 1)
-            {
-                listReqAgregados.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                requerimiento = "";
+                listReqProyecto.Items.Clear();
+                if (datosReqProyecto.Rows.Count >= 1)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
+                    listReqAgregados.Items.Clear();
+                    for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                    {
+                        requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                        listReqProyecto.Items.Add(requerimiento);
 
+                    }
                 }
+
+
             }
-
-            
-
-            
-
-
             
 
 
@@ -912,13 +932,11 @@ namespace ProyectoInge
         * Modifica: el valor de la cédula solicitada.
         * Retorna: la cédula del miembro solicitado.
         */
-        protected string obtenerCedula(string nombreMiembro, bool lider)
+        protected string obtenerCedula(string nombreMiembro)
         {
             string cedula = "";
 
-            if (lider == false)
-            {
-                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasMiembros"];
+                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasResponsables"];
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
@@ -927,20 +945,6 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-            }
-            else
-            {
-                Dictionary<string, string> cedulasLid = (Dictionary<string, string>)Session["vectorCedulasLideres"];
-
-
-                if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
-                {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "Nombre del miembro es inválido.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-            }
 
             return cedula;
 
