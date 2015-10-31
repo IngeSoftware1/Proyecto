@@ -504,7 +504,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT nombre_proyecto From Proyecto where nombre_proyecto != 'Dummy' ";
+                consulta = "SELECT nombre_proyecto, id_proyecto From Proyecto where nombre_proyecto != 'Dummy' ";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -679,5 +679,27 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
+
+        //metodo para traer proyectos si es lider
+        public DataTable consultarProyectosLider(string cedula)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT nombre_proyecto, id_proyecto WHERE cedula_lider='"+cedula+"';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
     }
 }

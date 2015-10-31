@@ -307,9 +307,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Requiere: un string con la cédula del miembro 
         * Retorna: un DataTable con el nombres del o los proyectos en los cuales el miembro trabaja
         */
-        public DataTable consultarNombresProyectos(string idUsuario)
+        public DataTable consultarProyectosDeUsuario(string idUsuario)
         {
-            return controladoraBDRecurso.consultarNombresProyectos(idUsuario);
+            return controladoraBDRecurso.consultarProyectosDeUsuario(idUsuario);
         }
 
         /* Método para consultar representante del diseño
@@ -344,6 +344,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.consultarMiembrosDeProyecto(idProyecto);
            
         }
+
+        
 
         
 

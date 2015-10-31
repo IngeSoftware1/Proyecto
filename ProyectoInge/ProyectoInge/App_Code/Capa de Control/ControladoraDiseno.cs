@@ -102,7 +102,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarProyectosDeUsuario(string cedula)
         {
             controladoraRH = new ControladoraRecursos();
-            return controladoraRH.consultarNombresProyectos(cedula);
+            return controladoraRH.consultarProyectosDeUsuario(cedula);
         }
 
         /* Método para consultar un diseño
@@ -255,6 +255,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
         {
             return controladoraBDDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
+        }
+
+      //metodo para consultarProyectos si es lider
+        public DataTable consultarProyectosLider(string cedula)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarProyectosLider(cedula);
         }
 
 

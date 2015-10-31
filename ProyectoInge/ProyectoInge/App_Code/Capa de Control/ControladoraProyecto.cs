@@ -374,6 +374,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
+        //metodo para traer proyectos si es lider
+        public DataTable consultarProyectosLider(string cedula)
+        {
+            return controladoraBDProyecto.consultarProyectosLider(cedula);
+        }
+
 
         
 

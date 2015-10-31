@@ -547,7 +547,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Requiere: un string con la cédula del miembro 
         * Retorna: un DataTable con los nombres del o los proyectos en los cuales el miembro trabaja
         */
-        public DataTable consultarNombresProyectos(string idUsuario)
+        public DataTable consultarProyectosDeUsuario(string idUsuario)
         {
             DataTable dt = new DataTable();
             string consulta;
@@ -555,7 +555,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT p.nombre_proyecto FROM Proyecto p WHERE p.id_proyecto =  (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
+                consulta = "SELECT p.nombre_proyecto, p.id_proyecto FROM Proyecto p WHERE p.id_proyecto =  (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch
@@ -687,6 +687,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+
+        
   
 
     }

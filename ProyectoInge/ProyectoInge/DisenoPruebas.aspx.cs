@@ -18,6 +18,7 @@ namespace ProyectoInge
         private string idDiseñoConsultado;
          Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
+        Dictionary<string, string> identificadoresProyectos = new Dictionary<string, string>();
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         protected void Page_Load(object sender, EventArgs e)
@@ -103,7 +104,7 @@ namespace ProyectoInge
         */
         protected void controlarCampos(Boolean condicion)
         {
-            //this.comboProyecto.Enabled = condicion;
+            /*this.comboProyecto.Enabled = condicion;
             this.listReqAgregados.Enabled = condicion;
             this.listReqProyecto.Enabled = condicion;
             this.lnkAgregarReq.Enabled = condicion;
@@ -118,6 +119,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
             this.calendarFecha.Enabled = condicion;
+             */
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -135,11 +137,14 @@ namespace ProyectoInge
        * Retorna: no retorna ningún valor */
         protected void llenarComboProyecto(string cedulaUsuario)
         {
+            string nombre = "";
             this.comboProyecto.Items.Clear();
             DataTable nombresProyecto;
             int numDatos = 0;
             Object[] datos;
-
+            int indiceProyecto = 0;
+            int numColumna = 0;
+            
 
             if(cedulaUsuario==null){
 
@@ -149,12 +154,15 @@ namespace ProyectoInge
                     numDatos = nombresProyecto.Rows.Count;
                 }
             }else{
-                nombresProyecto = controladoraDiseno.consultarProyectosDeUsuario(cedulaUsuario);
-                if (nombresProyecto != null && nombresProyecto.Rows.Count > 0)
-                {
-                    numDatos = nombresProyecto.Rows.Count;
+                nombresProyecto = controladoraDiseno.consultarProyectosLider(cedulaUsuario);
+                if(nombresProyecto==null){
+                     nombresProyecto = controladoraDiseno.consultarProyectosDeUsuario(cedulaUsuario);
                 }
+
+                numDatos = nombresProyecto.Rows.Count;
+
             }
+            
 
             if (numDatos>0)
             {
@@ -162,13 +170,32 @@ namespace ProyectoInge
 
                 for (int i = 0; i < numDatos; ++i)
                 {
-                    datos[i] = nombresProyecto.Rows[i][0].ToString();
+                    foreach (DataColumn column in nombresProyecto.Columns)
+                    {
+                        if (numColumna == 1)
+                        {
+
+                             identificadoresProyectos.Add(nombre, nombresProyecto.Rows[i][column].ToString());
+
+                        }
+                        else
+                        {
+                            nombre = nombresProyecto.Rows[i][0].ToString();
+                        }
+
+                        ++numColumna;
+                    }
+
+                    datos[indiceProyecto] = nombre;
+                    ++indiceProyecto;
+                    numColumna = 0;
+                    nombre = "";
                 }
 
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
+                Session["vectorIdProyectos"] = identificadoresProyectos;
             }
-
         }
 
         /* Método para llenar el comboBox de los diferentes niveles de prueba que existen
@@ -242,7 +269,6 @@ namespace ProyectoInge
 
               
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-          
                 DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
@@ -739,6 +765,7 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnInsertar);
                 }
 
+                
                 //listMiembrosDisponibles.Items.Clear();
             }
 
@@ -1002,7 +1029,7 @@ namespace ProyectoInge
                                 datos[2] = fila[2].ToString();
                                 datos[3] = fila[3].ToString();
                                 nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                                datos[5] = representante;
+                                datos[4] = representante;
                                 dt.Rows.Add(datos);
                             }
 
@@ -1106,6 +1133,30 @@ namespace ProyectoInge
             return cedula;
 
         }
+
+        /*Método para obtener id del proyecto con nombre
+        * Requiere: nombre
+        * Modifica: no genera modificaciones
+        * Retorna: id del proyecto
+        */
+        protected string obtenerIdProyecto(string nombreMiembro)
+        {
+            string idProyecto = "";
+
+            Dictionary<string, string> identificadores = (Dictionary<string, string>)Session["vectorIdProyectos"];
+
+            if (!identificadores.TryGetValue(nombreMiembro, out idProyecto)) // Returns true.
+            {
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "Nombre de proyecto es inválido.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+
+            return idProyecto;
+
+        }
+
 
 
     }
