@@ -267,7 +267,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT *  FROM Requerimiento where id_diseno = (Select id_diseno From Requerimiento_Diseno WHERE id_proyecto = '" + idProyecto + "'" + "AND id_diseno ='" + idDiseño + "');";
+                consulta = "SELECT *  FROM Requerimiento where id_req = (Select id_req From Requerimiento_Diseno WHERE id_proyecto = '"+ idProyecto + "'AND id_diseno='"+ idDiseño + "');" ;
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

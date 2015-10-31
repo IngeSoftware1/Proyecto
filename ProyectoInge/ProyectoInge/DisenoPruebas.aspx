@@ -254,7 +254,7 @@
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
                                                     
-                                     <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar Casos </asp:LinkButton> 
+                                     <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton> 
                                 </ItemTemplate>
 
                             </asp:TemplateField>

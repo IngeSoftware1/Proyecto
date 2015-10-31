@@ -745,7 +745,7 @@ namespace ProyectoInge
 
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idDiseñoConsultado = lnkConsulta.CommandArgument;
-                Session["idDiseñoS"] = idProyectoConsultado;
+                Session["idDiseñoS"] = idDiseñoConsultado;
 
                 controlarCampos(false);
                 llenarDatos(idDiseñoConsultado);
@@ -771,10 +771,11 @@ namespace ProyectoInge
 
             if (e.CommandName == "seleccionarCaso")
             {
-                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
-                idDiseñoConsultado = lnkConsulta.CommandArgument;
-                Session["idDiseñoS"] = idProyectoConsultado;
-         
+                LinkButton linkConsultaCaso = (LinkButton)e.CommandSource;
+                idDiseñoConsultado = linkConsultaCaso.CommandArgument;
+                Session["idDiseñoS"] = idDiseñoConsultado;
+                Response.Redirect("~/CasoDePrueba.aspx");
+                
             }
 
 
@@ -853,23 +854,22 @@ namespace ProyectoInge
 
                 }
 
-                listReqAgregados.Items.Clear();
+
                 string requerimiento = "";
                 if (datosReqDiseno.Rows.Count >= 1)
                 {
                     listReqAgregados.Items.Clear();
                     for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
                     {
-                        requerimiento = datosReqDiseno.Rows[i][0].ToString() + datosReqDiseno.Rows[i][1].ToString();
+                        requerimiento = datosReqDiseno.Rows[i][0].ToString() +" "+ datosReqDiseno.Rows[i][2].ToString();
                         listReqAgregados.Items.Add(requerimiento);
 
                     }
                 }
                 requerimiento = "";
-                listReqProyecto.Items.Clear();
                 if (datosReqProyecto.Rows.Count >= 1)
                 {
-                    listReqAgregados.Items.Clear();
+                    listReqProyecto.Items.Clear();
                     for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                     {
                         requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();

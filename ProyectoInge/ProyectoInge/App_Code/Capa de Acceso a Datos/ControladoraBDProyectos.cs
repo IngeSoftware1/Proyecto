@@ -701,5 +701,26 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
 
+        //metodo para consultar infomacion del proyecto asociado al diseño
+        public DataTable consultarInformacionProyectoDiseno(int idDiseno)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT P.nombre_proyecto, P.id_proyecto FROM Proyecto P WHERE P.id_proyecto = (Select D.id_proyecto From Diseno_Pruebas D WHERE D.id_diseno ='"+idDiseno+"');";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
     }
 }

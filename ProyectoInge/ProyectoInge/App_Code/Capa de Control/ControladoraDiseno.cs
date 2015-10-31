@@ -264,6 +264,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarProyectosLider(cedula);
         }
 
+        //metodo para consultar infomacion del proyecto asociado al diseño
+        public DataTable consultarInformacionProyectoDiseno(int idDiseno)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarInformacionProyectoDiseno(idDiseno);
+        }
+
 
     }
 }

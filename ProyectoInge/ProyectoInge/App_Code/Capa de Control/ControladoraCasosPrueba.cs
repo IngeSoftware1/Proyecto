@@ -11,6 +11,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
     public class ControladoraCasosPrueba
     {
         ControladoraBDCasosPrueba controladoraBDCasosPrueba = new ControladoraBDCasosPrueba();
+        ControladoraDiseno controladoraDiseno;
         ControladoraRecursos controladoraRH;
 
         public bool eliminarProyectoCasoPueba(int idProyecto)
@@ -46,6 +47,33 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
 
         }
+
+        //metodo para consultar infomacion del diseño de caso
+        public DataTable consultarInformacionDiseno(int idDiseno)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarDiseno(idDiseno);
+        }
+
+        //metodo para consultar infomacion del proyecto asociado al diseño
+        public DataTable consultarInformacionProyectoDiseno(int idDiseno)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarInformacionProyectoDiseno(idDiseno);
+        }
+
+        /* Método para consultar requerimientos de un diseño
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
+        public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
+        }
+
+
     }
 
 }

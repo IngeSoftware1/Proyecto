@@ -36,6 +36,7 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
+                llenarDatosDiseno(); //NO BORRAR, SE UTILIZA CUANDO YA TENGA LO DE DISEÑO LISTO
             }
         }
 
@@ -275,6 +276,44 @@ namespace ProyectoInge
 
             return resultado;
         }
+
+
+        //metodo para llenar datos de diseño
+
+        protected void llenarDatosDiseno()
+        {
+
+
+            int idProyecto = 0;
+            DataTable datosDiseno = controladoraCasoPruebas.consultarInformacionDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
+            DataTable datosProyecto = controladoraCasoPruebas.consultarInformacionProyectoDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
+            DataTable datosRequerimientos;
+            string requerimiento = "";
+            if(datosDiseno!=null){
+                idProyecto = Int32.Parse(datosProyecto.Rows[0][1].ToString());
+                this.txtNombreProyecto.Text = datosProyecto.Rows[0][0].ToString();
+                this.txtNombreDiseño.Text = datosDiseno.Rows[0][1].ToString();
+                this.txtPrueba.Text =  datosDiseno.Rows[0][7].ToString();
+                this.txtTecnicaPrueba.Text = datosDiseno.Rows[0][6].ToString();
+                this.txtProposito.Text = datosDiseno.Rows[0][3].ToString();
+                datosRequerimientos = controladoraCasoPruebas.consultarReqDisenoDeProyecto(Int32.Parse(Session["idDiseñoS"].ToString()),idProyecto);
+                this.listRequerimientoDisponibles.Items.Clear();
+
+
+                if (datosRequerimientos.Rows.Count >= 1)
+                {
+                    listRequerimientoDisponibles.Items.Clear();
+                    for (int i = 0; i < datosRequerimientos.Rows.Count; ++i)
+                    {
+                        requerimiento = datosRequerimientos.Rows[i][0].ToString() +" "+ datosRequerimientos.Rows[i][2].ToString();
+                        listRequerimientoDisponibles.Items.Add(requerimiento);
+
+                    }
+                }
+            }
+        }
+
+
     }
 
 
