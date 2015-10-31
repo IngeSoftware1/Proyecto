@@ -119,8 +119,8 @@
                     <%--  --%>
                       <div class="form-group col-sm-6">  <%--Campo proposito--%>
                         <div class="row ">
-                            <asp:Label ID="lblIdentificador" runat="server" Text="Código:" CssClass="col-sm-3 control-label"></asp:Label>
-                             <div class="col-sm-7 col-sm-offset-1" ">
+                            <asp:Label ID="lblIdentificador" runat="server" Text="Código*:" CssClass="col-sm-4 control-label"></asp:Label>
+                             <div class="col-sm-7"  >
                              <asp:TextBox runat="server" ID="txtIdentificador" CssClass="form-control" MaxLength="20"></asp:TextBox>
                         </div>
                                   </div>
@@ -129,7 +129,7 @@
          
                        <div class="form-group col-sm-6">  <%--Campo entrada de datos --%>
                         <div class="row ">
-                            <asp:Label ID="lblPropositoCasoPrueba" runat="server" Text="Propósito:" CssClass="col-sm-4 control-label"></asp:Label>
+                            <asp:Label ID="lblPropositoCasoPrueba" runat="server" Text="Propósito*:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7 ">
                              <asp:TextBox runat="server" ID="txtPropósito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
                         </div>
@@ -146,7 +146,7 @@
                           </div>
 
 
-                       <div class="form-group col-sm-6 ">  <%--Flujo Central --%>
+                       <div class="form-group col-sm-6 ">  <%--Resultado Esperado --%>
                         <div class="row ">
                             <asp:Label ID="lblResultadoEsperado" runat="server" Text="Resultado esperado:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7 ">
@@ -158,11 +158,12 @@
                     <div class="form-group col-sm-6 ">  <%--Flujo Central --%>
                         <div class="row ">
                             <asp:Label ID="lblFlujoCentral" runat="server" Text="Flujo central:" CssClass="col-sm-4 control-label"></asp:Label>
-                             <div class="col-sm-7 ">
-                             <asp:TextBox runat="server" ID="txtFlujoCentral" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                            <div class ="col-sm-7 ">
+                             <asp:TextBox runat="server" ID="txtFlujoCentral" CssClass="  form-control" MultiLine="true" TextMode="MultiLine" Width ="293%" Height="77px" MaxLength="20"></asp:TextBox>
                         </div>
                                   </div>
-                          </div>
+                        </div>
+
                 </div>   <%--Cierra el panel body--%>           
             </div>
         </div>

@@ -951,7 +951,7 @@ namespace ProyectoInge
                         foreach (DataRow fila in funcionarios.Rows)
                         {
 
-                            if (indiceColumnas != ubicacionFuncionario && fila[1].ToString() != "Dummy")
+                            if (indiceColumnas != ubicacionFuncionario)
                             {
                                 datos[0] = fila[0].ToString();
                                 datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
@@ -978,24 +978,20 @@ namespace ProyectoInge
                     {
                         foreach (DataRow fila in funcionarios.Rows)
                         {
-                            if (fila[1].ToString() != "Dummy")
-                            {
-                                datos[0] = fila[0].ToString();
-                                datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
+                             if (fila[4].ToString() == "")
+                             {
+                                datos[2] = "Administrador";
+                             }
+                             else
+                             {
 
-                                if (fila[4].ToString() == "")
-                                {
-                                    datos[2] = "Administrador";
-                                }
-                                else
-                                {
-
-                                    datos[2] = fila[4].ToString();
-                                }
+                                datos[2] = fila[4].ToString();
+                             }
 
                                 dt.Rows.Add(datos);
-                            }
                         }
                     }
                 }
@@ -1014,21 +1010,18 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in funcionarios.Rows)
                     {
-                        if (fila[1].ToString() != "Dummy")
-                        {
-                            datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+                          datos[0] = fila[0].ToString();
+                          datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
-                            if (fila[4].ToString() == null)
-                            {
-                                datos[2] = "Administrador";
-                            }
-                            else
-                            {
-                                datos[2] = "Miembro";
-                            }
+                          if (fila[4].ToString() == null)
+                          {
+                             datos[2] = "Administrador";
+                          }
+                          else
+                          {
+                             datos[2] = "Miembro";
+                          }
                             dt.Rows.Add(datos);
-                        }
                     }
                 }
                 else
@@ -1065,16 +1058,6 @@ namespace ProyectoInge
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Nombre Funcionario";
             dt.Columns.Add(columna);
-
-            /*   columna = new DataColumn();
-                 columna.DataType = System.Type.GetType("System.String");
-                 columna.ColumnName = "Primer Apellido";
-                 dt.Columns.Add(columna);
-
-                 columna = new DataColumn();
-                 columna.DataType = System.Type.GetType("System.String");
-                 columna.ColumnName = "Segundo Apellido";
-                 dt.Columns.Add(columna); */
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
