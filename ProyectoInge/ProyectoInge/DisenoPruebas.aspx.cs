@@ -104,7 +104,7 @@ namespace ProyectoInge
         */
         protected void controlarCampos(Boolean condicion)
         {
-            /*this.comboProyecto.Enabled = condicion;
+            this.comboProyecto.Enabled = condicion;
             this.listReqAgregados.Enabled = condicion;
             this.listReqProyecto.Enabled = condicion;
             this.lnkAgregarReq.Enabled = condicion;
@@ -119,7 +119,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
             this.calendarFecha.Enabled = condicion;
-             */
+             
         }
 
         /*Método para habilitar/deshabilitar el botón
