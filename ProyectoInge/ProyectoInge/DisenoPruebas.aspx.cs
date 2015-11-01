@@ -42,17 +42,19 @@ namespace ProyectoInge
                 llenarComboTecnica();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
-                    cambiarEnabled(true, this.btnInsertar);
-                    llenarGrid(null);
+                    cambiarEnabled(true, this.btnInsertar);                  
                     llenarComboProyecto(null);
+                    llenarComboRecursos();
+                    llenarGrid(null);
                 }
                 else
                 {
-                    cambiarEnabled(false, this.btnInsertar);
-                    llenarGrid(Session["cedula"].ToString());
+                    cambiarEnabled(false, this.btnInsertar);         
                     llenarComboProyecto(Session["cedula"].ToString());
+                    llenarComboRecursos();
+                    llenarGrid(Session["cedula"].ToString());
                 }
-                llenarComboRecursos();
+               
                
             }
 
@@ -140,7 +142,12 @@ namespace ProyectoInge
             this.txtCriterios.Enabled = condicion;
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
+<<<<<<< HEAD
             this.calendarFecha.Enabled = condicion;           
+=======
+            this.calendarFecha.Enabled = condicion;
+            
+>>>>>>> origin/master
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -211,7 +218,7 @@ namespace ProyectoInge
 
                             nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
                             id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(),nombre);
-                            Response.Write(nombresProyecto.Rows[i][1].ToString()+ nombre);
+                       
                             
                         }
                         else
@@ -306,9 +313,10 @@ namespace ProyectoInge
             {
 
                 Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
-                
+                Dictionary<string, string> cedulasNombreRepresentantes= new Dictionary<string, string>();
 
-                int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+
+                int id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
                 DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
@@ -319,7 +327,7 @@ namespace ProyectoInge
                 if (Recursos.Rows.Count >= 1)
                 {
                     numDatos = Recursos.Rows.Count;
-                    datos = new Object[numDatos+1];
+                    datos = new Object[numDatos+2];
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
@@ -329,8 +337,9 @@ namespace ProyectoInge
                         {
                             if(numColumna == 4 ){
 
-                                cedulasRepresentantes.Add(nombre,Recursos.Rows[i][column].ToString());
-
+                                cedulasRepresentantes.Add(nombre,Recursos.Rows[i][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(),nombre);
+                            
                             }
                             else
                             {
@@ -346,11 +355,44 @@ namespace ProyectoInge
                         nombre = "";
 
                     }
+
+                    numColumna = 0;
+                    Recursos = controladoraDiseno.consultarLider(id);
+
+                    if(Recursos != null && Recursos.Rows.Count==1){
+                    
+
+
+                        foreach (DataColumn column in Recursos.Columns)
+                        {
+                            if (numColumna == 3)
+                            {
+
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+                         
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        nombre = "";
+     
+                    }
+
                     datos[0] = "Seleccione";
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
                     Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                    Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                 }
+
          
             }
 
@@ -542,7 +584,7 @@ namespace ProyectoInge
                 //eliminar requerimientos
 
 
-                int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
                 Object[] datosNuevos = new Object[10];
                 datosNuevos[0] = this.txtProposito.Text;
@@ -702,7 +744,7 @@ namespace ProyectoInge
             else
             {
 
-                int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
                 Object[] datosNuevos = new Object[10];
                 datosNuevos[0] = this.txtProposito.Text;
@@ -1084,7 +1126,7 @@ namespace ProyectoInge
                     }
 
                     llenarComboRecursos();
-                    nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
+                    nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
                     nombre = "";
                     nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
                     nombre = nombre + nombreRepresentante;
@@ -1132,14 +1174,11 @@ namespace ProyectoInge
             DataTable dt = crearTablaDisenos();
             DataTable diseños;
             DataTable idProyectos;
-            DataTable idDiseños;
             Object[] datos = new Object[5];
             string representante = "";
             int indiceColumna = 0;
             string nombreRepresentante = "";
             DataTable representantes;
-            nombreRepresentantesConsultados.Clear();
-
             
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
@@ -1149,6 +1188,7 @@ namespace ProyectoInge
                 
                 diseños = controladoraDiseno.consultarDisenos(null);
                 //Se obtienen todos los lideres del sistema
+
                 representantes = controladoraDiseno.consultarRepresentantesDisenos();
 
 
@@ -1159,7 +1199,7 @@ namespace ProyectoInge
 
                         if (indiceColumna == 3)
                         {
-                            
+
                             nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
 
                         }
@@ -1175,12 +1215,14 @@ namespace ProyectoInge
                     nombreRepresentante = "";
                 }
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
+
+
+
                 if (diseños.Rows.Count > 0)
                 {
                     foreach (DataRow fila in diseños.Rows)
                     {
-                        if (fila[1].ToString() != "Dummy")
-                        {
+                        
                             datos[0] = fila[0].ToString();
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();
@@ -1188,7 +1230,7 @@ namespace ProyectoInge
                             nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
                             datos[4] = representante;
                             dt.Rows.Add(datos);
-                        }
+                        
                     }
                     representante = "";
                 }
@@ -1207,6 +1249,34 @@ namespace ProyectoInge
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
                 
                 idProyectos = controladoraDiseno.consultarProyectosAsociados(idUsuario);
+
+                representantes = controladoraDiseno.consultarRepresentantesDisenos();
+
+
+                for (int i = 0; i < representantes.Rows.Count; ++i)
+                {
+                    foreach (DataColumn column in representantes.Columns)
+                    {
+
+                        if (indiceColumna == 3)
+                        {
+
+                            nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
+
+                        }
+                        else
+                        {
+                            nombreRepresentante = nombreRepresentante + " " + representantes.Rows[i][column].ToString();
+                        }
+
+                        ++indiceColumna;
+                    }
+
+                    indiceColumna = 0; //Contador para saber el número de columna actual.
+                    nombreRepresentante = "";
+                }
+                Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
+
                 
                 if (idProyectos.Rows.Count > 0)
                 {
@@ -1214,43 +1284,13 @@ namespace ProyectoInge
                     //Se obtiene un DataTable con los datos del o los proyectos 
                     diseños = controladoraDiseno.consultarDisenos(idProyectos);
 
-                    representantes = controladoraDiseno.consultarRepresentantesDisenos();
-
-
-                    for (int i = 0; i < representantes.Rows.Count; ++i)
-                    {
-                        foreach (DataColumn column in representantes.Columns)
-                        {
-
-                            if (indiceColumna == 3)
-                            {
-                                nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
-
-                            }
-                            else
-                            {
-                                nombreRepresentante = nombreRepresentante + " " + representantes.Rows[i][column].ToString();
-                            }
-
-                            ++indiceColumna;
-                        }
-
-                        indiceColumna = 0; //Contador para saber el número de columna actual.
-                        nombreRepresentante = "";
-                        Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
-
-                    }
-
-
-
 
                     if (diseños.Rows.Count > 0)
                     {
 
                         foreach (DataRow fila in diseños.Rows)
                         {
-                            if (fila[1].ToString() != "Dummy")
-                            {
+                            
                                 datos[0] = fila[0].ToString();
                                 datos[1] = fila[1].ToString();
                                 datos[2] = fila[2].ToString();
@@ -1258,7 +1298,7 @@ namespace ProyectoInge
                                 nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
                                 datos[4] = representante;
                                 dt.Rows.Add(datos);
-                            }
+                            
 
                         }
 
