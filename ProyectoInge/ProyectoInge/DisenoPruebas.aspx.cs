@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
+using System.Diagnostics;
 
 namespace ProyectoInge
 {
@@ -118,7 +119,18 @@ namespace ProyectoInge
                 }
             }
 
-          //  UpdatePanelDropDown.Update();
+            NivelPruebaUpdate.Update();
+
+        }
+
+
+        protected void responsableSeleccionado(object sender, EventArgs e)
+        {
+            if (this.comboResponsable.SelectedIndex != -1)
+            {
+             //   comboResponsableUpdate.Update();
+            }
+
         }
 
 
@@ -390,7 +402,8 @@ namespace ProyectoInge
                     Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                 }
 
-         
+                comboResponsableUpdate.Update();
+       
             }
 
          
@@ -403,6 +416,7 @@ namespace ProyectoInge
             string requerimiento = "";
             
             requerimiento = "";
+            listReqProyecto.Items.Clear();
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 listReqProyecto.Items.Clear();
@@ -413,6 +427,9 @@ namespace ProyectoInge
 
                 }
             }
+
+           UpdateAsociarDesasociarRequerimientos.Update();
+           proyectoUpdate.Update();
         }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
@@ -521,7 +538,7 @@ namespace ProyectoInge
         /*
        * Método para poder asignar requerimientos al diseño respectivo
        */
-        protected void btnlnkAgregarReq(object sender, EventArgs e)
+     /*   protected void btnlnkAgregarReq(object sender, EventArgs e)
         {
             if (listReqAgregados.SelectedIndex != -1)
             {
@@ -539,13 +556,13 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        }
+        } */
 
         /*
          * Método para poder desasociar un requerimiento a un diseño, el cambio se refleja en la base y en la interfaz
          * no asignados y asignados.
         */
-        protected void btnlnkQuitarReq(object sender, EventArgs e)
+        protected void btnQuitarReq(object sender, EventArgs e)
         {
             if (modo == 1 || modo == 2)
             {
@@ -728,6 +745,7 @@ namespace ProyectoInge
         protected void btnAceptar_Insertar()
         {
             int tipoInsercion = 1;   //1 insertar oficina usuaria, 
+            int idDiseño = 0;
 
             //si faltan datos no deja insertar
             if (faltanDatos())
@@ -742,8 +760,9 @@ namespace ProyectoInge
             {
 
                 int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+                Debug.WriteLine("El id del proyecto es: " + idProyecto);
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
-                Object[] datosNuevos = new Object[10];
+                Object[] datosNuevos = new Object[9];
                 datosNuevos[0] = this.txtProposito.Text;
                 datosNuevos[1] = this.txtCalendar.Text;
                 datosNuevos[2] = this.txtProcedimiento.Text;
@@ -751,8 +770,8 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[8] = idProyecto;
-                datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+                datosNuevos[7] = idProyecto;
+                datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
 
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
@@ -775,7 +794,7 @@ namespace ProyectoInge
                             lblModalTitle.Text = " ";
                             lblModalBody.Text = "Debe elegir un solo requerimiento para el nivel unitario.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                            int idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
 
                             if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
                             {
@@ -794,10 +813,10 @@ namespace ProyectoInge
 
                             sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
                             nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
-
+                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
 
                             Object[] nuevoReqDiseño = new Object[3];
-                            nuevoReqDiseño[0] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            nuevoReqDiseño[0] = idDiseño;
                             nuevoReqDiseño[1] = sigla;
                             nuevoReqDiseño[2] = idProyecto;
                             tipoInsercion = 2;
@@ -814,6 +833,8 @@ namespace ProyectoInge
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
+                                controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
+
                             }
 
 
@@ -838,17 +859,17 @@ namespace ProyectoInge
                             }
                             sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
                             nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text); 
 
-
-                            Object[] requerimientoActualizado = new Object[3];
-                            requerimientoActualizado[0] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                            requerimientoActualizado[1] = sigla;
-                            requerimientoActualizado[2] = idProyecto;
+                            Object[] nuevoReqDiseño = new Object[3];
+                            nuevoReqDiseño[0] = idDiseño;
+                            nuevoReqDiseño[1] = sigla;
+                            nuevoReqDiseño[2] = idProyecto;
                             tipoInsercion = 2;
 
 
                             //Se actualizó un requerimiento
-                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
                             {
                             }
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
@@ -859,6 +880,8 @@ namespace ProyectoInge
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
+                                controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
+
                             }
 
                             i++;
@@ -935,14 +958,14 @@ namespace ProyectoInge
 
             }
 
-            if (modo == 1)
+       /*     if (modo == 1)
             {
                 habilitarCamposInsertar();
             }
             else if (modo == 2)
             {
 
-            }
+            } */
 
             UpdateAsociarDesasociarRequerimientos.Update();
         }

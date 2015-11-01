@@ -15,7 +15,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             private String criterioDeAceptacion;
             private String tecnica;
             private String nivel;
-            private String tipo;
             private int idProyecto;
             private String cedulaResponsable;
 
@@ -33,10 +32,9 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
                 this.ambiente = datos[3].ToString();
                 this.criterioDeAceptacion = datos[4].ToString();
                 this.tecnica = datos[5].ToString();
-                this.nivel = datos[6].ToString();
-                this.tipo = datos[7].ToString();       
-                this.idProyecto = Convert.ToInt32(datos[8].ToString());
-                this.cedulaResponsable = datos[9].ToString();
+                this.nivel = datos[6].ToString();     
+                this.idProyecto = Convert.ToInt32(datos[7].ToString());
+                this.cedulaResponsable = datos[8].ToString();
             }
 
             //Metodos set y get del atributo proposito
@@ -86,13 +84,6 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             {
                 get { return nivel; }
                 set { nivel = value; }
-            }
-
-            //Metodos set y get del atributo tipo
-            public String getTipo
-            {
-                get { return tipo; }
-                set { tipo = value; }
             }
 
           //Metodos set y get del atributo idProyecto

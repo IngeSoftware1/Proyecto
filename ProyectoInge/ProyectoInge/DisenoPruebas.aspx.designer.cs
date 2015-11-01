@@ -58,6 +58,15 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblDatosDiseno;
         
         /// <summary>
+        /// proyectoUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel proyectoUpdate;
+        
+        /// <summary>
         /// lblProyecto control.
         /// </summary>
         /// <remarks>
@@ -164,6 +173,15 @@ namespace ProyectoInge {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator valInput;
+        
+        /// <summary>
+        /// NivelPruebaUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel NivelPruebaUpdate;
         
         /// <summary>
         /// lblNivel control.
@@ -281,6 +299,15 @@ namespace ProyectoInge {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator3;
+        
+        /// <summary>
+        /// comboResponsableUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel comboResponsableUpdate;
         
         /// <summary>
         /// lblResponsable control.

@@ -5,6 +5,7 @@ using System.Web;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data;
+using System.Diagnostics;
 
 namespace ProyectoInge.App_Code.Capa_de_Control
 {
@@ -208,6 +209,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         {
                             EntidadDiseno nuevo = new EntidadDiseno(datos);
                             resultado = controladoraBDDiseno.insertarDiseno(nuevo);
+                            Debug.WriteLine("Este es el resultado de insertar diseno: " + resultado);
                         }
                         else if (accion == 2) //insertar en EntidadRequerimientoDiseño
                         {

@@ -49,7 +49,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                string consultaDiseno = "SELECT id_diseno FROM Diseno_Pruebas WHERE proposito_diseno ='" + proposito + "'";
+                string consultaDiseno = "SELECT id_diseno FROM Diseno_Pruebas WHERE proposito_diseno ='" + proposito + "'" + "ORDER BY id_diseno DESC ";
                 DataTable dataDiseno = acceso.ejecutarConsultaTabla(consultaDiseno);
                 if (dataDiseno.Rows.Count >= 1)
                 {
@@ -234,7 +234,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string insercion = "INSERT INTO Diseno_Pruebas (id_diseno, proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, tipo, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', '" + nuevo.getNivel + "', '" + nuevo.getTipo + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', '" + nuevo.getNivel + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
                 return acceso.insertarDatos(insercion);
 
             }

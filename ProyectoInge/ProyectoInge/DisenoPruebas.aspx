@@ -50,9 +50,11 @@
         </div>
         <br>
 
-
+     <asp:UpdatePanel ID="proyectoUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
         <%-- Proyecto asociado al diseño --%>
         <div class="form-group">
+            
             <div class="row">
                 <asp:Label ID="lblProyecto" runat="server" Text="Proyecto:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-3 ">
@@ -60,7 +62,13 @@
                     </asp:DropDownList>
                 </div>
             </div>
+  
+
         </div>
+
+                 </ContentTemplate>
+        </asp:UpdatePanel>
+                   
         <br>
         
 
@@ -86,7 +94,7 @@
                                             <br>
                                             <br>
                                             <%-- Botón para agregar requerimientos a un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnlnkAgregarReq">
+                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11" onClick="btnAgregarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -97,7 +105,7 @@
                                     <div class="row">
                                         <div class="">
                                             <%-- Botón para quitar requerimientos de un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnlnkQuitarReq">
+                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnQuitarReq" >
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -140,6 +148,8 @@
   
         <br />
 
+        <asp:UpdatePanel ID="NivelPruebaUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
         <div class="form-group">
             <div class="row">
                 <%-- Nivel de la prueba --%>
@@ -157,6 +167,10 @@
                 </div>
             </div>
         </div>
+      </ContentTemplate>
+        </asp:UpdatePanel>
+
+
         <br />
 
         <div class="form-group">
@@ -205,10 +219,13 @@
             </div>
         </div>
 
+
+<asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
         <div class="form-group">
             <div class="row">
                 <%-- Responsable del diseño --%>
-                <asp:Label ID="lblResponsable" runat="server" Text="Responsable:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblResponsable" runat="server" Text="Responsable:" CssClass="col-sm-2 col-sm-offset-1 control-label" onClick ="responsableSeleccionado"></asp:Label>
                 <div class="col-sm-3 ">
                     <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control">
                     </asp:DropDownList>
@@ -238,6 +255,9 @@
                 </asp:UpdatePanel>
             </div>
         </div>
+                 </ContentTemplate>
+                </asp:UpdatePanel>
+
     </div>
 
     <div class="col-lg-11">
