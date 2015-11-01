@@ -30,7 +30,7 @@
         <div class="col-lg-11">
             <%--Div de botones para el IMEC--%>
             <div id="btnsControl" style="float: right">
-                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
                 <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
             </div>
@@ -86,7 +86,7 @@
                                             <br>
                                             <br>
                                             <%-- Botón para agregar requerimientos a un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11">
+                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnlnkAgregarReq">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -97,7 +97,7 @@
                                     <div class="row">
                                         <div class="">
                                             <%-- Botón para quitar requerimientos de un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11">
+                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnlnkQuitarReq">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -145,7 +145,7 @@
                 <%-- Nivel de la prueba --%>
                 <asp:Label ID="lblNivel" runat="server" Text="Nivel de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboNivel" AutoPostBack="True" CssClass="form-control">
+                    <asp:DropDownList runat="server" ID="comboNivel" AutoPostBack="True" onselectedindexchanged="pruebaUnitariaSeleccionada" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
 

@@ -702,8 +702,8 @@ namespace ProyectoInge
                     //Aqui va a eliminar de la base si lo requiere
                     if (encontroIgual == 0)//significa que no encontro en la lista y debe eliminarlo
                     {
-                        controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
-                        controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
+               //         controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
+               //         controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
                     }
                 }
             }

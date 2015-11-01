@@ -36,6 +36,8 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
+                cambiarEnabledManosReq(false, this.lnkAgregarReq);
+                cambiarEnabledManosReq(false, this.lnkQuitarReq);
                 llenarComboNivel();
                 llenarComboTecnica();
                 if (Session["perfil"].ToString().Equals("Administrador"))
@@ -97,6 +99,27 @@ namespace ProyectoInge
         }
 
 
+     
+       /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
+        * Modifica: el campo del rol de acuerdo al campo del perfil
+        * Retorna: no retorna ningún valor */
+        protected void  pruebaUnitariaSeleccionada(object sender, EventArgs e)
+        {
+            if (this.comboNivel.SelectedIndex != -1)
+            {
+                if (this.comboNivel.Items[this.comboNivel.SelectedIndex].Text == "Unitaria" && this.listReqAgregados.Items.Count > 1)
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Recuerde que una prueba unitaria solo puede probar un requerimiento";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
+
+          //  UpdatePanelDropDown.Update();
+        }
+
+
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
         * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto
         * Modifica: Cambia la propiedad Enabled de las cajas y botones
@@ -104,7 +127,7 @@ namespace ProyectoInge
         */
         protected void controlarCampos(Boolean condicion)
         {
-            /*this.comboProyecto.Enabled = condicion;
+            this.comboProyecto.Enabled = condicion;
             this.listReqAgregados.Enabled = condicion;
             this.listReqProyecto.Enabled = condicion;
             this.lnkAgregarReq.Enabled = condicion;
@@ -117,8 +140,7 @@ namespace ProyectoInge
             this.txtCriterios.Enabled = condicion;
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
-            this.calendarFecha.Enabled = condicion;
-             */
+            this.calendarFecha.Enabled = condicion;           
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -127,6 +149,16 @@ namespace ProyectoInge
           * Retorna: no retorna ningún valor
           */
         protected void cambiarEnabled(bool condicion, Button boton)
+        {
+            boton.Enabled = condicion;
+        }
+
+        /*Método para habilitar/deshabilitar el botón tipo LinkButton
+       * Requiere: el booleano para la acción
+       * Modifica: La propiedad enable del botón
+       * Retorna: no retorna ningún valor
+       */
+        protected void cambiarEnabledManosReq(bool condicion, LinkButton boton)
         {
             boton.Enabled = condicion;
         }
@@ -145,7 +177,8 @@ namespace ProyectoInge
             Object[] datos;
             int indiceProyecto = 1;
             int numColumna = 0;
-            
+
+            this.listReqProyecto.Items.Clear();
 
             if(cedulaUsuario==null){
 
@@ -379,7 +412,7 @@ namespace ProyectoInge
                 case 2:
                     {
 
-                         btnAceptar_Modificar();
+                     //    btnAceptar_Modificar();
                     }
                     break;
                 case 3:
@@ -390,6 +423,55 @@ namespace ProyectoInge
 
             }
         
+        }
+
+        /*Método para limpiar los textbox
+      * Requiere: No requiere parámetros
+      * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
+      * Retorna: no retorna ningún valor
+      */
+        protected void vaciarCampos()
+        {
+
+            this.listReqAgregados.Items.Clear();
+            this.listReqProyecto.Items.Clear();
+            this.txtProposito.Text = "";
+            this.txtAmbiente.Text = "";
+            this.txtProcedimiento.Text = "";
+            this.txtCriterios.Text = "";
+            this.txtCalendar.Text = "";
+        }
+
+
+        /*
+         * Método para poder indicar que se va a generar la operación de insertar.
+         */
+        protected void btnInsertar_Click(object sender, EventArgs e)
+        {
+            vaciarCampos();
+            controlarCampos(true);
+            llenarComboNivel();
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+            }
+            
+            llenarComboRecursos();
+            llenarComboTecnica();
+
+            modo = 1;
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnInsertar);
+
+            cambiarEnabledManosReq(true, this.lnkAgregarReq);
+            cambiarEnabledManosReq(true, this.lnkQuitarReq);
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -444,7 +526,7 @@ namespace ProyectoInge
        * valida que todos los datos se encuentren para la modificacion
        * Retorna: No retorna ningún valor
        */
-        private void btnAceptar_Modificar()
+  /*      private void btnAceptar_Modificar()
         {
             int tipoInsercion = 1;
             if (faltanDatos())
@@ -480,7 +562,7 @@ namespace ProyectoInge
 
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
-                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+  /*              if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
                 {
 
 
@@ -597,7 +679,7 @@ namespace ProyectoInge
 
             }
         }
-
+         */
         /*Método para la acción de aceptar cuando esta en modo de inserción
         * Requiere: No requiere ningún parámetro
         * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
@@ -630,15 +712,13 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[7] = this.comboTipo.Text;
                 datosNuevos[8] = idProyecto;
-                // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+                datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
 
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
                 if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, 0, ""))
                 {
-
 
                     //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
 
@@ -691,7 +771,7 @@ namespace ProyectoInge
                             else
                             {
                                 lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                lblModalBody.Text = "No fue posible realizar la inserción de/los requerimientos.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
@@ -736,7 +816,7 @@ namespace ProyectoInge
                             else
                             {
                                 lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                lblModalBody.Text = "No fue posible realizar la inserción de/los requerimientos.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
@@ -823,6 +903,20 @@ namespace ProyectoInge
             else if (modo == 2)
             {
 
+            }
+
+            UpdateAsociarDesasociarRequerimientos.Update();
+        }
+
+        protected void btnAgregarRequerimiento(object sender, EventArgs e)
+        {
+            if (modo == 1 || modo == 2)
+            {
+                if (listReqAgregados.SelectedIndex != -1)
+                {
+                    listReqProyecto.Items.Add(listReqAgregados.SelectedValue);
+                    listReqAgregados.Items.RemoveAt(listReqAgregados.SelectedIndex);
+                }
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
