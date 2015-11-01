@@ -16,10 +16,9 @@ namespace ProyectoInge
         ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
         private string idProyectoConsultado;
         private string idDiseñoConsultado;
-         Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
-        Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
-        Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
-        Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
+         
+        
+        
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         protected void Page_Load(object sender, EventArgs e)
@@ -106,7 +105,7 @@ namespace ProyectoInge
         */
         protected void controlarCampos(Boolean condicion)
         {
-            this.comboProyecto.Enabled = condicion;
+            /*this.comboProyecto.Enabled = condicion;
             this.listReqAgregados.Enabled = condicion;
             this.listReqProyecto.Enabled = condicion;
             this.lnkAgregarReq.Enabled = condicion;
@@ -120,7 +119,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
             this.calendarFecha.Enabled = condicion;
-             
+             */
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -138,6 +137,8 @@ namespace ProyectoInge
        * Retorna: no retorna ningún valor */
         protected void llenarComboProyecto(string cedulaUsuario)
         {
+            Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
+            Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
             string nombre = "";
             this.comboProyecto.Items.Clear();
             DataTable nombresProyecto;
@@ -178,7 +179,7 @@ namespace ProyectoInge
 
                             nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
                             id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(),nombre);
-                            
+                            Response.Write(nombresProyecto.Rows[i][1].ToString()+ nombre);
                             
                         }
                         else
@@ -198,6 +199,7 @@ namespace ProyectoInge
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
+                Session["vectorIdNombres"] = id_nombres_proyectos;
             }
         }
 
@@ -271,7 +273,9 @@ namespace ProyectoInge
             protected void llenarComboRecursos()
             {
 
+                Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
                 
+
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
@@ -867,7 +871,8 @@ namespace ProyectoInge
                 string nombre = "";
                 ListItem representante;
                 ListItem proyecto;
-                Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
+                Dictionary<string, string> nombresDelRepresentante;
+                Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
                 String cedulaRepresentante = "";
                 String nombreProyecto = "";
                 idDiseñoConsultado = idDiseño;
@@ -904,6 +909,22 @@ namespace ProyectoInge
                     }
 
 
+                    
+                    
+
+                    nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
+
+                    nombre = nombre + nombreProyecto;
+                    if (this.comboProyecto.Items.FindByText(nombre) != null)
+                    {
+                        proyecto = this.comboProyecto.Items.FindByText(nombre);
+                        this.comboProyecto.SelectedValue = proyecto.Value;
+                       
+                    }
+
+                    llenarComboRecursos();
+                    nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
+                    nombre = "";
                     nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
                     nombre = nombre + nombreRepresentante;
 
@@ -911,16 +932,6 @@ namespace ProyectoInge
                     {
                         representante = this.comboResponsable.Items.FindByText(nombre);
                         this.comboResponsable.SelectedValue = representante.Value;
-                    }
-                    nombre = "";
-
-                    id_nombres_proyectos.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
-                   
-                    nombre = nombre + nombreProyecto;
-                    if (this.comboProyecto.Items.FindByText(nombre) != null)
-                    {
-                        proyecto = this.comboProyecto.Items.FindByText(nombre);
-                        this.comboProyecto.SelectedValue = proyecto.Value;
                     }
 
 
@@ -965,6 +976,7 @@ namespace ProyectoInge
       */
         protected void llenarGrid(string idUsuario)
         {
+            Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
             DataTable dt = crearTablaDisenos();
             DataTable diseños;
             DataTable idProyectos;

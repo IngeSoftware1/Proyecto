@@ -15,7 +15,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             {
                 this.id_req = datos[0].ToString();
                 this.id_proyecto = Convert.ToInt32(datos[1].ToString());
-                this.nombre_req = datos[3].ToString();
+                this.nombre_req = datos[2].ToString();
             }
 
         //Metodos set y get del atributo id_req

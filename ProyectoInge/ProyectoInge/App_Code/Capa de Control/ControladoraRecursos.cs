@@ -345,6 +345,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
            
         }
 
+        //metodo para consultar lider de un proyecto
+
+        public DataTable consultarLider(int idProyecto)
+        {
+
+            return controladoraBDRecurso.consultarLider(idProyecto);
+
+        }
+
         
 
         

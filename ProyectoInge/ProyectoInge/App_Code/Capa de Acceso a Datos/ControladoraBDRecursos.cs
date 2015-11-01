@@ -688,8 +688,27 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        //metodo para consultar lider de un proyecto
 
-        
+        public DataTable consultarLider(int idProyecto)
+        {
+
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT F.nombre, F.apellido1, F.apellido2, F.cedula  FROM Funcionario F WHERE F.cedula = (Select cedula_lider From Proyecto Where id_proyecto = '"+idProyecto+"');" ;
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
   
 
     }

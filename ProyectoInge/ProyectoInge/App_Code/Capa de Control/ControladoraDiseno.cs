@@ -271,6 +271,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarInformacionProyectoDiseno(idDiseno);
         }
 
+        //metodo para consultar lider de un proyecto
+        public DataTable consultarLider(int idProyecto)
+        {
+
+            controladoraRH = new ControladoraRecursos();
+            DataTable resultado = controladoraRH.consultarLider(idProyecto);
+            return resultado;
+        }
+
+
 
     }
 }
