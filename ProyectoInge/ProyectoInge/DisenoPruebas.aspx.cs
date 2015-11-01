@@ -947,7 +947,7 @@ namespace ProyectoInge
             UpdateAsociarDesasociarRequerimientos.Update();
         }
 
-        protected void btnAgregarRequerimiento(object sender, EventArgs e)
+    /*    protected void btnAgregarRequerimiento(object sender, EventArgs e)
         {
             if (modo == 1 || modo == 2)
             {
@@ -959,7 +959,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        }
+        } */
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
        * Requiere: no recibe parámetros
