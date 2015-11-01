@@ -1574,11 +1574,13 @@ namespace ProyectoInge
 
             }
             //Se obtiene la sigla y el nombre de los requerimientos que posee el proyecto
+            listRequerimientosAgregados.Items.Clear();
             if (datosRequerimientos.Rows.Count >= 1)
             {
+                listRequerimientosAgregados.Items.Clear();
                 for (int i = 0; i < datosRequerimientos.Rows.Count; ++i)
                 {
-                    listRequerimientosAgregados.Items.Add(datosRequerimientos.Rows[i][0].ToString() + " " + datosRequerimientos.Rows[i][3].ToString());
+                    listRequerimientosAgregados.Items.Add(datosRequerimientos.Rows[i][0].ToString() + " " + datosRequerimientos.Rows[i][2].ToString());
                 }
 
             }

@@ -196,7 +196,7 @@
                 <asp:Label ID="lblCriterios" runat="server" Text="Criterios de aceptación:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtCriterios" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
-                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
+                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator3"
                         ControlToValidate="txtCriterios"
                         ValidationExpression="^[\s\S]{0,100}$"
                         ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
