@@ -230,6 +230,7 @@
                     <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
+
                 <%-- Fecha del diseño --%>
                 <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
@@ -255,9 +256,8 @@
                 </asp:UpdatePanel>
             </div>
         </div>
-                 </ContentTemplate>
+  </ContentTemplate>
                 </asp:UpdatePanel>
-
     </div>
 
     <div class="col-lg-11">

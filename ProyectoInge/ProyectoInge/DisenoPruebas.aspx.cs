@@ -293,6 +293,7 @@ namespace ProyectoInge
                 DataTable Tecnicas = controladoraDiseno.consultarTecnicas();
                 int numDatos = Tecnicas.Rows.Count;
                 Object[] datos;
+                this.comboTecnica.Items.Clear();
 
 
                 if (Tecnicas.Rows.Count >= 1)
@@ -332,6 +333,7 @@ namespace ProyectoInge
                 string nombre = "";
                 int numColumna = 0;
                 int indiceResponsables = 1;
+                this.comboResponsable.Items.Clear();
 
                 if (Recursos.Rows.Count >= 1)
                 {

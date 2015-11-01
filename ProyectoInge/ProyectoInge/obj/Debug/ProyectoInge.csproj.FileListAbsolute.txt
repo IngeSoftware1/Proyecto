@@ -1756,3 +1756,4 @@ C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.W
 C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml
 C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.xml
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
