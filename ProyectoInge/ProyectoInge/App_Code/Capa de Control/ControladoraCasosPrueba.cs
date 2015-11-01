@@ -31,7 +31,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return a;
         }
 
-        public bool ejecutarAccion(int modo, object[] datosNuevos, string v1, string v2)
+        public bool ejecutarAccion(int modo, object[] datosNuevos, int idCaso , string v2)
         {
             Boolean resultado = false;
             switch (modo)
@@ -42,6 +42,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         EntidadCaso nuevo = new EntidadCaso(datosNuevos);
                         resultado = controladoraBDCasosPrueba.insertarCasoPrueba(nuevo);
                     }
+                    break;
+                case 2:
+                    {   //Modificar un caso de prueba
+                        EntidadCaso modificado = new EntidadCaso(datosNuevos);
+                        resultado = controladoraBDCasosPrueba.modificarCasoPrueba(modificado, idCaso);
+                    }
+
                     break;
             }
             return resultado;

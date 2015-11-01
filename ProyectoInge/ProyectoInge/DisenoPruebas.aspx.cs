@@ -381,11 +381,6 @@ namespace ProyectoInge
                          btnAceptar_Modificar();
                     }
                     break;
-                case 3:
-                    {
-                        //btnAceptar_Eliminar();
-                    }
-                    break;
 
             }
         
@@ -407,7 +402,7 @@ namespace ProyectoInge
             int tipoInsercion = 1;
             if (faltanDatos())
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "AVISO";
                 lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -466,7 +461,7 @@ namespace ProyectoInge
                         //La actualizó de un requerimiento falló porque el habían datos inválidos.
                         else
                         {
-                            lblModalTitle.Text = " ";
+                            lblModalTitle.Text = "ERROR";
                             lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                             upModal.Update();
@@ -509,7 +504,7 @@ namespace ProyectoInge
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
                             else
                             {
-                                lblModalTitle.Text = " ";
+                                lblModalTitle.Text = "ERROR";
                                 lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
@@ -539,7 +534,7 @@ namespace ProyectoInge
                 else
                 {
 
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -562,7 +557,7 @@ namespace ProyectoInge
             //si faltan datos no deja insertar
             if (faltanDatos())
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "AVISO";
                 lblModalBody.Text = "Para insertar un nuevo diseño de prueba debe completar todos los datos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -622,7 +617,7 @@ namespace ProyectoInge
                         //La actualizó de un requerimiento falló porque el habían datos inválidos.
                         else
                         {
-                            lblModalTitle.Text = " ";
+                            lblModalTitle.Text = "ERROR";
                             lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                             upModal.Update();
@@ -665,7 +660,7 @@ namespace ProyectoInge
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
                             else
                             {
-                                lblModalTitle.Text = " ";
+                                lblModalTitle.Text = "ERROR";
                                 lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
@@ -695,7 +690,7 @@ namespace ProyectoInge
                 else
                 {
 
-                        lblModalTitle.Text = " ";
+                        lblModalTitle.Text = "ERROR";
                         lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
@@ -1160,7 +1155,7 @@ namespace ProyectoInge
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Nombre del miembro es inválido.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -1183,7 +1178,7 @@ namespace ProyectoInge
 
             if (!identificadores.TryGetValue(nombreProyecto, out idProyecto)) // Returns true.
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "ERROR";
                 lblModalBody.Text = "Nombre de proyecto es inválido.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();

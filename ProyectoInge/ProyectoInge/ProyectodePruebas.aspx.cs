@@ -257,7 +257,7 @@ namespace ProyectoInge
 
                 if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Nombre del miembro es inválido.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -270,7 +270,7 @@ namespace ProyectoInge
 
                 if (!cedulasLid.TryGetValue(nombreMiembro, out cedula)) // Returns true.
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Nombre del miembro es inválido.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -494,11 +494,6 @@ namespace ProyectoInge
                         btnAceptar_Modificar();
                     }
                     break;
-                case 3:
-                    {
-                        //btnAceptar_Eliminar();
-                    }
-                    break;
 
             }
         }
@@ -548,7 +543,7 @@ namespace ProyectoInge
             int tipoModificacion = 1;//Va a cambiar la tabla proyecto
             if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "AVISO";
                 lblModalBody.Text = "Para modificar un proyecto debe completar todos los datos habilitados.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -620,7 +615,7 @@ namespace ProyectoInge
                                             cambiarEnabled(false, this.btnInsertar);
                                             llenarGrid(Session["cedula"].ToString());
                                         }
-                                        lblModalTitle.Text = " ";
+                                        lblModalTitle.Text = "";
                                         lblModalBody.Text = "Proyecto modificado con éxito.";
                                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                         upModal.Update();
@@ -630,40 +625,40 @@ namespace ProyectoInge
                                 }
                                 else
                                 {
-                                    lblModalTitle.Text = " ";
-                                    lblModalBody.Text = "No elimino trabaja_en.";
+                                    lblModalTitle.Text = "ERROR";
+                                    lblModalBody.Text = "No eliminó trabaja_en.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                     upModal.Update();
                                 }
                             }
                             else
                             {
-                                lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No inserto los telefonos.";
+                                lblModalTitle.Text = "ERROR";
+                                lblModalBody.Text = "No insertó los teléfonos.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                             }
                         }
                         else
                         {
-                            lblModalTitle.Text = " ";
-                            lblModalBody.Text = "No elimino los telefonos.";
+                            lblModalTitle.Text = "ERROR";
+                            lblModalBody.Text = "No eliminó los teléfonos.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                             upModal.Update();
                         }
                     }
                     else
                     {
-                        lblModalTitle.Text = " ";
-                        lblModalBody.Text = "No modifico oficina usuaria.";
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "No modificó oficina usuaria.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                     }
                 }
                 else
                 {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "No modifico oficina proyecto.";
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "No modificó oficina proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
@@ -770,7 +765,7 @@ namespace ProyectoInge
             //si faltan datos no deja insertar
             if (faltanDatos())
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "AVISO";
                 lblModalBody.Text = "Para insertar un nuevo proyecto debe completar todos los datos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -831,7 +826,7 @@ namespace ProyectoInge
                     else
                     {
                         controladoraProyecto.eliminarOficina(idOficina);
-                        lblModalTitle.Text = " ";
+                        lblModalTitle.Text = "ERROR";
                         lblModalBody.Text = "Este proyecto ya se encuentra registrado en el sistema.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
@@ -841,7 +836,7 @@ namespace ProyectoInge
                 //La oficina usuaria no se pudo registrar en la BD
                 else
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Esta oficina usuaria ya se encuentra registrada en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -876,7 +871,7 @@ namespace ProyectoInge
                 //La inserción de un nuevo telefono para una oficina usuaria en la base de datos falló porque ya estaba en la base
                 else
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "El teléfono ya se encuentra asociado en el sistema a esta oficina usuaria.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -917,7 +912,7 @@ namespace ProyectoInge
                 //La inserción de un nuevo miembro de equipo de pruebas en la base de datos falló porque ya estaba en la base
                 else
                 {
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "El miembro de equipo de pruebas ya se encuentra asociado a este proyecto en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -998,9 +993,7 @@ namespace ProyectoInge
                 Object[] nuevoRequerimiento = new Object[4];
                 nuevoRequerimiento[0] = sigla;
                 nuevoRequerimiento[1] = idProyecto;
-                nuevoRequerimiento[2] = controladoraDiseno.obtenerIdDisenoPorProposito("Dummy"); //Diseño dummy
-                nuevoRequerimiento[3] = nombreRequerimiento;
-
+                nuevoRequerimiento[2] = nombreRequerimiento;
 
                 int tipoInsercion = 5;                              //inserción de tipo 5 es agregar requerimientos
 
@@ -1012,7 +1005,7 @@ namespace ProyectoInge
                 else
                 {
                    
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Este requerimiento ya se encuentra asociado al proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -1178,7 +1171,7 @@ namespace ProyectoInge
                     if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                     {
                        
-                        lblModalTitle.Text = " ";
+                        lblModalTitle.Text = "ERROR";
                         lblModalBody.Text = "No se puede eliminar este proyecto.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
@@ -1186,7 +1179,7 @@ namespace ProyectoInge
                     else
                     {
 
-                        lblModalTitle.Text = " ";
+                        lblModalTitle.Text = "";
                         lblModalBody.Text = "Proyecto eiminado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
@@ -1208,7 +1201,7 @@ namespace ProyectoInge
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
                     
-                    lblModalTitle.Text = " ";
+                    lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "No se puede cancelar este proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
@@ -1228,7 +1221,7 @@ namespace ProyectoInge
             else
             {
                
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "ERROR";
                 lblModalBody.Text = "No es posible eliminar el proyecto.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();

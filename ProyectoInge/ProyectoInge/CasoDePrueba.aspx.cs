@@ -194,7 +194,7 @@ namespace ProyectoInge
             //si faltan datos no deja insertar
             if (faltanDatos())
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "AVISO";
                 lblModalBody.Text = "Para insertar un nuevo caso de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -210,7 +210,7 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtResultadoEsperado.Text;
                 datosNuevos[5] = idDiseño;
 
-                if (controladoraCasoPruebas.ejecutarAccion(modo, datosNuevos, "", ""))
+                if (controladoraCasoPruebas.ejecutarAccion(modo, datosNuevos, 0, ""))
                 {
                     //funcionarioInsertado = this.txtCedula.Text;
                     //llenarGrid(null);
@@ -221,8 +221,8 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnCancelar);
                     cambiarEnabled(true, this.btnInsertar);
 
-                    lblModalTitle.Text = "AVISO";
-                    lblModalBody.Text = "Nuevo Caso de Prueba creado con éxito.";
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "Nuevo caso de prueba creado con éxito.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
 
@@ -245,9 +245,58 @@ namespace ProyectoInge
             throw new NotImplementedException();
         }
 
+        /*Método para modificar un caso de prueba
+         * Requiere: No recibe parámetros
+         * Modifica: Verifica que se encuentren los campos obligatorios para un caso, si se encuentran guarda la modificación en la base, si no muestra un mensaje de error
+         *Retorna: no retorna ningún valor
+         */
         private void btnAceptar_Modificar()
         {
-            throw new NotImplementedException();
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = "AVISO";
+                lblModalBody.Text = "Para insertar un nuevo caso de prueba debe completar todos los campos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                habilitarCamposInsertar();
+            }
+            else
+            {
+                modo = 2;
+                int idCaso = 0;
+
+                //Crea el objeto con los datos del caso de prueba
+                Object[] datosNuevos = new Object[5];
+                datosNuevos[0] = this.txtIdentificador.Text;
+                datosNuevos[1] = this.txtPropósito.Text;
+                datosNuevos[2] = this.txtFlujoCentral.Text;
+                datosNuevos[3] = this.txtEntradaDatos.Text;
+                datosNuevos[4] = this.txtResultadoEsperado.Text;
+                datosNuevos[5] = (int)Session["idDiseñoConsultado"];
+
+                //If si la modificación del caso fue exitosa
+                if (controladoraCasoPruebas.ejecutarAccion(modo, datosNuevos, idCaso, ""))
+                {
+                    controlarCampos(false);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    cambiarEnabled(true, this.btnInsertar);
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "Nuevo caso de prueba creado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                    //Si la modificación del caso fue erronea
+                else
+                {
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "Este caso de prueba ya se encuentra registrado en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
         }
 
         private void btnAceptar_Eliminar()

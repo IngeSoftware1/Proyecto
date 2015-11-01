@@ -125,7 +125,7 @@ INSERT INTO Nivel_Prueba VALUES ( 'De Aceptación');
 
 CREATE TABLE Diseno_Pruebas(
 id_diseno int IDENTITY(1,1) PRIMARY KEY,
-proposito_diseno varchar(50),
+proposito_diseno varchar(50) UNIQUE,
 fecha varchar(15), 
 procedimiento_diseno varchar(100),
 ambiente_diseno varchar(100),

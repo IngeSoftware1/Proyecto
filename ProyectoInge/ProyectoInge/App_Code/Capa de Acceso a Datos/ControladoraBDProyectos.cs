@@ -103,7 +103,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string insercion = "INSERT INTO Requerimiento (id_req, id_proyecto, id_diseno, nombre_req) VALUES ('" + nuevo.getIdReq + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getIdDiseno + "', '" + nuevo.getNombreReq + "')";
+                string insercion = "INSERT INTO Requerimiento (id_req, id_proyecto, nombre_req) VALUES ('" + nuevo.getIdReq + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getNombreReq + "')";
                 return acceso.insertarDatos(insercion);
 
             }
