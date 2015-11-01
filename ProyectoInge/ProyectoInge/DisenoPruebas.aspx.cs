@@ -114,7 +114,6 @@ namespace ProyectoInge
             this.txtProposito.Enabled = condicion;
             this.comboNivel.Enabled = condicion;
             this.comboTecnica.Enabled = condicion;
-            this.comboTipo.Enabled = condicion;
             this.txtAmbiente.Enabled = condicion;
             this.txtProcedimiento.Enabled = condicion;
             this.txtCriterios.Enabled = condicion;
@@ -241,7 +240,6 @@ namespace ProyectoInge
 
             protected void llenarComboTecnica()
             {
-                this.comboTipo.Items.Clear();
                 DataTable Tecnicas = controladoraDiseno.consultarTecnicas();
                 int numDatos = Tecnicas.Rows.Count;
                 Object[] datos;
@@ -420,8 +418,7 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[7] = this.comboTipo.Text;
-                datosNuevos[8] = idProyecto;
+                datosNuevos[7] = idProyecto;
                 // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
 
 
@@ -576,8 +573,7 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[7] = this.comboTipo.Text;
-                datosNuevos[8] = idProyecto;
+                datosNuevos[7] = idProyecto;
                 // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
 
 

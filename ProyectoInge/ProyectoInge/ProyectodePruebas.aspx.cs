@@ -1305,7 +1305,7 @@ namespace ProyectoInge
                 Session["nombreLideres_Consultados"] = nombreLideresConsultados;
 
 
-                if (proyectos.Rows.Count > 1)
+                if (proyectos.Rows.Count >= 1)
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {

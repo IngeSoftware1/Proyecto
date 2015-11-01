@@ -127,9 +127,17 @@
                 <asp:Label ID="lblProposito" runat="server" Text="Propósito:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtProposito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="35px" MaxLength="50"></asp:TextBox>
+                    <asp:RegularExpressionValidator runat="server" ID="valInput"
+                        ControlToValidate="txtProposito"
+                        ValidationExpression="^[\s\S]{0,50}$"
+                        ErrorMessage="Por favor ingrese un máximo de 50 carácteres."
+                     ></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
+
+        
+  
         <br />
 
         <div class="form-group">
@@ -153,16 +161,16 @@
 
         <div class="form-group">
             <div class="row">
-                <%-- Tipo de la prueba --%>
-                <asp:Label ID="lblTipo" runat="server" Text="Tipo de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboTipo" AutoPostBack="True" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
+                
                 <%-- ambiente del diseño --%>
-                <asp:Label ID="lblAmbiente" runat="server" Text="Ambiente de prueba:" CssClass="col-sm-2 control-label"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:TextBox runat="server" ID="txtAmbiente" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
+                <asp:Label ID="lblAmbiente" runat="server" Text="Ambiente de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <div class="col-sm-8 ">
+                    <asp:TextBox runat="server" ID="txtAmbiente" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="60px" MaxLength="100"></asp:TextBox>
+                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1"
+                        ControlToValidate="txtAmbiente"
+                        ValidationExpression="^[\s\S]{0,100}$"
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
+                     ></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
@@ -173,6 +181,11 @@
                 <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento utilizado:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtProcedimiento" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
+                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
+                        ControlToValidate="txtProcedimiento"
+                        ValidationExpression="^[\s\S]{0,100}$"
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
+                     ></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
@@ -183,6 +196,11 @@
                 <asp:Label ID="lblCriterios" runat="server" Text="Criterios de aceptación:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtCriterios" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
+                    <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
+                        ControlToValidate="txtCriterios"
+                        ValidationExpression="^[\s\S]{0,100}$"
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
+                     ></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
