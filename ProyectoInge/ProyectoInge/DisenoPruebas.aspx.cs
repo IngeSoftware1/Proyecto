@@ -389,6 +389,47 @@ namespace ProyectoInge
 
         }
 
+        /*
+       * Método para poder asignar requerimientos al diseño respectivo
+       */
+        protected void btnlnkAgregarReq(object sender, EventArgs e)
+        {
+            if (listReqAgregados.SelectedIndex != -1)
+            {
+                listReqAgregados.Items.Add(listReqAgregados.SelectedValue);
+                listReqAgregados.Items.RemoveAt(listReqAgregados.SelectedIndex);
+            }
+
+            if (modo == 1)
+            {
+                habilitarCamposInsertar();  ///
+            }
+            else if (modo == 2)
+            {
+
+            }
+
+            UpdateAsociarDesasociarRequerimientos.Update();
+        }
+
+        /*
+         * Método para poder desasociar un requerimiento a un diseño, el cambio se refleja en la base y en la interfaz
+         * no asignados y asignados.
+        */
+        protected void btnlnkQuitarReq(object sender, EventArgs e)
+        {
+            if (modo == 1 || modo == 2)
+            {
+                if (listReqAgregados.SelectedIndex != -1)
+                {
+                    listReqProyecto.Items.Add(listReqAgregados.SelectedValue);
+                    listReqAgregados.Items.RemoveAt(listReqAgregados.SelectedIndex);
+                }
+            }
+
+            UpdateAsociarDesasociarRequerimientos.Update();
+        }
+
         /*Método para la acción de aceptar cuando esta en modo de inserción
        * Requiere: No requiere ningún parámetro
        * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
@@ -400,7 +441,7 @@ namespace ProyectoInge
             int tipoInsercion = 1;
             if (faltanDatos())
             {
-                lblModalTitle.Text = "AVISO";
+                lblModalTitle.Text = " ";
                 lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -418,9 +459,12 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
+                //datosNuevos[7] = this.comboTipo.Text;
                 datosNuevos[7] = idProyecto;
-                // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
+                datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
 
+
+                /*aqui*/
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
                 if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
@@ -458,7 +502,7 @@ namespace ProyectoInge
                         //La actualizó de un requerimiento falló porque el habían datos inválidos.
                         else
                         {
-                            lblModalTitle.Text = "ERROR";
+                            lblModalTitle.Text = " ";
                             lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                             upModal.Update();
@@ -501,7 +545,7 @@ namespace ProyectoInge
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
                             else
                             {
-                                lblModalTitle.Text = "ERROR";
+                                lblModalTitle.Text = " ";
                                 lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
@@ -531,7 +575,7 @@ namespace ProyectoInge
                 else
                 {
 
-                    lblModalTitle.Text = "ERROR";
+                    lblModalTitle.Text = " ";
                     lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
