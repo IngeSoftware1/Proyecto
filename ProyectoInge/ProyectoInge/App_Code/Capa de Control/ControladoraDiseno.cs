@@ -217,7 +217,19 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                       
                     }
                     break;
+                case 2:
+                    {
+
+                    }
+                    break;
+                case 3:
+                    {
+                        //if(accion==)
+                        //controladoraBDDiseno.eliminarRequerimientoDiseno(idProyecto);
+                    }
+                    break;
             }
+
             return resultado;
         }
 

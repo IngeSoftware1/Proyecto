@@ -453,6 +453,9 @@ namespace ProyectoInge
             }
             else
             {
+                //eliminar requerimientos
+
+
                 int idProyecto = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
                 Object[] datosNuevos = new Object[10];
@@ -468,7 +471,9 @@ namespace ProyectoInge
                 datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
 
 
+
                 /*aqui*/
+
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
                 if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
@@ -864,7 +869,6 @@ namespace ProyectoInge
       */
         public void llenarDatos(string idDiseño)
         {
-
             if (idDiseño != null && idDiseño.Equals("-") == false )
             {
                 string nombreRepresentante = "";
@@ -883,7 +887,6 @@ namespace ProyectoInge
 
                 if (datosFilaDiseño.Rows.Count == 1)
                 {
-
                     this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
                     this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
@@ -895,8 +898,6 @@ namespace ProyectoInge
                     datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
                     datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
 
-
-
                     if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
                     {
                         ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
@@ -907,8 +908,6 @@ namespace ProyectoInge
                         ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
                         this.comboTecnica.SelectedValue = tecnica.Value;
                     }
-
-
                     
                     
 
@@ -934,10 +933,7 @@ namespace ProyectoInge
                         this.comboResponsable.SelectedValue = representante.Value;
                     }
 
-
                 }
-
-
                 string requerimiento = "";
                 if (datosReqDiseno.Rows.Count >= 1)
                 {
@@ -957,19 +953,13 @@ namespace ProyectoInge
                     {
                         requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
                         listReqProyecto.Items.Add(requerimiento);
-
                     }
                 }
-
-
-            }
-            
-
-
+            }         
         }
 
 
-         /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
+     /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
       * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
       * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
       * Retorna: no retorna ningún valor
@@ -1017,19 +1007,12 @@ namespace ProyectoInge
                         }
 
                         ++indiceColumna;
-
-
-
                     }
 
                     indiceColumna = 0; //Contador para saber el número de columna actual.
                     nombreRepresentante = "";
-
                 }
-
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
-
-
                 if (diseños.Rows.Count > 0)
                 {
                     foreach (DataRow fila in diseños.Rows)
@@ -1045,9 +1028,7 @@ namespace ProyectoInge
                             dt.Rows.Add(datos);
                         }
                     }
-
                     representante = "";
-
                 }
                 else
                 {
@@ -1216,6 +1197,29 @@ namespace ProyectoInge
             return cedula;
 
         }
+
+        /*Método para obtener requerimientosDiseño de un miembro a partir del nombre
+       * Requiere: nombre
+       * Modifica: el valor de la cédula solicitada.
+       * Retorna: la cédula del miembro solicitado.
+       */
+        protected string obtenerIdRequerimiento(string requerimientosDiseño)
+        {
+            string requerimientos = "";
+
+            Dictionary<string, string> idRequerimientosDiseño = (Dictionary<string, string>)Session["vectoRequerimientosDiseño"];
+
+            if (!idRequerimientosDiseño.TryGetValue(requerimientosDiseño, out requerimientos)) // Returns true.
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "Nombre del requerimiento es inválido.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+            return requerimientos;
+        }
+
+
 
         /*Método para obtener id del proyecto con nombre
         * Requiere: nombre
