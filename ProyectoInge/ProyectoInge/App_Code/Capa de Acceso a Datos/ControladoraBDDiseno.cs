@@ -243,24 +243,72 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-        internal bool eliminarRequerimientoDiseno(string sigla, string nombreReq, int idProyecto)
+
+        /*Método para insertar un requerimiento de diseño
+        * Requiere: la entidad de requerimientoDiseño
+        * Modifica: modifica la tabla Requerimiento_Diseno
+        * Retorna:booleano si logra insertar el requerimiento asociado al diseño
+        */
+        public bool insertarRequerimientoDiseño(EntidadRequerimientoDiseño nuevo)
         {
             try
             {
-                string borrarRequerimientoDiseno = "Delete from Requerimiento_Diseno where id_proyecto ='" + idProyecto + " AND id_req =" + sigla + " ';";
-                acceso.eliminarDatos(borrarRequerimientoDiseno);
-                return true;
+                string insercion = "INSERT INTO Requerimiento_Diseno (id_diseno, id_req, id_proyecto) VALUES ('" + nuevo.getIdDiseno + "', '" + nuevo.getIdReq + "', '" + nuevo.getIdProyecto + "')";
+                return acceso.insertarDatos(insercion);
+
             }
             catch (SqlException e)
             {
                 return false;
             }
         }
+
+        /*Método para eliminar un diseño
+        * Requiere: el id del diseño
+        * Modifica: modifica la tabla de Diseno_Pruebas
+        * Retorna:booleano si logra eliminar el diseño
+        */
+        public bool eliminarDiseño(int idDiseño)
+        {
+            try
+            {
+                string borradoProyecto = "Delete from Diseno_Pruebas where id_diseno ='" + idDiseño + "';";
+                acceso.eliminarDatos(borradoProyecto);
+                return true;
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+
+        /*Método para eliminar un requerimiento asociado a un diseño
+        * Requiere: el id del diseño
+        * Modifica: modifica la tabla de Diseno_Pruebas
+        * Retorna:booleano si logra eliminar el diseño
+        */
+        public bool eliminarRequerimientoDiseño(Object[] datos)
+        {
+            try
+            {
+                string borradoProyecto = "Delete from Requerimiento_Diseno where id_diseno ='" + datos[0] + "and id_req ='" + datos[1] + " and id_proyecto='" + datos[2] + "';";
+                acceso.eliminarDatos(borradoProyecto);
+                return true;
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
         /* Método para consultar requerimientos de un diseño
-                * Requiere: el id del diseño y el proyecto al que pertenece
-                * Modifica: no modifica datos
-                * Retorna: un DataTable que contiene los requerimientos del diseño
-                */
+        * Requiere: el id del diseño y el proyecto al que pertenece
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del diseño
+        */
         public DataTable consultarReqDisenoDeProyecto(int idDiseño, int idProyecto)
         {
             DataTable dt = new DataTable();

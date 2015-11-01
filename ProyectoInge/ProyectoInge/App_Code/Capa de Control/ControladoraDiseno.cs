@@ -196,7 +196,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
         * Retorna el valor de la variable booleana.
         */
-        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre, string perfil)
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, int identificador, string perfil)
         {
 
             Boolean resultado = false;
@@ -209,27 +209,26 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             EntidadDiseno nuevo = new EntidadDiseno(datos);
                             resultado = controladoraBDDiseno.insertarDiseno(nuevo);
                         }
-                        else if (accion == 2) //actualizar requerimientos
+                        else if (accion == 2) //insertar en EntidadRequerimientoDiseño
                         {
-                            controladoraProyectos = new ControladoraProyecto();
-                            resultado = controladoraProyectos.actualizarRequerimiento(datos);
+                            EntidadRequerimientoDiseño nuevo = new EntidadRequerimientoDiseño(datos);
+                            resultado = controladoraBDDiseno.insertarRequerimientoDiseño(nuevo);
                         }
-                      
-                    }
-                    break;
-                case 2:
-                    {
-
                     }
                     break;
                 case 3:
-                    {
-                        //if(accion==)
-                        //controladoraBDDiseno.eliminarRequerimientoDiseno(idProyecto);
+                    { //ELIMINAR
+                        if (accion == 1)//Eliminar diseño
+                        {
+                            resultado = controladoraBDDiseno.eliminarDiseño(identificador);
+                        }
+                        else if (accion == 2)//Eliminar requerimiento diseño
+                        {
+                            resultado = controladoraBDDiseno.eliminarRequerimientoDiseño(datos);
+                        }
                     }
                     break;
             }
-
             return resultado;
         }
 
@@ -291,6 +290,19 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable resultado = controladoraRH.consultarLider(idProyecto);
             return resultado;
         }
+
+        /*Método para eliminar un diseño a partir del ID.
+       * Requiere: el id del diseño a eliminar.
+       * Modifica: no modifica datos
+       * Retorna: no retorna ningun valor
+       */
+        public bool eliminarDiseño(int idDiseño)
+        {
+            return controladoraBDDiseno.eliminarDiseño(idDiseño);
+
+        }
+
+
 
 
 
