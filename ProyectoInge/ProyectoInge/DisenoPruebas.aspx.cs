@@ -18,7 +18,8 @@ namespace ProyectoInge
         private string idDiseñoConsultado;
          Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
-        Dictionary<string, string> identificadoresProyectos = new Dictionary<string, string>();
+        Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
+        Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         protected void Page_Load(object sender, EventArgs e)
@@ -39,23 +40,24 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnCancelar);
                 llenarComboNivel();
                 llenarComboTecnica();
-                
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+                    llenarComboProyecto(null);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    llenarGrid(Session["cedula"].ToString());
+                    llenarComboProyecto(Session["cedula"].ToString());
+                }
+                llenarComboRecursos();
+               
             }
 
 
-            if (Session["perfil"].ToString().Equals("Administrador"))
-            {
-                cambiarEnabled(true, this.btnInsertar);
-                llenarGrid(null);
-                llenarComboProyecto(null);
-            }
-            else
-            {
-                cambiarEnabled(false, this.btnInsertar);
-                llenarGrid(Session["cedula"].ToString());
-                llenarComboProyecto(Session["cedula"].ToString());
-            }
-            llenarComboRecursos();
+            
          }
 
         /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
@@ -142,7 +144,7 @@ namespace ProyectoInge
             DataTable nombresProyecto;
             int numDatos = 0;
             Object[] datos;
-            int indiceProyecto = 0;
+            int indiceProyecto = 1;
             int numColumna = 0;
             
 
@@ -166,7 +168,7 @@ namespace ProyectoInge
 
             if (numDatos>0)
             {
-                datos = new Object[numDatos];
+                datos = new Object[numDatos+1];
 
                 for (int i = 0; i < numDatos; ++i)
                 {
@@ -175,8 +177,10 @@ namespace ProyectoInge
                         if (numColumna == 1)
                         {
 
-                             identificadoresProyectos.Add(nombre, nombresProyecto.Rows[i][column].ToString());
-
+                            nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
+                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(),nombre);
+                            
+                            
                         }
                         else
                         {
@@ -191,10 +195,10 @@ namespace ProyectoInge
                     numColumna = 0;
                     nombre = "";
                 }
-
+                datos[0] = "Seleccione";
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
-                Session["vectorIdProyectos"] = identificadoresProyectos;
+                Session["vectorIdProyectos"] = nombres_id_proyectos;
             }
         }
 
@@ -227,6 +231,8 @@ namespace ProyectoInge
 
         
         }
+
+
 
 
             /* Método para llenar el comboBox de los diferentes tecnicas de prueba que existen
@@ -267,19 +273,19 @@ namespace ProyectoInge
             protected void llenarComboRecursos()
             {
 
-              
+                
                 int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 int numDatos = Recursos.Rows.Count;
                 Object[] datos;
                 string nombre = "";
                 int numColumna = 0;
-                int indiceResponsables = 0;
+                int indiceResponsables = 1;
 
                 if (Recursos.Rows.Count >= 1)
                 {
                     numDatos = Recursos.Rows.Count;
-                    datos = new Object[numDatos];
+                    datos = new Object[numDatos+1];
 
                     for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
@@ -306,18 +312,34 @@ namespace ProyectoInge
                         nombre = "";
 
                     }
-
+                    datos[0] = "Seleccione";
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
                     Session["vectorCedulasResponsables"] = cedulasRepresentantes;
                 }
-
+         
             }
 
+         
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
-           
+            llenarComboRecursos();
+            int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+            DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
+            string requerimiento = "";
+            
+            requerimiento = "";
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+                listReqProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    listReqProyecto.Items.Add(requerimiento);
+
+                }
+            }
         }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
@@ -809,8 +831,10 @@ namespace ProyectoInge
                 string nombreRepresentante = "";
                 string nombre = "";
                 ListItem representante;
+                ListItem proyecto;
                 Dictionary<string, string> nombresDelRepresentante = (Dictionary<string, string>)Session["nombreRepresentantes_Consultados"];
                 String cedulaRepresentante = "";
+                String nombreProyecto = "";
                 idDiseñoConsultado = idDiseño;
                 DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
                 DataTable datosMiembro = null;
@@ -830,6 +854,8 @@ namespace ProyectoInge
                     datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
                     datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
                     datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+
+
 
                     if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
                     {
@@ -851,6 +877,17 @@ namespace ProyectoInge
                         representante = this.comboResponsable.Items.FindByText(nombre);
                         this.comboResponsable.SelectedValue = representante.Value;
                     }
+                    nombre = "";
+
+                    id_nombres_proyectos.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
+                   
+                    nombre = nombre + nombreProyecto;
+                    if (this.comboProyecto.Items.FindByText(nombre) != null)
+                    {
+                        proyecto = this.comboProyecto.Items.FindByText(nombre);
+                        this.comboProyecto.SelectedValue = proyecto.Value;
+                    }
+
 
                 }
 
@@ -1105,7 +1142,6 @@ namespace ProyectoInge
             columna.ColumnName = "Nombre Representante";
             dt.Columns.Add(columna);
 
-      
 
             return dt;
         }
@@ -1139,13 +1175,13 @@ namespace ProyectoInge
         * Modifica: no genera modificaciones
         * Retorna: id del proyecto
         */
-        protected string obtenerIdProyecto(string nombreMiembro)
+        protected string obtenerIdProyecto(string nombreProyecto)
         {
             string idProyecto = "";
 
             Dictionary<string, string> identificadores = (Dictionary<string, string>)Session["vectorIdProyectos"];
 
-            if (!identificadores.TryGetValue(nombreMiembro, out idProyecto)) // Returns true.
+            if (!identificadores.TryGetValue(nombreProyecto, out idProyecto)) // Returns true.
             {
                 lblModalTitle.Text = " ";
                 lblModalBody.Text = "Nombre de proyecto es inválido.";

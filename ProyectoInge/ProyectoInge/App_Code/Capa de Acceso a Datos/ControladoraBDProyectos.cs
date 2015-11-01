@@ -504,7 +504,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT nombre_proyecto, id_proyecto From Proyecto where nombre_proyecto != 'Dummy' ";
+                consulta = "SELECT nombre_proyecto, id_proyecto From Proyecto";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
