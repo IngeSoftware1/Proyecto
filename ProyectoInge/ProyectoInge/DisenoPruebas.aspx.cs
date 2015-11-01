@@ -16,9 +16,8 @@ namespace ProyectoInge
         ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
         private string idProyectoConsultado;
         private string idDiseñoConsultado;
-         
-        
-        
+        Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
+        Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         protected void Page_Load(object sender, EventArgs e)
@@ -383,6 +382,11 @@ namespace ProyectoInge
                          btnAceptar_Modificar();
                     }
                     break;
+                case 3:
+                    {
+                        //btnAceptar_Eliminar();
+                    }
+                    break;
 
             }
         
@@ -607,7 +611,7 @@ namespace ProyectoInge
             //si faltan datos no deja insertar
             if (faltanDatos())
             {
-                lblModalTitle.Text = "AVISO";
+                lblModalTitle.Text = " ";
                 lblModalBody.Text = "Para insertar un nuevo diseño de prueba debe completar todos los datos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -626,17 +630,18 @@ namespace ProyectoInge
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
                 datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[7] = idProyecto;
+                datosNuevos[7] = this.comboTipo.Text;
+                datosNuevos[8] = idProyecto;
                 // datosNuevos[9] = obtenerCedula(this.comboResponsable.Text);
 
 
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
-                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, "", ""))
+                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, 0, ""))
                 {
-                    
+
 
                     //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
-                    
+
                     int i = 0;
                     int indiceReq = 0;
                     string sigla = "";
@@ -645,39 +650,60 @@ namespace ProyectoInge
 
                     if (this.comboNivel.Text == "Unitaria")
                     {
-                        while (listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
-                        {
-                            ++indiceReq;
-                        }
 
-                        sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
-                        nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
-                        Object[] requerimientoActualizado = new Object[4];
-                        requerimientoActualizado[0] = sigla;
-                        requerimientoActualizado[1] = idProyecto;
-                        requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                        requerimientoActualizado[3] = nombreRequerimiento;
-                        tipoInsercion = 2;
-
-                        //Se actualizó un requerimiento
-                        if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                        if (this.listReqAgregados.Items.Count > 1)
                         {
-                        }
-                        //La actualizó de un requerimiento falló porque el habían datos inválidos.
-                        else
-                        {
-                            lblModalTitle.Text = "ERROR";
-                            lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "Debe elegir un solo requerimiento para el nivel unitario.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            int idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+
+                            if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
+                            {
+                            }
                             upModal.Update();
                             habilitarCamposInsertar();
+                        }
+                        else
+                        {
+                            indiceReq = 0;
+
+                            while (indiceReq < listReqAgregados.Items[0].ToString().Count() && listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
+                            {
+                                ++indiceReq;
+                            }
+
+                            sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
+                            nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
+
+
+                            Object[] nuevoReqDiseño = new Object[3];
+                            nuevoReqDiseño[0] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            nuevoReqDiseño[1] = sigla;
+                            nuevoReqDiseño[2] = idProyecto;
+                            tipoInsercion = 2;
+
+                            //Se actualizó un requerimiento
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            {
+                            }
+                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                            else
+                            {
+                                lblModalTitle.Text = " ";
+                                lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                                habilitarCamposInsertar();
+                            }
+
+
                         }
                     }
 
                     else
                     {
-                        // PREGUNTAR SI ESTO ES PARA  INTEGRACION DE SISTEMA Y DE ACEPTACION  O SOLO INTEGRACION
-
+                        //Recorre el list de requerimientos agregados para el nivel de integracion, aceptacion y de sistema
                         while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
                         {
 
@@ -695,21 +721,21 @@ namespace ProyectoInge
                             nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
 
 
-                            Object[] requerimientoActualizado = new Object[4];
-                            requerimientoActualizado[0] = sigla;
-                            requerimientoActualizado[1] = idProyecto;
-                            requerimientoActualizado[2] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                            requerimientoActualizado[3] = nombreRequerimiento;
+                            Object[] requerimientoActualizado = new Object[3];
+                            requerimientoActualizado[0] = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            requerimientoActualizado[1] = sigla;
+                            requerimientoActualizado[2] = idProyecto;
                             tipoInsercion = 2;
 
+
                             //Se actualizó un requerimiento
-                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, "", ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, requerimientoActualizado, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
                             {
                             }
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
                             else
                             {
-                                lblModalTitle.Text = "ERROR";
+                                lblModalTitle.Text = " ";
                                 lblModalBody.Text = "No fue posible realizar la actualización del requerimiento.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
@@ -721,33 +747,34 @@ namespace ProyectoInge
                         }
                     }
 
-                      //se carga la interfaz de nuevo
-                        controlarCampos(false);
-                        cambiarEnabled(true, this.btnModificar);
-                        cambiarEnabled(true, this.btnEliminar);
-                        cambiarEnabled(false, this.btnAceptar);
-                        cambiarEnabled(false, this.btnCancelar);
-                        cambiarEnabled(true, this.btnInsertar);
-                        llenarGrid(null);
+                    //se carga la interfaz de nuevo
+                    controlarCampos(false);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
 
-                        lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Nuevo diseño creado con éxito.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Nuevo diseño creado con éxito.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
 
                 }
                 else
                 {
 
-                        lblModalTitle.Text = "ERROR";
-                        lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
-                        habilitarCamposInsertar();
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "Este diseño ya se encuentra registrado en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposInsertar();
                 }
 
-            } 
+            }
         }
+   
 
         /*Método para habilitar/deshabilitar el botón tipo LinkButton
        * Requiere: el booleano para la acción
@@ -757,6 +784,48 @@ namespace ProyectoInge
         protected void cambiarEnabledTel(bool condicion, LinkButton boton)
         {
             boton.Enabled = condicion;
+        }
+
+
+       /*Método que agrega al listbox de requerimeintos
+       * el/los requerientos(s) que el usuario escoge
+       * Modifica: listbox de requerimientos
+       * Retorna: no retorna ningún valor
+       */
+        protected void btnAgregarRequerimiento(object sender, EventArgs e)
+        {
+
+            if (listReqProyecto.SelectedIndex != -1)
+            {
+                if (listReqProyecto.SelectedIndex.ToString() == "Todos los requerimientos")
+                {
+                    int contador = 0;
+                    while (contador < listReqProyecto.Items.Count - 1)
+                    {
+                        listReqAgregados.Items.Add(listReqProyecto.Items[contador].ToString());
+                        listReqProyecto.Items.RemoveAt(contador);
+                        ++contador;
+                    }
+
+                }
+                else
+                {
+                    listReqAgregados.Items.Add(listReqProyecto.SelectedValue);
+                    listReqProyecto.Items.RemoveAt(listReqProyecto.SelectedIndex);
+                }
+
+            }
+
+            if (modo == 1)
+            {
+                habilitarCamposInsertar();
+            }
+            else if (modo == 2)
+            {
+
+            }
+
+            UpdateAsociarDesasociarRequerimientos.Update();
         }
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
@@ -787,7 +856,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.txtProcedimiento.Text == ""  || this.comboResponsable.Text == "" || this.txtCalendar.Text == "")
+            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.txtProcedimiento.Text == "" || this.comboResponsable.Text == "" || this.txtCalendar.Text == "")
             {
                 resultado = true;
             }
@@ -798,7 +867,6 @@ namespace ProyectoInge
 
             return resultado;
         }
-
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
        * Modifica: el valor del la variable idDiseño con el ID del diseño que se desea consultar.
