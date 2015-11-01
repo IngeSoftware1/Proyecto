@@ -142,12 +142,9 @@ namespace ProyectoInge
             this.txtCriterios.Enabled = condicion;
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
-<<<<<<< HEAD
+
             this.calendarFecha.Enabled = condicion;           
-=======
-            this.calendarFecha.Enabled = condicion;
-            
->>>>>>> origin/master
+
         }
 
         /*Método para habilitar/deshabilitar el botón
