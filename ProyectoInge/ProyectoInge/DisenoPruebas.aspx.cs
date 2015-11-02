@@ -521,6 +521,7 @@ namespace ProyectoInge
         {
             vaciarCampos();
             controlarCampos(true);
+            cambiarEnabledTxtCalendar(false);
             llenarComboNivel();
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
