@@ -430,6 +430,8 @@ namespace ProyectoInge
                 }
             }
 
+            listReqProyecto.Items.Add("Todos los requerimientos");
+
            UpdateAsociarDesasociarRequerimientos.Update();
            proyectoUpdate.Update();
         }
@@ -1171,6 +1173,9 @@ namespace ProyectoInge
 
                     }
                 }
+
+                listReqProyecto.Items.Clear();
+                /*
                 requerimiento = "";
                 if (datosReqProyecto.Rows.Count >= 1)
                 {
@@ -1181,6 +1186,7 @@ namespace ProyectoInge
                         listReqProyecto.Items.Add(requerimiento);
                     }
                 }
+                 */
             }         
         }
 
@@ -1221,9 +1227,10 @@ namespace ProyectoInge
 
                         if (indiceColumna == 3)
                         {
-
-                            nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
-
+                            if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString())==false)
+                            {
+                             nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
+                            }
                         }
                         else
                         {
@@ -1282,9 +1289,10 @@ namespace ProyectoInge
 
                         if (indiceColumna == 3)
                         {
-
-                            nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
-
+                            if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString()) == false)
+                            {
+                                nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
+                            }
                         }
                         else
                         {
