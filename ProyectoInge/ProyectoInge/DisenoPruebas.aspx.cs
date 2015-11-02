@@ -33,6 +33,7 @@ namespace ProyectoInge
             {
                 ponerNombreDeUsuarioLogueado();
                 controlarCampos(false);
+                cambiarEnabledTxtCalendar(false);	
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
@@ -62,6 +63,16 @@ namespace ProyectoInge
 
             
          }
+        /*Método para habilitar/deshabilitar el campo txt del calendario
+      * Requiere: el booleano para la acción
+      * Modifica: La propiedad enable del campo del calendario
+      * Retorna: no retorna ningún valor
+      */
+        protected void cambiarEnabledTxtCalendar(bool condicion)
+        {
+            this.txtCalendar.Enabled = condicion;
+        }
+
 
         /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
         * Requiere: object sender, EventArgs e
