@@ -430,6 +430,7 @@ namespace ProyectoInge
             
             requerimiento = "";
             listReqProyecto.Items.Clear();
+            listReqAgregados.Items.Clear();
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 listReqProyecto.Items.Clear();
@@ -777,7 +778,6 @@ namespace ProyectoInge
             else
             {
                 int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-                Debug.WriteLine("El id del proyecto es: " + idProyecto);
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
                 Object[] datosNuevos = new Object[9];
                 datosNuevos[0] = this.txtProposito.Text;
@@ -786,7 +786,7 @@ namespace ProyectoInge
                 datosNuevos[3] = this.txtAmbiente.Text;
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
-                datosNuevos[6] = this.comboNivel.Text;
+                datosNuevos[6] = this.comboNivel.Text; 
                 datosNuevos[7] = idProyecto;
                 datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
@@ -936,13 +936,14 @@ namespace ProyectoInge
 
             if (listReqProyecto.SelectedIndex != -1)
             {
-                if (listReqProyecto.SelectedIndex.ToString() == "Todos los requerimientos")
+                if (listReqProyecto.SelectedValue == "Todos los requerimientos")
                 {
                     int contador = 0;
-                    while (contador < listReqProyecto.Items.Count - 1)
+                    int cantidadRequerimientos = listReqProyecto.Items.Count;
+                    while (contador < cantidadRequerimientos-1)
                     {
-                        listReqAgregados.Items.Add(listReqProyecto.Items[contador].ToString());
-                        listReqProyecto.Items.RemoveAt(contador);
+                        listReqAgregados.Items.Add(listReqProyecto.Items[0].ToString());
+                        listReqProyecto.Items.RemoveAt(0);
                         ++contador;
                     }
 
