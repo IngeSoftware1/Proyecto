@@ -271,14 +271,35 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', '" + nuevo.getNivel + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
-                return acceso.insertarDatos(insercion);
+                if (nuevo.getTecnica == "Seleccione" && nuevo.getNivel == "Seleccione")
+                {
+
+                    string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', null, null, '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                    return acceso.insertarDatos(insercion);
+                }
+
+                else if (nuevo.getNivel == "Seleccione")
+                {
+                    string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', null , '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                    return acceso.insertarDatos(insercion);
+                }
+                else if (nuevo.getTecnica == "Seleccione")
+                {
+                    string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', null , '" + nuevo.getNivel + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                    return acceso.insertarDatos(insercion);
+                }
+                else
+                {
+                    string insercion = "INSERT INTO Diseno_Pruebas (proposito_diseno, fecha, procedimiento_diseno, ambiente_diseno, criterios_aceptacion, tecnica, nivel, id_proyecto, cedula_responsable) VALUES ('" + nuevo.getProposito + "', '" + nuevo.getFecha + "', '" + nuevo.getProcedimiento + "','" + nuevo.getAmbiente + "', '" + nuevo.getCriterio + "', '" + nuevo.getTecnica + "', '" + nuevo.getNivel + "', '" + nuevo.getIdProyecto + "', '" + nuevo.getCedulaResponsable + "')";
+                    return acceso.insertarDatos(insercion);
+                }
 
             }
             catch (SqlException e)
             {
                 return false;
             }
+
         }
 
         /*Método para insertar un requerimiento de diseño

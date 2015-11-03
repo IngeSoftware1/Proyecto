@@ -549,7 +549,33 @@ namespace ProyectoInge
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
+            controlarCampos(false);
+            vaciarCampos();
+            cambiarEnabledTxtCalendar(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabledManosReq(false, this.lnkAgregarReq);
+            cambiarEnabledManosReq(false, this.lnkQuitarReq);
+            cambiarEnabled(true, this.btnInsertar);
+            llenarComboNivel();
+            llenarComboTecnica();
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+                llenarComboRecursos();
+                llenarGrid(null);
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+                llenarComboRecursos();
+                llenarGrid(Session["cedula"].ToString());
+            }
 
+            this.listReqAgregados.Items.Clear();
+            this.listReqProyecto.Items.Clear();
         }
 
         /*
@@ -1014,8 +1040,17 @@ namespace ProyectoInge
                     int cantidadRequerimientos = listReqProyecto.Items.Count;
                     while (contador < cantidadRequerimientos-1)
                     {
-                        listReqAgregados.Items.Add(listReqProyecto.Items[0].ToString());
-                        listReqProyecto.Items.RemoveAt(0);
+                        if (this.listReqProyecto.Items[0].ToString() == "Todos los requerimientos")
+                        {
+                            listReqAgregados.Items.Add(listReqProyecto.Items[1].ToString());
+                            listReqProyecto.Items.RemoveAt(1);
+                        }
+                        else
+                        {
+                            listReqAgregados.Items.Add(listReqProyecto.Items[0].ToString());
+                            listReqProyecto.Items.RemoveAt(0);
+                        }
+
                         ++contador;
                     }
 
