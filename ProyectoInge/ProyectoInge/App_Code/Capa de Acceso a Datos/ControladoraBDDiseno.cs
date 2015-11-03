@@ -169,6 +169,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
         /*Método para modificar un requerimiento asociado a un diseño
         * Requiere: las llaves de la tabla requerimientos diseño y la instancia de la entidad 
+        * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra eliminar el diseño
         */
         public bool modificarRequerimientosDiseño(EntidadRequerimientoDiseño entRequerimientosDiseño, Object[] datos)
@@ -191,6 +192,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra modificar el diseño
         */
+        public bool modificarDiseño(int idDiseño)
         {
             try
             {
