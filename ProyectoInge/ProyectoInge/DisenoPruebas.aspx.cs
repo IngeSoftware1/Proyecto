@@ -489,7 +489,7 @@ namespace ProyectoInge
                     break;
                 case 3:
                     {
-                        //btnAceptar_Eliminar();
+                       // btnAceptar_Eliminar();
                     }
                     break;
 
@@ -937,7 +937,56 @@ namespace ProyectoInge
 
             }
         }
-   
+
+       /* Requiere: No requiere ningún parámetro
+       * Modifica:Elimina un diseno de pruebas si es valido llevar acabo la acción
+       * Retorna: No retorna ningún valor
+       */
+        protected void btnAceptar_Eliminar(object sender, EventArgs e)
+        {
+            string perfil = Session["perfil"].ToString();
+            int idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+
+            if ((controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, "")) == false)//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "No se puede eliminar este diseño de pruebas.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+            else
+            {
+                lblModalTitle.Text = "";
+                lblModalBody.Text = "Diseño de pruebas eiminado con éxito.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+            vaciarCampos();
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+        }
+
+        /*Método para crear la acción de eliminar un proyecto
+         * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+         * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            modo = 3;
+            controlarCampos(false);
+            //lblModalTitle.Text = "AVISO";
+            // lblModalBody.Text = "Está seguro que desea eliminar este diseno de pruebas?";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
+            upModal.Update();
+        }
 
         /*Método para habilitar/deshabilitar el botón tipo LinkButton
        * Requiere: el booleano para la acción
