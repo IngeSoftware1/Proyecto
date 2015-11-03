@@ -176,7 +176,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Requerimiento_Diseno SET id_diseno ='" + entRequerimientosDiseño.getIdDiseno+ "', id_req = '" + entRequerimientosDiseño.getIdReq + "', id_proyecto = '" + + entRequerimientosDiseño.getIdProyecto + "' WHERE where id_diseno ='" + datos[0] + "and id_req ='" + datos[1] + " and id_proyecto='" + datos[2] + "';";
+                string modif = "UPDATE Requerimiento_Diseno SET id_diseno ='" + entRequerimientosDiseño.getIdDiseno + "', id_req = '" + entRequerimientosDiseño.getIdReq + "', id_proyecto = '" + +entRequerimientosDiseño.getIdProyecto + "' WHERE where id_diseno ='" + datos[0] + "and id_req ='" + datos[1] + " and id_proyecto='" + datos[2] + "';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -186,25 +186,45 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-                    
+
         /*Método para modificar un diseño
         * Requiere: el id del diseño
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra modificar el diseño
         */
-        public bool modificarDiseño(int idDiseño)
+        public bool modificarDiseño(EntidadDiseno nuevo)
         {
             try
             {
-                string modif = "Update from Diseno_Pruebas where id_diseno ='" + idDiseño + "';";
-                acceso.insertarDatos(modif);
-                return true;
+                if (nuevo.getTecnica == "Seleccione" && nuevo.getNivel == "Seleccione")
+                {
+
+                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + "null"  + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
+                    return acceso.insertarDatos(modif);
+                }
+
+                else if (nuevo.getNivel == "Seleccione")
+                {
+                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = '" + "null" + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
+                    return acceso.insertarDatos(modif);
+                }
+                else if (nuevo.getTecnica == "Seleccione")
+                {
+                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
+                    return acceso.insertarDatos(modif);
+                }
+                else
+                {
+                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
+                    return acceso.insertarDatos(modif);
+                }
 
             }
             catch (SqlException e)
             {
                 return false;
             }
+           
         }
         /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los diseños que se encuentra asociado en caso de que el usuario sea un miembro

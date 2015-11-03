@@ -221,16 +221,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 case 2:
                     { // MODIFICAR
 
-                        if (accion == 1)//PROYECTO
+                        if (accion == 1)
                         {
                             EntidadRequerimientoDiseño entReqD = new EntidadRequerimientoDiseño(datos);
                             return controladoraBDDiseno.modificarRequerimientosDiseño(entReqD, datos);
                         }
                         else if (accion == 2)
                         {
-                            //EntidadOficinaUsuaria entidadOU = new EntidadOficinaUsuaria(datos);
 
-                            resultado = controladoraBDDiseno.modificarDiseño(identificador);
+                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
+                            resultado = controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
                         }
                     }
                     break;
