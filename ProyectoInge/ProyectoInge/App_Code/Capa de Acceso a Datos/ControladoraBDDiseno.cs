@@ -192,7 +192,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra modificar el diseño
         */
-        public bool modificarDiseño(EntidadDiseno nuevo)
+        public bool modificarDiseño(EntidadDiseno nuevo, int identificador)
         {
             try
             {

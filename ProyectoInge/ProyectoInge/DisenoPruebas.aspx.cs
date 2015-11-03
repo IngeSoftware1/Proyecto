@@ -40,18 +40,17 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnCancelar);
                 cambiarEnabledManosReq(false, this.lnkAgregarReq);
                 cambiarEnabledManosReq(false, this.lnkQuitarReq);
+                cambiarEnabled(true, this.btnInsertar);  
                 llenarComboNivel();
                 llenarComboTecnica();
                 if (Session["perfil"].ToString().Equals("Administrador"))
-                {
-                    cambiarEnabled(true, this.btnInsertar);                  
+                {                
                     llenarComboProyecto(null);
                     llenarComboRecursos();
                     llenarGrid(null);
                 }
                 else
-                {
-                    cambiarEnabled(false, this.btnInsertar);         
+                {       
                     llenarComboProyecto(Session["cedula"].ToString());
                     llenarComboRecursos();
                     llenarGrid(Session["cedula"].ToString());
@@ -618,7 +617,7 @@ namespace ProyectoInge
         /*
        * Método para poder asignar requerimientos al diseño respectivo
        */
-     /*   protected void btnlnkAgregarReq(object sender, EventArgs e)
+        protected void btnAgregarReq(object sender, EventArgs e)
         {
             if (listReqAgregados.SelectedIndex != -1)
             {
@@ -636,7 +635,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        } */
+        } 
 
         /*
          * Método para poder desasociar un requerimiento a un diseño, el cambio se refleja en la base y en la interfaz
@@ -722,7 +721,7 @@ namespace ProyectoInge
                             lblModalTitle.Text = " ";
                             lblModalBody.Text = "Debe elegir un solo requerimiento para el nivel unitario.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            idDiseño = (Int32.Parse(Session["idDiseñoS"].ToString()));
 
                             if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
                             {
@@ -967,6 +966,18 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);
                     cambiarEnabled(true, this.btnInsertar);
+                    Session["idDiseñoS"] = idDiseño;
+
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+                        llenarGrid(null);
+                    }
+                    else
+                    {
+                        llenarGrid(Session["cedula"].ToString());
+                    }
+
+
                     llenarGrid(null);
 
                     if (insercion == true)
@@ -998,7 +1009,7 @@ namespace ProyectoInge
         protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
             string perfil = Session["perfil"].ToString();
-            int idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+            int idDiseño = (Int32.Parse(Session["idDiseñoS"].ToString()));
 
             if ((controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, "")) == false)//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
             {
@@ -1014,7 +1025,16 @@ namespace ProyectoInge
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
             }
-            llenarGrid(null);
+
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarGrid(null);
+            }
+            else
+            {
+                llenarGrid(Session["cedula"].ToString());
+            }
+
 
             vaciarCampos();
             controlarCampos(false);
