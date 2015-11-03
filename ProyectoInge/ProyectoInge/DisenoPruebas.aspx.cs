@@ -433,6 +433,13 @@ namespace ProyectoInge
                         Session["vectorCedulasResponsables"] = cedulasRepresentantes;
                         Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                     }
+                    else
+                    {
+                        datos = new Object[1];
+                        datos[0] = "Seleccione";
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+                    }
 
                 }
                 else
