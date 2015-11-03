@@ -667,13 +667,6 @@ namespace ProyectoInge
                     }
                 }
             
-                //revisar todos los campor llenos
-                if (this.comboNivel.Text == "Seleccione" )
-                    //mando un vacío a la base
-                    datosNuevos[6] = "";
-                if (this.comboTecnica.Text == "Seleccione")
-                    //mando un vacío a la base
-                    datosNuevos[5] = "";
                 //si el diseño de prueba se pudo modificar correctamente entra a este if
 
                 modo = 2;
