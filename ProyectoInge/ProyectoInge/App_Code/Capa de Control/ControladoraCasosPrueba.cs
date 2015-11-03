@@ -52,6 +52,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                 case 3:
                     {
                         resultado = controladoraBDCasosPrueba.eliminarCasoPrueba(idCaso);
+                        break;
                     }
             }
             return resultado;

@@ -205,6 +205,7 @@ namespace ProyectoInge
             int indiceProyecto = 1;
             int numColumna = 0;
 
+            
             this.listReqProyecto.Items.Clear();
 
             if(cedulaUsuario==null){
@@ -259,6 +260,13 @@ namespace ProyectoInge
                 this.comboProyecto.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
             }
         }
 
@@ -335,84 +343,106 @@ namespace ProyectoInge
 
                 Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
                 Dictionary<string, string> cedulasNombreRepresentantes= new Dictionary<string, string>();
-
-
-                int id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
-                DataTable Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
-                int numDatos = Recursos.Rows.Count;
+                int id = -1;
+                DataTable Recursos;
                 Object[] datos;
-                string nombre = "";
-                int numColumna = 0;
-                int indiceResponsables = 1;
-                this.comboResponsable.Items.Clear();
+                int numDatos = 0;
 
-                if (Recursos.Rows.Count >= 1)
+                
+                if (this.comboProyecto.Text.Equals("Seleccione") == false)
                 {
+
+
+
+                    id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                    Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                     numDatos = Recursos.Rows.Count;
-                    datos = new Object[numDatos+2];
 
-                    for (int i = 0; i < Recursos.Rows.Count; ++i)
+                    string nombre = "";
+                    int numColumna = 0;
+                    int indiceResponsables = 1;
+                    this.comboResponsable.Items.Clear();
+
+                    if (Recursos.Rows.Count >= 1)
                     {
+                        numDatos = Recursos.Rows.Count;
+                        datos = new Object[numDatos + 2];
 
-
-                        foreach(DataColumn column in Recursos.Columns)
+                        for (int i = 0; i < Recursos.Rows.Count; ++i)
                         {
-                            if(numColumna == 4 ){
 
-                                cedulasRepresentantes.Add(nombre,Recursos.Rows[i][numColumna].ToString());
-                                cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(),nombre);
-                            
-                            }
-                            else
+
+                            foreach (DataColumn column in Recursos.Columns)
                             {
-                                nombre = Recursos.Rows[i][0].ToString() + " "+ Recursos.Rows[i][1].ToString();
+                                if (numColumna == 4)
+                                {
+
+                                    cedulasRepresentantes.Add(nombre, Recursos.Rows[i][numColumna].ToString());
+                                    cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(), nombre);
+
+                                }
+                                else
+                                {
+                                    nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString();
+                                }
+
+                                ++numColumna;
                             }
 
-                            ++numColumna;
+                            datos[indiceResponsables] = nombre;
+                            ++indiceResponsables;
+                            numColumna = 0;
+                            nombre = "";
+
                         }
-                        
-                        datos[indiceResponsables] = nombre;
-                        ++indiceResponsables;
+
                         numColumna = 0;
-                        nombre = "";
+                        Recursos = controladoraDiseno.consultarLider(id);
 
-                    }
-
-                    numColumna = 0;
-                    Recursos = controladoraDiseno.consultarLider(id);
-
-                    if(Recursos != null && Recursos.Rows.Count==1){
-                    
-
-
-                        foreach (DataColumn column in Recursos.Columns)
+                        if (Recursos != null && Recursos.Rows.Count == 1)
                         {
-                            if (numColumna == 3)
-                            {
 
-                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
-                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
-                         
-                            }
-                            else
+
+
+                            foreach (DataColumn column in Recursos.Columns)
                             {
-                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                                if (numColumna == 3)
+                                {
+
+                                    cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                    cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+
+                                }
+                                else
+                                {
+                                    nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                                }
+
+                                ++numColumna;
                             }
 
-                            ++numColumna;
+                            datos[indiceResponsables] = nombre;
+                            ++indiceResponsables;
+                            nombre = "";
+
                         }
 
-                        datos[indiceResponsables] = nombre;
-                        ++indiceResponsables;
-                        nombre = "";
-     
+                        datos[0] = "Seleccione";
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+                        Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                        Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                     }
 
+                }
+                else
+                {
+
+                    datos = new Object[1];
                     datos[0] = "Seleccione";
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
-                    Session["vectorCedulasResponsables"] = cedulasRepresentantes;
-                    Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
+
                 }
 
                 comboResponsableUpdate.Update();
