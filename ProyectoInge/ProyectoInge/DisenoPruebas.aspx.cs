@@ -961,6 +961,7 @@ namespace ProyectoInge
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
             }
+            llenarGrid(null);
             vaciarCampos();
             controlarCampos(false);
             cambiarEnabled(false, this.btnModificar);

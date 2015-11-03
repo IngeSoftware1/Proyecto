@@ -1758,3 +1758,4 @@ C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.W
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
+C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
