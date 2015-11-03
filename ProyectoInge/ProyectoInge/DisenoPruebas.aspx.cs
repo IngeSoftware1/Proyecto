@@ -632,10 +632,10 @@ namespace ProyectoInge
                 //eliminar requerimientos
                 if (listReqAgregados.Text != "")
                 {
-                    listReqAgregados.Items.Clear();
-                    UpdateAsociarDesasociarRequerimientos.Update();
+                    //listReqAgregados.Items.Clear();
+                    //UpdateAsociarDesasociarRequerimientos.Update();
 
-                    if (controladoraDiseno.ejecutarAccion(3, 0, datosNuevos, 0, ""))
+                    if (controladoraDiseno.ejecutarAccion(3, 2, datosNuevos, 0, ""))
                     {
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Eliminados los requerimientos de diseño";
@@ -643,17 +643,7 @@ namespace ProyectoInge
                         upModal.Update();
                     }
                 }
-               
-                datosNuevos[0] = this.txtProposito.Text;
-                datosNuevos[1] = this.txtCalendar.Text;
-                datosNuevos[2] = this.txtProcedimiento.Text;
-                datosNuevos[3] = this.txtAmbiente.Text;
-                datosNuevos[4] = this.txtCriterios.Text;
-                datosNuevos[5] = this.comboTecnica.Text;
-                datosNuevos[6] = this.comboNivel.Text;
-                datosNuevos[7] = idProyecto;
-                datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
-                ////////////////////////////////////////
+
                 //revisar todos los campor llenos
                 if (this.comboNivel.Text == "Seleccione" /*||*/)
                     //mando un vacío a la base
