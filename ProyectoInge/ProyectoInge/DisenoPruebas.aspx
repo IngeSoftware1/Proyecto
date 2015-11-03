@@ -32,7 +32,7 @@
             <div id="btnsControl" style="float: right">
                 <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
                 <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" />
             </div>
         </div>
 
@@ -328,5 +328,22 @@
         </div>
 
     </div>
-
+      <%--Modal Confirmar--%>
+    <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color = "#Red">Aviso</font></i></h3>
+                </div>
+                <div class="modal-body">
+                     Está seguro que desea eliminar este diseno de pruebas?            
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info" style="border:#7BC143 ; background:#0094ff" Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server"/> 
+                    <button type="button" id="botonVolver" style="border:#0094ff; background:#0094ff" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
