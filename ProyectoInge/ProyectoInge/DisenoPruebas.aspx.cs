@@ -610,7 +610,7 @@ namespace ProyectoInge
         /*
        * Método para poder asignar requerimientos al diseño respectivo
        */
-     /*   protected void btnlnkAgregarReq(object sender, EventArgs e)
+        protected void btnAgregarReq(object sender, EventArgs e)
         {
             if (listReqAgregados.SelectedIndex != -1)
             {
@@ -628,7 +628,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        } */
+        } 
 
         /*
          * Método para poder desasociar un requerimiento a un diseño, el cambio se refleja en la base y en la interfaz
@@ -714,7 +714,7 @@ namespace ProyectoInge
                             lblModalTitle.Text = " ";
                             lblModalBody.Text = "Debe elegir un solo requerimiento para el nivel unitario.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            idDiseño = (Int32.Parse(Session["idDiseñoS"].ToString()));
 
                             if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
                             {
