@@ -363,6 +363,78 @@ namespace ProyectoInge
         }
 
 
+        /*Método para crear la acción de eliminar un caso de prueba
+        * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+        * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+        * Retorna: no retorna ningún valor
+        */
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            modo = 3;
+            controlarCampos(false);
+
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
+            upModal.Update();
+
+        }
+
+
+        /*Método para la acción de aceptar cuando esta en modo de borrado
+         * Requiere: No requiere ningún parámetro
+         * Modifica:no modifica datos
+         * Retorna: No retorna ningún valor
+         */
+        protected void btnAceptar_Eliminar(object sender, EventArgs e)
+        {
+            
+            int id = controladoraCasoPruebas.consultarIdCasoPrueba(txtIdentificador.Text);
+           
+                if (controladoraCasoPruebas.ejecutarAccion(3,null,id,"")==true)
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "La eliminación del caso fue exitosa.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }else
+                {
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "La eliminación del caso no se pudo dar";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+
+                vaciarCampos();
+
+                controlarCampos(false);
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+
+
+                //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+              /*  if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    cambiarEnabled(true, this.btnInsertar);
+                    llenarGrid(null);
+                }
+                else
+                {
+                    cambiarEnabled(false, this.btnInsertar);
+                    llenarGrid(Session["cedula"].ToString());
+                }
+             */
+          
+        }
+
+
+
+
     }
 
 

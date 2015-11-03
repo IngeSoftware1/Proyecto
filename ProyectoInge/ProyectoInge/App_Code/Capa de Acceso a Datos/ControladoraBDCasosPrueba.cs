@@ -76,5 +76,42 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return resultado;
         }
+
+        //metodo para consultar id de caso de prueba
+        public int consultarIdCasoPrueba(string identificador)
+        {
+            int resultado = -1;
+
+            try
+            {
+                //id_caso no por que es un autonumérico ??
+                string consulta = "SELECT id_caso FROM Caso_Prueba WHERE identificador_caso ='" + identificador + "';";
+                resultado = Int32.Parse(acceso.ejecutarConsulta(consulta).ToString());
+
+            }
+            catch (SqlException e)
+            {
+                resultado = -1;
+            }
+
+            return resultado;
+        }
+
+        //metodo para eliminar un caso de prueba
+        public bool eliminarCasoPrueba(int idCaso)
+        {
+            try
+            {
+                string borradoProyecto = "Delete from Caso_Prueba where id_caso='" + idCaso+ "';";
+                acceso.eliminarDatos(borradoProyecto);
+                return true;
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+
     }
 }

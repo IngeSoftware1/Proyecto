@@ -47,9 +47,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     {   //Modificar un caso de prueba
                         EntidadCaso modificado = new EntidadCaso(datosNuevos);
                         resultado = controladoraBDCasosPrueba.modificarCasoPrueba(modificado, idCaso);
+                        break;
                     }
-
-                    break;
+                case 3:
+                    {
+                        resultado = controladoraBDCasosPrueba.eliminarCasoPrueba(idCaso);
+                    }
             }
             return resultado;
 
@@ -78,6 +81,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
+        }
+
+        //metodo para consultar el id del caso de prueba
+        public int consultarIdCasoPrueba(string identificador)
+        {
+            return controladoraBDCasosPrueba.consultarIdCasoPrueba(identificador);
         }
 
 
