@@ -632,9 +632,6 @@ namespace ProyectoInge
                 //eliminar requerimientos
                 if (listReqAgregados.Text != "")
                 {
-                    //listReqAgregados.Items.Clear();
-                    //UpdateAsociarDesasociarRequerimientos.Update();
-
                     if (controladoraDiseno.ejecutarAccion(3, 2, datosNuevos, 0, ""))
                     {
                         lblModalTitle.Text = " ";
@@ -643,16 +640,18 @@ namespace ProyectoInge
                         upModal.Update();
                     }
                 }
-
+            
                 //revisar todos los campor llenos
-                if (this.comboNivel.Text == "Seleccione" /*||*/)
+                if (this.comboNivel.Text == "Seleccione" )
                     //mando un vacío a la base
                     datosNuevos[6] = "";
                 if (this.comboTecnica.Text == "Seleccione")
                     //mando un vacío a la base
                     datosNuevos[5] = "";
-                /////////////////////////////////////////////////
-                //si el diseño de prueba se pudo insertar correctamente entra a este if
+                //si el diseño de prueba se pudo modificar correctamente entra a este if
+
+                modo = 2;
+                tipoInsercion = 2;
                 if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, 0, ""))
                 {
                     //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
@@ -704,7 +703,6 @@ namespace ProyectoInge
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
-                                ////////controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
                             }
                         }
                     }
@@ -729,7 +727,7 @@ namespace ProyectoInge
                             nuevoReqDiseño[2] = idProyecto;
                             tipoInsercion = 2;
                             //Se actualizó un requerimiento
-                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                            if (controladoraDiseno.ejecutarAccion(2, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
                             {
                             }
                             //La actualizó de un requerimiento falló porque el habían datos inválidos.
@@ -737,12 +735,11 @@ namespace ProyectoInge
                             {
                                 insercion = false;
                                 lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No fue posible realizar la inserción de/los requerimientos.";
+                                lblModalBody.Text = "No fue posible realizar la modificación de/los requerimientos.";
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
-                                ////////controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
-                            }
+                             }
                             i++;
                         }
                     }
@@ -758,7 +755,7 @@ namespace ProyectoInge
                     if (insercion == true)
                     {
                         lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Nuevo diseño creado con éxito.";
+                        lblModalBody.Text = "Diseño actualizado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                     }
@@ -768,7 +765,7 @@ namespace ProyectoInge
                 {
 
                     lblModalTitle.Text = " ";
-                    lblModalBody.Text = "No fue posible realizar la inserción del diseño de prueba";
+                    lblModalBody.Text = "No fue posible realizar la modificación del diseño de prueba";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposInsertar();
@@ -992,7 +989,7 @@ namespace ProyectoInge
             UpdateAsociarDesasociarRequerimientos.Update();
         }
 
-    /*    protected void btnAgregarRequerimiento(object sender, EventArgs e)
+       protected void btnAgregarRequerimientos(object sender, EventArgs e)
         {
             if (modo == 1 || modo == 2)
             {
@@ -1004,7 +1001,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        } */
+        } 
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
        * Requiere: no recibe parámetros

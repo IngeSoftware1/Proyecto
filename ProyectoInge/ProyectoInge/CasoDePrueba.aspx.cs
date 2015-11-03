@@ -226,7 +226,15 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
 
+                }else
+                {
+                    lblModalTitle.Text = " ";
+                    lblModalBody.Text = "No fue posible realizar la inserción del caso de prueba.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposInsertar();
                 }
+
             }
         }
 

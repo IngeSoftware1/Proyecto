@@ -167,8 +167,43 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+        /*Método para modificar un requerimiento asociado a un diseño
+        * Requiere: las llaves de la tabla requerimientos diseño y la instancia de la entidad 
+        * Retorna:booleano si logra eliminar el diseño
+        */
+        public bool modificarRequerimientosDiseño(EntidadRequerimientoDiseño entRequerimientosDiseño, Object[] datos)
+        {
+            try
+            {
+                string modif = "UPDATE Requerimiento_Diseno SET id_diseno ='" + entRequerimientosDiseño.getIdDiseno+ "', id_req = '" + entRequerimientosDiseño.getIdReq + "', id_proyecto = '" + + entRequerimientosDiseño.getIdProyecto + "' WHERE where id_diseno ='" + datos[0] + "and id_req ='" + datos[1] + " and id_proyecto='" + datos[2] + "';";
+                return acceso.insertarDatos(modif);
 
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
 
+                    
+        /*Método para modificar un diseño
+        * Requiere: el id del diseño
+        * Modifica: modifica la tabla de Diseno_Pruebas
+        * Retorna:booleano si logra modificar el diseño
+        */
+        {
+            try
+            {
+                string modif = "Update from Diseno_Pruebas where id_diseno ='" + idDiseño + "';";
+                acceso.insertarDatos(modif);
+                return true;
+
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
         /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los diseños que se encuentra asociado en caso de que el usuario sea un miembro
         * Requiere: un DataTable con los identificadores de el/los diseño(s) en los cuales el miembro labora en caso de que éste sea el usuario,
