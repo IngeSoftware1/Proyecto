@@ -962,6 +962,7 @@ namespace ProyectoInge
                 upModal.Update();
             }
             llenarGrid(null);
+
             vaciarCampos();
             controlarCampos(false);
             cambiarEnabled(false, this.btnModificar);
