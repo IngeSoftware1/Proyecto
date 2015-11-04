@@ -55,7 +55,7 @@
         <div class="form-group">
             
             <div class="row">
-                <asp:Label ID="lblProyecto" runat="server" Text="Proyecto:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-3 ">
                     <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado"  EnableViewState="true">
                     </asp:DropDownList>
@@ -131,7 +131,7 @@
         <%-- Propósito del diseño --%>
         <div class="form-group">
             <div class="row">
-                <asp:Label ID="lblProposito" runat="server" Text="Propósito:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblProposito" runat="server" Text="Propósito*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtProposito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="35px" MaxLength="50"></asp:TextBox>
                     <asp:RegularExpressionValidator runat="server" ID="valInput"
@@ -191,7 +191,7 @@
         <div class="form-group">
             <div class="row">
                 <%-- procedimiento del diseño --%>
-                <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento utilizado:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento utilizado*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtProcedimiento" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
@@ -224,7 +224,7 @@
         <div class="form-group">
             <div class="row">
                 <%-- Responsable del diseño --%>
-                <asp:Label ID="lblResponsable" runat="server" Text="Responsable:" CssClass="col-sm-2 col-sm-offset-1 control-label" onClick ="responsableSeleccionado"></asp:Label>
+                <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-2 col-sm-offset-1 control-label" onClick ="responsableSeleccionado"></asp:Label>
                 <div class="col-sm-3 ">
                     <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control">
                     </asp:DropDownList>
@@ -234,7 +234,7 @@
                 <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                     <ContentTemplate>
                         
-                                <asp:Label ID="lblFecha" runat="server" Text="Fecha:" CssClass="col-sm-2  control-label"></asp:Label>
+                                <asp:Label ID="lblFecha" runat="server" Text="Fecha*:" CssClass="col-sm-2  control-label"></asp:Label>
                                 <div class="col-sm-3 ">
                                     <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                 </div>
