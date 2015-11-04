@@ -603,10 +603,6 @@ namespace ProyectoInge
             this.txtProcedimiento.Text = "";
             this.txtCriterios.Text = "";
             this.txtCalendar.Text = "";
-            this.comboNivel.Text = "";
-            this.comboTecnica.Text = "";
-            this.comboResponsable.Text = "";
-            this.comboProyecto.Text = "";
         }
 
 
@@ -1097,6 +1093,16 @@ namespace ProyectoInge
 
 
             vaciarCampos();
+            llenarComboNivel();
+            llenarComboTecnica();
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+            }
             controlarCampos(false);
             cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(true, this.btnModificar);
@@ -1111,8 +1117,8 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            cambiarEnabled(true, this.btnInsertar);
-            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
