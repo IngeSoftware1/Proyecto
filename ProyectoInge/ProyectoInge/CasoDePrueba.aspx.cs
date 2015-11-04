@@ -18,7 +18,9 @@ namespace ProyectoInge
         private static int modo = 1;//1insertar, 2 modificar, 3eliminar
 
         private static string idCasoConsultado;//Guarda el id del Caso consultado
-        private static string idDisenoConsultado;//Guarda el id dell Diseño asociado al caso consultado
+        private static string idDisenoD;//Guarda el id del Diseño asociado al caso consultado
+        private static string idProyectoD;//Guarda el id del Proyecto asociado al consultado
+
 
         /* Método para actualizar la interfaz de recursos humanos
          * Modifica: no modifica nada
@@ -40,14 +42,7 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarDatosDiseno(); //NO BORRAR, SE UTILIZA CUANDO YA TENGA LO DE DISEÑO LISTO
-                if (Session["perfil"].ToString().Equals("Administrador"))
-                {
-                    llenarGrid(null);
-                }
-                else
-                {
-                    llenarGrid(Session["cedula"].ToString());
-                }
+                llenarGrid(null);
             }
         }
 
@@ -373,6 +368,11 @@ namespace ProyectoInge
             string requerimiento = "";
             if (datosDiseno != null)
             {
+
+                idProyectoD = datosProyecto.Rows[0][1].ToString();//En esa variable guardo el proyecto actual
+                idDisenoD = datosDiseno.Rows[0][0].ToString();//En esa variable guardo el diseño actual
+
+
                 idProyecto = Int32.Parse(datosProyecto.Rows[0][1].ToString());
                 this.txtNombreProyecto.Text = datosProyecto.Rows[0][0].ToString();
                 this.txtNombreDiseño.Text = datosDiseno.Rows[0][1].ToString();
@@ -477,87 +477,47 @@ namespace ProyectoInge
         public void llenarGrid(string idRH)
         {
             DataTable dt = crearTablaCasosPrueba();
-            DataTable idProyectos;
-            DataTable proyectos;
-            DataTable diseños;
+            DataTable proyecto;
+            DataTable diseño;
             DataTable casos;
 
             Object[] datos = new Object[4];
-            Object[] tuplaInsertada = new Object[4];
+
             datos[0] = "";
             datos[1] = "";
             datos[2] = "";
             datos[3] = "";
-            if (idRH != null)
+            controladoraCasoPruebas.consultarNombreProyecto(idProyectoD);//fila1[].ToString();//Agarra los nombres de los proyectos
+            proyecto = controladoraCasoPruebas.consultarNombreProyecto(idProyectoD);//Obtengo los ids de los proyectos asociados a un miembro
+            if (proyecto == null)
             {
-                idProyectos = controladoraCasoPruebas.consultarInformacionProyectoID(idRH);//Obtengo los ids de los proyectos asociados a un miembro
-                if (idProyectos == null)
-                {
-                    datos[0] = "-";
-                    datos[1] = "-";
-                    datos[2] = "-";
-                    datos[3] = "-";
-                    dt.Rows.Add(datos);
-                }
-                else
-                {
-                    foreach (DataRow fila1 in idProyectos.Rows)
-                    {
-                        DataTable t = controladoraCasoPruebas.consultarNombreProyecto(fila1[0].ToString());//fila1[].ToString();//Agarra los nombres de los proyectos
-                        DataRow filaNombre = t.Rows[0];
-                        datos[0] = filaNombre[0];
-                        diseños = controladoraCasoPruebas.consultarInformacionDiseno(fila1[0].ToString());//Obtengo los diseños asociados a una proyecto, toda la info
-                        foreach (DataRow fila2 in diseños.Rows)
-                        {
-                            datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos                                   
-                            casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
-                            foreach (DataRow fila3 in casos.Rows)
-                            {
-                                idCasoConsultado = fila3[0].ToString();
-                                datos[2] = ""; datos[3] = "";
-                                datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
-                                datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños                                       
-                                if (datos[2].ToString() != "" && datos[3].ToString() != "")
-                                {
-                                    dt.Rows.Add(datos);
-                                }
-                            }
-                        }
-                    }
-                }
+                datos[0] = "-";
+                datos[1] = "-";
+                datos[2] = "-";
+                datos[3] = "-";
+                dt.Rows.Add(datos);
             }
             else
             {
-                proyectos = controladoraCasoPruebas.consultarTodosLosProyectos();//Obtengo los proyectos los ids y nombres
-                if (proyectos == null)
+                foreach (DataRow fila1 in proyecto.Rows)
                 {
-                    datos[0] = "-";
-                    datos[1] = "-";
-                    datos[2] = "-";
-                    datos[3] = "-";
-                    dt.Rows.Add(datos);
-                }
-                else
-                {
-                    foreach (DataRow fila1 in proyectos.Rows)
-                    {
-                        datos[0] = fila1[1].ToString();//Agarra los nombres de los proyectos
-                        diseños = controladoraCasoPruebas.consultarInformacionDiseno(fila1[0].ToString());//Obtengo los diseños asociados a una proyecto, toda la info                          
-                        foreach (DataRow fila2 in diseños.Rows)
-                        {
-                            datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos
-                            casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
-                            foreach (DataRow fila3 in casos.Rows)
-                            {
-                                idCasoConsultado = fila3[0].ToString();
-                                datos[2] = ""; datos[3] = "";
-                                datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
-                                datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños
+                    datos[0] = fila1[0];
+                    int idDiseno = Int32.Parse(Session["idDiseñoS"].ToString());
 
-                                if (datos[2].ToString() != "" && datos[3].ToString() != "")
-                                {
-                                    dt.Rows.Add(datos);
-                                }
+                    diseño = controladoraCasoPruebas.consultarInformacionDiseno(idDiseno);//Obtengo los diseños asociados a una proyecto, toda la info
+                    foreach (DataRow fila2 in diseño.Rows)
+                    {
+                        datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos                                   
+                        casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
+                        foreach (DataRow fila3 in casos.Rows)
+                        {
+                            idCasoConsultado = fila3[0].ToString();
+                            datos[2] = ""; datos[3] = "";
+                            datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
+                            datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños                                       
+                            if (datos[2].ToString() != "" && datos[3].ToString() != "")
+                            {
+                                dt.Rows.Add(datos);
                             }
                         }
                     }
@@ -621,17 +581,11 @@ namespace ProyectoInge
                     this.txtFlujoCentral.Text = casoPrueba.Rows[0][3].ToString();
                     this.txtEntradaDatos.Text = casoPrueba.Rows[0][4].ToString();
                     this.txtResultadoEsperado.Text = casoPrueba.Rows[0][5].ToString();
-
-
-                    idDisenoConsultado = casoPrueba.Rows[0][6].ToString();
-                    //llenarDatosDiseno();
                 }
             }
 
 
         }
-
-
 
         protected void gridCasosDePrueba_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -647,12 +601,7 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnCancelar);
                 cambiarEnabled(false, this.btnAceptar);
             }
-
         }
 
-
-
     }
-
-
 }

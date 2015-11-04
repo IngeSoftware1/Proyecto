@@ -694,7 +694,6 @@ C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\Microsoft.We
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\Newtonsoft.Json.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\Owin.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.dll
-C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Optimization.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Providers.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.dll
@@ -703,7 +702,6 @@ C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.W
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Razor.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\WebGrease.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Helpers.xml
-C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.xml
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Razor.xml
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.xml
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.WebPages.Deployment.xml
@@ -1759,3 +1757,4 @@ C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa 
 C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
+C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs

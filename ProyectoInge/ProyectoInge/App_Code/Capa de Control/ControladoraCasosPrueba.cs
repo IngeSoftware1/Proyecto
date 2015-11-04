@@ -102,11 +102,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyecto = new ControladoraProyecto();
             return controladoraProyecto.consultarProyectosAsociadosID(id);
         }
-        public DataTable consultarInformacionDiseno(string proyecto)
-        {
-            controladoraDiseno = new ControladoraDiseno();
-            return controladoraDiseno.consultarDisenoAsociadoAProyecto(proyecto);
-        }
         internal DataTable consultarCasosPruebas(string idDiseño)
         {
             return controladoraBDCasosPrueba.consultarCasosDePruebaAsociadoADiseno(idDiseño);

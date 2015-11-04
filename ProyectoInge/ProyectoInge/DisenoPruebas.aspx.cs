@@ -589,14 +589,13 @@ namespace ProyectoInge
         
         }
 
-        /*Método para limpiar los textbox
+      /*Método para limpiar los textbox
       * Requiere: No requiere parámetros
       * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
       * Retorna: no retorna ningún valor
       */
         protected void vaciarCampos()
         {
-
             this.listReqAgregados.Items.Clear();
             this.listReqProyecto.Items.Clear();
             this.txtProposito.Text = "";
@@ -1094,9 +1093,19 @@ namespace ProyectoInge
 
 
             vaciarCampos();
+            llenarComboNivel();
+            llenarComboTecnica();
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+            }
             controlarCampos(false);
-            cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
         }
@@ -1113,6 +1122,7 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
+            vaciarCampos();
             controlarCampos(false);
             //lblModalTitle.Text = "AVISO";
             // lblModalBody.Text = "Está seguro que desea eliminar este diseno de pruebas?";
