@@ -79,12 +79,11 @@ namespace ProyectoInge
          */
         protected void controlarCampos(Boolean condicion)
         {
-            this.txtPrueba.Enabled = condicion;
-            this.txtTecnicaPrueba.Enabled = condicion;
             this.txtProposito.Enabled = condicion;
             this.txtIdentificador.Enabled = condicion;
             this.txtEntradaDatos.Enabled = condicion;
             this.txtFlujoCentral.Enabled = condicion;
+            this.txtResultadoEsperado.Enabled = condicion;
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -145,6 +144,7 @@ namespace ProyectoInge
             {
                 case 1:
                     {
+                    
                         btnAceptar_Insertar();
                     }
                     break;
@@ -178,7 +178,19 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
         }
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            controlarCampos(false);
+            vaciarCampos();
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
+            ponerNombreDeUsuarioLogueado();
+            llenarDatosDiseno(); 
 
+        }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
          * Requiere: No requiere ningún parámetro
@@ -189,7 +201,12 @@ namespace ProyectoInge
         private void btnAceptar_Insertar()
         {
             modo = 1;
-            int idDiseño = (int)Session["idDiseñoConsultado"];
+            int idDiseño = Convert.ToInt32(Session["idDiseñoS"]);
+
+            lblModalTitle.Text = "";
+            lblModalBody.Text = "ID DE diseño: " + idDiseño+ "";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
 
             //si faltan datos no deja insertar
             if (faltanDatos())
@@ -202,9 +219,9 @@ namespace ProyectoInge
             }
             else
             {
-                Object[] datosNuevos = new Object[5];
+                Object[] datosNuevos = new Object[6];
                 datosNuevos[0] = this.txtIdentificador.Text;
-                datosNuevos[1] = this.txtPropósito.Text;
+                datosNuevos[1] = this.txtProposito.Text;
                 datosNuevos[2] = this.txtFlujoCentral.Text;
                 datosNuevos[3] = this.txtEntradaDatos.Text;
                 datosNuevos[4] = this.txtResultadoEsperado.Text;
@@ -276,7 +293,7 @@ namespace ProyectoInge
                 //Crea el objeto con los datos del caso de prueba
                 Object[] datosNuevos = new Object[5];
                 datosNuevos[0] = this.txtIdentificador.Text;
-                datosNuevos[1] = this.txtPropósito.Text;
+                datosNuevos[1] = this.txtProposito.Text;
                 datosNuevos[2] = this.txtFlujoCentral.Text;
                 datosNuevos[3] = this.txtEntradaDatos.Text;
                 datosNuevos[4] = this.txtResultadoEsperado.Text;
@@ -322,7 +339,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtPropósito.Text == "" || this.txtIdentificador.Text == "" )
+            if (this.txtProposito.Text == "" || this.txtIdentificador.Text == "" )
             {
                 resultado = true;
             }

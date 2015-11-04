@@ -144,7 +144,7 @@ namespace ProyectoInge
             this.txtApellido2.Enabled = condicion;
             this.txtEmail.Enabled = condicion;
             this.comboPerfil.Enabled = condicion;
-            //  this.comboRol.Enabled = condicion;
+            this.comboRol.Enabled = condicion;
             this.txtUsuario.Enabled = condicion;
             this.txtContrasena.Enabled = condicion;
             this.txtConfirmar.Enabled = condicion;

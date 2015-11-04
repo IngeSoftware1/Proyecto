@@ -17,11 +17,11 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
         public EntidadCaso(Object[] datos)
         {
             this.identificador_caso = datos[0].ToString();
-            this.proposito_caso = datos[0].ToString();
-            this.flujo_central = datos[0].ToString();
-            this.entrada_datos = datos[0].ToString();
-            this.resultado_esperado = datos[0].ToString();
-            this.id_diseno = Convert.ToInt32(datos[1].ToString());
+            this.proposito_caso = datos[1].ToString();
+            this.flujo_central = datos[2].ToString();
+            this.entrada_datos = datos[3].ToString();
+            this.resultado_esperado = datos[4].ToString();
+            this.id_diseno = Convert.ToInt32(datos[5].ToString());
         }
 
 
