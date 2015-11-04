@@ -42,7 +42,7 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarDatosDiseno(); //NO BORRAR, SE UTILIZA CUANDO YA TENGA LO DE DISEÑO LISTO
-                llenarGrid(null);
+                llenarGrid();
             }
         }
 
@@ -245,6 +245,7 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
 
+                    llenarGrid();
                 }
                 else
                 {
@@ -378,7 +379,7 @@ namespace ProyectoInge
                 this.txtNombreDiseño.Text = datosDiseno.Rows[0][1].ToString();
                 this.txtPrueba.Text = datosDiseno.Rows[0][7].ToString();
                 this.txtTecnicaPrueba.Text = datosDiseno.Rows[0][6].ToString();
-                this.txtProposito.Text = datosDiseno.Rows[0][3].ToString();
+                this.txtProcedimiento.Text = datosDiseno.Rows[0][3].ToString();
                 datosRequerimientos = controladoraCasoPruebas.consultarReqDisenoDeProyecto(Int32.Parse(Session["idDiseñoS"].ToString()), idProyecto);
                 this.listRequerimientoDisponibles.Items.Clear();
 
@@ -474,7 +475,7 @@ namespace ProyectoInge
         que le sea visible al usuario del sistema los resultados. 
         * Retorna: no retorna ningún valor
         */
-        public void llenarGrid(string idRH)
+        public void llenarGrid()
         {
             DataTable dt = crearTablaCasosPrueba();
             DataTable proyecto;
@@ -487,37 +488,69 @@ namespace ProyectoInge
             datos[1] = "";
             datos[2] = "";
             datos[3] = "";
-            controladoraCasoPruebas.consultarNombreProyecto(idProyectoD);//fila1[].ToString();//Agarra los nombres de los proyectos
             proyecto = controladoraCasoPruebas.consultarNombreProyecto(idProyectoD);//Obtengo los ids de los proyectos asociados a un miembro
-            if (proyecto == null)
+            if (proyecto.Rows.Count == 0)
             {
                 datos[0] = "-";
                 datos[1] = "-";
                 datos[2] = "-";
                 datos[3] = "-";
                 dt.Rows.Add(datos);
+                Debug.Print("Proyecto null");
             }
             else
             {
                 foreach (DataRow fila1 in proyecto.Rows)
                 {
-                    datos[0] = fila1[0];
+                    datos[0] = fila1[0].ToString();
+                    Debug.Print(fila1[0].ToString());
                     int idDiseno = Int32.Parse(Session["idDiseñoS"].ToString());
 
                     diseño = controladoraCasoPruebas.consultarInformacionDiseno(idDiseno);//Obtengo los diseños asociados a una proyecto, toda la info
-                    foreach (DataRow fila2 in diseño.Rows)
+                    if (diseño.Rows.Count == 0)
                     {
-                        datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos                                   
-                        casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
-                        foreach (DataRow fila3 in casos.Rows)
+                        datos[0] = "-";
+                        datos[1] = "-";
+                        datos[2] = "-";
+                        datos[3] = "-";
+                        dt.Rows.Add(datos);
+                        Debug.Print("Dise~o null");
+                    }
+                    else
+                    {
+                        foreach (DataRow fila2 in diseño.Rows)
                         {
-                            idCasoConsultado = fila3[0].ToString();
-                            datos[2] = ""; datos[3] = "";
-                            datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
-                            datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños                                       
-                            if (datos[2].ToString() != "" && datos[3].ToString() != "")
+                            datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos          
+                            Debug.Print(fila2[1].ToString());
+                            Debug.Print("ID: ");
+                            Debug.Print(fila2[0].ToString());
+                            casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
+
+                            if (casos.Rows.Count==0)
                             {
+                                datos[0] = "-";
+                                datos[1] = "-";
+                                datos[2] = "-";
+                                datos[3] = "-";
                                 dt.Rows.Add(datos);
+                                Debug.Print("Caso null");
+                            }
+                            else
+                            {
+                                Debug.Print("Caso NO null");
+                                foreach (DataRow fila3 in casos.Rows)
+                                {
+                                    Debug.Print("*");
+                                    idCasoConsultado = fila3[0].ToString();
+                                    datos[2] = ""; datos[3] = "";
+                                    datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
+                                    Debug.Print(fila3[1].ToString());
+                                    datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños                                       
+                                    if (datos[2].ToString() != "" && datos[3].ToString() != "")
+                                    {
+                                        dt.Rows.Add(datos);
+                                    }
+                                }
                             }
                         }
                     }
