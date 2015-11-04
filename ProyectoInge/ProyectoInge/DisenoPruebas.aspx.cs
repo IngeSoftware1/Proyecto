@@ -86,7 +86,7 @@ namespace ProyectoInge
             llenarDatos(Session["idDiseñoS"].ToString());
             this.proyectoAsociado(Int32.Parse(Session["idProyecto"].ToString()));
             llenarComboNivel();            
-            llenarComboRecursos();
+            //llenarComboRecursos();
             llenarComboTecnica();
             modo = 2;
             habilitarCamposModificar();
@@ -508,22 +508,31 @@ namespace ProyectoInge
         {
             DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(idProyecto);
             string requerimiento = "";
-
+            int contador = 0;
             requerimiento = "";
             listReqProyecto.Items.Clear();
-            listReqAgregados.Items.Clear();
+            
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 listReqProyecto.Items.Clear();
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
+                    if (listReqAgregados.Items.FindByText(requerimiento)==null)
+                    {                       
+                        listReqProyecto.Items.Add(requerimiento);
+                        ++contador;
+                    }
+
 
                 }
+
             }
 
-            listReqProyecto.Items.Add("Todos los requerimientos");
+            if (0 < contador )
+            {
+                listReqProyecto.Items.Add("Todos los requerimientos");
+            }
             UpdateAsociarDesasociarRequerimientos.Update();
             proyectoUpdate.Update();
         }
@@ -1099,11 +1108,12 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            cambiarEnabled(false, this.btnInsertar);
-            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
+            vaciarCampos();
             controlarCampos(false);
             //lblModalTitle.Text = "AVISO";
             // lblModalBody.Text = "Está seguro que desea eliminar este diseno de pruebas?";
@@ -1365,11 +1375,13 @@ namespace ProyectoInge
 
                     
                     string requerimiento = "";
+                    listReqAgregados.Items.Clear();
                     if (datosReqDiseno.Rows.Count >= 1)
                     {
                         
                         for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
                         {
+                            
                             requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
                             listReqAgregados.Items.Add(requerimiento);
 
@@ -1377,46 +1389,13 @@ namespace ProyectoInge
                     }
 
 
-                    consultarRequerimientosDisponibles(Int32.Parse(idProyectoConsultado),Int32.Parse(idDiseño));
+                    llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
                 }
                 
             }         
         }
 
-        //metodo para obtener requerimientos disponibles de un proyecto para un diseño
-
-        protected void consultarRequerimientosDisponibles(int idProyecto, int idDiseno)
-        {
-            DataTable datosReqProyecto = controladoraDiseno.consultarReqDisponibles(idProyecto,idDiseno);
-            string requerimiento = "";
-
-            requerimiento = "";
-            listReqProyecto.Items.Clear();
-            if (datosReqProyecto != null && datosReqProyecto.Rows.Count > 1)
-            {
-                listReqProyecto.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
-
-                }
-                listReqProyecto.Items.Add("Todos los requerimientos");
-            }
-            else
-            {
-                listReqProyecto.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
-
-                }
-            }
-   
-            UpdateAsociarDesasociarRequerimientos.Update();
-            proyectoUpdate.Update();
-        }
+        
 
 
      
