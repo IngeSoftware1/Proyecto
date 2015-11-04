@@ -387,6 +387,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
+        /* Método para consultar requerimientos disponibles de un proyecto
+      * Requiere: el id del proyecto
+      * Modifica: no modifica datos
+      * Retorna: un DataTable que contiene los requerimientos del proyecto
+      */
+        public DataTable consultarReqDisponibles(int idProyecto, int idDiseno)
+        {
+            return controladoraBDProyecto.consultarReqDisponibles(idProyecto, idDiseno);
+        }
+
+
+
         
 
         /* Método para consultar requerimientos de un proyecto

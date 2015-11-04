@@ -83,7 +83,7 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-
+            llenarDatos(Session["idDiseñoS"].ToString());
             this.proyectoAsociado(Int32.Parse(Session["idProyecto"].ToString()));
             llenarComboNivel();
             //llenarComboProyecto(Session["cedula"].ToString());
@@ -507,9 +507,17 @@ namespace ProyectoInge
             llenarComboRecursos();
             int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
+            llenarRequerimientosProyecto(id); 
+
+           
+        }
+
+        //metodo para llenar requerimientos del proyecto
+        protected void llenarRequerimientosProyecto(int idProyecto)
+        {
+            DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(idProyecto);
             string requerimiento = "";
-            
+
             requerimiento = "";
             listReqProyecto.Items.Clear();
             listReqAgregados.Items.Clear();
@@ -525,9 +533,8 @@ namespace ProyectoInge
             }
 
             listReqProyecto.Items.Add("Todos los requerimientos");
-
-           UpdateAsociarDesasociarRequerimientos.Update();
-           proyectoUpdate.Update();
+            UpdateAsociarDesasociarRequerimientos.Update();
+            proyectoUpdate.Update();
         }
 
 
@@ -1314,6 +1321,7 @@ namespace ProyectoInge
                 DataTable datosMiembro = null;
                 DataTable datosReqProyecto = null;
                 DataTable datosReqDiseno = null;
+                listReqAgregados.Items.Clear();
 
                 if (datosFilaDiseño.Rows.Count == 1)
                 {
@@ -1323,6 +1331,7 @@ namespace ProyectoInge
                     this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
                     this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
                     idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                    Session["idProyecto"] = idProyectoConsultado;
                     cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
                     datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
                     datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
@@ -1338,8 +1347,8 @@ namespace ProyectoInge
                         ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
                         this.comboTecnica.SelectedValue = tecnica.Value;
                     }
-                    
-                    
+
+
 
                     nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
 
@@ -1348,7 +1357,7 @@ namespace ProyectoInge
                     {
                         proyecto = this.comboProyecto.Items.FindByText(nombre);
                         this.comboProyecto.SelectedValue = proyecto.Value;
-                       
+
                     }
 
                     llenarComboRecursos();
@@ -1363,34 +1372,63 @@ namespace ProyectoInge
                         this.comboResponsable.SelectedValue = representante.Value;
                     }
 
-                }
-                string requerimiento = "";
-                if (datosReqDiseno.Rows.Count >= 1)
-                {
-                    listReqAgregados.Items.Clear();
-                    for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                    
+                    string requerimiento = "";
+                    if (datosReqDiseno.Rows.Count >= 1)
                     {
-                        requerimiento = datosReqDiseno.Rows[i][0].ToString() +" "+ datosReqDiseno.Rows[i][2].ToString();
-                        listReqAgregados.Items.Add(requerimiento);
+                        
+                        for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                        {
+                            requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
+                            listReqAgregados.Items.Add(requerimiento);
 
+                        }
                     }
-                }
 
-                listReqProyecto.Items.Clear();
-                /*
-                requerimiento = "";
-                if (datosReqProyecto.Rows.Count >= 1)
-                {
-                    listReqProyecto.Items.Clear();
-                    for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                    {
-                        requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                        listReqProyecto.Items.Add(requerimiento);
-                    }
+
+                    consultarRequerimientosDisponibles(Int32.Parse(idProyectoConsultado),Int32.Parse(idDiseño));
                 }
-                 */
+                
             }         
         }
+
+        //metodo para obtener requerimientos disponibles de un proyecto para un diseño
+
+        protected void consultarRequerimientosDisponibles(int idProyecto, int idDiseno)
+        {
+            DataTable datosReqProyecto = controladoraDiseno.consultarReqDisponibles(idProyecto,idDiseno);
+            string requerimiento = "";
+
+            requerimiento = "";
+            listReqProyecto.Items.Clear();
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count > 1)
+            {
+                listReqProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    listReqProyecto.Items.Add(requerimiento);
+
+                }
+                listReqProyecto.Items.Add("Todos los requerimientos");
+            }
+            else
+            {
+                listReqProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    listReqProyecto.Items.Add(requerimiento);
+
+                }
+            }
+   
+            UpdateAsociarDesasociarRequerimientos.Update();
+            proyectoUpdate.Update();
+        }
+
+
+     
 
 
      /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.

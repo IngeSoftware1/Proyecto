@@ -721,6 +721,32 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /* Método para consultar requerimientos disponibles de un proyecto
+     * Requiere: el id del proyecto
+     * Modifica: no modifica datos
+     * Retorna: un DataTable que contiene los requerimientos del proyecto
+     */
+        public DataTable consultarReqDisponibles(int idProyecto, int idDiseno)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "' AND NOT EXISTS (Select id_req FROM Requerimiento_Diseno WHERE id_diseno='" + idDiseno + "' AND id_proyecto ='"+idProyecto+"');";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
 
     }
 }
