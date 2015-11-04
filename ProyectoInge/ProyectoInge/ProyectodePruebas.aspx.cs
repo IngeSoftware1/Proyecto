@@ -17,10 +17,12 @@ namespace ProyectoInge
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
 
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
+
         private string idProyectoConsultado;
         private string idOficinaConsultda;
         private string nombProyConsultado;
         private string nombOfConsultada;
+
         Dictionary<string, string> cedulasTodosMiembros = new Dictionary<string, string>();
         Dictionary<string, string> cedulasLideres = new Dictionary<string, string>();
         Dictionary<string, string> nombreLideresConsultados = new Dictionary<string, string>();
@@ -540,7 +542,7 @@ namespace ProyectoInge
         */
         private void btnAceptar_Modificar()
         {
-            //Debug.Write(idOficinaConsultda);
+
             int tipoModificacion = 1;//Va a cambiar la tabla proyecto
             if (faltanDatos())//2 indica los datos que pueden faltar en el modificar
             {
@@ -563,6 +565,7 @@ namespace ProyectoInge
                 datosProyecto[6] = (string)Session["idOficinaS"];
                 String idP = (string)Session["idProyectoS"];
                 String idO = (string)Session["idOficinaS"];
+
                 if (controladoraProyecto.ejecutarAccion(modo, tipoModificacion, datosProyecto, idP, ""))
                 {
 
@@ -595,7 +598,7 @@ namespace ProyectoInge
                                     tipoModificacion=5;
                                     if (modificarRequeriminetos(idProyecto))//Elimina los requerimientos
                                     {
-                                        guardarRequerimientos(idProyecto);//este metodo los agrega los nuevos requerimientos
+                                        //guardarRequerimientos(idProyecto);//este metodo los agrega los nuevos requerimientos
       
                                         controlarCampos(false);
                                         //se carga la interfaz de nuevo
@@ -620,7 +623,6 @@ namespace ProyectoInge
                                         lblModalBody.Text = "Proyecto modificado con éxito.";
                                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                         upModal.Update();
-                                        
                                     }
                                     
                                 }
@@ -668,18 +670,18 @@ namespace ProyectoInge
 
         private bool modificarRequeriminetos(int idProyecto)
         {
+            bool modif = false;
             int i = 0;
             int indiceReq = 0;
             int encontroIgual = 0;
             string sigla = "";
             string nombreRequerimiento = "";
             DataTable tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);
-
-            int tamTabla = tablaReq.Rows.Count;
-            foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
+            if (tablaReq.Rows.Count != 0)
             {
-                if (fila[1].ToString() != "Dummy")
+                foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
                 {
+
                     while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
                     {
                         ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
@@ -703,12 +705,22 @@ namespace ProyectoInge
                     //Aqui va a eliminar de la base si lo requiere
                     if (encontroIgual == 0)//significa que no encontro en la lista y debe eliminarlo
                     {
-               //         controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
-               //         controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
+                        //         controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
+                        //         controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
                     }
+                    modif = true;
+                    
                 }
             }
-            return false;
+            else
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "No hay requerimientosasociados al proyecto de id:" + idProyecto;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+
+            return modif;
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
