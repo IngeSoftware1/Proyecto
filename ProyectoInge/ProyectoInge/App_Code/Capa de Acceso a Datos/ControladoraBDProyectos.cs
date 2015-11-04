@@ -536,7 +536,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 try
                 {
-                    consulta = "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider " + " FROM Proyecto P, Oficina_Usuaria O WHERE P.id_oficina = O.id_oficina ORDER BY P.id_proyecto DESC";
+                    consulta = "SELECT P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider " + " FROM Proyecto P, Oficina_Usuaria O WHERE P.id_oficina = O.id_oficina ORDER BY P.id_proyecto DESC";
                     dt = acceso.ejecutarConsultaTabla(consulta);
 
                 }
@@ -555,7 +555,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     {
                         ++contador;
                       
-                        consulta = consulta + " " + "SELECT P.id_proyecto, P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.id_proyecto = '" + idProyectos.Rows[i][0].ToString() + "'";
+                        consulta = consulta + " " + "SELECT P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.id_proyecto = '" + idProyectos.Rows[i][0].ToString() + "'";
                         if (contador != idProyectos.Rows.Count)
                         {
                             consulta = consulta + "UNION";

@@ -292,7 +292,8 @@ namespace ProyectoInge
             {
 
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
-                idProyectoConsultado = lnkConsulta.CommandArgument;
+                nombProyConsultado = lnkConsulta.CommandArgument;
+                idProyectoConsultado = Convert.ToString(controladoraProyecto.obtenerIDconNombreProyecto(nombProyConsultado));
                 Session["idProyectoS"] = idProyectoConsultado;
 
                 controlarCampos(false);
@@ -1257,7 +1258,7 @@ namespace ProyectoInge
             DataTable dt = crearTablaProyectos();
             DataTable proyectos;
             DataTable idProyectos;
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[4];
             string lider = "";
             int indiceColumna = 0;
             string nombreLider = "";
@@ -1312,9 +1313,8 @@ namespace ProyectoInge
                             datos[0] = fila[0].ToString();
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();
-                            datos[3] = fila[3].ToString();
-                            nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
-                            datos[4] = lider;
+                            nombreLideresConsultados.TryGetValue(fila[3].ToString(), out lider);
+                            datos[3] = lider;
                             dt.Rows.Add(datos);
                         
                     }
@@ -1328,7 +1328,6 @@ namespace ProyectoInge
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
-                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -1380,9 +1379,8 @@ namespace ProyectoInge
                             datos[0] = fila[0].ToString();
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();
-                            datos[3] = fila[3].ToString();
-                            nombreLideresConsultados.TryGetValue(fila[4].ToString(), out lider);
-                            datos[4] = lider;
+                            nombreLideresConsultados.TryGetValue(fila[3].ToString(), out lider);
+                            datos[3] = lider;
                             dt.Rows.Add(datos);
                         }
 
@@ -1394,7 +1392,6 @@ namespace ProyectoInge
                         datos[1] = "-";
                         datos[2] = "-";
                         datos[3] = "-";
-                        datos[4] = "-";
                         dt.Rows.Add(datos);
                     }
                 }
@@ -1404,7 +1401,6 @@ namespace ProyectoInge
                     datos[1] = "-";
                     datos[2] = "-";
                     datos[3] = "-";
-                    datos[4] = "-";
                     dt.Rows.Add(datos);
                 }
 
@@ -1424,11 +1420,6 @@ namespace ProyectoInge
         {
             DataTable dt = new DataTable();
             DataColumn columna;
-
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "ID Proyecto";
-            dt.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
