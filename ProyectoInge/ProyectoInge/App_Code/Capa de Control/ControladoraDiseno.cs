@@ -339,5 +339,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
 
 
+
+        internal bool eliminarRequerimintoDiseno(string siglaBase, int idProyecto)
+        {
+            return controladoraBDDiseno.eliminarRequerimientoDiseño(siglaBase, idProyecto);
+        }
     }
 }

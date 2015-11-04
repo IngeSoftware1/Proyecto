@@ -670,7 +670,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string borrarRequerimiento = "Delete from Requerimiento where id_proyecto ='" + idProyecto + " AND id_req ="+sigla + " AND nombre_req = " + nombreReq +" ';";
+                string borrarRequerimiento = "Delete from Requerimiento where id_proyecto ='" + idProyecto + "' AND id_req ='"+sigla + "' AND nombre_req = '" + nombreReq +"';";
                 acceso.eliminarDatos(borrarRequerimiento);
                 return true;
             }

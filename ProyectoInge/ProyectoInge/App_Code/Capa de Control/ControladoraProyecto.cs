@@ -16,6 +16,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         ControladoraBDProyectos controladoraBDProyecto = new ControladoraBDProyectos();
         ControladoraCasosPrueba controladoraCasoPrueba = new ControladoraCasosPrueba();
         ControladoraRecursos controladoraRH;
+        ControladoraDiseno controladoraDiseno;
         public ControladoraProyecto()
         {
 
@@ -467,5 +468,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.consultarNombreProyecto(idProyecto);
         }
 
+
+        internal bool eliminarRequerimintoDiseno(string siglaBase, int idProyecto)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.eliminarRequerimintoDiseno(siglaBase, idProyecto);
+        }
     }
 }

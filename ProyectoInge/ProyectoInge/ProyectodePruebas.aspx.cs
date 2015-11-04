@@ -390,6 +390,8 @@ namespace ProyectoInge
             this.lnkQuitar.Enabled = true;
             this.txtNombreReq.Enabled = true;
             this.txtIdReq.Enabled = true;
+            this.lnkAgregarRequerimientos.Enabled = true;
+            this.lnkQuitarRequerimientos.Enabled = true;
 
             if (Session["perfil"].ToString().Equals("Administrador"))
             {
@@ -455,6 +457,9 @@ namespace ProyectoInge
             this.txtCalendar.Enabled = false;
             this.txtNombreReq.Enabled = condicion;
             this.txtIdReq.Enabled = condicion;
+            this.lnkAgregarRequerimientos.Enabled = condicion;
+            this.lnkQuitarRequerimientos.Enabled = condicion;
+
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -596,34 +601,33 @@ namespace ProyectoInge
                                     int idProyecto = Int32.Parse(idP);
                                     guardarMiembros(idProyecto);
                                     tipoModificacion=5;
-                                    if (modificarRequeriminetos(idProyecto))//Elimina los requerimientos
-                                    {
-                                        //guardarRequerimientos(idProyecto);//este metodo los agrega los nuevos requerimientos
+                                    modificarRequeriminetos(idProyecto,tipoModificacion);//Elimina los requerimientos
+                                    
       
-                                        controlarCampos(false);
-                                        //se carga la interfaz de nuevo
-                                        cambiarEnabled(true, this.btnModificar);
-                                        cambiarEnabled(true, this.btnEliminar);
-                                        cambiarEnabled(false, this.btnAceptar);
-                                        cambiarEnabled(false, this.btnCancelar);
+                                    controlarCampos(false);
+                                    //se carga la interfaz de nuevo
+                                    cambiarEnabled(true, this.btnModificar);
+                                    cambiarEnabled(true, this.btnEliminar);
+                                    cambiarEnabled(false, this.btnAceptar);
+                                    cambiarEnabled(false, this.btnCancelar);
+                                    cambiarEnabled(true, this.btnInsertar);
+
+                                    if (Session["perfil"].ToString().Equals("Administrador"))
+                                    {
+
                                         cambiarEnabled(true, this.btnInsertar);
-
-                                        if (Session["perfil"].ToString().Equals("Administrador"))
-                                        {
-
-                                            cambiarEnabled(true, this.btnInsertar);
-                                            llenarGrid(null);
-                                        }
-                                        else
-                                        {
-                                            cambiarEnabled(false, this.btnInsertar);
-                                            llenarGrid(Session["cedula"].ToString());
-                                        }
-                                        lblModalTitle.Text = "";
-                                        lblModalBody.Text = "Proyecto modificado con éxito.";
-                                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                        upModal.Update();
+                                        llenarGrid(null);
                                     }
+                                    else
+                                    {
+                                        cambiarEnabled(false, this.btnInsertar);
+                                        llenarGrid(Session["cedula"].ToString());
+                                    }
+                                    lblModalTitle.Text = "";
+                                    lblModalBody.Text = "Proyecto modificado con éxito.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
+                                    
                                     
                                 }
                                 else
@@ -668,59 +672,89 @@ namespace ProyectoInge
             }
         }
 
-        private bool modificarRequeriminetos(int idProyecto)
+        private void modificarRequeriminetos(int idProyecto,int tipoModif)
         {
-            bool modif = false;
+            string siglaBase = "";
+            string nombreRequerimientoBase = "";
+            string siglaLista = "";
+            string nombreRequerimientoLista = "";
+            int coincidencia = 0;
             int i = 0;
-            int indiceReq = 0;
-            int encontroIgual = 0;
-            string sigla = "";
-            string nombreRequerimiento = "";
-            DataTable tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);
-            if (tablaReq.Rows.Count != 0)
+            Debug.Print("!!!!!!!!!!!!!!!!!!!!!!!Modificar requerimientos");
+            //Recorro el list, si hay algo ahi que no este en la base lo guardo.
+            DataTable tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);//Guarda la tabla que tiene los requerimientos de ese proyecto -> idProyecto
+            while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)//Recorre la lista
             {
-                foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
+                if (tablaReq.Rows.Count != 0)
                 {
-
-                    while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
+                    foreach (DataRow fila in tablaReq.Rows)//cada tupla de la base.
                     {
-                        ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
+                        siglaBase = fila[0].ToString();
+                        nombreRequerimientoBase=fila[2].ToString();
 
-                        indiceReq = 0;
-                        sigla = "";
-                        nombreRequerimiento = "";
+                        string itemList = listRequerimientosAgregados.Items[i].ToString();
+                        string baseAComparar = siglaBase+ " " + nombreRequerimientoBase;
+                        if (itemList.Equals(baseAComparar) == true)//si es lo mismo hay coincidencia
+                        {
+                            coincidencia++;
+                        }
+                    }
+                    if (coincidencia == 0)//No hubo ninguna coincidencia, por lo que eso que esta en la lista es nuevo  deberia meterlo a la base,
+                    {
+                        Debug.Print("!!!!!!!!!!!!!!!Voy a meter a la base");
+                        //Metalo a la base, lo de la lista
+                        int indiceReq = 0;
+                        siglaLista = "";
+                        nombreRequerimientoLista = "";
 
                         while (indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
                         {
                             ++indiceReq;
                         }
-                        sigla = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
-                        nombreRequerimiento = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                        if (fila[1].ToString() == sigla && fila[3].ToString() == nombreRequerimiento)
-                        {
-                            encontroIgual++;
-                        }
-                    }
+                        siglaLista = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
+                        nombreRequerimientoLista = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
 
-                    //Aqui va a eliminar de la base si lo requiere
-                    if (encontroIgual == 0)//significa que no encontro en la lista y debe eliminarlo
-                    {
-                        //         controladoraProyecto.eliminarRequerimientosDiseno(fila[1].ToString(),fila[3].ToString(),idProyecto);
-                        //         controladoraProyecto.eliminarRequeriminto(fila[1].ToString(), fila[3].ToString(), idProyecto);
+                        Object[] datosRequerimiento = new Object[3];
+                        datosRequerimiento[0] = siglaLista;//nombre_oficina
+                        datosRequerimiento[1] = idProyecto;//nombre_rep
+                        datosRequerimiento[2] = nombreRequerimientoLista;//ape1_rep
+                        controladoraProyecto.ejecutarAccion(1, tipoModif, datosRequerimiento, "", "");//lo mando con 1 para que inserte, con 5 para que inserte requerimiento
                     }
-                    modif = true;
-                    
+                    coincidencia = 0;
+                }
+                i++;
+            }
+            coincidencia = 0;
+            i = 0;
+            //Recorro la base, si hay algo ahi que no este en la lista, lo elimino de las dos tablas
+            tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);
+            if (tablaReq.Rows.Count != 0)
+            {
+                foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
+                {
+                    while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
+                    {
+                        siglaBase = fila[0].ToString();
+                        nombreRequerimientoBase = fila[2].ToString();
+
+                        string itemList = listRequerimientosAgregados.Items[i].ToString();
+                        string baseAComparar = siglaBase + " " + nombreRequerimientoBase;
+                        if (itemList.Equals(baseAComparar) == true)//si es lo mismo hay coincidencia
+                        {
+                            coincidencia++;
+                        }
+                        i++;
+                    }
+                    if (coincidencia == 0)//No hubo ninguna coincidencia, por lo que eso que esta en la base fue borrado de la lista deberia borrarlo de la base
+                    {
+                        //Eliminelo de la base, lo de la base
+                        Debug.Print("!!!!!!!!!!!!!!!!!Voy a borrar de la base");
+                        controladoraProyecto.eliminarRequerimintoDiseno(siglaBase, idProyecto);
+                        controladoraProyecto.eliminarRequeriminto(siglaBase, nombreRequerimientoBase, idProyecto);
+                    }
+                    coincidencia = 0;
                 }
             }
-            else
-            {
-                lblModalTitle.Text = "ERROR";
-                lblModalBody.Text = "No hay requerimientosasociados al proyecto de id:" + idProyecto;
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                upModal.Update();
-            }
-
-            return modif;
         }
 
         /*Método para la acción del botón agregar telefonos al listbox
