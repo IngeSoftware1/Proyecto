@@ -139,13 +139,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblProposito;
         
         /// <summary>
-        /// Control txtProposito.
+        /// Control txtProcedimiento.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtProposito;
+        protected global::System.Web.UI.WebControls.TextBox txtProcedimiento;
         
         /// <summary>
         /// Control lblRequerimiento.
@@ -202,13 +202,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblPropositoCasoPrueba;
         
         /// <summary>
-        /// Control txtPropósito.
+        /// Control txtProposito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPropósito;
+        protected global::System.Web.UI.WebControls.TextBox txtProposito;
         
         /// <summary>
         /// Control lblEntradaDatos.

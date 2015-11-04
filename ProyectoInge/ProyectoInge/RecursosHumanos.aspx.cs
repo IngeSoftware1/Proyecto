@@ -144,7 +144,7 @@ namespace ProyectoInge
             this.txtApellido2.Enabled = condicion;
             this.txtEmail.Enabled = condicion;
             this.comboPerfil.Enabled = condicion;
-            //  this.comboRol.Enabled = condicion;
+            this.comboRol.Enabled = condicion;
             this.txtUsuario.Enabled = condicion;
             this.txtContrasena.Enabled = condicion;
             this.txtConfirmar.Enabled = condicion;
@@ -787,8 +787,7 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        // string mensaje = "<script>window.alert('No se pudo modificar, recuerde: la cédula y el usuario son únicos.');</script>";
-                        //Response.Write(mensaje);
+
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "No se pudo modificar, recuerde: la cédula y el usuario son únicos.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -803,8 +802,6 @@ namespace ProyectoInge
                     lblModalBody.Text = "Las contraseñas deben ser iguales.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    //  string mensaje = "<script>window.alert('Las contraseñas deben ser iguales.');</script>";
-                    //  Response.Write(mensaje);
 
                 }
             }

@@ -9,7 +9,6 @@
             <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
             <li><a runat="server" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
             <li><a runat="server" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
-            <li><a runat="server" style="background-color: ActiveCaption" href="~/CasoDePrueba.aspx">Casos de prueba</a></li>
             <li><a runat="server">Ejecución de pruebas</a></li>
             <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
         </ul>
@@ -47,14 +46,14 @@
                         <div class="row col-sm-6">
                             <asp:Label ID="lblProyecto" runat="server" Text="Proyecto:" CssClass="col-sm-3  control-label"></asp:Label>
                             <div class="col-sm-7 col-sm-offset-1">
-                                <asp:TextBox runat="server" ID="txtNombreProyecto" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtNombreProyecto" Enabled="false" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                         
                         <div class="row col-sm-6">
                             <asp:Label ID="lblDiseño" runat="server" Text="Diseño:" CssClass="col-sm-3 control-label"></asp:Label>
                             <div class="col-sm-7 col-sm-offset-2 ">
-                                <asp:TextBox runat="server" ID="txtNombreDiseño" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtNombreDiseño" Enabled="false" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -65,14 +64,14 @@
                             <asp:Label ID="lblPrueba" runat="server" Text="Nivel de prueba:" CssClass="col-sm-4  control-label"></asp:Label>
 
                             <div class="col-sm-7 ">
-                                <asp:TextBox runat="server" ID="txtPrueba" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtPrueba" Enabled="false" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                         <div class="row col-sm-6">
                             <asp:Label ID="lblTecnica" runat="server" Text="Técnica de prueba:" CssClass="col-sm-5  control-label"></asp:Label>
 
                             <div class="col-sm-7">
-                                <asp:TextBox runat="server" ID="txtTecnicaPrueba" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtTecnicaPrueba" Enabled="false" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -85,7 +84,7 @@
                             <asp:Label ID="lblProposito" runat="server" Text="Procedimiento:" CssClass="col-sm-5  control-label"></asp:Label>
 
                             <div class="col-sm-7 col-sm-pull-1">
-                                <asp:TextBox runat="server" ID="txtProposito" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtProcedimiento" Enabled="false" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                       
@@ -94,7 +93,7 @@
                             <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos:" CssClass="col-sm-4 control-label"></asp:Label>                          
                             
                            <div class="col-sm-7 col-sm-offset-1">
-                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" style="height:100px" CssClass="form-control"></asp:ListBox>
+                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" Enabled="false" style="height:100px" CssClass="form-control"></asp:ListBox>
                         </div>
                         
                         </div>
@@ -117,7 +116,7 @@
 
                    
                     <%--  --%>
-                      <div class="form-group col-sm-6">  <%--Campo proposito--%>
+                      <div class="form-group col-sm-6">  
                         <div class="row ">
                             <asp:Label ID="lblIdentificador" runat="server" Text="Código*:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7"  >
@@ -127,16 +126,16 @@
                           </div>
 
          
-                       <div class="form-group col-sm-6">  <%--Campo entrada de datos --%>
+                       <div class="form-group col-sm-6">  
                         <div class="row ">
                             <asp:Label ID="lblPropositoCasoPrueba" runat="server" Text="Propósito*:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7 ">
-                             <asp:TextBox runat="server" ID="txtPropósito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
+                             <asp:TextBox runat="server" ID="txtProposito" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="20"></asp:TextBox>
                         </div>
                                   </div>
                           </div>
           
-                       <div class="form-group col-sm-6">  <%--Resultado esperado --%>
+                       <div class="form-group col-sm-6">  
                         <div class="row ">
                             <asp:Label ID="lblEntradaDatos" runat="server" Text="Entrada de datos:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7 ">
@@ -146,7 +145,7 @@
                           </div>
 
 
-                       <div class="form-group col-sm-6 ">  <%--Resultado Esperado --%>
+                       <div class="form-group col-sm-6 "> 
                         <div class="row ">
                             <asp:Label ID="lblResultadoEsperado" runat="server" Text="Resultado esperado:" CssClass="col-sm-4 control-label"></asp:Label>
                              <div class="col-sm-7 ">
@@ -155,7 +154,7 @@
                                   </div>
                           </div>
 
-                    <div class="form-group col-sm-6 ">  <%--Flujo Central --%>
+                    <div class="form-group col-sm-6 "> 
                         <div class="row ">
                             <asp:Label ID="lblFlujoCentral" runat="server" Text="Flujo central:" CssClass="col-sm-4 control-label"></asp:Label>
                             <div class ="col-sm-7 ">
@@ -172,8 +171,8 @@
       <div class="col-lg-11">
             <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary"  />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary"  />
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary"  OnClick="btnAceptar_Click"/>
+                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click"  />
             </div>
         </div>
         <br>
