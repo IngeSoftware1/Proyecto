@@ -1108,11 +1108,12 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            cambiarEnabled(false, this.btnInsertar);
-            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
+            vaciarCampos();
             controlarCampos(false);
             //lblModalTitle.Text = "AVISO";
             // lblModalBody.Text = "Está seguro que desea eliminar este diseno de pruebas?";
