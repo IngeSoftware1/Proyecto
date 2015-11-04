@@ -1514,7 +1514,8 @@ namespace ProyectoInge
             else
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
-                
+
+               
                 idProyectos = controladoraDiseno.consultarProyectosAsociados(idUsuario);
 
                 representantes = controladoraDiseno.consultarRepresentantesDisenos();
@@ -1545,9 +1546,14 @@ namespace ProyectoInge
                 }
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
 
+
+   
                 
                 if (idProyectos.Rows.Count > 0)
                 {
+
+
+              
                     
                     //Se obtiene un DataTable con los datos del o los proyectos 
                     diseños = controladoraDiseno.consultarDisenos(idProyectos);

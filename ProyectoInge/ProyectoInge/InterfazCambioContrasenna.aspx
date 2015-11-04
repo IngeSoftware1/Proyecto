@@ -18,7 +18,7 @@
        
          <br/>
        <asp:Label runat="server" ID="lblUsuario"  CssClass="estiloLabelRH" >Nombre de usuario</asp:Label>
-       <asp:TextBox runat="server" ID="txtUsuario" />
+       <asp:TextBox runat="server" ID="txtUsuario" CssClass="estiloCaja"  />
        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtUsuario" CssClass="text-danger" ErrorMessage="El campo de correo electrónico es obligatorio." />                   
        <br/>
         <br/>
@@ -31,17 +31,17 @@
    
 
       <asp:Label runat="server" ID="lblAntPassword" CssClass="estiloLabelRH">Contraseña anterior</asp:Label>
-      <asp:TextBox runat="server" ID="txtAntPassword" TextMode="Password"  />
+      <asp:TextBox runat="server" ID="txtAntPassword" TextMode="Password" CssClass="estiloCaja"  />
       <asp:RequiredFieldValidator runat="server" ControlToValidate="txtAntPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />        
       <br/>
       <br/>
       <asp:Label runat="server" ID="lblNewPassword" CssClass="estiloLabelRH">Nueva Contraseña</asp:Label>
-      <asp:TextBox runat="server" ID="txtNewPassword" TextMode="Password"  />
+      <asp:TextBox runat="server" ID="txtNewPassword" TextMode="Password" CssClass="estiloCaja"  />
       <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNewPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                    
       <br/>
       <br/>
       <asp:Label runat="server" ID="lblConfPassword" CssClass="estiloLabelRH">Confirmar contraseña</asp:Label>
-      <asp:TextBox runat="server" ID="txtConfPassword" TextMode="Password"  />
+      <asp:TextBox runat="server" ID="txtConfPassword" TextMode="Password" CssClass="estiloCaja"  />
       <asp:RequiredFieldValidator ID="controlConfirmar" runat="server" ControlToValidate="txtConfPassword" CssClass="text-danger" ErrorMessage="El campo de contraseña es obligatorio." />                
                             
     <div class="col-lg-11">

@@ -110,11 +110,11 @@ namespace ProyectoInge
             {
 
                 numDatos = tiposRoles.Rows.Count;
-                datos = new Object[numDatos+1];
+                datos = new Object[numDatos + 1];
 
                 for (int i = 0; i < tiposRoles.Rows.Count; ++i)
                 {
-                    datos[i+1] = tiposRoles.Rows[i][0].ToString();
+                    datos[i + 1] = tiposRoles.Rows[i][0].ToString();
 
                 }
                 datos[0] = "--";
@@ -276,7 +276,7 @@ namespace ProyectoInge
 
 
             //lblModalTitle.Text = "AVISO";
-           // lblModalBody.Text = "Está seguro que desea eliminar este recurso humano?";
+            // lblModalBody.Text = "Está seguro que desea eliminar este recurso humano?";
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
             upModal.Update();
 
@@ -435,155 +435,155 @@ namespace ProyectoInge
             //La inserción 1 es insertar un funcionario
             int tipoInsercion = 1;
 
-                //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
-                if (faltanDatos())
+            //si hay cajas de texto sin datos avisa al usuario que debe completar los datos
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = "AVISO";
+                lblModalBody.Text = "Para insertar un nuevo funcionario debe completar los datos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+
+                habilitarCamposInsertar();
+            }
+            //Los datos obligatorios se encuentran completos 
+            else
+            {
+                if (faltanDatosCuenta())
                 {
                     lblModalTitle.Text = "AVISO";
-                    lblModalBody.Text = "Para insertar un nuevo funcionario debe completar los datos obligatorios.";
+                    lblModalBody.Text = "Si desea insertar datos de la cuenta del funcionario debe insertar todos los datos, ya que únicamente si se encuentran completos podrá ingresar al sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
 
                     habilitarCamposInsertar();
                 }
-                //Los datos obligatorios se encuentran completos 
                 else
                 {
-                    if (faltanDatosCuenta())
-                    {
-                        lblModalTitle.Text = "AVISO";
-                        lblModalBody.Text = "Si desea insertar datos de la cuenta del funcionario debe insertar todos los datos, ya que únicamente si se encuentran completos podrá ingresar al sistema.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
 
-                        habilitarCamposInsertar();
-                    }
-                    else
+                    if (contrasenasIguales())
                     {
+                        //Se crea el objeto para encapsular los datos de la interfaz para insertar funcionario
+                        Object[] datosNuevos = new Object[8];
+                        datosNuevos[0] = this.txtCedula.Text;
+                        datosNuevos[1] = this.txtNombre.Text;
+                        datosNuevos[2] = this.txtApellido1.Text;
+                        datosNuevos[3] = this.txtApellido2.Text;
+                        datosNuevos[4] = this.txtEmail.Text;
+                        datosNuevos[5] = this.txtUsuario.Text;
+                        datosNuevos[6] = this.txtContrasena.Text;
+                        datosNuevos[7] = false;
 
-                            if (contrasenasIguales())
+                        tipoInsercion = 1;
+
+                        //Si la inserción fue correcta insertará en otras tablas
+                        if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
+                        {
+
+                            //Si el perfil del nuevo funcionario es administrador guardará un nuevo administrador
+                            if (comboPerfil.Text == "Administrador")
                             {
-                                //Se crea el objeto para encapsular los datos de la interfaz para insertar funcionario
-                                Object[] datosNuevos = new Object[8];
-                                datosNuevos[0] = this.txtCedula.Text;
-                                datosNuevos[1] = this.txtNombre.Text;
-                                datosNuevos[2] = this.txtApellido1.Text;
-                                datosNuevos[3] = this.txtApellido2.Text;
-                                datosNuevos[4] = this.txtEmail.Text;
-                                datosNuevos[5] = this.txtUsuario.Text;
-                                datosNuevos[6] = this.txtContrasena.Text;
-                                datosNuevos[7] = false;
+                                Object[] nuevoAdmin = new Object[1];
+                                nuevoAdmin[0] = this.txtCedula.Text;
+                                tipoInsercion = 2;                          //inserción de tipo 2 es nuevo administrador
 
-                                tipoInsercion = 1;
-
-                                //Si la inserción fue correcta insertará en otras tablas
-                                if (controladoraRH.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
+                                //Se insertó un nuevo administrador
+                                if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin, ""))
                                 {
+                                    guardarTelefonos();
+                                    //Se debe llenar el grid con el nuevo
+                                    funcionarioInsertado = this.txtCedula.Text;
+                                    llenarGrid(null);
+                                    controlarCampos(false);
+                                    cambiarEnabled(true, this.btnModificar);
+                                    cambiarEnabled(true, this.btnEliminar);
+                                    cambiarEnabled(false, this.btnAceptar);
+                                    cambiarEnabled(false, this.btnCancelar);
+                                    cambiarEnabled(true, this.btnInsertar);
+                                    idRH = this.txtCedula.Text;
 
-                                    //Si el perfil del nuevo funcionario es administrador guardará un nuevo administrador
-                                    if (comboPerfil.Text == "Administrador")
-                                    {
-                                        Object[] nuevoAdmin = new Object[1];
-                                        nuevoAdmin[0] = this.txtCedula.Text;
-                                        tipoInsercion = 2;                          //inserción de tipo 2 es nuevo administrador
-
-                                        //Se insertó un nuevo administrador
-                                        if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoAdmin, ""))
-                                        {
-                                            guardarTelefonos();
-                                            //Se debe llenar el grid con el nuevo
-                                            funcionarioInsertado = this.txtCedula.Text;
-                                            llenarGrid(null);
-                                            controlarCampos(false);
-                                            cambiarEnabled(true, this.btnModificar);
-                                            cambiarEnabled(true, this.btnEliminar);
-                                            cambiarEnabled(false, this.btnAceptar);
-                                            cambiarEnabled(false, this.btnCancelar);
-                                            cambiarEnabled(true, this.btnInsertar);
-                                            idRH = this.txtCedula.Text;
-
-                                            lblModalTitle.Text = "";
-                                            lblModalBody.Text = "Nuevo funcionario creado con éxito.";
-                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                            upModal.Update();
-
-                                            funcionarioInsertado = "";
-                                        }
-                                        //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
-                                        else
-                                        {
-
-                                            lblModalTitle.Text = "ERROR";
-                                            lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como administrador.";
-                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                            upModal.Update();
-                                            habilitarCamposInsertar();
-                                        }
-                                    }
-                                    //El perfil es un miembro de equipo
-                                    else
-                                    {
-                                        Object[] nuevoMiembro = new Object[2];
-                                        nuevoMiembro[0] = this.txtCedula.Text;
-                                        nuevoMiembro[1] = this.comboRol.Text;
-                                        tipoInsercion = 3;                              //inserción de tipo 3 es nuevo miembro
-
-                                        //Se insertó un nuevo miembro de equipo
-                                        if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro, ""))
-                                        {
-                                            guardarTelefonos();
-                                            funcionarioInsertado = this.txtCedula.Text;
-                                            //Se debe llenar el grid con el nuevo
-                                            llenarGrid(null);
-
-                                            controlarCampos(false);
-                                            cambiarEnabled(true, this.btnModificar);
-                                            cambiarEnabled(true, this.btnEliminar);
-                                            cambiarEnabled(false, this.btnAceptar);
-                                            cambiarEnabled(false, this.btnCancelar);
-                                            cambiarEnabled(true, this.btnInsertar);
-                                            lblModalTitle.Text = " ";
-                                            funcionarioInsertado = "";
-                                            lblModalBody.Text = "Nuevo funcionario creado con éxito.";
-                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                            upModal.Update();
-
-                                        }
-                                        //La inserción de un nuevo miembro de equipo de pruebas falló porque ya estaba en la base
-                                        else
-                                        {
-                                            lblModalTitle.Text = "ERROR";
-                                            lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.";
-                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                            upModal.Update();
-                                            habilitarCamposInsertar();
-                                        }
-                                    }
-                                }
-                                //La inserción del funcionario no se pudo realizar en la base de datos
-                                else
-                                {
-                                    lblModalTitle.Text = "ERROR";
-                                    lblModalBody.Text = "La inserción no fue exitosa.";
+                                    lblModalTitle.Text = "";
+                                    lblModalBody.Text = "Nuevo funcionario creado con éxito.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                     upModal.Update();
 
+                                    funcionarioInsertado = "";
+                                }
+                                //La inserción de un nuevo administrador en la base de datos falló porque ya estaba en la base
+                                else
+                                {
+
+                                    lblModalTitle.Text = "ERROR";
+                                    lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como administrador.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
                                     habilitarCamposInsertar();
                                 }
                             }
-                            else //Las contraseñas no coinciden
+                            //El perfil es un miembro de equipo
+                            else
                             {
-                                lblModalTitle.Text = "ERROR";
-                                lblModalBody.Text = "Las contraseñas son diferentes.";
-                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                upModal.Update();
-                                habilitarCamposInsertar();
+                                Object[] nuevoMiembro = new Object[2];
+                                nuevoMiembro[0] = this.txtCedula.Text;
+                                nuevoMiembro[1] = this.comboRol.Text;
+                                tipoInsercion = 3;                              //inserción de tipo 3 es nuevo miembro
+
+                                //Se insertó un nuevo miembro de equipo
+                                if (controladoraRH.ejecutarAccion(modo, tipoInsercion, nuevoMiembro, ""))
+                                {
+                                    guardarTelefonos();
+                                    funcionarioInsertado = this.txtCedula.Text;
+                                    //Se debe llenar el grid con el nuevo
+                                    llenarGrid(null);
+
+                                    controlarCampos(false);
+                                    cambiarEnabled(true, this.btnModificar);
+                                    cambiarEnabled(true, this.btnEliminar);
+                                    cambiarEnabled(false, this.btnAceptar);
+                                    cambiarEnabled(false, this.btnCancelar);
+                                    cambiarEnabled(true, this.btnInsertar);
+                                    lblModalTitle.Text = " ";
+                                    funcionarioInsertado = "";
+                                    lblModalBody.Text = "Nuevo funcionario creado con éxito.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
+
+                                }
+                                //La inserción de un nuevo miembro de equipo de pruebas falló porque ya estaba en la base
+                                else
+                                {
+                                    lblModalTitle.Text = "ERROR";
+                                    lblModalBody.Text = "Esta cédula ya se encuentra registrada en el sistema como miembro de equipo de pruebas.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
+                                    habilitarCamposInsertar();
+                                }
                             }
-                        
+                        }
+                        //La inserción del funcionario no se pudo realizar en la base de datos
+                        else
+                        {
+                            lblModalTitle.Text = "ERROR";
+                            lblModalBody.Text = "La inserción no fue exitosa.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+
+                            habilitarCamposInsertar();
+                        }
                     }
-                    
+                    else //Las contraseñas no coinciden
+                    {
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "Las contraseñas son diferentes.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                        habilitarCamposInsertar();
+                    }
 
                 }
-            
+
+
+            }
+
         }
 
         /*Método para  controlar la inserción de el o los teléfonos de un funcionario en particular
@@ -664,7 +664,7 @@ namespace ProyectoInge
 
             bool resultado = false;
             //Pregunta por las cajas que son obligatorios
-            if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "" )
+            if (txtCedula.Text == "" || txtNombre.Text == "" || txtApellido1.Text == "" || txtApellido2.Text == "")
             {
                 resultado = true;
             }
@@ -685,19 +685,19 @@ namespace ProyectoInge
 
             bool resultado = false;
             //Pregunta por las cajas que son obligatorios
-            if (txtUsuario.Text != "" && (txtContrasena.Text == "" || txtConfirmar.Text == "" || (comboRol.Text == "--" && comboPerfil.Text =="Miembro de equipo de pruebas")))
+            if (txtUsuario.Text != "" && (txtContrasena.Text == "" || txtConfirmar.Text == "" || (comboRol.Text == "--" && comboPerfil.Text == "Miembro de equipo de pruebas")))
             {
                 resultado = true;
             }
-            else if (txtContrasena.Text != "" && (txtUsuario.Text == "" || txtConfirmar.Text == "" || (comboRol.Text == "--" && comboPerfil.Text =="Miembro de equipo de pruebas")))
+            else if (txtContrasena.Text != "" && (txtUsuario.Text == "" || txtConfirmar.Text == "" || (comboRol.Text == "--" && comboPerfil.Text == "Miembro de equipo de pruebas")))
             {
                 resultado = true;
             }
-            else if (txtConfirmar.Text != "" && (txtUsuario.Text == "" || txtContrasena.Text == "" ||  (comboRol.Text == "--" && comboPerfil.Text =="Miembro de equipo de pruebas")))
+            else if (txtConfirmar.Text != "" && (txtUsuario.Text == "" || txtContrasena.Text == "" || (comboRol.Text == "--" && comboPerfil.Text == "Miembro de equipo de pruebas")))
             {
                 resultado = true;
             }
-            else if (comboRol.Text == "--" &&  comboPerfil.Text =="Miembro de equipo de pruebas" && (txtUsuario.Text == "" || txtContrasena.Text == "" || txtConfirmar.Text == ""))
+            else if (comboRol.Text == "--" && comboPerfil.Text == "Miembro de equipo de pruebas" && (txtUsuario.Text == "" || txtContrasena.Text == "" || txtConfirmar.Text == ""))
             {
                 resultado = true;
             }
@@ -725,83 +725,93 @@ namespace ProyectoInge
             }
             else
             {
-                if (contrasenasIguales())
+                if (faltanDatosCuenta())
                 {
-                    //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
-                    //los encapsula todos, sea administrador o miembro
-                    Object[] datosNuevos = new Object[8];
-                    datosNuevos[0] = this.txtCedula.Text;
-                    datosNuevos[1] = this.txtNombre.Text;
-                    datosNuevos[2] = this.txtApellido1.Text;
-                    datosNuevos[3] = this.txtApellido2.Text;
-                    datosNuevos[4] = this.txtEmail.Text;
-                    datosNuevos[5] = this.txtUsuario.Text;
-                    datosNuevos[6] = this.txtContrasena.Text;
-                    datosNuevos[7] = false;
-                    if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "Si desea modificar datos de la cuenta del funcionario debe insertar todos los datos, ya que únicamente si se encuentran completos podrá ingresar al sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                else
+                {
+                    if (contrasenasIguales())
                     {
-                        //string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
-                        //Response.Write(mensaje);
-                        lblModalTitle.Text = " ";
-                        lblModalBody.Text = "La modificación de funcionario fue exitosa.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
-
-
-                        if (Session["perfil"].ToString().Equals("Administrador"))
+                        //Se crea el objeto para encapsular los datos de la interfaz para modificar funcionario
+                        //los encapsula todos, sea administrador o miembro
+                        Object[] datosNuevos = new Object[8];
+                        datosNuevos[0] = this.txtCedula.Text;
+                        datosNuevos[1] = this.txtNombre.Text;
+                        datosNuevos[2] = this.txtApellido1.Text;
+                        datosNuevos[3] = this.txtApellido2.Text;
+                        datosNuevos[4] = this.txtEmail.Text;
+                        datosNuevos[5] = this.txtUsuario.Text;
+                        datosNuevos[6] = this.txtContrasena.Text;
+                        datosNuevos[7] = false;
+                        if (controladoraRH.ejecutarAccion(modo, tipoModificacion, datosNuevos, this.txtCedula.Text))
                         {
-                            llenarGrid(null);
-                        }
-                        else
-                        {
-                            llenarGrid(Session["cedula"].ToString());
-                        }
+                            //string mensaje = "<script>window.alert('La modificacion de funcionario fue exitosa.');</script>";
+                            //Response.Write(mensaje);
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "La modificación de funcionario fue exitosa.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
 
 
-                        //Elimino los tels
-                        tipoModificacion = 2;//LLAMAR AL DE RO
-                        if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels
-                        {
-                            //Inserto los tels
-                            guardarTelefonos();
-                          //  vaciarCampos();
-                            controlarCampos(false);
-                      //      llenarDropDownPerfil();
-                       //     llenarDropDownRol();
-                            cambiarEnabled(true, this.btnModificar);
-                         //   cambiarEnabled(false, this.btnEliminar);
-                            cambiarEnabled(false, this.btnAceptar);
-                            cambiarEnabled(false, this.btnCancelar);
-                            if (Session["perfil"].Equals("Miembro"))
+                            if (Session["perfil"].ToString().Equals("Administrador"))
                             {
-                                cambiarEnabled(false, this.btnInsertar);
-                                cambiarEnabled(false, this.btnEliminar);
+                                llenarGrid(null);
                             }
                             else
                             {
-                                cambiarEnabled(true, this.btnInsertar);
-                                cambiarEnabled(true, this.btnEliminar);
+                                llenarGrid(Session["cedula"].ToString());
                             }
+
+
+                            //Elimino los tels
+                            tipoModificacion = 2;//LLAMAR AL DE RO
+                            if (controladoraRH.ejecutarAccion(3, tipoModificacion, datosNuevos, this.txtCedula.Text))//lo mando con 3 para que elimine los tels
+                            {
+                                //Inserto los tels
+                                guardarTelefonos();
+                                controlarCampos(false);
+                                //      llenarDropDownPerfil();
+                                //     llenarDropDownRol();
+                                cambiarEnabled(true, this.btnModificar);
+                                //   cambiarEnabled(false, this.btnEliminar);
+                                cambiarEnabled(false, this.btnAceptar);
+                                cambiarEnabled(false, this.btnCancelar);
+                                if (Session["perfil"].Equals("Miembro"))
+                                {
+                                    cambiarEnabled(false, this.btnInsertar);
+                                    cambiarEnabled(false, this.btnEliminar);
+                                }
+                                else
+                                {
+                                    cambiarEnabled(true, this.btnInsertar);
+                                    cambiarEnabled(true, this.btnEliminar);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "No se pudo modificar, recuerde: la cédula y el usuario son únicos.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                            habilitarCamposInsertar();
 
                         }
                     }
                     else
                     {
-
                         lblModalTitle.Text = " ";
-                        lblModalBody.Text = "No se pudo modificar, recuerde: la cédula y el usuario son únicos.";
+                        lblModalBody.Text = "Las contraseñas deben ser iguales.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
-                        habilitarCamposInsertar();
-
                     }
-                }
-                else
-                {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "Las contraseñas deben ser iguales.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
+
 
                 }
             }
@@ -823,13 +833,13 @@ namespace ProyectoInge
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "La modificación de funcionario fue exitosa.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                   upModal.Update();
+                    upModal.Update();
                 }
                 else
                 {
                     lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "La eliminación de funcionario fue exitosa.";
-                   ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
                 idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
@@ -968,17 +978,17 @@ namespace ProyectoInge
                             datos[0] = fila[0].ToString();
                             datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
-                             if (fila[4].ToString() == "")
-                             {
+                            if (fila[4].ToString() == "")
+                            {
                                 datos[2] = "Administrador";
-                             }
-                             else
-                             {
+                            }
+                            else
+                            {
 
                                 datos[2] = fila[4].ToString();
-                             }
+                            }
 
-                                dt.Rows.Add(datos);
+                            dt.Rows.Add(datos);
                         }
                     }
                 }
@@ -997,18 +1007,18 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in funcionarios.Rows)
                     {
-                          datos[0] = fila[0].ToString();
-                          datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString() + " " + fila[2].ToString() + " " + fila[3].ToString();
 
-                          if (fila[4].ToString() == null)
-                          {
-                             datos[2] = "Administrador";
-                          }
-                          else
-                          {
-                             datos[2] = "Miembro";
-                          }
-                            dt.Rows.Add(datos);
+                        if (fila[4].ToString() == null)
+                        {
+                            datos[2] = "Administrador";
+                        }
+                        else
+                        {
+                            datos[2] = "Miembro";
+                        }
+                        dt.Rows.Add(datos);
                     }
                 }
                 else
