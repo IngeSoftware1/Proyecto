@@ -526,7 +526,7 @@ namespace ProyectoInge
                             Debug.Print(fila2[0].ToString());
                             casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
 
-                            if (casos.Rows.Count==0)
+                            if (casos.Rows.Count == 0)
                             {
                                 datos[0] = "-";
                                 datos[1] = "-";

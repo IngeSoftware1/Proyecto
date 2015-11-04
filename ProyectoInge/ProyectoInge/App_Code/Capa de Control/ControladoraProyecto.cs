@@ -443,32 +443,41 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable resultado = controladoraRH.consultarMiembrosDeProyecto(idProyecto);
             return resultado;
         }
+        /* Método para cominicarse con la BD de proyecto para eliminar un requerimiento
+        * Requiere: un string como la sigla de la base, un string, como el nombre del requerimiento, un int como el id del proyecto
+        * Modifica: llama al eliminarRequerimiento de la controladora de BD de Proy.
+        * Retorna: booleano si lo logro
+        */
         internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
         {
             return controladoraBDProyecto.eliminarRequerimiento(sigla, nombreReq, idProyecto);
         }
-        //...............................
+        /* Método para cominicarse con la BD de proyecto para consultar proyectos, el nombre y el id, de acuerdo a un miembro
+        * Requiere: un string el id del miembro
+        * Modifica: llama al consultarIDNombresProyectos de la controladora de BD de Proy.
+        * Retorna: DataTable
+        */
         internal DataTable consultarProyectosAsociadosIDNombre(string idRH)
         {
             return controladoraBDProyecto.consultarIDNombresProyectos(idRH);
         }
 
-        public DataTable consultarTodosLosProyectos()
-        {
-            return controladoraBDProyecto.consultarTodosLosProyectos();
-        }
-
-        internal DataTable consultarProyectosAsociadosID(string id)
-        {
-            return controladoraBDProyecto.consultarIDDeMiembro(id);
-        }
-
+        /* Método para cominicarse con la BD de proyecto para consultar proyectos, el nombre, de acuerdo a un proyecto
+        * Requiere: un string el id del proyecto
+        * Modifica: llama al consultarNombreProyecto de la controladora de BD de Proy.
+        * Retorna: DataTable
+        */
         internal DataTable consultarNombreProyecto(string idProyecto)
         {
-            return controladoraBDProyecto.consultarNombreProyecto(idProyecto);
+            int idP = Int32.Parse(idProyecto);
+            return controladoraBDProyecto.consultarNombreProyecto(idP);
         }
 
-
+        /* Método para cominicarse con la BD de diseno para eliminar un requerimiento de diseno
+        * Requiere: un string como la sigla de la base, un int como el id del proyecto
+        * Modifica: llama al eliminarRequerimintoDiseno de la controladora de diseno.
+        * Retorna: booleano si lo logro
+        */
         internal bool eliminarRequerimintoDiseno(string siglaBase, int idProyecto)
         {
             controladoraDiseno = new ControladoraDiseno();

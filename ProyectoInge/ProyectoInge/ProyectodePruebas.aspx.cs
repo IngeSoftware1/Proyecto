@@ -671,7 +671,10 @@ namespace ProyectoInge
                 }
             }
         }
-
+        /*Método para modificar los requerimientos del proyecto
+         * Modifica: ingresa y elimina de la base los requerimientos del proyecto
+         * Retorna: no retorna ningún valor
+         */
         private void modificarRequeriminetos(int idProyecto,int tipoModif)
         {
             string siglaBase = "";
@@ -680,7 +683,6 @@ namespace ProyectoInge
             string nombreRequerimientoLista = "";
             int coincidencia = 0;
             int i = 0;
-            Debug.Print("!!!!!!!!!!!!!!!!!!!!!!!Modificar requerimientos");
             //Recorro el list, si hay algo ahi que no este en la base lo guardo.
             DataTable tablaReq = controladoraProyecto.consultarReqProyecto(idProyecto);//Guarda la tabla que tiene los requerimientos de ese proyecto -> idProyecto
             while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)//Recorre la lista
@@ -713,7 +715,6 @@ namespace ProyectoInge
                         }
                         siglaLista = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
                         nombreRequerimientoLista = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                        Debug.Print("!!!!!!!!!!!!!!!Voy a meter a la base: " + siglaLista + ", " + nombreRequerimientoLista);
                         Object[] datosRequerimiento = new Object[3];
                         datosRequerimiento[0] = siglaLista;//nombre_oficina
                         datosRequerimiento[1] = idProyecto;//nombre_rep
@@ -732,7 +733,6 @@ namespace ProyectoInge
             {
                 foreach (DataRow fila in tablaReq.Rows)//en fila tengo 
                 {
-                    Debug.Print("!!!!!!!!!!!Recorriendo el borrar voy a ver: " + fila[0].ToString() + ", " + fila[2].ToString());
                     while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
                     {
                         siglaBase = fila[0].ToString();
@@ -740,7 +740,6 @@ namespace ProyectoInge
 
                         string itemList = listRequerimientosAgregados.Items[i].ToString();
                         string baseAComparar = siglaBase + " " + nombreRequerimientoBase;
-                        Debug.Print("!!!!!!!!!!!!!!!!!Comparando: " + itemList + " y " + baseAComparar);
 
                         if (itemList.Equals(baseAComparar) == true)//si es lo mismo hay coincidencia
                         {
@@ -749,12 +748,9 @@ namespace ProyectoInge
                         i++;
                     }
                     i = 0;
-                    Debug.Print("!!!!!!!!!!!!!!!!!Coincidencia: "+coincidencia+" y " + siglaBase + ", " + idProyecto);
                     if (coincidencia == 0)//No hubo ninguna coincidencia, por lo que eso que esta en la base fue borrado de la lista deberia borrarlo de la base
                     {
                         //Eliminelo de la base, lo de la base
-                        Debug.Print("!!!!!!!!!!!!!!!!!Voy a borrar de la base: "+siglaBase+", "+idProyecto);
-
                         controladoraProyecto.eliminarRequerimintoDiseno(siglaBase, idProyecto);
                         controladoraProyecto.eliminarRequeriminto(siglaBase, nombreRequerimientoBase, idProyecto);
                     }

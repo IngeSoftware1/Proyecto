@@ -25,7 +25,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 string insercion = "INSERT INTO Oficina_Usuaria (nombre_oficina, nombre_rep, ape1_rep, ape2_rep) VALUES ('" + nuevo.getNombreOficina + "', '" + nuevo.getNombreRep + "', '" + nuevo.getApe1Rep + "', '" + nuevo.getApe2Rep + "')";
                 return acceso.insertarDatos(insercion);
-
             }
             catch (SqlException e)
             {
@@ -38,7 +37,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
          * Modifica:crea la sentencia sql para buscar el id de la oficina a partir del nombre y ejecuta la consulta
          * Retorna: el id de la oficina, -1 si no lo encuentra
          */
-        public int obtenerOficinaAgregada(string nombreOficina) 
+        public int obtenerOficinaAgregada(string nombreOficina)
         {
             int resultado = -1;
             DataTable datosOficina = new DataTable();
@@ -50,13 +49,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     resultado = Int32.Parse(datosOficina.Rows[0][0].ToString());
                 }
-
             }
             catch (SqlException e)
             {
 
             }
-
             return resultado;
         }
 
@@ -88,8 +85,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, fecha_asignacion, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getFechaAsignacion + "', '" + nuevo.getTipoEstado + "', '" +nuevo.getCedulaCreador+ "', '"+nuevo.getCedulaLider+"', '"+nuevo.getIdOficina+"')";
-         
+                string insercion = "INSERT INTO Proyecto (nombre_proyecto, obj_general, fecha_asignacion, tipo_estado, cedula_creador, cedula_lider, id_oficina) VALUES ('" + nuevo.getNombreProyecto + "', '" + nuevo.getObjGeneral + "', '" + nuevo.getFechaAsignacion + "', '" + nuevo.getTipoEstado + "', '" + nuevo.getCedulaCreador + "', '" + nuevo.getCedulaLider + "', '" + nuevo.getIdOficina + "')";
+
                 return acceso.insertarDatos(insercion);
 
             }
@@ -173,16 +170,14 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 resultado = false;
             }
-
             return resultado;
         }
-		
+
         /*Método para eliminar un proyecto de la BD
         * Requiere: el id del proyecto
         * Modifica: la BD
         * Retorna: boolean si logra eliminar
         */
-
         public bool eliminarProyecto(int idProyecto)
         {
             try
@@ -195,7 +190,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
-
         }
 
         /*Método para obtiene el id de un proyecto apartir de su nombre
@@ -211,17 +205,16 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 datosProyecto = acceso.ejecutarConsultaTabla(consulta);
-                if(datosProyecto.Rows.Count==1){
+                if (datosProyecto.Rows.Count == 1)
+                {
                     resultado = Int32.Parse(datosProyecto.Rows[0][0].ToString());
                 }
-                
             }
             catch (SqlException e)
             {
-                
-            }
 
-            return resultado ;
+            }
+            return resultado;
         }
 
 
@@ -242,17 +235,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     resultado = Int32.Parse(datosProyecto.Rows[0][0].ToString());
                 }
-
             }
             catch (SqlException e)
             {
 
             }
-
             return resultado;
         }
-
-  
 
         /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
         * Requiere: el id del proyecto que se requiere eliminar para ver la oficina asociada
@@ -266,7 +255,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             DataTable datosProyecto = new DataTable();
             try
             {
-                string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='"+resultado+"';";
+                string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + resultado + "';";
                 acceso.eliminarDatos(borrarOficina);
                 indicador = true;
             }
@@ -276,7 +265,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
 
             return indicador;
-
         }
 
         /*Método para eliminar de la base de datos una oficina usuaria asociada a un proyecto
@@ -285,7 +273,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Retorna: true si se llevó a cabo correctamente la eliminación y false si no fue existosa.
         */
         public bool eliminarOficina(int idOficina)
-        {       
+        {
             try
             {
                 string borrarOficina = "Delete from Oficina_Usuaria where id_oficina ='" + idOficina + "';";
@@ -317,12 +305,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-
-      /*Método para consultar el estado del proyecto
-      * Requiere: el id del proyecto
-      * Modifica: no modifica datos
-      * Retorna: Devuelve un string que indica el estado del proyecto
-      */
+        /*Método para consultar el estado del proyecto
+        * Requiere: el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: Devuelve un string que indica el estado del proyecto
+        */
         public string consultarEstadoProyecto(int idProyecto)
         {
             string resultado = "";
@@ -335,7 +322,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     resultado = datosProyecto.Rows[0][0].ToString();
                 }
-
             }
             catch (SqlException e)
             {
@@ -344,9 +330,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return resultado;
         }
-
-
-
 
         /*Método para llevar a cabo la modificación de los datos de la oficina usuaria
        * Requiere: un objeto con los datos de la oficina usuaria
@@ -374,7 +357,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Proyecto SET nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado +"', cedula_lider = '"+ entidadP.getCedulaLider + "', id_oficina = '" +entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
+                string modif = "UPDATE Proyecto SET nombre_proyecto ='" + entidadP.getNombreProyecto + "', obj_general = '" + entidadP.getObjGeneral + "', fecha_asignacion = '" + entidadP.getFechaAsignacion + "', tipo_estado = '" + entidadP.getTipoEstado + "', cedula_lider = '" + entidadP.getCedulaLider + "', id_oficina = '" + entidadP.getIdOficina + "' WHERE id_proyecto ='" + idProyecto + "';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -384,13 +367,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-       
-
-       public bool eliminarTelefonoOficinaUsuaria(int idOficina)
+        public bool eliminarTelefonoOficinaUsuaria(int idOficina)
         {
             try
             {
-                string borrado = "Delete from Telefono_Oficina where id_Oficina = '" + idOficina + "';" ;
+                string borrado = "Delete from Telefono_Oficina where id_Oficina = '" + idOficina + "';";
                 return acceso.eliminarDatos(borrado);
             }
             catch (SqlException e)
@@ -399,11 +380,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
         }
 
-       /*Método para insertar los telefonos de las oficinas usuarias
-       * Requiere: la entidad de telefonos
-       * Modifica: modifica la tabla telefonos usuario
-       * Retorna:booleano si logra insertar el telefono
-       */
+        /*Método para insertar los telefonos de las oficinas usuarias
+        * Requiere: la entidad de telefonos
+        * Modifica: modifica la tabla telefonos usuario
+        * Retorna:booleano si logra insertar el telefono
+        */
         public bool insertarTelefonoOficinaUsuaria(EntidadTelOficina nuevo)
         {
             try
@@ -467,11 +448,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-         /*Método para consultar los identificadores de los proyectos
-       * Requiere: no requiere informacion
-       * Modifica: no realiza modificaciones
-       * Retorna: un DataTable con los id de los proyectos 
-       */
+        /*Método para consultar los identificadores de los proyectos
+      * Requiere: no requiere informacion
+      * Modifica: no realiza modificaciones
+      * Retorna: un DataTable con los id de los proyectos 
+      */
         public DataTable consultarIdenficadoresProyectos()
         {
             DataTable dt = new DataTable();
@@ -489,7 +470,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
 
             return dt;
-
         }
 
         /*Método para consultar los nombres de los proyectos
@@ -516,8 +496,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
 
         }
-
-
 
         /*Método para consultar todos los proyectos en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los proyectos que se encuentra asociado en caso de que el usuario sea un miembro
@@ -554,7 +532,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     for (int i = 0; i < idProyectos.Rows.Count; ++i)
                     {
                         ++contador;
-                      
+
                         consulta = consulta + " " + "SELECT P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.id_proyecto = '" + idProyectos.Rows[i][0].ToString() + "'";
                         if (contador != idProyectos.Rows.Count)
                         {
@@ -624,9 +602,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-
-        
-
         /* Método para consultar requerimientos de un diseño
         * Requiere: el id del diseño y el proyecto al que pertenece
         * Modifica: no modifica datos
@@ -665,12 +640,16 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-
+        /* Método para eliminar requrimientos de un proyecto
+         * Requiere: el id del requrimiento, el nombre y el identificador del proyecto asociado
+         * Modifica: modifica la base
+         * Retorna: booleano si lo logro
+         */
         internal bool eliminarRequerimiento(string sigla, string nombreReq, int idProyecto)
         {
             try
             {
-                string borrarRequerimiento = "Delete from Requerimiento where id_proyecto ='" + idProyecto + "' AND id_req ='"+sigla + "' AND nombre_req = '" + nombreReq +"';";
+                string borrarRequerimiento = "Delete from Requerimiento where id_proyecto ='" + idProyecto + "' AND id_req ='" + sigla + "' AND nombre_req = '" + nombreReq + "';";
                 acceso.eliminarDatos(borrarRequerimiento);
                 return true;
             }
@@ -688,7 +667,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT nombre_proyecto, id_proyecto WHERE cedula_lider='"+cedula+"';";
+                consulta = "SELECT nombre_proyecto, id_proyecto WHERE cedula_lider='" + cedula + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -709,7 +688,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT P.nombre_proyecto, P.id_proyecto FROM Proyecto P WHERE P.id_proyecto = (Select D.id_proyecto From Diseno_Pruebas D WHERE D.id_diseno ='"+idDiseno+"');";
+                consulta = "SELECT P.nombre_proyecto, P.id_proyecto FROM Proyecto P WHERE P.id_proyecto = (Select D.id_proyecto From Diseno_Pruebas D WHERE D.id_diseno ='" + idDiseno + "');";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -722,10 +701,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
         /* Método para consultar requerimientos disponibles de un proyecto
-     * Requiere: el id del proyecto
-     * Modifica: no modifica datos
-     * Retorna: un DataTable que contiene los requerimientos del proyecto
-     */
+         * Requiere: el id del proyecto
+         * Modifica: no modifica datos
+         * Retorna: un DataTable que contiene los requerimientos del proyecto
+         */
         public DataTable consultarReqDisponibles(int idProyecto, int idDiseno)
         {
             DataTable dt = new DataTable();
@@ -733,7 +712,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "' AND NOT EXISTS (Select id_req FROM Requerimiento_Diseno WHERE id_diseno='" + idDiseno + "' AND id_proyecto ='"+idProyecto+"');";
+                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "' AND NOT EXISTS (Select id_req FROM Requerimiento_Diseno WHERE id_diseno='" + idDiseno + "' AND id_proyecto ='" + idProyecto + "');";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -745,40 +724,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-        //................................................................
-        internal DataTable consultarCasosDePruebaAsociadoADiseno(string idDiseños)
-        {
-            DataTable dt = new DataTable();
-            string consulta = "";
-            try
-            {
-                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseños + "';";
-                dt = acceso.ejecutarConsultaTabla(consulta);
-            }
-            catch (SqlException e)
-            {
-                dt = null;
-            }
-            return dt;
-        }
-
-        internal DataTable consultarCasoPrueba(string idCaso)
-        {
-            DataTable dt = new DataTable();
-            string consulta = "";
-            try
-            {
-                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado, C.id_diseno FROM Caso_Prueba C WHERE C.identificador_caso ='" + idCaso + "';";
-                dt = acceso.ejecutarConsultaTabla(consulta);
-            }
-            catch (SqlException e)
-            {
-                dt = null;
-            }
-            return dt;
-        }
-        //.......................
-        internal DataTable consultarIDNombresProyectos(string idRH)
+        /* Método para consultar los ids y nombres de un proyecto, segun el id del miembro
+         * Requiere: el id del miembro
+         * Modifica: no modifica datos
+         * Retorna: un DataTable que contiene los datos del proyecto
+         */
+        public DataTable consultarIDNombresProyectos(string idRH)
         {
             DataTable dt = new DataTable();
             string consulta;
@@ -796,40 +747,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-        public DataTable consultarTodosLosProyectos()
-        {
-            DataTable dt = new DataTable();
-            string consulta;
-
-            try
-            {
-                consulta = "SELECT P.id_proyecto, P.nombre_proyecto FROM Proyecto P;";
-                dt = acceso.ejecutarConsultaTabla(consulta);
-            }
-            catch (SqlException e)
-            {
-                dt = null;
-            }
-            return dt;
-        }
-
-        internal DataTable consultarIDDeMiembro(string id)
-        {
-            DataTable dt = new DataTable();
-            string consulta;
-
-            try
-            {
-                consulta = "SELECT D.id_proyecto From Trabaja_En D WHERE D.cedula_miembro ='" + id + "';";
-                dt = acceso.ejecutarConsultaTabla(consulta);
-            }
-            catch (SqlException e)
-            {
-                dt = null;
-            }
-            return dt;
-        }
-        public DataTable consultarNombreProyecto(string idProyecto)
+        /* Método para consultar los nombres de los proyectos, segun el id del proyecto
+         * Requiere: el id del proyecto
+         * Modifica: no modifica datos
+         * Retorna: un DataTable que contiene los datos del proyecto
+         */
+        public DataTable consultarNombreProyecto(int idProyecto)
         {
             DataTable dt = new DataTable();
             string consulta;
@@ -844,7 +767,5 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
-
-
     }
 }
