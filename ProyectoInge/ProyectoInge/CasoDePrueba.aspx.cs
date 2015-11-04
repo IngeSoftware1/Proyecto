@@ -203,10 +203,6 @@ namespace ProyectoInge
             modo = 1;
             int idDiseño = Convert.ToInt32(Session["idDiseñoS"]);
 
-            lblModalTitle.Text = "";
-            lblModalBody.Text = "ID DE diseño: " + idDiseño+ "";
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-            upModal.Update();
 
             //si faltan datos no deja insertar
             if (faltanDatos())
@@ -245,8 +241,8 @@ namespace ProyectoInge
 
                 }else
                 {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "No fue posible realizar la inserción del caso de prueba.";
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "Este caso de prueba ya se encuentra registrado en el sistema.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposInsertar();
