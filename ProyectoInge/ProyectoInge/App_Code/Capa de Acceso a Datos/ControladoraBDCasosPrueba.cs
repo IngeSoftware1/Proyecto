@@ -111,7 +111,38 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
+        //..............
+        internal DataTable consultarCasosDePruebaAsociadoADiseno(string idDiseños)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseños + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
 
+        internal DataTable consultarCasoPrueba(string idCaso)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado, C.id_diseno FROM Caso_Prueba C WHERE C.identificador_caso ='" + idCaso + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
 
     }
 }

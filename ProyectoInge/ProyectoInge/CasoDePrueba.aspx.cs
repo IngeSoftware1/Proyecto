@@ -17,6 +17,9 @@ namespace ProyectoInge
         ControladoraRecursos controladoraRH = new ControladoraRecursos();
         private static int modo = 1;//1insertar, 2 modificar, 3eliminar
 
+        private static string idCasoConsultado;//Guarda el id del Caso consultado
+        private static string idDisenoConsultado;//Guarda el id dell Diseño asociado al caso consultado
+
         /* Método para actualizar la interfaz de recursos humanos
          * Modifica: no modifica nada
          * Retorna: no retorna ningún valor */
@@ -37,6 +40,14 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 llenarDatosDiseno(); //NO BORRAR, SE UTILIZA CUANDO YA TENGA LO DE DISEÑO LISTO
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    llenarGrid(null);
+                }
+                else
+                {
+                    llenarGrid(Session["cedula"].ToString());
+                }
             }
         }
 
@@ -144,7 +155,7 @@ namespace ProyectoInge
             {
                 case 1:
                     {
-                    
+
                         btnAceptar_Insertar();
                     }
                     break;
@@ -188,7 +199,7 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
             cambiarEnabled(true, this.btnInsertar);
             ponerNombreDeUsuarioLogueado();
-            llenarDatosDiseno(); 
+            llenarDatosDiseno();
 
         }
 
@@ -239,7 +250,8 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
 
-                }else
+                }
+                else
                 {
                     lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Este caso de prueba ya se encuentra registrado en el sistema.";
@@ -309,7 +321,7 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-                    //Si la modificación del caso fue erronea
+                //Si la modificación del caso fue erronea
                 else
                 {
                     lblModalTitle.Text = "ERROR";
@@ -335,7 +347,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtProposito.Text == "" || this.txtIdentificador.Text == "" )
+            if (this.txtProposito.Text == "" || this.txtIdentificador.Text == "")
             {
                 resultado = true;
             }
@@ -359,14 +371,15 @@ namespace ProyectoInge
             DataTable datosProyecto = controladoraCasoPruebas.consultarInformacionProyectoDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
             DataTable datosRequerimientos;
             string requerimiento = "";
-            if(datosDiseno!=null){
+            if (datosDiseno != null)
+            {
                 idProyecto = Int32.Parse(datosProyecto.Rows[0][1].ToString());
                 this.txtNombreProyecto.Text = datosProyecto.Rows[0][0].ToString();
                 this.txtNombreDiseño.Text = datosDiseno.Rows[0][1].ToString();
-                this.txtPrueba.Text =  datosDiseno.Rows[0][7].ToString();
+                this.txtPrueba.Text = datosDiseno.Rows[0][7].ToString();
                 this.txtTecnicaPrueba.Text = datosDiseno.Rows[0][6].ToString();
                 this.txtProposito.Text = datosDiseno.Rows[0][3].ToString();
-                datosRequerimientos = controladoraCasoPruebas.consultarReqDisenoDeProyecto(Int32.Parse(Session["idDiseñoS"].ToString()),idProyecto);
+                datosRequerimientos = controladoraCasoPruebas.consultarReqDisenoDeProyecto(Int32.Parse(Session["idDiseñoS"].ToString()), idProyecto);
                 this.listRequerimientoDisponibles.Items.Clear();
 
 
@@ -375,7 +388,7 @@ namespace ProyectoInge
                     listRequerimientoDisponibles.Items.Clear();
                     for (int i = 0; i < datosRequerimientos.Rows.Count; ++i)
                     {
-                        requerimiento = datosRequerimientos.Rows[i][0].ToString() +" "+ datosRequerimientos.Rows[i][2].ToString();
+                        requerimiento = datosRequerimientos.Rows[i][0].ToString() + " " + datosRequerimientos.Rows[i][2].ToString();
                         listRequerimientoDisponibles.Items.Add(requerimiento);
 
                     }
@@ -412,47 +425,230 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
-            
+
             int id = controladoraCasoPruebas.consultarIdCasoPrueba(txtIdentificador.Text);
-           
-                if (controladoraCasoPruebas.ejecutarAccion(3,null,id,"")==true)
+
+            if (controladoraCasoPruebas.ejecutarAccion(3, null, id, "") == true)
+            {
+                lblModalTitle.Text = " ";
+                lblModalBody.Text = "La eliminación del caso fue exitosa.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+            else
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "La eliminación del caso no se pudo dar";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
+
+            vaciarCampos();
+
+            controlarCampos(false);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+
+
+            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+            /*  if (Session["perfil"].ToString().Equals("Administrador"))
+              {
+                  cambiarEnabled(true, this.btnInsertar);
+                  llenarGrid(null);
+              }
+              else
+              {
+                  cambiarEnabled(false, this.btnInsertar);
+                  llenarGrid(Session["cedula"].ToString());
+              }
+           */
+
+        }
+        /*Método para llenar el grid con el registro del caso de prueba correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
+        con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.
+        * Requiere: Requiere la cédula del usuario que está utilizando el sistema en caso de que éste sea un miembro, sino se especifica el parámetro
+        como nulo para indicar que el usuario del sistema es el administrador.
+        * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora de manera 
+        que le sea visible al usuario del sistema los resultados. 
+        * Retorna: no retorna ningún valor
+        */
+        public void llenarGrid(string idRH)
+        {
+            DataTable dt = crearTablaCasosPrueba();
+            DataTable idProyectos;
+            DataTable proyectos;
+            DataTable diseños;
+            DataTable casos;
+
+            Object[] datos = new Object[4];
+            Object[] tuplaInsertada = new Object[4];
+            datos[0] = "";
+            datos[1] = "";
+            datos[2] = "";
+            datos[3] = "";
+            if (idRH != null)
+            {
+                idProyectos = controladoraCasoPruebas.consultarInformacionProyectoID(idRH);//Obtengo los ids de los proyectos asociados a un miembro
+                if (idProyectos == null)
                 {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "La eliminación del caso fue exitosa.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }else
-                {
-                    lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "La eliminación del caso no se pudo dar";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-
-                vaciarCampos();
-
-                controlarCampos(false);
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
-
-
-                //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
-              /*  if (Session["perfil"].ToString().Equals("Administrador"))
-                {
-                    cambiarEnabled(true, this.btnInsertar);
-                    llenarGrid(null);
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    dt.Rows.Add(datos);
                 }
                 else
                 {
-                    cambiarEnabled(false, this.btnInsertar);
-                    llenarGrid(Session["cedula"].ToString());
+                    foreach (DataRow fila1 in idProyectos.Rows)
+                    {
+                        DataTable t = controladoraCasoPruebas.consultarNombreProyecto(fila1[0].ToString());//fila1[].ToString();//Agarra los nombres de los proyectos
+                        DataRow filaNombre = t.Rows[0];
+                        datos[0] = filaNombre[0];
+                        diseños = controladoraCasoPruebas.consultarInformacionDiseno(fila1[0].ToString());//Obtengo los diseños asociados a una proyecto, toda la info
+                        foreach (DataRow fila2 in diseños.Rows)
+                        {
+                            datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos                                   
+                            casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
+                            foreach (DataRow fila3 in casos.Rows)
+                            {
+                                idCasoConsultado = fila3[0].ToString();
+                                datos[2] = ""; datos[3] = "";
+                                datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
+                                datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños                                       
+                                if (datos[2].ToString() != "" && datos[3].ToString() != "")
+                                {
+                                    dt.Rows.Add(datos);
+                                }
+                            }
+                        }
+                    }
                 }
-             */
-          
+            }
+            else
+            {
+                proyectos = controladoraCasoPruebas.consultarTodosLosProyectos();//Obtengo los proyectos los ids y nombres
+                if (proyectos == null)
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    dt.Rows.Add(datos);
+                }
+                else
+                {
+                    foreach (DataRow fila1 in proyectos.Rows)
+                    {
+                        datos[0] = fila1[1].ToString();//Agarra los nombres de los proyectos
+                        diseños = controladoraCasoPruebas.consultarInformacionDiseno(fila1[0].ToString());//Obtengo los diseños asociados a una proyecto, toda la info                          
+                        foreach (DataRow fila2 in diseños.Rows)
+                        {
+                            datos[1] = fila2[1].ToString();//Agarra los propósitos de los diseños asociados a todos los proyectos
+                            casos = controladoraCasoPruebas.consultarCasosPruebas(fila2[0].ToString());//Obtengo los casos asociados a diseños, todo
+                            foreach (DataRow fila3 in casos.Rows)
+                            {
+                                idCasoConsultado = fila3[0].ToString();
+                                datos[2] = ""; datos[3] = "";
+                                datos[2] = fila3[1].ToString();//Agarra los identificadores de los casos asociados a todos los diseños
+                                datos[3] = fila3[2].ToString();//Agarra los propósitos de los casos asociados a todos los diseños
+
+                                if (datos[2].ToString() != "" && datos[3].ToString() != "")
+                                {
+                                    dt.Rows.Add(datos);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            this.gridCasosPrueba.DataSource = dt;
+            this.gridCasosPrueba.DataBind();
+        }
+        /*Método para crear el DataTable donde se mostrará el o los registros de los recursos humanos del sistema según corresponda.
+      * Requiere: No requiere ningún parámetro.
+      * Modifica: el nombre de cada columna donde se le especifica el nombre que cada una de ellas tendrá. 
+      * Retorna: el DataTable creado. 
+      */
+        protected DataTable crearTablaCasosPrueba()
+        {
+            DataTable dt_casos = new DataTable();
+            DataColumn columna;
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Nombre proyecto";
+            dt_casos.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Propósito diseño";
+            dt_casos.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Id del caso de pruebas";
+            dt_casos.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Propósito del caso de pruebas";
+            dt_casos.Columns.Add(columna);
+
+            return dt_casos;
         }
 
+        /*Método para llenar los capos de la interfaz con los resultados de la consulta.
+        * Requiere: La cédula del funcionario que se desea consultar.
+        * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
+        * Retorna: No retorna ningún valor. 
+        */
+        public void llenarDatosCasos(string id_caso)
+        {
+            if (id_caso != null && id_caso.Equals("-") == false)
+            {
+                //consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado FROM Caso_Prueba C WHERE C.identificador_caso ='" + idCaso + "';";
+                DataTable casoPrueba = controladoraCasoPruebas.consultarCasoPruebas(id_caso);
+                if (casoPrueba != null)
+                {
+
+
+                    idCasoConsultado = casoPrueba.Rows[0][0].ToString();
+                    this.txtIdentificador.Text = casoPrueba.Rows[0][1].ToString();
+                    this.txtProposito.Text = casoPrueba.Rows[0][2].ToString();
+                    Debug.Print("PROPO!!!!!!!: " + casoPrueba.Rows[0][2].ToString());
+                    this.txtFlujoCentral.Text = casoPrueba.Rows[0][3].ToString();
+                    this.txtEntradaDatos.Text = casoPrueba.Rows[0][4].ToString();
+                    this.txtResultadoEsperado.Text = casoPrueba.Rows[0][5].ToString();
+
+
+                    idDisenoConsultado = casoPrueba.Rows[0][6].ToString();
+                    //llenarDatosDiseno();
+                }
+            }
+
+
+        }
+
+
+
+        protected void gridCasosDePrueba_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "seleccionarCaso")
+            {
+
+                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
+                idCasoConsultado = lnkConsulta.CommandArgument;
+                Debug.Print("IDDD!!!!!!: " + idCasoConsultado);
+                controlarCampos(false);
+                llenarDatosCasos(idCasoConsultado);
+                cambiarEnabled(true, this.btnModificar);
+                cambiarEnabled(true, this.btnCancelar);
+                cambiarEnabled(false, this.btnAceptar);
+            }
+
+        }
 
 
 

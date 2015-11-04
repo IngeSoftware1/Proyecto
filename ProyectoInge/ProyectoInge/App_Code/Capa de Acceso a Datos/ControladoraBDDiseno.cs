@@ -406,9 +406,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-
+        //....................................
+        internal DataTable consultarDisenoAsociadoAProyecto(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.cedula_responsable FROM Diseno_Pruebas D WHERE D.id_proyecto='" + idProyecto + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
 
     }
-
-
 }

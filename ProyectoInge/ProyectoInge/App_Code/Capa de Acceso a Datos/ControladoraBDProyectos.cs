@@ -745,7 +745,105 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        //................................................................
+        internal DataTable consultarCasosDePruebaAsociadoADiseno(string idDiseños)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseños + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
 
+        internal DataTable consultarCasoPrueba(string idCaso)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado, C.id_diseno FROM Caso_Prueba C WHERE C.identificador_caso ='" + idCaso + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+        //.......................
+        internal DataTable consultarIDNombresProyectos(string idRH)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT P.id_proyecto, P.nombre_proyecto  FROM Proyecto P WHERE P.id_proyecto = (Select D.id_proyecto From Trabaja_En D WHERE D.cedula_miembro ='" + idRH + "');";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+        public DataTable consultarTodosLosProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT P.id_proyecto, P.nombre_proyecto FROM Proyecto P;";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+
+        internal DataTable consultarIDDeMiembro(string id)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT D.id_proyecto From Trabaja_En D WHERE D.cedula_miembro ='" + id + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+        public DataTable consultarNombreProyecto(string idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            try
+            {
+                consulta = "SELECT D.nombre_proyecto From Proyecto D WHERE D.id_proyecto ='" + idProyecto + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
 
 
     }

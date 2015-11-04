@@ -190,11 +190,11 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-1">
                     <div id="scroll" style="height: 183px; width: 700px; overflow: auto;">
-                        <asp:GridView ID="gridCasosPrueba" runat="server" Style="width: 680px; text-align:center" CssClass ="dataGridTable" font-size = "14px" AutoGenerateColumns="true"  HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                        <asp:GridView ID="gridCasosPrueba" runat="server" Style="width: 680px; text-align:center" CssClass ="dataGridTable" font-size = "14px" AutoGenerateColumns="true"  OnRowCommand="gridCasosDePrueba_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
                                 <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
-                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarProyecto"> Consultar </asp:LinkButton>
+                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarCaso" CommandArgument='<%#Eval("Id del caso de pruebas") %>'> Consultar </asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

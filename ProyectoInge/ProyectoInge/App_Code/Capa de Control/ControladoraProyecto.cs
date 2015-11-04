@@ -360,7 +360,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-       
+
 
         /* Método para obtener el nombre y apellido del líder de un proyecto
         * Requiere: una lista con la cédula de los líderes que se desea consultar
@@ -399,7 +399,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
 
 
-        
+
 
         /* Método para consultar requerimientos de un proyecto
         * Requiere: el id del diseño y el proyecto al que pertenece
@@ -408,7 +408,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         */
         public DataTable consultarReqProyecto(int idProyecto)
         {
-            return controladoraBDProyecto.consultarReqProyecto( idProyecto);
+            return controladoraBDProyecto.consultarReqProyecto(idProyecto);
         }
 
         /* Método para actualizar los requerimientos de un proyecto
@@ -422,18 +422,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-   /*     internal bool eliminarRequerimientosDiseno(string sigla, string nombreReq, int idProyecto)
-        {
-            ControladoraBDDiseno controladoraBDDiseno = new ControladoraBDDiseno();
-            bool resultado = controladoraBDDiseno.eliminarRequerimientoDiseno(sigla,nombreReq,idProyecto);
-            return resultado;
-        } */
+        /**
+        internal bool eliminarRequerimientosDiseno(string sigla, string nombreReq, int idProyecto)
+             {
+                 ControladoraBDDiseno controladoraBDDiseno = new ControladoraBDDiseno();
+                 bool resultado = controladoraBDDiseno.eliminarRequerimientoDiseno(sigla,nombreReq,idProyecto);
+                 return resultado;
+             } 
+         **/
 
-
-
-
-
-/* Método para obtener los miembros asociados a un determinado proyecto junto con la cédula
+        /* Método para obtener los miembros asociados a un determinado proyecto junto con la cédula
         * Requiere: un string con el identificador del proyecto.
         * Modifica: llama al consultar Miembros Proyecto de la controladora de recursos humanos.
         * Retorna: un DataTable con los miembros asociados al proyecto especificado
@@ -444,10 +442,30 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable resultado = controladoraRH.consultarMiembrosDeProyecto(idProyecto);
             return resultado;
         }
-		internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
+        internal bool eliminarRequeriminto(string sigla, string nombreReq, int idProyecto)
         {
             return controladoraBDProyecto.eliminarRequerimiento(sigla, nombreReq, idProyecto);
-        }}
+        }
+        //...............................
+        internal DataTable consultarProyectosAsociadosIDNombre(string idRH)
+        {
+            return controladoraBDProyecto.consultarIDNombresProyectos(idRH);
+        }
 
+        public DataTable consultarTodosLosProyectos()
+        {
+            return controladoraBDProyecto.consultarTodosLosProyectos();
+        }
 
+        internal DataTable consultarProyectosAsociadosID(string id)
+        {
+            return controladoraBDProyecto.consultarIDDeMiembro(id);
+        }
+
+        internal DataTable consultarNombreProyecto(string idProyecto)
+        {
+            return controladoraBDProyecto.consultarNombreProyecto(idProyecto);
+        }
+
+    }
 }

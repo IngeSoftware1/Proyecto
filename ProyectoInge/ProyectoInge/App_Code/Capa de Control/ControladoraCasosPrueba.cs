@@ -13,6 +13,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         ControladoraBDCasosPrueba controladoraBDCasosPrueba = new ControladoraBDCasosPrueba();
         ControladoraDiseno controladoraDiseno;
         ControladoraRecursos controladoraRH;
+        ControladoraProyecto controladoraProyecto;
 
         public bool eliminarProyectoCasoPueba(int idProyecto)
         {
@@ -88,6 +89,44 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public int consultarIdCasoPrueba(string identificador)
         {
             return controladoraBDCasosPrueba.consultarIdCasoPrueba(identificador);
+        }
+
+        //...............................
+        public DataTable consultarInformacionProyecto(string idRH)
+        {
+            controladoraProyecto = new ControladoraProyecto();
+            return controladoraProyecto.consultarProyectosAsociadosIDNombre(idRH);
+        }
+        internal DataTable consultarInformacionProyectoID(string id)
+        {
+            controladoraProyecto = new ControladoraProyecto();
+            return controladoraProyecto.consultarProyectosAsociadosID(id);
+        }
+        public DataTable consultarInformacionDiseno(string proyecto)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarDisenoAsociadoAProyecto(proyecto);
+        }
+        internal DataTable consultarCasosPruebas(string idDiseño)
+        {
+            return controladoraBDCasosPrueba.consultarCasosDePruebaAsociadoADiseno(idDiseño);
+        }
+
+        internal DataTable consultarTodosLosProyectos()
+        {
+            controladoraProyecto = new ControladoraProyecto();
+            return controladoraProyecto.consultarTodosLosProyectos();
+        }
+
+        internal DataTable consultarNombreProyecto(string idProyecto)
+        {
+            controladoraProyecto = new ControladoraProyecto();
+            return controladoraProyecto.consultarNombreProyecto(idProyecto);
+        }
+
+        internal DataTable consultarCasoPruebas(string id_caso)
+        {
+            return controladoraBDCasosPrueba.consultarCasoPrueba(id_caso);
         }
 
 

@@ -331,7 +331,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarReqDisponibles(idProyecto,idDiseno);
         }
-
+        //...................................
+        public DataTable consultarDisenoAsociadoAProyecto(string proyecto)
+        {
+            return controladoraBDDiseno.consultarDisenoAsociadoAProyecto(proyecto);
+        }
 
 
 
