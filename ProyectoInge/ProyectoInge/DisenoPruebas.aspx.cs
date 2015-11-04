@@ -55,11 +55,8 @@ namespace ProyectoInge
                     llenarComboRecursos();
                     llenarGrid(Session["cedula"].ToString());
                 }
-               
-               
+                       
             }
-
-
             
          }
         /*Método para habilitar/deshabilitar el campo txt del calendario
@@ -80,21 +77,69 @@ namespace ProyectoInge
         */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            cambiarEnabled(false, this.btnInsertar);
+            cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnModificar);
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-            this.comboProyecto.Enabled = false;
+
+            this.proyectoAsociado(Int32.Parse(Session["idProyecto"].ToString()));
             llenarComboNivel();
-            llenarComboProyecto(Session["cedula"].ToString());
+            //llenarComboProyecto(Session["cedula"].ToString());
             llenarComboRecursos();
             llenarComboTecnica();
 
             modo = 2;
-            //habilitarCamposModificar();
+            habilitarCamposModificar();
             //llenarDropDownRol();
+        }
+
+        protected void proyectoAsociado(int id)
+        {
+            //idProyecto
+            llenarComboRecursos();
+            id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+            DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
+            string requerimiento = "";
+
+            requerimiento = "";
+            listReqProyecto.Items.Clear();
+            listReqAgregados.Items.Clear();
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+                listReqProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    listReqProyecto.Items.Add(requerimiento);
+
+                }
+            }
+
+            listReqProyecto.Items.Add("Todos los requerimientos");
+
+            UpdateAsociarDesasociarRequerimientos.Update();
+            proyectoUpdate.Update();
+        }
+
+        private void habilitarCamposModificar()
+        {
+            this.listReqAgregados.Enabled = true;
+            this.listReqProyecto.Enabled = true;
+            //this.lnkAgregarReq.Enabled = true;
+           // this.lnkQuitarReq.Enabled = true;
+            this.txtProposito.Enabled = true;
+            this.comboNivel.Enabled = true;
+            this.comboTecnica.Enabled = true;
+            this.txtAmbiente.Enabled = true;
+            this.txtProcedimiento.Enabled = true;
+            this.txtCriterios.Enabled = true;
+            this.comboResponsable.Enabled = true;
+            this.txtCalendar.Enabled = false;
+
+            this.calendarFecha.Enabled = true;
+            this.comboProyecto.Enabled = false;
         }
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -461,6 +506,7 @@ namespace ProyectoInge
         {
             llenarComboRecursos();
             int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+            Session["idProyecto"] = id;
             DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
             string requerimiento = "";
             
@@ -483,6 +529,9 @@ namespace ProyectoInge
            UpdateAsociarDesasociarRequerimientos.Update();
            proyectoUpdate.Update();
         }
+
+
+     
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
         protected void lnkCalendario_Click(object sender, EventArgs e)
@@ -520,7 +569,7 @@ namespace ProyectoInge
                 case 2:
                     {
 
-                         //btnAceptar_Modificar();
+                         btnAceptar_Modificar();
                     }
                     break;
                 case 3:
@@ -673,7 +722,7 @@ namespace ProyectoInge
                 lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-                //habilitarCamposModificar();
+                habilitarCamposModificar();
             }
             else
             {
@@ -966,6 +1015,7 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);
                     cambiarEnabled(true, this.btnInsertar);
+                    Session["idProyecto"] = idProyecto;
                     Session["idDiseñoS"] = idDiseño;
 
                     if (Session["perfil"].ToString().Equals("Administrador"))
