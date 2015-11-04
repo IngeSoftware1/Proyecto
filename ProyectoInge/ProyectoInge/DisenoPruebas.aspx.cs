@@ -85,24 +85,19 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
             llenarDatos(Session["idDiseñoS"].ToString());
             this.proyectoAsociado(Int32.Parse(Session["idProyecto"].ToString()));
-            llenarComboNivel();
-            //llenarComboProyecto(Session["cedula"].ToString());
+            llenarComboNivel();            
             llenarComboRecursos();
             llenarComboTecnica();
-
             modo = 2;
             habilitarCamposModificar();
-            //llenarDropDownRol();
         }
 
         protected void proyectoAsociado(int id)
         {
-            //idProyecto
             llenarComboRecursos();
             id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
             string requerimiento = "";
-
             requerimiento = "";
             listReqProyecto.Items.Clear();
             listReqAgregados.Items.Clear();
@@ -113,12 +108,9 @@ namespace ProyectoInge
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
                     listReqProyecto.Items.Add(requerimiento);
-
                 }
             }
-
             listReqProyecto.Items.Add("Todos los requerimientos");
-
             UpdateAsociarDesasociarRequerimientos.Update();
             proyectoUpdate.Update();
         }
@@ -127,8 +119,8 @@ namespace ProyectoInge
         {
             this.listReqAgregados.Enabled = true;
             this.listReqProyecto.Enabled = true;
-            //this.lnkAgregarReq.Enabled = true;
-           // this.lnkQuitarReq.Enabled = true;
+            this.lnkAgregarReq.Enabled = true;
+            this.lnkQuitarReq.Enabled = true;
             this.txtProposito.Enabled = true;
             this.comboNivel.Enabled = true;
             this.comboTecnica.Enabled = true;
@@ -137,7 +129,6 @@ namespace ProyectoInge
             this.txtCriterios.Enabled = true;
             this.comboResponsable.Enabled = true;
             this.txtCalendar.Enabled = false;
-
             this.calendarFecha.Enabled = true;
             this.comboProyecto.Enabled = false;
         }
