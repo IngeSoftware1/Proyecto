@@ -32,14 +32,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return a;
         }
 
-        public bool ejecutarAccion(int modo, object[] datosNuevos, int idCaso , string v2)
+        public bool ejecutarAccion(int modo, object[] datosNuevos, int idCaso, string v2)
         {
             Boolean resultado = false;
             switch (modo)
             {
                 case 1:
                     { // INSERTAR
-                   
+
                         EntidadCaso nuevo = new EntidadCaso(datosNuevos);
                         resultado = controladoraBDCasosPrueba.insertarCasoPrueba(nuevo);
                     }
@@ -90,28 +90,35 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDCasosPrueba.consultarIdCasoPrueba(identificador);
         }
-
-        //...............................
-        public DataTable consultarInformacionProyecto(string idRH)
+        /* Método para consultar casos de prueba asociados al diseno
+        * Requiere: el id del diseño 
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los casos de prueba asociados al diseño
+        */
+        public DataTable consultarCasosPruebas(string idDiseño)
         {
-            controladoraProyecto = new ControladoraProyecto();
-            return controladoraProyecto.consultarProyectosAsociadosIDNombre(idRH);
+            int idD = Int32.Parse(idDiseño);
+            return controladoraBDCasosPrueba.consultarCasosDePruebaAsociadoADiseno(idD);
         }
-
-        internal DataTable consultarCasosPruebas(string idDiseño)
-        {
-            return controladoraBDCasosPrueba.consultarCasosDePruebaAsociadoADiseno(idDiseño);
-        }
-
-        internal DataTable consultarNombreProyecto(string idProyecto)
+        /* Método para consultar los nombres de proyectos
+        * Requiere: el id del proyecto 
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los proyectos
+        */
+        public DataTable consultarNombreProyecto(string idProyecto)
         {
             controladoraProyecto = new ControladoraProyecto();
             return controladoraProyecto.consultarNombreProyecto(idProyecto);
         }
-
-        internal DataTable consultarCasoPruebas(string id_caso)
+        /* Método para consultar casos de prueba 
+        * Requiere: el id del caso 
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los casos de prueba 
+        */
+        public DataTable consultarCasoPruebas(string id_caso)
         {
-            return controladoraBDCasosPrueba.consultarCasoPrueba(id_caso);
+            int idC = Int32.Parse(id_caso);
+            return controladoraBDCasosPrueba.consultarCasoPrueba(idC);
         }
 
 

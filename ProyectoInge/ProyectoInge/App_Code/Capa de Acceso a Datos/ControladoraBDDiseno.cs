@@ -199,7 +199,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 if (nuevo.getTecnica == "Seleccione" && nuevo.getNivel == "Seleccione")
                 {
 
-                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + "null"  + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
+                    string modif = "UPDATE Proyecto SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + "null" + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseño ='" + identificador + "';";
                     return acceso.insertarDatos(modif);
                 }
 
@@ -224,7 +224,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 return false;
             }
-           
+
         }
         /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente
         * en los diseños que se encuentra asociado en caso de que el usuario sea un miembro
@@ -394,7 +394,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT *  FROM Requerimiento where id_req in (Select id_req From Requerimiento_Diseno WHERE id_proyecto = '"+ idProyecto + "'AND id_diseno='"+ idDiseño + "');" ;
+                consulta = "SELECT *  FROM Requerimiento where id_req in (Select id_req From Requerimiento_Diseno WHERE id_proyecto = '" + idProyecto + "'AND id_diseno='" + idDiseño + "');";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -405,9 +405,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-
-        //....................................
-        internal DataTable consultarDisenoAsociadoAProyecto(string idProyecto)
+        /* Método para consultar disenos asociados a un proyecto
+        * Requiere: el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los disenos asociados al proyecto
+        */
+        public DataTable consultarDisenoAsociadoAProyecto(int idProyecto)
         {
             DataTable dt = new DataTable();
             string consulta = "";
@@ -422,9 +425,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
-
-
-        internal bool eliminarRequerimientoDiseño(string sigla, int idProyecto)
+        /* Método para eliminar los requerimientos de diseno
+        * Requiere: el identificador de el requrimieto, el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos diseno
+        */
+        public bool eliminarRequerimientoDiseño(string sigla, int idProyecto)
         {
             try
             {

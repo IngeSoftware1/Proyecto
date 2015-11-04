@@ -156,29 +156,29 @@ namespace ProyectoInge
                 {
                     foreach (DataColumn column in Lideres.Columns)
                     {
-                       
-                            if (numColumna == 3)
-                            {
 
-                                cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
+                        if (numColumna == 3)
+                        {
 
-                            }
-                            else
-                            {
-                                nombre = nombre + " " + Lideres.Rows[i][column].ToString();
-                            }
+                            cedulasLideres.Add(nombre, Lideres.Rows[i][column].ToString());
 
-                            ++numColumna;
-                        
+                        }
+                        else
+                        {
+                            nombre = nombre + " " + Lideres.Rows[i][column].ToString();
+                        }
+
+                        ++numColumna;
+
                     }
 
-              
+
                     datos[indiceLideres] = nombre;
-                    ++indiceLideres;            
+                    ++indiceLideres;
                     numColumna = 0; //Contador para saber el número de columna actual.
                     nombre = "";
                 }
-                
+
                 this.comboLider.DataSource = datos;
                 this.comboLider.DataBind();
                 Session["vectorCedulasLideres"] = cedulasLideres; //Se le asocia a la variable global el diccionario con las cédulas de los líderes
@@ -197,7 +197,7 @@ namespace ProyectoInge
             string filaMiembro = "";
             int numColumna = 0;
             cedulasTodosMiembros.Clear();
-           
+
 
             if (datosMiembros.Rows.Count >= 1)
             {
@@ -342,7 +342,7 @@ namespace ProyectoInge
             this.lnkAgregarMiembros.Enabled = true;
             this.lnkAgregarRequerimientos.Enabled = true;
             this.lnkQuitarRequerimientos.Enabled = true;
-          
+
         }
         /*Método para preparar la ventana cuando quiera modificar
          * Requiere: No requiere parámetros
@@ -600,10 +600,10 @@ namespace ProyectoInge
                                 {
                                     int idProyecto = Int32.Parse(idP);
                                     guardarMiembros(idProyecto);
-                                    tipoModificacion=5;
-                                    modificarRequeriminetos(idProyecto,tipoModificacion);//Elimina los requerimientos
-                                    
-      
+                                    tipoModificacion = 5;
+                                    modificarRequeriminetos(idProyecto, tipoModificacion);//Elimina los requerimientos
+
+
                                     controlarCampos(false);
                                     //se carga la interfaz de nuevo
                                     cambiarEnabled(true, this.btnModificar);
@@ -627,8 +627,8 @@ namespace ProyectoInge
                                     lblModalBody.Text = "Proyecto modificado con éxito.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                     upModal.Update();
-                                    
-                                    
+
+
                                 }
                                 else
                                 {
@@ -675,8 +675,9 @@ namespace ProyectoInge
          * Modifica: ingresa y elimina de la base los requerimientos del proyecto
          * Retorna: no retorna ningún valor
          */
-        private void modificarRequeriminetos(int idProyecto,int tipoModif)
+        private void modificarRequeriminetos(int idProyecto, int tipoModif)
         {
+            Debug.Print("!!!!!!!!Modif Req ");
             string siglaBase = "";
             string nombreRequerimientoBase = "";
             string siglaLista = "";
@@ -692,35 +693,40 @@ namespace ProyectoInge
                     foreach (DataRow fila in tablaReq.Rows)//cada tupla de la base.
                     {
                         siglaBase = fila[0].ToString();
-                        nombreRequerimientoBase=fila[2].ToString();
+                        nombreRequerimientoBase = fila[2].ToString();
 
                         string itemList = listRequerimientosAgregados.Items[i].ToString();
-                        string baseAComparar = siglaBase+ " " + nombreRequerimientoBase;
+                        string baseAComparar = siglaBase + " " + nombreRequerimientoBase;
+                        Debug.Print("!!!!!!!!!!!!!!!!!" + itemList + ", " + baseAComparar);
                         if (itemList.Equals(baseAComparar) == true)//si es lo mismo hay coincidencia
                         {
+                            Debug.Print("!!!!!!!!Hubo coincidencia");
+
                             coincidencia++;
                         }
                     }
-                    if (coincidencia == 0)//No hubo ninguna coincidencia, por lo que eso que esta en la lista es nuevo  deberia meterlo a la base,
-                    {
-                       
-                        //Metalo a la base, lo de la lista
-                        int indiceReq = 0;
-                        siglaLista = "";
-                        nombreRequerimientoLista = "";
 
-                        while (indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
-                        {
-                            ++indiceReq;
-                        }
-                        siglaLista = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
-                        nombreRequerimientoLista = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                        Object[] datosRequerimiento = new Object[3];
-                        datosRequerimiento[0] = siglaLista;//nombre_oficina
-                        datosRequerimiento[1] = idProyecto;//nombre_rep
-                        datosRequerimiento[2] = nombreRequerimientoLista;//ape1_rep
-                        controladoraProyecto.ejecutarAccion(1, tipoModif, datosRequerimiento, "", "");//lo mando con 1 para que inserte, con 5 para que inserte requerimiento
+                }
+                if (coincidencia == 0)//No hubo ninguna coincidencia, por lo que eso que esta en la lista es nuevo  deberia meterlo a la base,
+                {
+                    Debug.Print("!!!!!!!!Meta a la base: ");
+                    //Metalo a la base, lo de la lista
+                    int indiceReq = 0;
+                    siglaLista = "";
+                    nombreRequerimientoLista = "";
+
+                    while (indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                    {
+                        ++indiceReq;
                     }
+                    siglaLista = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
+                    nombreRequerimientoLista = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                    Debug.Print(siglaLista + ", " + nombreRequerimientoLista);
+                    Object[] datosRequerimiento = new Object[3];
+                    datosRequerimiento[0] = siglaLista;//nombre_oficina
+                    datosRequerimiento[1] = idProyecto;//nombre_rep
+                    datosRequerimiento[2] = nombreRequerimientoLista;//ape1_rep
+                    controladoraProyecto.ejecutarAccion(1, tipoModif, datosRequerimiento, "", "");//lo mando con 1 para que inserte, con 5 para que inserte requerimiento
                     coincidencia = 0;
                 }
                 i++;
@@ -870,7 +876,7 @@ namespace ProyectoInge
                         lblModalBody.Text = "Nuevo proyecto creado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
-                   }
+                    }
                     //El proyecto no se pudo insertar bien por lo cual se borra la oficina usuaria con sus telefonos
                     else
                     {
@@ -978,7 +984,7 @@ namespace ProyectoInge
          */
         protected void btnAgregarRequerimiento(object sender, EventArgs e)
         {
-            if (txtIdReq.Text != "" && txtNombreReq.Text!="" )
+            if (txtIdReq.Text != "" && txtNombreReq.Text != "")
             {
                 listRequerimientosAgregados.Items.Add(txtIdReq.Text + " " + txtNombreReq.Text);
                 txtIdReq.Text = "";
@@ -1024,19 +1030,19 @@ namespace ProyectoInge
             while (i < listRequerimientosAgregados.Items.Count && listRequerimientosAgregados.Items[i].Text.Equals("") == false)
             {
                 ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
-               
+
                 /*Aqui hay que partir el listbox*/
 
                 indiceReq = 0;
                 sigla = "";
                 nombreRequerimiento = "";
 
-                while(indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ' )
+                while (indiceReq < listRequerimientosAgregados.Items[i].ToString().Count() && listRequerimientosAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
                 {
                     ++indiceReq;
                 }
                 sigla = listRequerimientosAgregados.Items[i].ToString().Substring(0, indiceReq);
-                nombreRequerimiento = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count()- indiceReq-1);
+                nombreRequerimiento = listRequerimientosAgregados.Items[i].ToString().Substring(indiceReq + 1, listRequerimientosAgregados.Items[i].ToString().Count() - indiceReq - 1);
 
                 //Objeto para guardar los requerimientos de un proyecto
                 Object[] nuevoRequerimiento = new Object[4];
@@ -1053,13 +1059,13 @@ namespace ProyectoInge
                 //La inserción de un nuevo requerimiento en la base de datos falló porque ya estaba en la base
                 else
                 {
-                   
+
                     lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "Este requerimiento ya se encuentra asociado al proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposInsertar();
-                    
+
                 }
 
                 i++;
@@ -1137,14 +1143,14 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtCalendar.Text == "" || this.txtnombreOficina.Text =="")
+            if (this.txtNombreProy.Text == "" || this.txtObjetivo.Text == "" || this.txtCalendar.Text == "" || this.txtnombreOficina.Text == "")
             {
                 resultado = true;
             }
             else
             {
                 resultado = false;
-            }         
+            }
 
             return resultado;
         }
@@ -1213,13 +1219,13 @@ namespace ProyectoInge
             idOficinaConsultda = Convert.ToString(controladoraProyecto.consultarOficinaProyecto(Int32.Parse(idProyectoConsultado)));
             if (perfil.Equals("Administrador"))
             {
-                
-                if ( controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("En ejecución") == false)
+
+                if (controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("En ejecución") == false)
                 {
 
                     if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                     {
-                       
+
                         lblModalTitle.Text = "ERROR";
                         lblModalBody.Text = "No se puede eliminar este proyecto.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1238,18 +1244,19 @@ namespace ProyectoInge
                 }
                 else
                 {
-					lblModalTitle.Text = "AVISO";
+                    lblModalTitle.Text = "AVISO";
                     lblModalBody.Text = "El proyecto está en ejecución.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();                }
-           
+                    upModal.Update();
+                }
+
             }
             else if (perfil.Equals("Miembro"))
             {
 
                 if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
                 {
-                    
+
                     lblModalTitle.Text = "ERROR";
                     lblModalBody.Text = "No se puede cancelar este proyecto.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1258,7 +1265,7 @@ namespace ProyectoInge
                 else
                 {
 
-                   
+
                     lblModalTitle.Text = " ";
                     lblModalBody.Text = "Proyecto cancelado con éxito.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1269,7 +1276,7 @@ namespace ProyectoInge
             }
             else
             {
-               
+
                 lblModalTitle.Text = "ERROR";
                 lblModalBody.Text = "No es posible eliminar el proyecto.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1312,7 +1319,7 @@ namespace ProyectoInge
             string nombreLider = "";
             DataTable lideres;
             nombreLideresConsultados.Clear();
-           
+
 
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
@@ -1329,21 +1336,21 @@ namespace ProyectoInge
                 {
                     foreach (DataColumn column in lideres.Columns)
                     {
-                      
-                            if (indiceColumna == 3)
-                            {
-                                nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
 
-                            }
-                            else
-                            {
-                                nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
-                            }
+                        if (indiceColumna == 3)
+                        {
+                            nombreLideresConsultados.Add(lideres.Rows[i][column].ToString(), nombreLider);
 
-                           ++indiceColumna;
-                        
-                         
-                        
+                        }
+                        else
+                        {
+                            nombreLider = nombreLider + " " + lideres.Rows[i][column].ToString();
+                        }
+
+                        ++indiceColumna;
+
+
+
                     }
 
                     indiceColumna = 0; //Contador para saber el número de columna actual.
@@ -1358,13 +1365,13 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in proyectos.Rows)
                     {
-                            datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString();
-                            datos[2] = fila[2].ToString();
-                            nombreLideresConsultados.TryGetValue(fila[3].ToString(), out lider);
-                            datos[3] = lider;
-                            dt.Rows.Add(datos);
-                        
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        nombreLideresConsultados.TryGetValue(fila[3].ToString(), out lider);
+                        datos[3] = lider;
+                        dt.Rows.Add(datos);
+
                     }
 
                     lider = "";
@@ -1423,7 +1430,7 @@ namespace ProyectoInge
                     {
 
                         foreach (DataRow fila in proyectos.Rows)
-                        {                      
+                        {
                             datos[0] = fila[0].ToString();
                             datos[1] = fila[1].ToString();
                             datos[2] = fila[2].ToString();

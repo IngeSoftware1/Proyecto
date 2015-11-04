@@ -39,7 +39,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 //id_caso no por que es un autonumérico ??
-                string insercion = "INSERT INTO Caso_Prueba ( identificador_caso, proposito_caso, flujo_central, entrada_datos, resultado_esperado, id_diseno) VALUES ('" + nuevo.getIdentificador_caso + "', '" + nuevo.getproposito_caso + "', '" + nuevo.getFlujo_central + "', '" + nuevo.getEntrada_datos+ "', '" + nuevo.getResultado_esperado + "', '" + nuevo.getId_diseno+"')";
+                string insercion = "INSERT INTO Caso_Prueba ( identificador_caso, proposito_caso, flujo_central, entrada_datos, resultado_esperado, id_diseno) VALUES ('" + nuevo.getIdentificador_caso + "', '" + nuevo.getproposito_caso + "', '" + nuevo.getFlujo_central + "', '" + nuevo.getEntrada_datos + "', '" + nuevo.getResultado_esperado + "', '" + nuevo.getId_diseno + "')";
 
                 resultado = acceso.insertarDatos(insercion);
 
@@ -64,7 +64,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 //id_caso no por que es un autonumérico ??
-                string insercion = "UPDATE Caso_Prueba SET identificador_caso = '" + modificado.getIdentificador_caso+ "', proposito_caso = '" + modificado.getproposito_caso + "', flujo_central = '" +modificado.getFlujo_central+ "', entrada_datos = '" +modificado.getEntrada_datos+ "', resultado_esperado = '"+modificado.getResultado_esperado + "', id_diseno = '" +modificado.getId_diseno+ "' WHERE id_caso = '" + idCaso + "'";
+                string insercion = "UPDATE Caso_Prueba SET identificador_caso = '" + modificado.getIdentificador_caso + "', proposito_caso = '" + modificado.getproposito_caso + "', flujo_central = '" + modificado.getFlujo_central + "', entrada_datos = '" + modificado.getEntrada_datos + "', resultado_esperado = '" + modificado.getResultado_esperado + "', id_diseno = '" + modificado.getId_diseno + "' WHERE id_caso = '" + idCaso + "'";
 
                 resultado = acceso.insertarDatos(insercion);
 
@@ -102,7 +102,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string borradoProyecto = "Delete from Caso_Prueba where id_caso='" + idCaso+ "';";
+                string borradoProyecto = "Delete from Caso_Prueba where id_caso='" + idCaso + "';";
                 acceso.eliminarDatos(borradoProyecto);
                 return true;
             }
@@ -111,8 +111,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
-        //..............
-        internal DataTable consultarCasosDePruebaAsociadoADiseno(string idDiseños)
+        /* Método para consultar casos de prueba asociados al diseno
+         * Requiere: el id del diseño 
+         * Modifica: no modifica datos
+         * Retorna: un DataTable que contiene los casos de prueba asociados al diseño
+         */
+        internal DataTable consultarCasosDePruebaAsociadoADiseno(int idDiseños)
         {
             DataTable dt = new DataTable();
             string consulta = "";
@@ -127,8 +131,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
-
-        internal DataTable consultarCasoPrueba(string idCaso)
+        /* Método para consultar casos de prueba 
+        * Requiere: el id del caso 
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los casos de prueba
+        */
+        internal DataTable consultarCasoPrueba(int idCaso)
         {
             DataTable dt = new DataTable();
             string consulta = "";

@@ -317,11 +317,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public bool eliminarDiseño(int idDiseño)
         {
             return controladoraBDDiseno.eliminarDiseño(idDiseño);
-
         }
 
-
-        /* Método para consultar requerimientos disponibles de un proyecto
+       /* Método para consultar requerimientos disponibles de un proyecto
        * Requiere: el id del proyecto
        * Modifica: no modifica datos
        * Retorna: un DataTable que contiene los requerimientos del proyecto
@@ -331,16 +329,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarReqDisponibles(idProyecto,idDiseno);
         }
-        //...................................
-        public DataTable consultarDisenoAsociadoAProyecto(string proyecto)
-        {
-            return controladoraBDDiseno.consultarDisenoAsociadoAProyecto(proyecto);
-        }
 
-
-
-
-        internal bool eliminarRequerimintoDiseno(string siglaBase, int idProyecto)
+        /* Método para eliminar los requerimientos de diseno
+        * Requiere: el identificador de el requrimieto, el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos diseno
+        */
+        public bool eliminarRequerimintoDiseno(string siglaBase, int idProyecto)
         {
             return controladoraBDDiseno.eliminarRequerimientoDiseño(siglaBase, idProyecto);
         }

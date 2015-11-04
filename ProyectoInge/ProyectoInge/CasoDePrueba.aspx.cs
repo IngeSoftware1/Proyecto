@@ -21,7 +21,6 @@ namespace ProyectoInge
         private static string idDisenoD;//Guarda el id del Diseño asociado al caso consultado
         private static string idProyectoD;//Guarda el id del Proyecto asociado al consultado
 
-
         /* Método para actualizar la interfaz de recursos humanos
          * Modifica: no modifica nada
          * Retorna: no retorna ningún valor */
@@ -30,7 +29,6 @@ namespace ProyectoInge
             if (Session["cedula"] == null)
             {
                 Response.Redirect("~/Login.aspx");
-
             }
 
             if (!IsPostBack)
@@ -45,9 +43,6 @@ namespace ProyectoInge
                 llenarGrid();
             }
         }
-
-
-
 
         /** Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
          * Requiere: recibe el evento cuando se presiona el botón para cerrar sesión.
@@ -165,7 +160,6 @@ namespace ProyectoInge
                         btnAceptar_Eliminar();
                     }
                     break;
-
             }
         }
 
@@ -360,8 +354,6 @@ namespace ProyectoInge
 
         protected void llenarDatosDiseno()
         {
-
-
             int idProyecto = 0;
             DataTable datosDiseno = controladoraCasoPruebas.consultarInformacionDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
             DataTable datosProyecto = controladoraCasoPruebas.consultarInformacionProyectoDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
@@ -426,7 +418,6 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
-
             int id = controladoraCasoPruebas.consultarIdCasoPrueba(txtIdentificador.Text);
 
             if (controladoraCasoPruebas.ejecutarAccion(3, null, id, "") == true)
@@ -451,8 +442,6 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
-
-
             //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
             /*  if (Session["perfil"].ToString().Equals("Administrador"))
               {
@@ -465,14 +454,12 @@ namespace ProyectoInge
                   llenarGrid(Session["cedula"].ToString());
               }
            */
-
         }
-        /*Método para llenar el grid con el registro del caso de prueba correspondiente al usuario del sistema en caso de que éste sea un miembro, o 
-        con todos los registros de los recursos humanos presentes en el sistema en caso de que el usuario sea el administrador.
-        * Requiere: Requiere la cédula del usuario que está utilizando el sistema en caso de que éste sea un miembro, sino se especifica el parámetro
-        como nulo para indicar que el usuario del sistema es el administrador.
-        * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora de manera 
-        que le sea visible al usuario del sistema los resultados. 
+
+        /*Método para llenar el grid con el registro del caso de prueba correspondiente al proyecto y diseno consultado en la etapa previa
+        * Requiere: Requiere el id del proyecto y el id del diseno
+        * Modifica: el valor de cada uno de los campos en la interfaz en el grid correspondientes a la consulta retornada por la clase controladora de manera 
+        * que le sea visible al usuario del sistema los resultados. 
         * Retorna: no retorna ningún valor
         */
         public void llenarGrid()
@@ -559,11 +546,11 @@ namespace ProyectoInge
             this.gridCasosPrueba.DataSource = dt;
             this.gridCasosPrueba.DataBind();
         }
-        /*Método para crear el DataTable donde se mostrará el o los registros de los recursos humanos del sistema según corresponda.
-      * Requiere: No requiere ningún parámetro.
-      * Modifica: el nombre de cada columna donde se le especifica el nombre que cada una de ellas tendrá. 
-      * Retorna: el DataTable creado. 
-      */
+        /*Método para crear el DataTable donde se mostrará el o los registros de los casos de prueba del sistema según corresponda.
+        * Requiere: No requiere ningún parámetro.
+        * Modifica: el nombre de cada columna donde se le especifica el nombre que cada una de ellas tendrá. 
+        * Retorna: el DataTable creado. 
+        */
         protected DataTable crearTablaCasosPrueba()
         {
             DataTable dt_casos = new DataTable();
@@ -592,8 +579,8 @@ namespace ProyectoInge
             return dt_casos;
         }
 
-        /*Método para llenar los capos de la interfaz con los resultados de la consulta.
-        * Requiere: La cédula del funcionario que se desea consultar.
+        /*Método para llenar los campos de la interfaz con los resultados de la consulta.
+        * Requiere: El id del caso que va a consultar
         * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
         * Retorna: No retorna ningún valor. 
         */
@@ -605,8 +592,6 @@ namespace ProyectoInge
                 DataTable casoPrueba = controladoraCasoPruebas.consultarCasoPruebas(id_caso);
                 if (casoPrueba != null)
                 {
-
-
                     idCasoConsultado = casoPrueba.Rows[0][0].ToString();
                     this.txtIdentificador.Text = casoPrueba.Rows[0][1].ToString();
                     this.txtProposito.Text = casoPrueba.Rows[0][2].ToString();
@@ -619,12 +604,15 @@ namespace ProyectoInge
 
 
         }
-
+        /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
+        * Modifica: el valor del la variable idCasoConsultado con el id del caso que se desea consultar y se realiza el llamado al 
+        * método llenarDatosCasos(idCasoConsultado) el cual llena los campos de la interfaz
+        * Retorna: no retorna ningún valor
+        */
         protected void gridCasosDePrueba_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "seleccionarCaso")
             {
-
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idCasoConsultado = lnkConsulta.CommandArgument;
                 Debug.Print("IDDD!!!!!!: " + idCasoConsultado);
