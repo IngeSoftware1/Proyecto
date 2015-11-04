@@ -589,14 +589,13 @@ namespace ProyectoInge
         
         }
 
-        /*Método para limpiar los textbox
+      /*Método para limpiar los textbox
       * Requiere: No requiere parámetros
       * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
       * Retorna: no retorna ningún valor
       */
         protected void vaciarCampos()
         {
-
             this.listReqAgregados.Items.Clear();
             this.listReqProyecto.Items.Clear();
             this.txtProposito.Text = "";
@@ -604,6 +603,10 @@ namespace ProyectoInge
             this.txtProcedimiento.Text = "";
             this.txtCriterios.Text = "";
             this.txtCalendar.Text = "";
+            this.comboNivel.Text = "";
+            this.comboTecnica.Text = "";
+            this.comboResponsable.Text = "";
+            this.comboProyecto.Text = "";
         }
 
 
@@ -1095,8 +1098,8 @@ namespace ProyectoInge
 
             vaciarCampos();
             controlarCampos(false);
-            cambiarEnabled(false, this.btnModificar);
-            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
         }
