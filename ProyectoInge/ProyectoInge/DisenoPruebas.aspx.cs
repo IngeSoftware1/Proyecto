@@ -16,7 +16,8 @@ namespace ProyectoInge
 
         ControladoraDiseno controladoraDiseno = new ControladoraDiseno();
         private string idProyectoConsultado;
-        private string idDiseñoConsultado;
+        private static string idDiseñoConsultado;
+
         Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
         private static int modo = 1; //1 insertar, 2 modificar, 3 eliminar
@@ -33,32 +34,32 @@ namespace ProyectoInge
             {
                 ponerNombreDeUsuarioLogueado();
                 controlarCampos(false);
-                cambiarEnabledTxtCalendar(false);	
+                cambiarEnabledTxtCalendar(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
                 cambiarEnabledManosReq(false, this.lnkAgregarReq);
                 cambiarEnabledManosReq(false, this.lnkQuitarReq);
-                cambiarEnabled(true, this.btnInsertar);  
+                cambiarEnabled(true, this.btnInsertar);
                 llenarComboNivel();
                 llenarComboTecnica();
                 if (Session["perfil"].ToString().Equals("Administrador"))
-                {                
+                {
                     llenarComboProyecto(null);
                     llenarComboRecursos();
                     llenarGrid(null);
                 }
                 else
-                {       
+                {
                     llenarComboProyecto(Session["cedula"].ToString());
                     llenarComboRecursos();
                     llenarGrid(Session["cedula"].ToString());
                 }
-                       
+
             }
-            
-         }
+
+        }
         /*Método para habilitar/deshabilitar el campo txt del calendario
       * Requiere: el booleano para la acción
       * Modifica: La propiedad enable del campo del calendario
@@ -68,7 +69,6 @@ namespace ProyectoInge
         {
             this.txtCalendar.Enabled = condicion;
         }
-
 
         /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
         * Requiere: object sender, EventArgs e
@@ -85,7 +85,7 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
             llenarDatos(Session["idDiseñoS"].ToString());
             this.proyectoAsociado(Int32.Parse(Session["idProyecto"].ToString()));
-            llenarComboNivel();            
+            llenarComboNivel();
             //llenarComboRecursos();
             llenarComboTecnica();
             modo = 2;
@@ -147,12 +147,10 @@ namespace ProyectoInge
             }
         }
 
-
-     
-       /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
-        * Modifica: el campo del rol de acuerdo al campo del perfil
-        * Retorna: no retorna ningún valor */
-        protected void  pruebaUnitariaSeleccionada(object sender, EventArgs e)
+        /* Método para habilitar el campo del rol en caso de que el perfil sea un miembro y para bloquearlo cuando no 
+         * Modifica: el campo del rol de acuerdo al campo del perfil
+         * Retorna: no retorna ningún valor */
+        protected void pruebaUnitariaSeleccionada(object sender, EventArgs e)
         {
             if (this.comboNivel.SelectedIndex != -1)
             {
@@ -169,16 +167,14 @@ namespace ProyectoInge
 
         }
 
-
         protected void responsableSeleccionado(object sender, EventArgs e)
         {
             if (this.comboResponsable.SelectedIndex != -1)
             {
-             //   comboResponsableUpdate.Update();
+                //   comboResponsableUpdate.Update();
             }
 
         }
-
 
         /*Método para habilitar/deshabilitar todos los campos y los botones + y -
         * Requiere: un booleano para saber si quiere habilitar o deshabilitar los botones y cajas de texto
@@ -201,7 +197,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = condicion;
             this.txtCalendar.Enabled = condicion;
 
-            this.calendarFecha.Enabled = condicion;           
+            this.calendarFecha.Enabled = condicion;
 
         }
 
@@ -240,30 +236,34 @@ namespace ProyectoInge
             int indiceProyecto = 1;
             int numColumna = 0;
 
-            
+
             this.listReqProyecto.Items.Clear();
 
-            if(cedulaUsuario==null){
+            if (cedulaUsuario == null)
+            {
 
                 nombresProyecto = controladoraDiseno.consultarNombresProyectos();
                 if (nombresProyecto != null && nombresProyecto.Rows.Count > 0)
                 {
                     numDatos = nombresProyecto.Rows.Count;
                 }
-            }else{
+            }
+            else
+            {
                 nombresProyecto = controladoraDiseno.consultarProyectosLider(cedulaUsuario);
-                if(nombresProyecto==null){
-                     nombresProyecto = controladoraDiseno.consultarProyectosDeUsuario(cedulaUsuario);
+                if (nombresProyecto == null)
+                {
+                    nombresProyecto = controladoraDiseno.consultarProyectosDeUsuario(cedulaUsuario);
                 }
 
                 numDatos = nombresProyecto.Rows.Count;
 
             }
-            
 
-            if (numDatos>0)
+
+            if (numDatos > 0)
             {
-                datos = new Object[numDatos+1];
+                datos = new Object[numDatos + 1];
 
                 for (int i = 0; i < numDatos; ++i)
                 {
@@ -273,9 +273,9 @@ namespace ProyectoInge
                         {
 
                             nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
-                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(),nombre);
-                       
-                            
+                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(), nombre);
+
+
                         }
                         else
                         {
@@ -308,8 +308,7 @@ namespace ProyectoInge
         /* Método para llenar el comboBox de los diferentes niveles de prueba que existen
        * Modifica: llena el comboBox con los datos obtenidos de la BD
        * Retorna: no retorna ningún valor */
-       
-            protected void llenarComboNivel()
+        protected void llenarComboNivel()
         {
             this.comboNivel.Items.Clear();
             DataTable Niveles = controladoraDiseno.consultarNiveles();
@@ -320,11 +319,11 @@ namespace ProyectoInge
             if (Niveles.Rows.Count >= 1)
             {
                 numDatos = Niveles.Rows.Count;
-                datos = new Object[numDatos+1];
+                datos = new Object[numDatos + 1];
 
                 for (int i = 0; i < Niveles.Rows.Count; ++i)
                 {
-                    datos[i+1] = Niveles.Rows[i][0].ToString();
+                    datos[i + 1] = Niveles.Rows[i][0].ToString();
                 }
 
                 datos[0] = "Seleccione";
@@ -332,175 +331,168 @@ namespace ProyectoInge
                 this.comboNivel.DataBind();
             }
 
-        
+
         }
 
+        /* Método para llenar el comboBox de los diferentes tecnicas de prueba que existen
+          * Modifica: llena el comboBox con los datos obtenidos de la BD
+          * Retorna: no retorna ningún valor */
+        protected void llenarComboTecnica()
+        {
+            DataTable Tecnicas = controladoraDiseno.consultarTecnicas();
+            int numDatos = Tecnicas.Rows.Count;
+            Object[] datos;
+            this.comboTecnica.Items.Clear();
 
 
-
-            /* Método para llenar el comboBox de los diferentes tecnicas de prueba que existen
-              * Modifica: llena el comboBox con los datos obtenidos de la BD
-              * Retorna: no retorna ningún valor */
-
-            protected void llenarComboTecnica()
+            if (Tecnicas.Rows.Count >= 1)
             {
-                DataTable Tecnicas = controladoraDiseno.consultarTecnicas();
-                int numDatos = Tecnicas.Rows.Count;
-                Object[] datos;
-                this.comboTecnica.Items.Clear();
+                numDatos = Tecnicas.Rows.Count;
+                datos = new Object[numDatos + 1];
 
-
-                if (Tecnicas.Rows.Count >= 1)
+                for (int i = 0; i < Tecnicas.Rows.Count; ++i)
                 {
-                    numDatos = Tecnicas.Rows.Count;
-                    datos = new Object[numDatos+1];
-
-                    for (int i = 0; i < Tecnicas.Rows.Count; ++i)
-                    {
-                        datos[i+1] = Tecnicas.Rows[i][0].ToString();
-                    }
-
-                    datos[0] = "Seleccione";
-                    this.comboTecnica.DataSource = datos;
-                    this.comboTecnica.DataBind();
+                    datos[i + 1] = Tecnicas.Rows[i][0].ToString();
                 }
 
-
+                datos[0] = "Seleccione";
+                this.comboTecnica.DataSource = datos;
+                this.comboTecnica.DataBind();
             }
 
 
-            /* Método para llenar el comboBox de los recursos
-              * Modifica: llena el comboBox con los datos obtenidos de la BD
-              * Retorna: no retorna ningún valor */
+        }
 
-            protected void llenarComboRecursos()
+        /* Método para llenar el comboBox de los recursos
+          * Modifica: llena el comboBox con los datos obtenidos de la BD
+          * Retorna: no retorna ningún valor */
+
+        protected void llenarComboRecursos()
+        {
+
+            Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
+            Dictionary<string, string> cedulasNombreRepresentantes = new Dictionary<string, string>();
+            int id = -1;
+            DataTable Recursos;
+            Object[] datos;
+            int numDatos = 0;
+
+
+            if (this.comboProyecto.Text.Equals("Seleccione") == false)
             {
 
-                Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
-                Dictionary<string, string> cedulasNombreRepresentantes= new Dictionary<string, string>();
-                int id = -1;
-                DataTable Recursos;
-                Object[] datos;
-                int numDatos = 0;
 
-                
-                if (this.comboProyecto.Text.Equals("Seleccione") == false)
+
+                id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
+                Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
+                numDatos = Recursos.Rows.Count;
+
+                string nombre = "";
+                int numColumna = 0;
+                int indiceResponsables = 1;
+                this.comboResponsable.Items.Clear();
+
+                if (Recursos.Rows.Count >= 1)
                 {
-
-
-
-                    id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
-                    Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                     numDatos = Recursos.Rows.Count;
+                    datos = new Object[numDatos + 2];
 
-                    string nombre = "";
-                    int numColumna = 0;
-                    int indiceResponsables = 1;
-                    this.comboResponsable.Items.Clear();
-
-                    if (Recursos.Rows.Count >= 1)
+                    for (int i = 0; i < Recursos.Rows.Count; ++i)
                     {
-                        numDatos = Recursos.Rows.Count;
-                        datos = new Object[numDatos + 2];
 
-                        for (int i = 0; i < Recursos.Rows.Count; ++i)
+
+                        foreach (DataColumn column in Recursos.Columns)
                         {
-
-
-                            foreach (DataColumn column in Recursos.Columns)
+                            if (numColumna == 4)
                             {
-                                if (numColumna == 4)
-                                {
 
-                                    cedulasRepresentantes.Add(nombre, Recursos.Rows[i][numColumna].ToString());
-                                    cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(), nombre);
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[i][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(), nombre);
 
-                                }
-                                else
-                                {
-                                    nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString();
-                                }
-
-                                ++numColumna;
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString();
                             }
 
-                            datos[indiceResponsables] = nombre;
-                            ++indiceResponsables;
-                            numColumna = 0;
-                            nombre = "";
-
+                            ++numColumna;
                         }
 
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
                         numColumna = 0;
-                        Recursos = controladoraDiseno.consultarLider(id);
+                        nombre = "";
 
-                        if (Recursos != null && Recursos.Rows.Count == 1)
+                    }
+
+                    numColumna = 0;
+                    Recursos = controladoraDiseno.consultarLider(id);
+
+                    if (Recursos != null && Recursos.Rows.Count == 1)
+                    {
+
+
+
+                        foreach (DataColumn column in Recursos.Columns)
                         {
-
-
-
-                            foreach (DataColumn column in Recursos.Columns)
+                            if (numColumna == 3)
                             {
-                                if (numColumna == 3)
-                                {
 
-                                    cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
-                                    cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
 
-                                }
-                                else
-                                {
-                                    nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
-                                }
-
-                                ++numColumna;
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
                             }
 
-                            datos[indiceResponsables] = nombre;
-                            ++indiceResponsables;
-                            nombre = "";
-
+                            ++numColumna;
                         }
 
-                        datos[0] = "Seleccione";
-                        this.comboResponsable.DataSource = datos;
-                        this.comboResponsable.DataBind();
-                        Session["vectorCedulasResponsables"] = cedulasRepresentantes;
-                        Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
-                    }
-                    else
-                    {
-                        datos = new Object[1];
-                        datos[0] = "Seleccione";
-                        this.comboResponsable.DataSource = datos;
-                        this.comboResponsable.DataBind();
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        nombre = "";
+
                     }
 
+                    datos[0] = "Seleccione";
+                    this.comboResponsable.DataSource = datos;
+                    this.comboResponsable.DataBind();
+                    Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                    Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                 }
                 else
                 {
-
                     datos = new Object[1];
                     datos[0] = "Seleccione";
                     this.comboResponsable.DataSource = datos;
                     this.comboResponsable.DataBind();
-
                 }
 
-                comboResponsableUpdate.Update();
-       
+            }
+            else
+            {
+
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboResponsable.DataSource = datos;
+                this.comboResponsable.DataBind();
+
             }
 
-         
+            comboResponsableUpdate.Update();
+
+        }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
             llenarComboRecursos();
             int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            llenarRequerimientosProyecto(id); 
+            llenarRequerimientosProyecto(id);
 
-           
+
         }
 
         //metodo para llenar requerimientos del proyecto
@@ -511,15 +503,15 @@ namespace ProyectoInge
             int contador = 0;
             requerimiento = "";
             listReqProyecto.Items.Clear();
-            
+
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 listReqProyecto.Items.Clear();
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    if (listReqAgregados.Items.FindByText(requerimiento)==null)
-                    {                       
+                    if (listReqAgregados.Items.FindByText(requerimiento) == null)
+                    {
                         listReqProyecto.Items.Add(requerimiento);
                         ++contador;
                     }
@@ -529,16 +521,13 @@ namespace ProyectoInge
 
             }
 
-            if (0 < contador )
+            if (0 < contador)
             {
                 listReqProyecto.Items.Add("Todos los requerimientos");
             }
             UpdateAsociarDesasociarRequerimientos.Update();
             proyectoUpdate.Update();
         }
-
-
-     
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
         protected void lnkCalendario_Click(object sender, EventArgs e)
@@ -555,7 +544,6 @@ namespace ProyectoInge
             txtCalendar.Text = calendarFecha.SelectedDate.ToString().Substring(0, 10);
             UpdatePanelCalendario.Update();
         }
-
 
         /*Método para que la página no se actualice cada vez que el usuario elige un nuevo mes */
         protected void cambioDeMes(object sender, MonthChangedEventArgs e)
@@ -576,24 +564,24 @@ namespace ProyectoInge
                 case 2:
                     {
 
-                         btnAceptar_Modificar();
+                        btnAceptar_Modificar();
                     }
                     break;
                 case 3:
                     {
-                       // btnAceptar_Eliminar();
+                        // btnAceptar_Eliminar();
                     }
                     break;
 
             }
-        
+
         }
 
-      /*Método para limpiar los textbox
-      * Requiere: No requiere parámetros
-      * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
-      * Retorna: no retorna ningún valor
-      */
+        /*Método para limpiar los textbox
+        * Requiere: No requiere parámetros
+        * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
+        * Retorna: no retorna ningún valor
+        */
         protected void vaciarCampos()
         {
             this.listReqAgregados.Items.Clear();
@@ -604,7 +592,6 @@ namespace ProyectoInge
             this.txtCriterios.Text = "";
             this.txtCalendar.Text = "";
         }
-
 
         /*
          * Método para poder indicar que se va a generar la operación de insertar.
@@ -623,7 +610,7 @@ namespace ProyectoInge
             {
                 llenarComboProyecto(Session["cedula"].ToString());
             }
-            
+
             llenarComboRecursos();
             llenarComboTecnica();
 
@@ -690,7 +677,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        } 
+        }
 
         /*
          * Método para poder desasociar un requerimiento a un diseño, el cambio se refleja en la base y en la interfaz
@@ -718,13 +705,12 @@ namespace ProyectoInge
        */
         private void btnAceptar_Modificar()
         {
-            int idDiseño /*= (int)Session["idDisenoS"]*/;
-            int tipoInsercion = 1;
-            bool insercion=false; 
-
+            Debug.Print("!!!!!!!!!!El id del diseño consultado: "+idDiseñoConsultado);
+            int idD = (Int32.Parse(idDiseñoConsultado));
+            int tipoModificacion = 1;
             if (faltanDatos())
             {
-                lblModalTitle.Text = " ";
+                lblModalTitle.Text = "Error";
                 lblModalBody.Text = "Para modificar un nuevo diseño de prueba debe completar todos los campos obligatorios.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
@@ -732,159 +718,112 @@ namespace ProyectoInge
             }
             else
             {
-                int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-                //Se crea el objeto para encapsular los datos de la interfaz para insertar oficina usuaria
-                Object[] datosNuevos = new Object[10];
-                datosNuevos[0] = this.txtProposito.Text;
-                datosNuevos[1] = this.txtCalendar.Text;
-                datosNuevos[2] = this.txtProcedimiento.Text;
-                datosNuevos[3] = this.txtAmbiente.Text;
-                datosNuevos[4] = this.txtCriterios.Text;
-                datosNuevos[5] = this.comboTecnica.Text;
-                datosNuevos[6] = this.comboNivel.Text;
-                //datosNuevos[7] = this.comboTipo.Text;
-                datosNuevos[7] = idProyecto;
-                datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
-
-                //eliminar requerimientos
-                if (listReqAgregados.Text != "")
+                Debug.Print("!!!!!!!!!!:" + listReqAgregados.Rows);
+                if (this.comboNivel.Text == "Seleccione" && listReqAgregados.Rows < 1) 
                 {
-                    if (controladoraDiseno.ejecutarAccion(3, 2, datosNuevos, 0, ""))
+                    lblModalTitle.Text = "Error";
+                    lblModalBody.Text = "Recurde que una diseño de pruebas debe tener al menos un requerimiento asociado.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                    habilitarCamposModificar();
+                }
+                else{
+                    if (this.comboNivel.Text == "Unitaria" && listReqAgregados.Rows > 1)
                     {
-                        lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Eliminados los requerimientos de diseño";
+                        lblModalTitle.Text = "Error";
+                        lblModalBody.Text = "Recurde que una prueba unitaria debe tener solamente un requerimiento asociado.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
-                    }
-                }
-            
-                //si el diseño de prueba se pudo modificar correctamente entra a este if
-
-                modo = 2;
-                tipoInsercion = 2;
-                if (controladoraDiseno.ejecutarAccion(modo, tipoInsercion, datosNuevos, 0, ""))
-                {
-                    //Se actualiza la tabla de requerimientos para asociarle el/los requerimientos a un diseño 
-                    int i = 0;
-                    int indiceReq = 0;
-                    string sigla = "";
-                    string nombreRequerimiento = "";
-                    if (this.comboNivel.Text == "Unitaria")
-                    {
-                        if (this.listReqAgregados.Items.Count > 1)
-                        {
-                            lblModalTitle.Text = " ";
-                            lblModalBody.Text = "Debe elegir un solo requerimiento para el nivel unitario.";
-                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                            idDiseño = (Int32.Parse(Session["idDiseñoS"].ToString()));
-
-                            if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
-                            {
-                            }
-                            upModal.Update();
-                            habilitarCamposInsertar();
-                            insercion = false;
-                        }
-                        else
-                        {
-                            indiceReq = 0;
-                            while (indiceReq < listReqAgregados.Items[0].ToString().Count() && listReqAgregados.Items[0].ToString().ElementAt(indiceReq) != ' ')
-                            {
-                                ++indiceReq;
-                            }
-                            sigla = listReqAgregados.Items[0].ToString().Substring(0, indiceReq);
-                            nombreRequerimiento = listReqAgregados.Items[0].ToString().Substring(indiceReq + 1, listReqAgregados.Items[0].ToString().Count() - indiceReq - 1);
-                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                            Object[] nuevoReqDiseño = new Object[3];
-                            nuevoReqDiseño[0] = idDiseño;
-                            nuevoReqDiseño[1] = sigla;
-                            nuevoReqDiseño[2] = idProyecto;
-                            tipoInsercion = 2;
-                            //Se actualizó un requerimiento
-                            if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
-                            {
-                            }
-                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
-                            else
-                            {
-                                insercion = false;
-                                lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No fue posible realizar la inserción de/los requerimientos.";
-                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                upModal.Update();
-                                habilitarCamposInsertar();
-                            }
-                        }
+                        habilitarCamposModificar();
                     }
                     else
                     {
-                        //Recorre el list de requerimientos agregados para el nivel de integracion, aceptacion y de sistema
-                        while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                        int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+                        Debug.Print("El id del proyecto: " + idProyecto);
+                        //Se crea el objeto para encapsular los datos de la interfaz para modificar el diseno
+                        Object[] datosDiseno = new Object[10];
+                        datosDiseno[0] = this.txtProposito.Text;
+                        datosDiseno[1] = this.txtCalendar.Text;
+                        datosDiseno[2] = this.txtProcedimiento.Text;
+                        datosDiseno[3] = this.txtAmbiente.Text;
+                        datosDiseno[4] = this.txtCriterios.Text;
+                        datosDiseno[5] = this.comboTecnica.Text;
+                        datosDiseno[6] = this.comboNivel.Text;
+                        datosDiseno[7] = idProyecto;
+                        string cedulaResponsable = obtenerCedula(this.comboResponsable.Text);
+                        Debug.Print("Cédula Responsable: " + cedulaResponsable);
+                        datosDiseno[8] = cedulaResponsable;
+                        //Todo Bien al parecer.
+
+                        //Se modifica la tabla Diseno_Pruebas
+                        if (controladoraDiseno.ejecutarAccion(modo, tipoModificacion, datosDiseno, idD, ""))
                         {
-                            indiceReq = 0;
-                            sigla = "";
-                            nombreRequerimiento = "";
-                            while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                            Debug.Print("Pudo modificar diseno");
+                            //Se elimina de la tabla de Requerimientos de Diseno_Pruebas
+                            if (listReqAgregados.Text != "")//Osea hay algo en el list, por lo tanto en la base
                             {
-                                ++indiceReq;
+                                //Eliminar los requerimientos actuales de la tabla
+                                if (controladoraDiseno.ejecutarAccion(3, 2, null, idD, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                                {
+                                    Debug.Print("Pudo eliminar los reqs");
+                                    //Ahora debería agregarlos de nuevo
+                                    int i =0;
+                                    int indiceReq;
+                                    string sigla="";
+                                    string nombreRequerimiento="";
+                                    while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                                    {
+                                        indiceReq = 0;
+                                        sigla = "";
+                                        nombreRequerimiento = "";
+                                        while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                                        {
+                                            ++indiceReq;
+                                        }
+                                        sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                                        nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                                        //idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                                        Object[] datosReqDiseño = new Object[3];
+                                        datosReqDiseño[0] = idDiseñoConsultado;
+                                        datosReqDiseño[1] = sigla;
+                                        datosReqDiseño[2] = idProyecto;
+
+                                        //Se actualizó un requerimiento
+                                        if (controladoraDiseno.ejecutarAccion(1, 2, datosReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                                        {
+                                            Debug.Print("Agregó un requerimiento");
+                                        }
+                                        i++;
+                                    }
+                                    //se carga la interfaz de nuevo
+                                    controlarCampos(false);
+                                    cambiarEnabled(true, this.btnModificar);
+                                    cambiarEnabled(true, this.btnEliminar);
+                                    cambiarEnabled(false, this.btnAceptar);
+                                    cambiarEnabled(false, this.btnCancelar);
+                                    cambiarEnabled(true, this.btnInsertar);
+                                    llenarGrid(null);
+                                }
+                                else
+                                {
+                                    lblModalTitle.Text = "Error";
+                                    lblModalBody.Text = "Eliminados los requerimientos de diseño";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
+                                }
                             }
-                            sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
-                            nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                            Object[] nuevoReqDiseño = new Object[3];
-                            nuevoReqDiseño[0] = idDiseño;
-                            nuevoReqDiseño[1] = sigla;
-                            nuevoReqDiseño[2] = idProyecto;
-                            tipoInsercion = 2;
-                            //Se actualizó un requerimiento
-                            if (controladoraDiseno.ejecutarAccion(2, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
-                            {
-                            }
-                            //La actualizó de un requerimiento falló porque el habían datos inválidos.
-                            else
-                            {
-                                insercion = false;
-                                lblModalTitle.Text = " ";
-                                lblModalBody.Text = "No fue posible realizar la modificación de/los requerimientos.";
-                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                upModal.Update();
-                                habilitarCamposInsertar();
-                             }
-                            i++;
+                        }
+                        else
+                        {
+                            lblModalTitle.Text = "Error";
+                            lblModalBody.Text = "No se pudo modificar el diseño de pruebas";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
                         }
                     }
-                    //se carga la interfaz de nuevo
-                    controlarCampos(false);
-                    cambiarEnabled(true, this.btnModificar);
-                    cambiarEnabled(true, this.btnEliminar);
-                    cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);
-                    cambiarEnabled(true, this.btnInsertar);
-                    llenarGrid(null);
-
-                    if (insercion == true)
-                    {
-                        lblModalTitle.Text = " ";
-                        lblModalBody.Text = "Diseño actualizado con éxito.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
-                    }
-
-                }
-                else
-                {
-
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "No fue posible realizar la modificación del diseño de prueba";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                    habilitarCamposInsertar();
-                }
-
-            }
+                 }           
+            }         
         }
-
-
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
       * Requiere: No requiere ningún parámetro
@@ -917,7 +856,7 @@ namespace ProyectoInge
                 datosNuevos[3] = this.txtAmbiente.Text;
                 datosNuevos[4] = this.txtCriterios.Text;
                 datosNuevos[5] = this.comboTecnica.Text;
-                datosNuevos[6] = this.comboNivel.Text; 
+                datosNuevos[6] = this.comboNivel.Text;
                 datosNuevos[7] = idProyecto;
                 datosNuevos[8] = obtenerCedula(this.comboResponsable.Text);
                 //si el diseño de prueba se pudo insertar correctamente entra a este if
@@ -946,7 +885,7 @@ namespace ProyectoInge
                         }
                         else if (this.listReqAgregados.Items.Count == 1)
                         {
-                       
+
                             indiceReq = 0;
                             while (indiceReq < listReqAgregados.Items[0].ToString().Count() && listReqAgregados.Items[0] != null)
                             {
@@ -994,7 +933,8 @@ namespace ProyectoInge
                     else
                     {
                         //Recorre el list de requerimientos agregados para el nivel de integracion, aceptacion y de sistema
-                        if (listReqAgregados.Items.Count > 0){
+                        if (listReqAgregados.Items.Count > 0)
+                        {
                             while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
                             {
                                 indiceReq = 0;
@@ -1029,7 +969,7 @@ namespace ProyectoInge
                                 }
                                 i++;
                             }
-                         }
+                        }
                     }
                     //se carga la interfaz de nuevo
                     controlarCampos(false);
@@ -1075,10 +1015,10 @@ namespace ProyectoInge
             }
         }
 
-       /* Requiere: No requiere ningún parámetro
-       * Modifica:Elimina un diseno de pruebas si es valido llevar acabo la acción
-       * Retorna: No retorna ningún valor
-       */
+        /* Requiere: No requiere ningún parámetro
+        * Modifica:Elimina un diseno de pruebas si es valido llevar acabo la acción
+        * Retorna: No retorna ningún valor
+        */
         protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
             string perfil = Session["perfil"].ToString();
@@ -1159,12 +1099,11 @@ namespace ProyectoInge
             boton.Enabled = condicion;
         }
 
-
-       /*Método que agrega al listbox de requerimeintos
-       * el/los requerientos(s) que el usuario escoge
-       * Modifica: listbox de requerimientos
-       * Retorna: no retorna ningún valor
-       */
+        /*Método que agrega al listbox de requerimeintos
+        * el/los requerientos(s) que el usuario escoge
+        * Modifica: listbox de requerimientos
+        * Retorna: no retorna ningún valor
+        */
         protected void btnAgregarRequerimiento(object sender, EventArgs e)
         {
 
@@ -1174,7 +1113,7 @@ namespace ProyectoInge
                 {
                     int contador = 0;
                     int cantidadRequerimientos = listReqProyecto.Items.Count;
-                    while (contador < cantidadRequerimientos-1)
+                    while (contador < cantidadRequerimientos - 1)
                     {
                         if (this.listReqProyecto.Items[0].ToString() == "Todos los requerimientos")
                         {
@@ -1199,19 +1138,19 @@ namespace ProyectoInge
 
             }
 
-       /*     if (modo == 1)
-            {
-                habilitarCamposInsertar();
-            }
-            else if (modo == 2)
-            {
+            /*     if (modo == 1)
+                 {
+                     habilitarCamposInsertar();
+                 }
+                 else if (modo == 2)
+                 {
 
-            } */
+                 } */
 
             UpdateAsociarDesasociarRequerimientos.Update();
         }
 
-       protected void btnAgregarRequerimientos(object sender, EventArgs e)
+        protected void btnAgregarRequerimientos(object sender, EventArgs e)
         {
             if (modo == 1 || modo == 2)
             {
@@ -1223,7 +1162,7 @@ namespace ProyectoInge
             }
 
             UpdateAsociarDesasociarRequerimientos.Update();
-        } 
+        }
 
         /*Método para habilitar los campos y botones cuando se debe seguir en la funcionalidad insertar
        * Requiere: no recibe parámetros
@@ -1242,7 +1181,6 @@ namespace ProyectoInge
             cambiarEnabled(true, this.btnCancelar);
 
         }
-
 
         /*Método para saber si hay cajas de texto que no tienen datos en su interior
        * Recibe: No recibe ningún parámetro
@@ -1264,7 +1202,6 @@ namespace ProyectoInge
 
             return resultado;
         }
-
 
         /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
        * Modifica: el valor del la variable idDiseño con el ID del diseño que se desea consultar.
@@ -1297,7 +1234,7 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnInsertar);
                 }
 
-                
+
                 //listMiembrosDisponibles.Items.Clear();
             }
 
@@ -1307,7 +1244,7 @@ namespace ProyectoInge
                 idDiseñoConsultado = linkConsultaCaso.CommandArgument;
                 Session["idDiseñoS"] = idDiseñoConsultado;
                 Response.Redirect("~/CasoDePrueba.aspx");
-                
+
             }
 
 
@@ -1327,7 +1264,6 @@ namespace ProyectoInge
             Response.Redirect("~/Login.aspx");
         }
 
-
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
       * Requiere: El identificador del diseño que se desea consultar.
       * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
@@ -1335,7 +1271,7 @@ namespace ProyectoInge
       */
         public void llenarDatos(string idDiseño)
         {
-            if (idDiseño != null && idDiseño.Equals("-") == false )
+            if (idDiseño != null && idDiseño.Equals("-") == false)
             {
                 string nombreRepresentante = "";
                 string nombre = "";
@@ -1401,15 +1337,15 @@ namespace ProyectoInge
                         this.comboResponsable.SelectedValue = representante.Value;
                     }
 
-                    
+
                     string requerimiento = "";
                     listReqAgregados.Items.Clear();
                     if (datosReqDiseno.Rows.Count >= 1)
                     {
-                        
+
                         for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
                         {
-                            
+
                             requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
                             listReqAgregados.Items.Add(requerimiento);
 
@@ -1419,21 +1355,15 @@ namespace ProyectoInge
 
                     llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
                 }
-                
-            }         
+
+            }
         }
 
-        
-
-
-     
-
-
-     /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
-      * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
-      * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
-      * Retorna: no retorna ningún valor
-      */
+        /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
+         * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
+         * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
+         * Retorna: no retorna ningún valor
+         */
         protected void llenarGrid(string idUsuario)
         {
             Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
@@ -1445,13 +1375,13 @@ namespace ProyectoInge
             int indiceColumna = 0;
             string nombreRepresentante = "";
             DataTable representantes;
-            
+
 
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos los recursos humanos del sistema
             {
                 //Se obtienen todos los proyectos pues el administrador es el usuario del sistema
-                
+
                 diseños = controladoraDiseno.consultarDisenos(null);
                 //Se obtienen todos los lideres del sistema
 
@@ -1465,9 +1395,9 @@ namespace ProyectoInge
 
                         if (indiceColumna == 3)
                         {
-                            if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString())==false)
+                            if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString()) == false)
                             {
-                             nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
+                                nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
                             }
                         }
                         else
@@ -1489,15 +1419,15 @@ namespace ProyectoInge
                 {
                     foreach (DataRow fila in diseños.Rows)
                     {
-                        
-                            datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString();
-                            datos[2] = fila[2].ToString();
-                            datos[3] = fila[3].ToString();
-                            nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                            datos[4] = representante;
-                            dt.Rows.Add(datos);
-                        
+
+                        datos[0] = fila[0].ToString();
+                        datos[1] = fila[1].ToString();
+                        datos[2] = fila[2].ToString();
+                        datos[3] = fila[3].ToString();
+                        nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                        datos[4] = representante;
+                        dt.Rows.Add(datos);
+
                     }
                     representante = "";
                 }
@@ -1515,7 +1445,7 @@ namespace ProyectoInge
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
 
-               
+
                 idProyectos = controladoraDiseno.consultarProyectosAsociados(idUsuario);
 
                 representantes = controladoraDiseno.consultarRepresentantesDisenos();
@@ -1547,14 +1477,14 @@ namespace ProyectoInge
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
 
 
-   
-                
+
+
                 if (idProyectos.Rows.Count > 0)
                 {
 
 
-              
-                    
+
+
                     //Se obtiene un DataTable con los datos del o los proyectos 
                     diseños = controladoraDiseno.consultarDisenos(idProyectos);
 
@@ -1564,15 +1494,15 @@ namespace ProyectoInge
 
                         foreach (DataRow fila in diseños.Rows)
                         {
-                            
-                                datos[0] = fila[0].ToString();
-                                datos[1] = fila[1].ToString();
-                                datos[2] = fila[2].ToString();
-                                datos[3] = fila[3].ToString();
-                                nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                                datos[4] = representante;
-                                dt.Rows.Add(datos);
-                            
+
+                            datos[0] = fila[0].ToString();
+                            datos[1] = fila[1].ToString();
+                            datos[2] = fila[2].ToString();
+                            datos[3] = fila[3].ToString();
+                            nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                            datos[4] = representante;
+                            dt.Rows.Add(datos);
+
 
                         }
 
@@ -1596,7 +1526,7 @@ namespace ProyectoInge
                     datos[3] = "-";
                     datos[4] = "-";
 
-     
+
                     dt.Rows.Add(datos);
                 }
 
@@ -1604,9 +1534,8 @@ namespace ProyectoInge
 
             this.gridDisenos.DataSource = dt;
             this.gridDisenos.DataBind();
-            
-        }
 
+        }
 
         /*Método para crear el DataTable donde se mostrará el o los registros de los proyectos del sistema según corresponda.
       * Requiere: No requiere ningún parámetro.
@@ -1650,7 +1579,6 @@ namespace ProyectoInge
             return dt;
         }
 
-
         /*Método para obtener la cédula de un miembro a partir del nombre
         * Requiere: nombre
         * Modifica: el valor de la cédula solicitada.
@@ -1660,15 +1588,15 @@ namespace ProyectoInge
         {
             string cedula = "";
 
-                Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasResponsables"];
+            Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasResponsables"];
 
-                if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
-                {
-                    lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "Nombre del miembro es inválido.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
+            if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "Nombre del miembro es inválido.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
 
             return cedula;
 
@@ -1694,9 +1622,7 @@ namespace ProyectoInge
             }
             return requerimientos;
         }
-
-
-
+        
         /*Método para obtener id del proyecto con nombre
         * Requiere: nombre
         * Modifica: no genera modificaciones
@@ -1719,8 +1645,6 @@ namespace ProyectoInge
             return idProyecto;
 
         }
-
-
 
     }
 }

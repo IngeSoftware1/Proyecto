@@ -223,14 +223,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                         if (accion == 1)
                         {
-                            EntidadRequerimientoDiseño entReqD = new EntidadRequerimientoDiseño(datos);
-                            return controladoraBDDiseno.modificarRequerimientosDiseño(entReqD, datos);
+                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
+                            
+                            return controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
+                            //Debug.Print("!!!!!!!!!!!");
+                            //Debug.Print(r);
+                            //return true;
+
                         }
                         else if (accion == 2)
                         {
-
-                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
-                            resultado = controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
+                            EntidadRequerimientoDiseño entReqD = new EntidadRequerimientoDiseño(datos);
+                            return controladoraBDDiseno.modificarRequerimientosDiseño(entReqD, datos);
                         }
                     }
                     break;
