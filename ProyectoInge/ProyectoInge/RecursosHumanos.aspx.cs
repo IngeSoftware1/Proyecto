@@ -208,8 +208,6 @@ namespace ProyectoInge
 
             habilitarCamposModificar();
             llenarDropDownRol();
-
-
         }
 
 
@@ -267,8 +265,8 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            cambiarEnabled(false, this.btnInsertar);
-            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
@@ -378,8 +376,21 @@ namespace ProyectoInge
             {
                 habilitarCamposModificar();
             }
+            /*else if (modo == 3)
+            {
+                habilitarCamposEliminar();
+            }*/
 
             Update_Telefonos.Update();
+        }
+
+        private void habilitarCamposCancelarEliminar()
+        {
+            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(true, this.btnEliminar);
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
         }
 
         /*Método para la acción de eliminar telefonos del listbox
@@ -422,7 +433,10 @@ namespace ProyectoInge
             this.listTelefonos.Items.Clear();
         }
 
-
+        protected void btnCancelar_Eliminar(object sender, EventArgs e)
+        {
+            habilitarCamposCancelarEliminar();
+        }
         /*Método para la acción de aceptar cuando esta en modo de inserción
          * Requiere: No requiere ningún parámetro
          * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
@@ -875,9 +889,6 @@ namespace ProyectoInge
                 upModal.Update();
             }
         }
-
-
-
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
         *Requiere: nada
