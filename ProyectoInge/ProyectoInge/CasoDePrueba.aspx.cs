@@ -438,22 +438,13 @@ namespace ProyectoInge
             vaciarCampos();
 
             controlarCampos(false);
+    
             cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
-            //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
-            /*  if (Session["perfil"].ToString().Equals("Administrador"))
-              {
-                  cambiarEnabled(true, this.btnInsertar);
-                  llenarGrid(null);
-              }
-              else
-              {
-                  cambiarEnabled(false, this.btnInsertar);
-                  llenarGrid(Session["cedula"].ToString());
-              }
-           */
+            llenarGrid();
+    
         }
 
         /*Método para llenar el grid con el registro del caso de prueba correspondiente al proyecto y diseno consultado en la etapa previa

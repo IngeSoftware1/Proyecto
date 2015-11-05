@@ -81,12 +81,13 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public int consultarIdCasoPrueba(string identificador)
         {
             int resultado = -1;
-
+            DataTable datos;
             try
             {
                 //id_caso no por que es un autonumérico ??
                 string consulta = "SELECT id_caso FROM Caso_Prueba WHERE identificador_caso ='" + identificador + "';";
-                resultado = Int32.Parse(acceso.ejecutarConsulta(consulta).ToString());
+                datos = acceso.ejecutarConsultaTabla(consulta);
+                resultado = Int32.Parse(datos.Rows[0][0].ToString());
 
             }
             catch (SqlException e)
