@@ -192,7 +192,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra modificar el diseño
         */
-        public bool modificarDiseño(EntidadDiseno nuevo, int identificador)
+        public string modificarDiseño(EntidadDiseno nuevo, int identificador)
         {
             string consulta = "";
             bool resultado = false;
@@ -200,17 +200,17 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 if (nuevo.getTecnica == "Seleccione" && nuevo.getNivel == "Seleccione")
                 {
-                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + "null" + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
+                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = " + "null" + ", nivel = " + "null" + ", id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
                     resultado = acceso.insertarDatos(consulta);
                 }
                 else if (nuevo.getNivel == "Seleccione")
                 {
-                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = '" + "null" + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
+                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = " + "null" + ", id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
                     resultado = acceso.insertarDatos(consulta);
                 }
                 else if (nuevo.getTecnica == "Seleccione")
                 {
-                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + "null" + "', nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
+                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = " + "null" + ", nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
                     resultado = acceso.insertarDatos(consulta);
                 }
                 else
@@ -221,9 +221,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             catch (SqlException e)
             {
-                return false;
+                return "";
             }
-            return resultado;
+            return consulta;
 
         }
         /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente

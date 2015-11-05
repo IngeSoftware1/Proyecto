@@ -97,20 +97,6 @@ namespace ProyectoInge
             llenarComboRecursos();
             id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             DataTable datosReqProyecto = controladoraDiseno.consultarReqProyecto(id);
-            string requerimiento = "";
-            requerimiento = "";
-            listReqProyecto.Items.Clear();
-            listReqAgregados.Items.Clear();
-            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
-            {
-                listReqProyecto.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    listReqProyecto.Items.Add(requerimiento);
-                }
-            }
-            listReqProyecto.Items.Add("Todos los requerimientos");
             UpdateAsociarDesasociarRequerimientos.Update();
             proyectoUpdate.Update();
         }
@@ -750,59 +736,58 @@ namespace ProyectoInge
                     {
                         Debug.Print("Pudo modificar diseno");
                         //Se elimina de la tabla de Requerimientos de Diseno_Pruebas
-                        if (listReqAgregados.Text != "")//Osea hay algo en el list, por lo tanto en la base
+
+                        //Eliminar los requerimientos actuales de la tabla
+
+                        if (controladoraDiseno.ejecutarAccion(3, 2, null, idD, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
                         {
-                            //Eliminar los requerimientos actuales de la tabla
-
-                            if (controladoraDiseno.ejecutarAccion(3, 2, null, idD, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                            Debug.Print("Pudo eliminar los reqs");
+                            //Ahora debería agregarlos de nuevo
+                            int i = 0;
+                            int indiceReq;
+                            string sigla = "";
+                            string nombreRequerimiento = "";
+                            while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
                             {
-                                Debug.Print("Pudo eliminar los reqs");
-                                //Ahora debería agregarlos de nuevo
-                                int i = 0;
-                                int indiceReq;
-                                string sigla = "";
-                                string nombreRequerimiento = "";
-                                while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                                indiceReq = 0;
+                                sigla = "";
+                                nombreRequerimiento = "";
+                                while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
                                 {
-                                    indiceReq = 0;
-                                    sigla = "";
-                                    nombreRequerimiento = "";
-                                    while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
-                                    {
-                                        ++indiceReq;
-                                    }
-                                    sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
-                                    nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                                    //idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                                    Object[] datosReqDiseño = new Object[3];
-                                    datosReqDiseño[0] = idDiseñoConsultado;
-                                    datosReqDiseño[1] = sigla;
-                                    datosReqDiseño[2] = idProyecto;
-
-                                    //Se actualizó un requerimiento
-                                    if (controladoraDiseno.ejecutarAccion(1, 2, datosReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
-                                    {
-                                        Debug.Print("Agregó un requerimiento");
-                                    }
-                                    i++;
+                                    ++indiceReq;
                                 }
-                                //se carga la interfaz de nuevo
-                                controlarCampos(false);
-                                cambiarEnabled(true, this.btnModificar);
-                                cambiarEnabled(true, this.btnEliminar);
-                                cambiarEnabled(false, this.btnAceptar);
-                                cambiarEnabled(false, this.btnCancelar);
-                                cambiarEnabled(true, this.btnInsertar);
-                                llenarGrid(null);
+                                sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                                nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                                //idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                                Object[] datosReqDiseño = new Object[3];
+                                datosReqDiseño[0] = idDiseñoConsultado;
+                                datosReqDiseño[1] = sigla;
+                                datosReqDiseño[2] = idProyecto;
+
+                                //Se actualizó un requerimiento
+                                if (controladoraDiseno.ejecutarAccion(1, 2, datosReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                                {
+                                    Debug.Print("Agregó un requerimiento");
+                                }
+                                i++;
                             }
-                            else
-                            {
-                                lblModalTitle.Text = "Error";
-                                lblModalBody.Text = "Eliminados los requerimientos de diseño";
-                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                upModal.Update();
-                            }
+                            //se carga la interfaz de nuevo
+                            controlarCampos(false);
+                            cambiarEnabled(true, this.btnModificar);
+                            cambiarEnabled(true, this.btnEliminar);
+                            cambiarEnabled(false, this.btnAceptar);
+                            cambiarEnabled(false, this.btnCancelar);
+                            cambiarEnabled(true, this.btnInsertar);
+                            llenarGrid(null);
                         }
+                        else
+                        {
+                            lblModalTitle.Text = "Error";
+                            lblModalBody.Text = "Eliminados los requerimientos de diseño";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                        }
+
                     }
                     else
                     {

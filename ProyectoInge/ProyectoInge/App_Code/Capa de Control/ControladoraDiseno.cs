@@ -225,10 +225,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         {
                             EntidadDiseno entDiseño = new EntidadDiseno(datos);
                             
-                            return controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
-                            //Debug.Print("!!!!!!!!!!!");
-                            //Debug.Print(r);
-                            //return true;
+                            string r= controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
+                            Debug.Print("!!!!!!!!!!!");
+                            Debug.Print(r);
+                            return true;
 
                         }
                         else if (accion == 2)
