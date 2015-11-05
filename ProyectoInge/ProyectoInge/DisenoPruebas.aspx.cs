@@ -707,7 +707,7 @@ namespace ProyectoInge
                 if (this.comboNivel.Text == "Unitaria" && listReqAgregados.Items.Count != 1)
                 {
                     lblModalTitle.Text = "Error";
-                    lblModalBody.Text = "Recurde que una prueba unitaria debe tener solamente un requerimiento asociado.";
+                    lblModalBody.Text = "Recurde que una prueba unitaria está asociada a un solo un requerimiento.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposModificar();
@@ -779,10 +779,14 @@ namespace ProyectoInge
                             cambiarEnabled(false, this.btnCancelar);
                             cambiarEnabled(true, this.btnInsertar);
                             llenarGrid(null);
+                            lblModalTitle.Text = "";
+                            lblModalBody.Text = "Se modificó el diseño de pruebas";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
                         }
                         else
                         {
-                            lblModalTitle.Text = "Error";
+                            lblModalTitle.Text = "";
                             lblModalBody.Text = "Eliminados los requerimientos de diseño";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                             upModal.Update();
@@ -791,7 +795,7 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        lblModalTitle.Text = "Error";
+                        lblModalTitle.Text = "";
                         lblModalBody.Text = "No se pudo modificar el diseño de pruebas";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
