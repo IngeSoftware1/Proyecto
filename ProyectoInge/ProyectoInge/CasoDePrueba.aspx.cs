@@ -579,6 +579,7 @@ namespace ProyectoInge
         {
             if (id_caso != null && id_caso.Equals("-") == false)
             {
+                Debug.Print("!!!!!!!!!!!id caso: "+id_caso);
                 //consulta = "SELECT C.id_caso, C.identificador_caso, C.proposito_caso, C.flujo_central, C.entrada_datos, C.resultado_esperado FROM Caso_Prueba C WHERE C.identificador_caso ='" + idCaso + "';";
                 DataTable casoPrueba = controladoraCasoPruebas.consultarCasoPruebas(id_caso);
                 if (casoPrueba != null)

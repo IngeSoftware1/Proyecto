@@ -137,7 +137,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: no modifica datos
         * Retorna: un DataTable que contiene los casos de prueba
         */
-        internal DataTable consultarCasoPrueba(int idCaso)
+        internal DataTable consultarCasoPrueba(string idCaso)
         {
             DataTable dt = new DataTable();
             string consulta = "";

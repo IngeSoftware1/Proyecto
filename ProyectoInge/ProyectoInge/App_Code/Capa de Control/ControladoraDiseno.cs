@@ -246,7 +246,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                         }
                         else if (accion == 2)//Eliminar requerimiento diseño
                         {
-                            resultado = controladoraBDDiseno.eliminarRequerimientoDiseño(datos);
+                            resultado = controladoraBDDiseno.eliminarRequerimientoDiseño(identificador);
                         }
                     }
                     break;

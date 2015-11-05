@@ -705,7 +705,7 @@ namespace ProyectoInge
        */
         private void btnAceptar_Modificar()
         {
-            Debug.Print("!!!!!!!!!!El id del diseño consultado: "+idDiseñoConsultado);
+            Debug.Print("!!!!!!!!!!El id del diseño consultado: " + idDiseñoConsultado);
             int idD = (Int32.Parse(idDiseñoConsultado));
             int tipoModificacion = 1;
             if (faltanDatos())
@@ -718,111 +718,102 @@ namespace ProyectoInge
             }
             else
             {
-                Debug.Print("!!!!!!!!!!:" + listReqAgregados.Rows);
-                if (this.comboNivel.Text == "Seleccione" && listReqAgregados.Rows < 1) 
+                if (this.comboNivel.Text == "Unitaria" && listReqAgregados.Items.Count != 1)
                 {
                     lblModalTitle.Text = "Error";
-                    lblModalBody.Text = "Recurde que una diseño de pruebas debe tener al menos un requerimiento asociado.";
+                    lblModalBody.Text = "Recurde que una prueba unitaria debe tener solamente un requerimiento asociado.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                     habilitarCamposModificar();
                 }
-                else{
-                    if (this.comboNivel.Text == "Unitaria" && listReqAgregados.Rows > 1)
+                else
+                {
+                    int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+                    Debug.Print("El id del proyecto: " + idProyecto);
+                    //Se crea el objeto para encapsular los datos de la interfaz para modificar el diseno
+                    Object[] datosDiseno = new Object[10];
+                    datosDiseno[0] = this.txtProposito.Text;
+                    datosDiseno[1] = this.txtCalendar.Text;
+                    datosDiseno[2] = this.txtProcedimiento.Text;
+                    datosDiseno[3] = this.txtAmbiente.Text;
+                    datosDiseno[4] = this.txtCriterios.Text;
+                    datosDiseno[5] = this.comboTecnica.Text;
+                    datosDiseno[6] = this.comboNivel.Text;
+                    datosDiseno[7] = idProyecto;
+                    string cedulaResponsable = obtenerCedula(this.comboResponsable.Text);
+                    Debug.Print("Cédula Responsable: " + cedulaResponsable);
+                    datosDiseno[8] = cedulaResponsable;
+                    //Todo Bien al parecer.
+
+                    //Se modifica la tabla Diseno_Pruebas
+                    if (controladoraDiseno.ejecutarAccion(modo, tipoModificacion, datosDiseno, idD, ""))
                     {
-                        lblModalTitle.Text = "Error";
-                        lblModalBody.Text = "Recurde que una prueba unitaria debe tener solamente un requerimiento asociado.";
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                        upModal.Update();
-                        habilitarCamposModificar();
+                        Debug.Print("Pudo modificar diseno");
+                        //Se elimina de la tabla de Requerimientos de Diseno_Pruebas
+                        if (listReqAgregados.Text != "")//Osea hay algo en el list, por lo tanto en la base
+                        {
+                            //Eliminar los requerimientos actuales de la tabla
+
+                            if (controladoraDiseno.ejecutarAccion(3, 2, null, idD, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                            {
+                                Debug.Print("Pudo eliminar los reqs");
+                                //Ahora debería agregarlos de nuevo
+                                int i = 0;
+                                int indiceReq;
+                                string sigla = "";
+                                string nombreRequerimiento = "";
+                                while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                                {
+                                    indiceReq = 0;
+                                    sigla = "";
+                                    nombreRequerimiento = "";
+                                    while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                                    {
+                                        ++indiceReq;
+                                    }
+                                    sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                                    nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                                    //idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                                    Object[] datosReqDiseño = new Object[3];
+                                    datosReqDiseño[0] = idDiseñoConsultado;
+                                    datosReqDiseño[1] = sigla;
+                                    datosReqDiseño[2] = idProyecto;
+
+                                    //Se actualizó un requerimiento
+                                    if (controladoraDiseno.ejecutarAccion(1, 2, datosReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                                    {
+                                        Debug.Print("Agregó un requerimiento");
+                                    }
+                                    i++;
+                                }
+                                //se carga la interfaz de nuevo
+                                controlarCampos(false);
+                                cambiarEnabled(true, this.btnModificar);
+                                cambiarEnabled(true, this.btnEliminar);
+                                cambiarEnabled(false, this.btnAceptar);
+                                cambiarEnabled(false, this.btnCancelar);
+                                cambiarEnabled(true, this.btnInsertar);
+                                llenarGrid(null);
+                            }
+                            else
+                            {
+                                lblModalTitle.Text = "Error";
+                                lblModalBody.Text = "Eliminados los requerimientos de diseño";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                upModal.Update();
+                            }
+                        }
                     }
                     else
                     {
-                        int idProyecto = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
-                        Debug.Print("El id del proyecto: " + idProyecto);
-                        //Se crea el objeto para encapsular los datos de la interfaz para modificar el diseno
-                        Object[] datosDiseno = new Object[10];
-                        datosDiseno[0] = this.txtProposito.Text;
-                        datosDiseno[1] = this.txtCalendar.Text;
-                        datosDiseno[2] = this.txtProcedimiento.Text;
-                        datosDiseno[3] = this.txtAmbiente.Text;
-                        datosDiseno[4] = this.txtCriterios.Text;
-                        datosDiseno[5] = this.comboTecnica.Text;
-                        datosDiseno[6] = this.comboNivel.Text;
-                        datosDiseno[7] = idProyecto;
-                        string cedulaResponsable = obtenerCedula(this.comboResponsable.Text);
-                        Debug.Print("Cédula Responsable: " + cedulaResponsable);
-                        datosDiseno[8] = cedulaResponsable;
-                        //Todo Bien al parecer.
-
-                        //Se modifica la tabla Diseno_Pruebas
-                        if (controladoraDiseno.ejecutarAccion(modo, tipoModificacion, datosDiseno, idD, ""))
-                        {
-                            Debug.Print("Pudo modificar diseno");
-                            //Se elimina de la tabla de Requerimientos de Diseno_Pruebas
-                            if (listReqAgregados.Text != "")//Osea hay algo en el list, por lo tanto en la base
-                            {
-                                //Eliminar los requerimientos actuales de la tabla
-                                if (controladoraDiseno.ejecutarAccion(3, 2, null, idD, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
-                                {
-                                    Debug.Print("Pudo eliminar los reqs");
-                                    //Ahora debería agregarlos de nuevo
-                                    int i =0;
-                                    int indiceReq;
-                                    string sigla="";
-                                    string nombreRequerimiento="";
-                                    while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
-                                    {
-                                        indiceReq = 0;
-                                        sigla = "";
-                                        nombreRequerimiento = "";
-                                        while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
-                                        {
-                                            ++indiceReq;
-                                        }
-                                        sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
-                                        nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
-                                        //idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
-                                        Object[] datosReqDiseño = new Object[3];
-                                        datosReqDiseño[0] = idDiseñoConsultado;
-                                        datosReqDiseño[1] = sigla;
-                                        datosReqDiseño[2] = idProyecto;
-
-                                        //Se actualizó un requerimiento
-                                        if (controladoraDiseno.ejecutarAccion(1, 2, datosReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
-                                        {
-                                            Debug.Print("Agregó un requerimiento");
-                                        }
-                                        i++;
-                                    }
-                                    //se carga la interfaz de nuevo
-                                    controlarCampos(false);
-                                    cambiarEnabled(true, this.btnModificar);
-                                    cambiarEnabled(true, this.btnEliminar);
-                                    cambiarEnabled(false, this.btnAceptar);
-                                    cambiarEnabled(false, this.btnCancelar);
-                                    cambiarEnabled(true, this.btnInsertar);
-                                    llenarGrid(null);
-                                }
-                                else
-                                {
-                                    lblModalTitle.Text = "Error";
-                                    lblModalBody.Text = "Eliminados los requerimientos de diseño";
-                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                                    upModal.Update();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            lblModalTitle.Text = "Error";
-                            lblModalBody.Text = "No se pudo modificar el diseño de pruebas";
-                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                            upModal.Update();
-                        }
+                        lblModalTitle.Text = "Error";
+                        lblModalBody.Text = "No se pudo modificar el diseño de pruebas";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                     }
-                 }           
-            }         
+                }
+
+            }
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -1622,7 +1613,7 @@ namespace ProyectoInge
             }
             return requerimientos;
         }
-        
+
         /*Método para obtener id del proyecto con nombre
         * Requiere: nombre
         * Modifica: no genera modificaciones

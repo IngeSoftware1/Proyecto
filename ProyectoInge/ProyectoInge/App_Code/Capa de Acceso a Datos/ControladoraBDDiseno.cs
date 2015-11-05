@@ -194,7 +194,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         */
         public bool modificarDiseño(EntidadDiseno nuevo, int identificador)
         {
-            string consulta="";
+            string consulta = "";
             bool resultado = false;
             try
             {
@@ -367,11 +367,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra eliminar el diseño
         */
-        public bool eliminarRequerimientoDiseño(Object[] datos)
+        public bool eliminarRequerimientoDiseño(int idD)
         {
             try
             {
-                string borradoProyecto = "Delete from Requerimiento_Diseno where id_diseno ='" + datos[0] + "and id_req ='" + datos[1] + " and id_proyecto='" + datos[2] + "';";
+                string borradoProyecto = "Delete from Requerimiento_Diseno where id_diseno ='" + idD + "';";
                 acceso.eliminarDatos(borradoProyecto);
                 return true;
 

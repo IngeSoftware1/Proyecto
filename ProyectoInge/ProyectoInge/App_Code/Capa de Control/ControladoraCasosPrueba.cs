@@ -117,8 +117,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         */
         public DataTable consultarCasoPruebas(string id_caso)
         {
-            int idC = Int32.Parse(id_caso);
-            return controladoraBDCasosPrueba.consultarCasoPrueba(idC);
+
+            return controladoraBDCasosPrueba.consultarCasoPrueba(id_caso);
         }
 
 
