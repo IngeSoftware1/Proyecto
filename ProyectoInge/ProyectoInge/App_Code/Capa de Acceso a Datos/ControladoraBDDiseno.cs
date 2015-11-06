@@ -192,7 +192,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         * Modifica: modifica la tabla de Diseno_Pruebas
         * Retorna:booleano si logra modificar el diseño
         */
-        public string modificarDiseño(EntidadDiseno nuevo, int identificador)
+        public bool modificarDiseño(EntidadDiseno nuevo, int identificador)
         {
             string consulta = "";
             bool resultado = false;
@@ -215,15 +215,15 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 }
                 else
                 {
-                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
+                    consulta = "UPDATE Diseno_Pruebas SET proposito_diseno ='" + nuevo.getProposito + "', fecha = '" + nuevo.getFecha + "', procedimiento_diseno = '" + nuevo.getProcedimiento + "', ambiente_diseno = '" + nuevo.getAmbiente + "', criterios_aceptacion = '" + nuevo.getCriterio + "', tecnica = '" + nuevo.getTecnica + "', nivel = '" + nuevo.getNivel + "', id_proyecto = '" + nuevo.getIdProyecto + "', cedula_responsable = '" + nuevo.getCedulaResponsable + "' WHERE id_diseno ='" + identificador + "';";
                     resultado = acceso.insertarDatos(consulta);
                 }
             }
             catch (SqlException e)
             {
-                return "";
+                return false;
             }
-            return consulta;
+            return resultado;
 
         }
         /*Método para consultar todos los diseños en caso de que el usuario utilizando el sistema sea el administrador, sino solamente

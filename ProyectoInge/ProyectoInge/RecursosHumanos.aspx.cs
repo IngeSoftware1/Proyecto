@@ -202,12 +202,12 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-            llenarDropDownPerfil();
+            //llenarDropDownPerfil();
 
             modo = 2;
 
             habilitarCamposModificar();
-            llenarDropDownRol();
+            //llenarDropDownRol();
         }
 
 

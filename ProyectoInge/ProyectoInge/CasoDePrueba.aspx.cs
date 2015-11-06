@@ -628,6 +628,7 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
                 cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(true, this.btnEliminar);
             }
         }
 
