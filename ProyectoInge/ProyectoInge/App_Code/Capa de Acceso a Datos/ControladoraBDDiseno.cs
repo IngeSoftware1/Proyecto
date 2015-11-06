@@ -243,7 +243,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 try
                 {
-                    consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.cedula_responsable FROM Diseno_Pruebas D;";
+                    consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.cedula_responsable, D.id_proyecto FROM Diseno_Pruebas D;";
                     dt = acceso.ejecutarConsultaTabla(consulta);
 
                 }

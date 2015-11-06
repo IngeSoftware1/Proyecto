@@ -388,7 +388,7 @@ namespace ProyectoInge
                 int indiceResponsables = 1;
                 this.comboResponsable.Items.Clear();
 
-                if (Recursos.Rows.Count >= 1)
+                if (Recursos != null &&  Recursos.Rows.Count >= 1) //bloque para consultar miembros
                 {
                     numDatos = Recursos.Rows.Count;
                     datos = new Object[numDatos + 2];
@@ -422,12 +422,10 @@ namespace ProyectoInge
                     }
 
                     numColumna = 0;
-                    Recursos = controladoraDiseno.consultarLider(id);
+                    Recursos = controladoraDiseno.consultarLider(id); // consultar lider
 
                     if (Recursos != null && Recursos.Rows.Count == 1)
                     {
-
-
 
                         foreach (DataColumn column in Recursos.Columns)
                         {
@@ -460,14 +458,53 @@ namespace ProyectoInge
                 }
                 else
                 {
-                    datos = new Object[1];
-                    datos[0] = "Seleccione";
-                    this.comboResponsable.DataSource = datos;
-                    this.comboResponsable.DataBind();
+
+                    // en caso que no haya miembros verifica si hay lideres
+                    numColumna = 0;
+                    Recursos = controladoraDiseno.consultarLider(id);
+                    indiceResponsables = 1;
+                    if (Recursos != null && Recursos.Rows.Count == 1)
+                    {
+
+                        numDatos = Recursos.Rows.Count;
+                        datos = new Object[numDatos + 1];
+                        foreach (DataColumn column in Recursos.Columns)
+                        {
+                            if (numColumna == 3)
+                            {
+
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        nombre = "";
+                        datos[0] = "Seleccione";
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+
+                    }
+                    else
+                    {
+
+                        datos = new Object[1];
+                        datos[0] = "Seleccione";
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+                    }
                 }
 
             }
-            else
+            else // si no hay proyecto seleccionado
             {
 
                 datos = new Object[1];
@@ -1264,6 +1301,7 @@ namespace ProyectoInge
       */
         public void llenarDatos(string idDiseño)
         {
+            listReqAgregados.Items.Clear();
             if (idDiseño != null && idDiseño.Equals("-") == false)
             {
                 string nombreRepresentante = "";
@@ -1281,7 +1319,7 @@ namespace ProyectoInge
                 DataTable datosReqDiseno = null;
                 listReqAgregados.Items.Clear();
 
-                if (datosFilaDiseño.Rows.Count == 1)
+                if (datosFilaDiseño!=null  && datosFilaDiseño.Rows.Count == 1)
                 {
                     this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
@@ -1332,7 +1370,7 @@ namespace ProyectoInge
 
 
                     string requerimiento = "";
-                    listReqAgregados.Items.Clear();
+                    
                     if (datosReqDiseno.Rows.Count >= 1)
                     {
 
@@ -1406,6 +1444,8 @@ namespace ProyectoInge
                 }
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
 
+
+                //DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
 
 
                 if (diseños.Rows.Count > 0)
