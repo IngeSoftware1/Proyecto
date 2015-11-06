@@ -1178,8 +1178,9 @@ namespace ProyectoInge
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
             string mensaje;
-            cambiarEnabled(false, this.btnInsertar);
-            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(true, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             modo = 3;
@@ -1198,7 +1199,7 @@ namespace ProyectoInge
             {
                 lblModalTitle.Text = " ";
                 lblModalBody.Text = "Está seguro que desea cambiar el estado del proyecto?";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalCambiarEstado", "$('#modalCambiarEstado').modal();", true);
                 upModal.Update();
                 //mensaje = "<script>window.alert('Está seguro que desea cambiar el estado del proyecto?');</script>";
             }
@@ -1238,6 +1239,9 @@ namespace ProyectoInge
                         lblModalBody.Text = "Proyecto eiminado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
+                        vaciarCampos();
+                        cambiarEnabled(false, this.btnModificar);
+                        cambiarEnabled(true, this.btnInsertar);
 
                     }
 
@@ -1253,24 +1257,36 @@ namespace ProyectoInge
             }
             else if (perfil.Equals("Miembro"))
             {
-
-                if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
+                if (controladoraProyecto.consultarEstadoProyecto(Int32.Parse(idProyectoConsultado)).Equals("En ejecución") == false)
                 {
 
-                    lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "No se puede cancelar este proyecto.";
+                     if (controladoraProyecto.eliminarProyecto(idProyectoConsultado, idOficinaConsultda, perfil) == false)
+                    {
+
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "No se puede cancelar este proyecto.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    else
+                    {
+
+
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "Proyecto cancelado con éxito.";
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(false, this.btnInsertar);
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+
+                    }
+                }else{
+
+            
+                    lblModalTitle.Text = "AVISO";
+                    lblModalBody.Text = "El proyecto está en ejecución.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                }
-                else
-                {
-
-
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "Proyecto cancelado con éxito.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-
                 }
 
             }
@@ -1295,9 +1311,8 @@ namespace ProyectoInge
                 llenarGrid(Session["cedula"].ToString());
             }
 
-            vaciarCampos();
+            
             controlarCampos(false);
-            cambiarEnabled(false, this.btnModificar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);

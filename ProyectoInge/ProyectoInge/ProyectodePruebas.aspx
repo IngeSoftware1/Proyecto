@@ -464,5 +464,26 @@
             </div>
         </div>
     </div>
+
+    <%--Modal Confirmar--%>
+    <div class="modal fade" id="modalCambiarEstado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="modalCambia"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
+                </div>
+                <div class="modal-body">
+                    Está seguro que desea cancelar este proyecto de prueba?            
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="botonEliminar" class="btn btn-info" Style="border: #7BC143; background: #0094ff" Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server" />
+                    <button type="button" id="boton" style="border: #0094ff; background: #0094ff" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </asp:Content>
 
