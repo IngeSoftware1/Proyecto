@@ -92,6 +92,11 @@ namespace ProyectoInge
             habilitarCamposModificar();
         }
 
+        /*Método para llenar y cargar datos en los combos y listas necesarios para el modificar, es en lugar del metodo proyectoSeleccionado
+        * Requiere: el id del proyecto relacionado al diseno que se quiere modificar
+        * Modifica: Cambia el contenido de las cajas de texto de requerimientos diseno y requerimientos proyecto
+        * Retorna: no retorna ningún valor
+        */
         protected void proyectoAsociado(int id)
         {
             llenarComboRecursos();
@@ -101,6 +106,11 @@ namespace ProyectoInge
             proyectoUpdate.Update();
         }
 
+        /*Método para habilitar/deshabilitar todos los campos que permite el modificar
+        * Requiere: 
+        * Modifica: Cambia la propiedad Enabled de las cajas 
+        * Retorna: no retorna ningún valor
+        */
         private void habilitarCamposModificar()
         {
             this.listReqAgregados.Enabled = true;
@@ -477,8 +487,6 @@ namespace ProyectoInge
             int id = controladoraDiseno.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
             llenarRequerimientosProyecto(id);
-
-
         }
 
         //metodo para llenar requerimientos del proyecto
@@ -1130,6 +1138,11 @@ namespace ProyectoInge
             UpdateAsociarDesasociarRequerimientos.Update();
         }
 
+        /*Método para asociar requerimientos de la caja de requerimientos de proyecto a la caja de requerimientos de diseño 
+        * Requiere: object sender, EventArgs e
+        * Modifica: Asocia los requerimientos por medio de la manita
+        * Retorna: no retorna ningún valor
+        */
         protected void btnAgregarRequerimientos(object sender, EventArgs e)
         {
             if (modo == 1 || modo == 2)
