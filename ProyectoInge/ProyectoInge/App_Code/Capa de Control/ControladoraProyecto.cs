@@ -483,5 +483,26 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.eliminarRequerimintoDiseno(siglaBase, idProyecto);
         }
+
+        /* Método para consultar si un miembro tiene como rol el lider de pruebas, para consultar de cuales proyecto es lider
+        * Requiere: un string con la cedula del miembro
+        * Retorna: un booleano que me indica si el miembro es lider o no  
+        */
+        public Boolean consultarRolLider(string cedula)
+        {
+            controladoraRH = new ControladoraRecursos();
+            Boolean resultado = controladoraRH.consultarRolLider(cedula);
+            return resultado;
+        }
+
+
+        /* Método para consultar los proyectos en los cuales un miembro es lider
+        * Requiere: un string con la cedula del miembro
+        * Retorna: un DataTable con los proyectos en los que el miembro es lider
+        */
+        public DataTable consultarProyectosDeLider(string cedula)
+        {
+            return controladoraBDProyecto.consultarProyectosDeLider(cedula);
+        }
     }
 }

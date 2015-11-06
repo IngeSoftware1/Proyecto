@@ -767,5 +767,29 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
+
+        /*Método para consultar los proyectos en los cuales el miembro es lider
+      * Requiere: la cedula del lider
+      * Modifica: no realiza modificaciones
+      * Retorna: un DataTable con los resultados de la consulta 
+      */
+        public DataTable consultarProyectosDeLider(String cedula)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+
+            try
+            {
+                consulta = "SELECT P.nombre_proyecto, P.tipo_estado, O.nombre_oficina, P.cedula_lider FROM Proyecto P, Oficina_Usuaria O  WHERE P.id_oficina = O.id_oficina AND P.cedula_lider = '" + cedula + "'" + " ORDER BY P.id_proyecto DESC";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+            
     }
 }
