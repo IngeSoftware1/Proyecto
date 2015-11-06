@@ -262,7 +262,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     {
                         ++contador;
 
-                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.cedula_responsable FROM Diseno_Pruebas D WHERE D.id_proyecto='" + idProyectos.Rows[i][0].ToString() + "'";
+                        consulta = "SELECT D.id_diseno, D.proposito_diseno, D.tecnica, D.nivel, D.cedula_responsable, D.id_proyecto FROM Diseno_Pruebas D WHERE D.id_proyecto='" + idProyectos.Rows[i][0].ToString() + "'";
                         if (contador != idProyectos.Rows.Count)
                         {
                             consulta = consulta + "UNION";

@@ -483,5 +483,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.eliminarRequerimintoDiseno(siglaBase, idProyecto);
         }
+
+        //metodo para consultar los nombres de los proyectos de diseños
+        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños)
+        {
+
+            return controladoraBDProyecto.consultarNombresProyectosDeDisenos(diseños);
+
+        }
+
     }
 }

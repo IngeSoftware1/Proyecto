@@ -345,12 +345,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
         //metodo para consultar los nombres de los proyectos de diseños
-        /*public DataTable consultarNombresProyectosDeDisenos(DataTable diseños){
+        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños){
 
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarNombresProyectosDeDisenos(diseños);
 
-        }*/
+        }
 
 
     }

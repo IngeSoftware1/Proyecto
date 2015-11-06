@@ -767,5 +767,39 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
+
+        //metodo para consultar los nombres de los proyectos de diseños
+        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños)
+        {
+            int contador = 0;
+            string consulta="";
+            DataTable dt;
+            try
+            {
+
+                for (int i = 0; i < diseños.Rows.Count; ++i)
+                {
+                    ++contador;
+
+                    consulta = consulta + " " + "SELECT P.nombre_proyecto, P.id_proyecto  FROM Proyecto P  WHERE P.id_proyecto = '" + diseños.Rows[i][5].ToString() + "'";
+                    if (contador != diseños.Rows.Count)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+
+                }
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+
+        }
+
     }
 }

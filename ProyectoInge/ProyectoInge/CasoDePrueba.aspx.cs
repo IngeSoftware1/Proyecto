@@ -359,6 +359,8 @@ namespace ProyectoInge
             DataTable datosProyecto = controladoraCasoPruebas.consultarInformacionProyectoDiseno(Int32.Parse(Session["idDiseñoS"].ToString()));
             DataTable datosRequerimientos;
             string requerimiento = "";
+            listRequerimientoDisponibles.Items.Clear();
+
             if (datosDiseno != null)
             {
 
@@ -378,7 +380,7 @@ namespace ProyectoInge
 
                 if (datosRequerimientos.Rows.Count >= 1)
                 {
-                    listRequerimientoDisponibles.Items.Clear();
+                    
                     for (int i = 0; i < datosRequerimientos.Rows.Count; ++i)
                     {
                         requerimiento = datosRequerimientos.Rows[i][0].ToString() + " " + datosRequerimientos.Rows[i][2].ToString();

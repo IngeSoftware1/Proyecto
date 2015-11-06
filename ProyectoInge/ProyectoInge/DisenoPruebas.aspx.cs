@@ -1398,11 +1398,14 @@ namespace ProyectoInge
         protected void llenarGrid(string idUsuario)
         {
             Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
+            Dictionary<string, string> nombreProyectosConsultados = new Dictionary<string, string>();
+            string nombreProyecto = "";
             DataTable dt = crearTablaDisenos();
             DataTable diseños;
             DataTable idProyectos;
-            Object[] datos = new Object[5];
+            Object[] datos = new Object[6];
             string representante = "";
+            string proyecto = "";
             int indiceColumna = 0;
             string nombreRepresentante = "";
             DataTable representantes;
@@ -1445,7 +1448,35 @@ namespace ProyectoInge
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
 
 
-                //DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
+                indiceColumna = 0;
+                nombreProyecto = "";
+                DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
+
+                for (int i = 0; i < proyectos.Rows.Count; ++i)
+                {
+                    foreach (DataColumn column in proyectos.Columns)
+                    {
+
+                        if (indiceColumna == 1)
+                        {
+                            if (nombreProyectosConsultados.ContainsKey(proyectos.Rows[i][column].ToString()) == false)
+                            {
+                                nombreProyectosConsultados.Add(proyectos.Rows[i][column].ToString(), nombreProyecto);
+                            }
+                        }
+                        else
+                        {
+                            nombreProyecto = nombreProyecto + " " + proyectos.Rows[i][column].ToString();
+                        }
+
+                        ++indiceColumna;
+                    }
+
+                    indiceColumna = 0; //Contador para saber el número de columna actual.
+                    nombreProyecto = "";
+                }
+                Session["nombreProyectos_Consultados"] = nombreProyectosConsultados;
+
 
 
                 if (diseños.Rows.Count > 0)
@@ -1459,10 +1490,13 @@ namespace ProyectoInge
                         datos[3] = fila[3].ToString();
                         nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
                         datos[4] = representante;
+                        nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
+                        datos[5] = proyecto;
                         dt.Rows.Add(datos);
 
                     }
                     representante = "";
+                    proyecto = "";
                 }
                 else
                 {
@@ -1471,6 +1505,7 @@ namespace ProyectoInge
                     datos[2] = "-";
                     datos[3] = "-";
                     datos[4] = "-";
+                    datos[5] = "-";
                     dt.Rows.Add(datos);
                 }
             }
@@ -1521,6 +1556,38 @@ namespace ProyectoInge
                     //Se obtiene un DataTable con los datos del o los proyectos 
                     diseños = controladoraDiseno.consultarDisenos(idProyectos);
 
+                    indiceColumna = 0;
+                    if(diseños != null){
+                    DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
+
+                    for (int i = 0; i < proyectos.Rows.Count; ++i)
+                    {
+                        foreach (DataColumn column in proyectos.Columns)
+                        {
+
+                            if (indiceColumna == 1)
+                            {
+                                if (nombreProyectosConsultados.ContainsKey(proyectos.Rows[i][column].ToString()) == false)
+                                {
+                                    nombreProyectosConsultados.Add(proyectos.Rows[i][column].ToString(), nombreProyecto);
+                                }
+                            }
+                            else
+                            {
+                                nombreProyecto = nombreProyecto + " " + proyectos.Rows[i][column].ToString();
+                            }
+
+                            ++indiceColumna;
+                        }
+
+                        indiceColumna = 0; //Contador para saber el número de columna actual.
+                        nombreProyecto = "";
+                    }
+                    }
+                    Session["nombreProyectos_Consultados"] = nombreProyectosConsultados;
+
+
+
 
                     if (diseños.Rows.Count > 0)
                     {
@@ -1534,6 +1601,8 @@ namespace ProyectoInge
                             datos[3] = fila[3].ToString();
                             nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
                             datos[4] = representante;
+                            nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
+                            datos[5] = proyecto;
                             dt.Rows.Add(datos);
 
 
@@ -1548,6 +1617,7 @@ namespace ProyectoInge
                         datos[2] = "-";
                         datos[3] = "-";
                         datos[4] = "-";
+                        datos[5] = "-";
                         dt.Rows.Add(datos);
                     }
                 }
@@ -1558,7 +1628,7 @@ namespace ProyectoInge
                     datos[2] = "-";
                     datos[3] = "-";
                     datos[4] = "-";
-
+                    datos[5] = "-";
 
                     dt.Rows.Add(datos);
                 }
@@ -1586,6 +1656,7 @@ namespace ProyectoInge
             columna.ColumnName = "ID Diseño";
             dt.Columns.Add(columna);
 
+
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Propósito";
@@ -1606,6 +1677,11 @@ namespace ProyectoInge
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
             columna.ColumnName = "Nombre Representante";
+            dt.Columns.Add(columna);
+
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Proyecto";
             dt.Columns.Add(columna);
 
 
