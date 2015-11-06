@@ -506,6 +506,7 @@ namespace ProyectoInge
                                     guardarTelefonos();
                                     //Se debe llenar el grid con el nuevo
                                     funcionarioInsertado = this.txtCedula.Text;
+                                    idRH = this.txtCedula.Text;
                                     llenarGrid(null);
                                     controlarCampos(false);
                                     cambiarEnabled(true, this.btnModificar);
@@ -546,6 +547,7 @@ namespace ProyectoInge
                                 {
                                     guardarTelefonos();
                                     funcionarioInsertado = this.txtCedula.Text;
+                                    idRH = this.txtCedula.Text;
                                     //Se debe llenar el grid con el nuevo
                                     llenarGrid(null);
 
@@ -557,6 +559,7 @@ namespace ProyectoInge
                                     cambiarEnabled(true, this.btnInsertar);
                                     lblModalTitle.Text = " ";
                                     funcionarioInsertado = "";
+
                                     lblModalBody.Text = "Nuevo funcionario creado con éxito.";
                                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                     upModal.Update();
