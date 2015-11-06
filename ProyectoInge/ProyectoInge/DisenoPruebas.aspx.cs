@@ -1422,6 +1422,8 @@ namespace ProyectoInge
 
                 representantes = controladoraDiseno.consultarRepresentantesDisenos();
 
+                if (representantes.Rows.Count != 0)
+                { 
 
                 for (int i = 0; i < representantes.Rows.Count; ++i)
                 {
@@ -1447,12 +1449,14 @@ namespace ProyectoInge
                     nombreRepresentante = "";
                 }
                 Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
-
+                
 
                 indiceColumna = 0;
                 nombreProyecto = "";
                 DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
 
+                if (proyectos.Rows.Count != 0)
+                {
                 for (int i = 0; i < proyectos.Rows.Count; ++i)
                 {
                     foreach (DataColumn column in proyectos.Columns)
@@ -1478,8 +1482,8 @@ namespace ProyectoInge
                 }
                 Session["nombreProyectos_Consultados"] = nombreProyectosConsultados;
 
-
-
+                }
+                }
                 if (diseños.Rows.Count > 0)
                 {
                     foreach (DataRow fila in diseños.Rows)

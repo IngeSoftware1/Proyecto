@@ -841,46 +841,55 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Eliminar(object sender, EventArgs e)
         {
+            modo = 3;
             string cedulaUsuarioActual = Session["cedula"].ToString();
 
             if (cedulaUsuarioActual != this.txtCedula.Text)
             {
-                if (controladoraRH.ejecutarAccion(modo, 1, null, idRH) == false)
+                if (controladoraRH.ejecutarAccion(modo, 2, null, this.txtCedula.Text) == true)
                 {
-                    lblModalTitle.Text = " ";
-                    lblModalBody.Text = "La modificación de funcionario fue exitosa.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
+                    if (controladoraRH.ejecutarAccion(modo, 1, null, this.txtCedula.Text) == true)
+                    {
+                        lblModalTitle.Text = " ";
+                        lblModalBody.Text = "La eliminación de funcionario fue exitosa.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    else
+                    {
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "La eliminación de funcionario no fue exitosa.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
+                    vaciarCampos();
+
+                    controlarCampos(false);
+                    cambiarEnabled(false, this.btnModificar);
+                    cambiarEnabled(false, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    llenarDropDownPerfil();
+                    llenarDropDownRol();
+
+                    //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+                        cambiarEnabled(true, this.btnInsertar);
+                        llenarGrid(null);
+                    }
+                    else
+                    {
+                        cambiarEnabled(false, this.btnInsertar);
+                        llenarGrid(Session["cedula"].ToString());
+                    }
                 }
-                else
-                {
+                else {
                     lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "La eliminación de funcionario fue exitosa.";
+                    lblModalBody.Text = "La eliminación de funcionario no fue exitosa.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                }
-                idRecursosHumanos = -1;  //el recurso està en -1 por que ya fue eliminado y ya no existe
-                llenarGrid(null);
-                vaciarCampos();
-
-                controlarCampos(false);
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
-                llenarDropDownPerfil();
-                llenarDropDownRol();
-
-                //El unico botón que cambia de acuerdo al perfil es el de insertar y el grid se llena de acuerdo al tipo de usuario utilizando el sistema
-                if (Session["perfil"].ToString().Equals("Administrador"))
-                {
-                    cambiarEnabled(true, this.btnInsertar);
-                    llenarGrid(null);
-                }
-                else
-                {
-                    cambiarEnabled(false, this.btnInsertar);
-                    llenarGrid(Session["cedula"].ToString());
                 }
             }
             else

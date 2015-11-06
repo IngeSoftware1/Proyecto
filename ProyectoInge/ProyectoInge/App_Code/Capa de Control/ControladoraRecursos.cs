@@ -157,7 +157,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                                 resultado = false;
                             }
                         }
-                        else
+                        else if(accion==1)
                         {
                             string perfil = buscarPerfil(cedula);
                             if (perfil == "Administrador")
