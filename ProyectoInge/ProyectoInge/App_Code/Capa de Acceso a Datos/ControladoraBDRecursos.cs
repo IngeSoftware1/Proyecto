@@ -555,7 +555,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT p.nombre_proyecto, p.id_proyecto FROM Proyecto p WHERE p.id_proyecto =  (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
+                consulta = "SELECT p.nombre_proyecto, p.id_proyecto FROM Proyecto p WHERE p.id_proyecto IN (SELECT T.id_proyecto FROM Trabaja_En T WHERE T.cedula_miembro = '" + idUsuario + "')";
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch

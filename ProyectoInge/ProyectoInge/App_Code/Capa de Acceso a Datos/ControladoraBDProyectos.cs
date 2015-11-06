@@ -667,7 +667,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             try
             {
-                consulta = "SELECT nombre_proyecto, id_proyecto WHERE cedula_lider='" + cedula + "';";
+                consulta = "SELECT nombre_proyecto, id_proyecto FROM Proyecto WHERE cedula_lider='" + cedula + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

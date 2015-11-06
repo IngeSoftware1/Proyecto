@@ -247,7 +247,7 @@ namespace ProyectoInge
             else
             {
                 nombresProyecto = controladoraDiseno.consultarProyectosLider(cedulaUsuario);
-                if (nombresProyecto == null)
+                if (nombresProyecto == null || nombresProyecto.Rows.Count == 0 )
                 {
                     nombresProyecto = controladoraDiseno.consultarProyectosDeUsuario(cedulaUsuario);
                 }
