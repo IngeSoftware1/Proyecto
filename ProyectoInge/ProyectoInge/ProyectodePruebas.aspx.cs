@@ -1388,16 +1388,31 @@ namespace ProyectoInge
             }
             else
             {
-                //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
+                if (controladoraProyecto.consultarRolLider(idUsuario))
+                {
+                    idProyectos = controladoraProyecto.consultarProyectosDeLider(idUsuario);
 
-                idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
+                }
+                else
+                {
+                    //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro en caso de que el miembro no sea lider
+
+                    idProyectos = controladoraProyecto.consultarProyectosAsociados(idUsuario);
+                }
+
                 if (idProyectos.Rows.Count > 0)
                 {
                     //Se obtiene un DataTable con los datos del o los proyectos 
-                    proyectos = controladoraProyecto.consultarProyectos(idProyectos);
+                    if (controladoraProyecto.consultarRolLider(idUsuario))
+                    {
+                        proyectos = idProyectos;
+                    }
+                    else
+                    {
+                        proyectos = controladoraProyecto.consultarProyectos(idProyectos);
+                    }
 
                     lideres = controladoraProyecto.consultarLideres();
-
 
                     for (int i = 0; i < lideres.Rows.Count; ++i)
                     {

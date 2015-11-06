@@ -223,12 +223,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                         if (accion == 1)
                         {
-                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
-                            
-                            string r= controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
-                            Debug.Print("!!!!!!!!!!!");
-                            Debug.Print(r);
-                            return true;
+                            EntidadDiseno entDiseño = new EntidadDiseno(datos);                            
+                            return controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
 
                         }
                         else if (accion == 2)

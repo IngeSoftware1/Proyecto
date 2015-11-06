@@ -308,7 +308,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string modif = "UPDATE Funcionario SET cedula ='" + nuevo.getCedula + "', nombre='" + nuevo.getNombre + "' , apellido1= '" + nuevo.getApellido1 + "', apellido2= '" + nuevo.getApellido2 + "', email = '"+nuevo.getEmail+"', usuario='" + nuevo.getUsuario + "' WHERE cedula='" + cedula+"';";
+                string modif = "UPDATE Funcionario SET cedula ='" + nuevo.getCedula + "', nombre='" + nuevo.getNombre + "' , apellido1= '" + nuevo.getApellido1 + "', apellido2= '" + nuevo.getApellido2 + "', email = '" + nuevo.getEmail + "', usuario='" + nuevo.getUsuario + "', contrasena ='" + nuevo.getContrasena + "' WHERE cedula='" + cedula + "';";
                 return acceso.insertarDatos(modif);
 
             }
@@ -708,6 +708,29 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
 
+        }
+
+        /*Método para consultar si un determinado miembro es líder de pruebas
+       * Requiere: un string con la cédula del miembro 
+       * Retorna: un DataTable que retorna el rol del miembro
+       */
+        public DataTable consultarRolLider(string cedula)
+        {
+            string consulta;
+            DataTable dt;
+
+            try
+            {
+                consulta = "SELECT M.tipo_rol FROM Miembro M  WHERE M.cedula_miembro = '" + cedula + "'" + "AND M.tipo_rol = '" + "Líder de pruebas" + "'";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
         }
   
 

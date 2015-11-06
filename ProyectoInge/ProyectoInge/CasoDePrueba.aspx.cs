@@ -117,6 +117,20 @@ namespace ProyectoInge
             // UpdatePanelDropDown.Update();
         }
 
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            controlarCampos(true);
+            modo = 2;
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(true, this.btnEliminar);
+            cambiarEnabled(true, this.btnInsertar);
+            //llenarDropDownProyecto();
+            //llenarDropDownProyecto();
+            // UpdatePanelDropDown.Update();
+        }
+
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros
          * Modifica: Establece la propiedad text de los textbox en ""
@@ -286,16 +300,16 @@ namespace ProyectoInge
             else
             {
                 modo = 2;
-                int idCaso = 0;
+                int idCaso = Convert.ToInt32(idCasoConsultado);
 
                 //Crea el objeto con los datos del caso de prueba
-                Object[] datosNuevos = new Object[5];
+                Object[] datosNuevos = new Object[6];
                 datosNuevos[0] = this.txtIdentificador.Text;
                 datosNuevos[1] = this.txtProposito.Text;
                 datosNuevos[2] = this.txtFlujoCentral.Text;
                 datosNuevos[3] = this.txtEntradaDatos.Text;
                 datosNuevos[4] = this.txtResultadoEsperado.Text;
-                datosNuevos[5] = (int)Session["idDiseñoConsultado"];
+                datosNuevos[5] = Convert.ToInt32(Session["idDiseñoS"]);
 
                 //If si la modificación del caso fue exitosa
                 if (controladoraCasoPruebas.ejecutarAccion(modo, datosNuevos, idCaso, ""))
@@ -307,15 +321,16 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnCancelar);
                     cambiarEnabled(true, this.btnInsertar);
                     lblModalTitle.Text = "";
-                    lblModalBody.Text = "Nuevo caso de prueba creado con éxito.";
+                    lblModalBody.Text = "Caso de prueba modificado con éxito.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
+                    llenarGrid();
                 }
                 //Si la modificación del caso fue erronea
                 else
                 {
                     lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "Este caso de prueba ya se encuentra registrado en el sistema.";
+                    lblModalBody.Text = "Este caso de prueba no se pudo modificar correctamente.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
@@ -615,6 +630,7 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnModificar);
                 cambiarEnabled(true, this.btnCancelar);
                 cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(true, this.btnEliminar);
             }
         }
 

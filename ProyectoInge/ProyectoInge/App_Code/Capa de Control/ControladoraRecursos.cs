@@ -354,7 +354,24 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         }
 
-        
+        /*Método para consultar si un determinado miembro es líder de pruebas
+        * Requiere: un string con la cédula del miembro 
+        * Retorna: un booleano que indica si el miembro es líder o no
+        */
+        public Boolean consultarRolLider(string cedula)
+        {
+            DataTable dt = controladoraBDRecurso.consultarRolLider(cedula);
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+
+            }
+
+        }
 
         
 
