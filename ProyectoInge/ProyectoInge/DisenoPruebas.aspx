@@ -339,8 +339,9 @@
                      Está seguro que desea eliminar este diseno de pruebas?            
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info" style="border:#7BC143 ; background:#0094ff" Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server"/> 
-                    <button type="button" id="botonVolver" style="border:#0094ff; background:#0094ff" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info"  Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server"/> 
+                    <button type="button" id="botonVolver"  class="btn btn-info" data-dismiss="modal">Cancelar</button>
+
                 </div>
             </div>
         </div>
