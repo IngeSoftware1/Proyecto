@@ -489,6 +489,8 @@ namespace ProyectoInge
                         ++indiceResponsables;
                         nombre = "";
                         datos[0] = "Seleccione";
+                        Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                        Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
                         this.comboResponsable.DataSource = datos;
                         this.comboResponsable.DataBind();
 
@@ -905,14 +907,13 @@ namespace ProyectoInge
                             {
                             }
                             upModal.Update();
-                            habilitarCamposInsertar();
                             insercion = false;
                         }
                         else if (this.listReqAgregados.Items.Count == 1)
                         {
 
                             indiceReq = 0;
-                            while (indiceReq < listReqAgregados.Items[0].ToString().Count() && listReqAgregados.Items[0] != null)
+                            while (indiceReq < listReqAgregados.Items[0].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
                             {
                                 ++indiceReq;
                             }
@@ -937,7 +938,6 @@ namespace ProyectoInge
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                                 upModal.Update();
                                 habilitarCamposInsertar();
-                                ////////controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
                             }
                         }
                         else // si itene menos de uno
@@ -950,15 +950,15 @@ namespace ProyectoInge
                             if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
                             {
                             }
-                            upModal.Update();
                             habilitarCamposInsertar();
+                            upModal.Update();
                             insercion = false;
                         }
                     }
                     else
                     {
                         //Recorre el list de requerimientos agregados para el nivel de integracion, aceptacion y de sistema
-                        if (listReqAgregados.Items.Count > 0)
+                        if (listReqAgregados.Items.Count > 0) //Se verifica que haya más de un requerimiento
                         {
                             while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
                             {
@@ -997,12 +997,6 @@ namespace ProyectoInge
                         }
                     }
                     //se carga la interfaz de nuevo
-                    controlarCampos(false);
-                    cambiarEnabled(true, this.btnModificar);
-                    cambiarEnabled(true, this.btnEliminar);
-                    cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);
-                    cambiarEnabled(true, this.btnInsertar);
                     Session["idProyecto"] = idProyecto;
                     Session["idDiseñoS"] = idDiseño;
 
@@ -1016,13 +1010,17 @@ namespace ProyectoInge
                     }
 
 
-                    llenarGrid(null);
-
                     if (insercion == true)
                     {
                         lblModalTitle.Text = " ";
                         lblModalBody.Text = "Nuevo diseño creado con éxito.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        controlarCampos(false);
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(true, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar); 
                         upModal.Update();
                     }
 
@@ -1034,7 +1032,6 @@ namespace ProyectoInge
                     lblModalBody.Text = "No fue posible realizar la inserción del diseño de prueba";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
-                    habilitarCamposInsertar();
                 }
 
             }
