@@ -906,6 +906,8 @@ namespace ProyectoInge
                             if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
                             {
                             }
+
+                            habilitarCamposInsertar();
                             upModal.Update();
                             insercion = false;
                         }
@@ -955,6 +957,80 @@ namespace ProyectoInge
                             insercion = false;
                         }
                     }
+                   //Se verifica si el nivel es de integración para entonces verificar que se tienen todos los requerimientos para agregar. VER ROSAURA
+                    else if(this.comboNivel.Text == "De Integración")
+                    {
+                        if (this.listReqProyecto.Items.Count > 1)
+                        {
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "Un nivel de integración requiere todos los requerimientos";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+
+                            if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
+                            {
+                            }
+                            upModal.Update();
+                            insercion = false;
+                            habilitarCamposInsertar();
+                        }
+
+                        else if (this.listReqProyecto.Items.Count == 1 && this.listReqAgregados.Items.Count >= 1) //Se verifica que haya más de un requerimiento agregado y que en en listbox de requerimientos
+                                                                                                                // del proyecto solo se encuentre la opción: todos los requerimientos.
+                        {
+
+                            while (i < listReqAgregados.Items.Count && listReqAgregados.Items[i].Text.Equals("") == false)
+                            {
+                                indiceReq = 0;
+                                sigla = "";
+                                nombreRequerimiento = "";
+                                while (indiceReq < listReqAgregados.Items[i].ToString().Count() && listReqAgregados.Items[i].ToString().ElementAt(indiceReq) != ' ')
+                                {
+                                    ++indiceReq;
+                                }
+                                sigla = listReqAgregados.Items[i].ToString().Substring(0, indiceReq);
+                                nombreRequerimiento = listReqAgregados.Items[i].ToString().Substring(indiceReq + 1, listReqAgregados.Items[i].ToString().Count() - indiceReq - 1);
+                                idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                                Object[] nuevoReqDiseño = new Object[3];
+                                nuevoReqDiseño[0] = idDiseño;
+                                nuevoReqDiseño[1] = sigla;
+                                nuevoReqDiseño[2] = idProyecto;
+                                tipoInsercion = 2;
+                                //Se actualizó un requerimiento
+                                if (controladoraDiseno.ejecutarAccion(1, tipoInsercion, nuevoReqDiseño, 0, ""))//Esto siempre inserta, por lo que le mandaremos un 1
+                                {
+                                }
+                                //La actualizó de un requerimiento falló porque el habían datos inválidos.
+                                else
+                                {
+                                    insercion = false;
+                                    lblModalTitle.Text = " ";
+                                    lblModalBody.Text = "No fue posible realizar la inserción de/los requerimientos.";
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                                    upModal.Update();
+                                    habilitarCamposInsertar();
+                                    ////////controladoraDiseno.ejecutarAccion(1, tipoInsercion, null, idDiseño, "");
+                                }
+                                i++;
+                            }
+                        }
+
+                        else // si itene menos de uno
+                        {
+                            insercion = false;
+                            lblModalTitle.Text = " ";
+                            lblModalBody.Text = "El nivel de integración de diseño de pruebas debe tener todos los requerimientos asociados.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            idDiseño = controladoraDiseno.obtenerIdDisenoPorProposito(this.txtProposito.Text);
+                            if (controladoraDiseno.ejecutarAccion(3, 1, null, idDiseño, ""))//Se pone 3 porque este siempre elimina y 1 porque esto indica que se va a borrar el diseño
+                            {
+                            }
+                            habilitarCamposInsertar();
+                            upModal.Update();
+                            insercion = false;
+                        }
+                    }
+
                     else
                     {
                         //Recorre el list de requerimientos agregados para el nivel de integracion, aceptacion y de sistema
@@ -1219,7 +1295,7 @@ namespace ProyectoInge
         {
 
             bool resultado = false;
-            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.txtProcedimiento.Text == "" || this.comboResponsable.Text == "Seleccione" || this.txtCalendar.Text == "")
+            if (this.comboProyecto.Text == "" || this.txtProposito.Text == "" || this.comboResponsable.Text == "Seleccione" || this.txtCalendar.Text == "")
             {
                 resultado = true;
             }

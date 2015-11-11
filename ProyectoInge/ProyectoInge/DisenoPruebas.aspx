@@ -191,7 +191,7 @@
         <div class="form-group">
             <div class="row">
                 <%-- procedimiento del diseño --%>
-                <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento utilizado*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento utilizado:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
                     <asp:TextBox runat="server" ID="txtProcedimiento" CssClass="form-control" MultiLine="true" TextMode="MultiLine" Height="77px" MaxLength="100"></asp:TextBox>
                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
