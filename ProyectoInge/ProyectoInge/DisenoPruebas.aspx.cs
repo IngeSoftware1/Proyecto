@@ -1239,27 +1239,31 @@ namespace ProyectoInge
         {
             if (e.CommandName == "seleccionarDiseno")
             {
-
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
-                idDiseñoConsultado = lnkConsulta.CommandArgument;
-                Session["idDiseñoS"] = idDiseñoConsultado;
+                 idDiseñoConsultado = lnkConsulta.CommandArgument;
 
-                controlarCampos(false);
-                llenarDatos(idDiseñoConsultado);
-                cambiarEnabled(true, this.btnModificar);
-                cambiarEnabled(true, this.btnCancelar);
-                cambiarEnabled(true, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
+                if(idDiseñoConsultado.Equals("-")==false){
+                    
+                    Session["idDiseñoS"] = idDiseñoConsultado;
 
-                //El unico botón que cambia de acuerdo al perfil es el de eliminar
-                if (Session["perfil"].ToString().Equals("Administrador"))
-                {
+                    controlarCampos(false);
+                    llenarDatos(idDiseñoConsultado);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnCancelar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
 
-                    cambiarEnabled(true, this.btnInsertar);
-                }
-                else
-                {
-                    cambiarEnabled(false, this.btnInsertar);
+                    //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+
+                        cambiarEnabled(true, this.btnInsertar);
+                    }
+                    else
+                    {
+                        cambiarEnabled(false, this.btnInsertar);
+                    }
+
                 }
 
 
@@ -1270,8 +1274,11 @@ namespace ProyectoInge
             {
                 LinkButton linkConsultaCaso = (LinkButton)e.CommandSource;
                 idDiseñoConsultado = linkConsultaCaso.CommandArgument;
-                Session["idDiseñoS"] = idDiseñoConsultado;
-                Response.Redirect("~/CasoDePrueba.aspx");
+                if (idDiseñoConsultado.Equals("-") == false)
+                {
+                    Session["idDiseñoS"] = idDiseñoConsultado;
+                    Response.Redirect("~/CasoDePrueba.aspx");
+                }
 
             }
 
@@ -1487,13 +1494,13 @@ namespace ProyectoInge
                     {
 
                         datos[0] = fila[0].ToString();
-                        datos[1] = fila[1].ToString();
-                        datos[2] = fila[2].ToString();
-                        datos[3] = fila[3].ToString();
-                        nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                        datos[4] = representante;
                         nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
-                        datos[5] = proyecto;
+                        datos[1] = proyecto;
+                        datos[2] = fila[1].ToString();
+                        datos[3] = fila[2].ToString();
+                        datos[4] = fila[3].ToString();
+                        nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                        datos[5] = representante;
                         dt.Rows.Add(datos);
 
                     }
@@ -1596,17 +1603,15 @@ namespace ProyectoInge
 
                         foreach (DataRow fila in diseños.Rows)
                         {
-
                             datos[0] = fila[0].ToString();
-                            datos[1] = fila[1].ToString();
-                            datos[2] = fila[2].ToString();
-                            datos[3] = fila[3].ToString();
-                            nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                            datos[4] = representante;
                             nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
-                            datos[5] = proyecto;
+                            datos[1] = proyecto;
+                            datos[2] = fila[1].ToString();
+                            datos[3] = fila[2].ToString();
+                            datos[4] = fila[3].ToString();
+                            nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                            datos[5] = representante;
                             dt.Rows.Add(datos);
-
 
                         }
 
@@ -1658,6 +1663,10 @@ namespace ProyectoInge
             columna.ColumnName = "ID Diseño";
             dt.Columns.Add(columna);
 
+            columna = new DataColumn();
+            columna.DataType = System.Type.GetType("System.String");
+            columna.ColumnName = "Proyecto";
+            dt.Columns.Add(columna);
 
             columna = new DataColumn();
             columna.DataType = System.Type.GetType("System.String");
@@ -1681,10 +1690,7 @@ namespace ProyectoInge
             columna.ColumnName = "Nombre Representante";
             dt.Columns.Add(columna);
 
-            columna = new DataColumn();
-            columna.DataType = System.Type.GetType("System.String");
-            columna.ColumnName = "Proyecto";
-            dt.Columns.Add(columna);
+            
 
 
             return dt;
