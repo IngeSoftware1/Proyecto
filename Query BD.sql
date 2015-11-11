@@ -161,7 +161,8 @@ id_req varchar(10),
 id_proyecto int,
 CONSTRAINT fkReq Foreign key(id_req,id_proyecto) REFERENCES Requerimiento(id_req, id_proyecto)
 ON DELETE NO ACTION
-ON UPDATE NO ACTION
+ON UPDATE NO ACTION,
+PRIMARY KEY(id_diseno, id_req, id_proyecto)
 );
 
 CREATE TABLE Caso_Prueba(
