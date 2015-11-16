@@ -188,11 +188,9 @@ INSERT INTO Estado_Ejecucion VALUES('Cancelada');
 
 CREATE TABLE Ejecucion_Prueba(
 id_ejecucion int IDENTITY(1,1) PRIMARY KEY,
-justificacion varchar(40),
+
 desc_incidencia varchar(70),
 fecha varchar(15),
-hora varchar(15), 
-imagen image,
 estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE, 
@@ -224,5 +222,7 @@ ON UPDATE CASCADE,
 id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
+justificacion varchar(40),
+imagen image,
 PRIMARY KEY (id_tipoNC, id_ejecucion)
 );
