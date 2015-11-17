@@ -190,6 +190,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
+    <Content Include="App_Code\DataSetProyectos.xsc">
+      <DependentUpon>DataSetProyectos.xsd</DependentUpon>
+    </Content>
+    <None Include="App_Code\DataSetProyectos.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetProyectos.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="App_Code\DataSetProyectos.xss">
+      <DependentUpon>DataSetProyectos.xsd</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="PanelPrincipal.aspx" />
     <Content Include="ProyectodePruebas.aspx" />
@@ -312,6 +323,11 @@
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionPrueba.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoNC.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionNC.cs" />
+    <Content Include="App_Code\DataSetProyectos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetProyectos.xsd</DependentUpon>
+    </Content>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -424,6 +440,9 @@
     <Folder Include="Views\ControladoraBDRecursos\" />
     <Folder Include="Views\ControladoraRecursos\" />
     <Folder Include="Views\Funcionario\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ReporteProyectos.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
