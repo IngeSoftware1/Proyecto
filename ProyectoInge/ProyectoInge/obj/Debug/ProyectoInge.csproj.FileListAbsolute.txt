@@ -1837,3 +1837,4 @@ C:\Users\b20732\Proyecto\ProyectoInge\ProyectoInge\bin\es\Microsoft.Owin.Securit
 C:\Users\b20732\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\b20732\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.dll
 C:\Users\b20732\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.pdb
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs

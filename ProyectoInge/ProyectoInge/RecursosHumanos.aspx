@@ -11,7 +11,7 @@
              <li><a runat="server" style ="background-color:ActiveCaption"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
                 <li ><a runat="server" href="~/ProyectodePruebas.aspx" >Proyecto</a></li>
                 <li ><a runat="server" href="~/DisenoPruebas.aspx" >Diseño de pruebas</a></li>
-                <li ><a runat="server" >Ejecución de pruebas</a></li>
+                <li ><a runat="server" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
                 <li ><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx" >Cerrar sesión</a></li>
         </ul>
        </nav>

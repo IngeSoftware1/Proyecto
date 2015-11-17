@@ -183,6 +183,7 @@
     <Content Include="Content\EstiloMenu.css" />
     <Content Include="Content\Site.css" />
     <Content Include="DisenoPruebas.aspx" />
+    <Content Include="EjecucionPruebas.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="InterfazCambioContrasenna.aspx" />
     <Content Include="Login.aspx" />
@@ -369,6 +370,13 @@
     </Compile>
     <Compile Include="DisenoPruebas.aspx.designer.cs">
       <DependentUpon>DisenoPruebas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EjecucionPruebas.aspx.cs">
+      <DependentUpon>EjecucionPruebas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EjecucionPruebas.aspx.designer.cs">
+      <DependentUpon>EjecucionPruebas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
