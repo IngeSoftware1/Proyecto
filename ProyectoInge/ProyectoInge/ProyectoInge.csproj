@@ -40,6 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -440,9 +441,6 @@
     <Folder Include="Views\ControladoraBDRecursos\" />
     <Folder Include="Views\ControladoraRecursos\" />
     <Folder Include="Views\Funcionario\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ReporteProyectos.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
