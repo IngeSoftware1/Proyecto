@@ -85,7 +85,7 @@ namespace ProyectoInge
                 {
                     numDatos = nombresProyecto.Rows.Count;
                 }
-            }
+        }
             else
             {
                 nombresProyecto = controladoraReporte.consultarProyectosLider(cedulaUsuario);
@@ -129,8 +129,8 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-                this.controladoraReporte.DataSource = datos;
-                this.controladoraReporte.DataBind();
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
@@ -138,9 +138,73 @@ namespace ProyectoInge
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-                this.controladoraReporte.DataSource = datos;
-                this.controladoraReporte.DataBind();
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
             }
+        }
+
+        //metodo para llenar requerimientos del proyecto
+        protected void llenarRequerimientosProyecto(int idProyecto)
+        {
+            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
+            string requerimiento = "";
+            int contador = 0;
+            requerimiento = "";
+            listReqProyecto.Items.Clear();
+
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+                listReqProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    if (listReqAgregados.Items.FindByText(requerimiento) == null)
+                    {
+                        listReqProyecto.Items.Add(requerimiento);
+                        ++contador;
+                    }
+                }
+
+            }
+
+            if (0 < contador)
+            {
+                listReqProyecto.Items.Add("Todos los requerimientos");
+            }
+            UpdateAsociarDesasociarRequerimientos.Update();
+            proyectoUpdate.Update();
+        }
+
+        //metodo para llenar requerimientos del proyecto
+        protected void llenarNombresModulos(int idProyecto)
+        {
+            DataTable datosReqProyecto = controladoraReporte.consultarIdReqProyecto(idProyecto);
+            string modulo = "";
+            int contador = 0;
+            modulo = "";
+            listModProyecto.Items.Clear();
+
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+                listModProyecto.Items.Clear();
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    modulo = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
+                    if (listModAgregadosProyecto.Items.FindByText(modulo) == null)
+                    {
+                        modulo.Substring(2, 0);
+                        if(modulo)
+                        listModProyecto.Items.Add(modulo);
+                        ++contador;
+                    }
+                }
+            }
+            if (0 < contador)
+            {
+                listModProyecto.Items.Add("Todos los requerimientos");
+            }
+            UpdateAsociarDesasociarModulos.Update();
+            proyectoUpdate.Update();
         }
 
     }
