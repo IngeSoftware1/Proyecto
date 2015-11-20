@@ -768,6 +768,33 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+
+        /**Metodo para consultar los modulos de los proyectos
+        * Requiere: los nombres de los modulos
+        * Modifica: no modifica nada
+        * Retorna: un datable  con los identificadores para obtener los nombres de los modulos.
+        */
+        public DataTable consultarIdReqProyecto(int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "');";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
  /*Método para consultar los proyectos en los cuales el miembro es lider
       * Requiere: la cedula del lider
       * Modifica: no realiza modificaciones
