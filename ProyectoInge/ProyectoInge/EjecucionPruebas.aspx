@@ -217,6 +217,12 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
+                                          <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText=" ">
+                                        <ItemTemplate>
+                                            <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" > Imagen </asp:LinkButton>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
 
                                 </Columns>
                             </asp:GridView>
@@ -237,4 +243,56 @@
         <%--Div que cierra los datos de casos de prueba--%>
     </div>
     <%--Div que cierra el row principal --%>
+
+    
+
+    
+            <!-- Edit Modal Starts here -->
+            <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="editModalLabel">Edit Record</h3>
+                </div>
+                <asp:UpdatePanel ID="upEdit" runat="server">
+                    <ContentTemplate>
+                      <!--  <div class="modal-body">
+                            <table class="table">
+                                <tr>
+                                    <td>Country Code : 
+                            <asp:Label ID="lblCountryCode" runat="server"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Population : 
+                            <asp:TextBox ID="txtPopulation" runat="server"></asp:TextBox>
+                                        <asp:Label runat="server" Text="Type Integer Value!" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Country Name:
+                            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Continent:
+                            <asp:TextBox ID="txtContinent1" runat="server"></asp:TextBox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>-->
+                        <div class="modal-footer">
+                            <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
+                  
+                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="gridEjecuciones" EventName="RowCommand" />
+                 
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+            <!-- Edit Modal Ends here -->
+			
+
 </asp:Content>

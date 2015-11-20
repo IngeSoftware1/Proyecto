@@ -237,8 +237,18 @@ namespace ProyectoInge
 
 
             }
+            else if (e.CommandName.Equals("cargarImagen"))
+            {
+                lblResult.Visible = false;
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.Append(@"<script type='text/javascript'>");
+                sb.Append("$('#editModal').modal('show');");
+                sb.Append(@"</script>");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalScript", sb.ToString(), false);
 
+            }
         }
-
     }
 }
+
+  

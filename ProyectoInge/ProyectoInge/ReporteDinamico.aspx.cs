@@ -75,7 +75,7 @@ namespace ProyectoInge
             int numColumna = 0;
 
 
-            this.listReqProyecto.Items.Clear();
+            //this.listReqProyecto.Items.Clear();
 
             if (cedulaUsuario == null)
             {
@@ -129,8 +129,8 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-                this.controladoraReporte.DataSource = datos;
-                this.controladoraReporte.DataBind();
+              //  this.controladoraReporte.DataSource = datos;
+             //   this.controladoraReporte.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
@@ -138,8 +138,8 @@ namespace ProyectoInge
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-                this.controladoraReporte.DataSource = datos;
-                this.controladoraReporte.DataBind();
+              //  this.controladoraReporte.DataSource = datos;
+               // this.controladoraReporte.DataBind();
             }
         }
 
