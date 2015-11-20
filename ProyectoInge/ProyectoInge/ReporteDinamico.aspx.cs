@@ -164,9 +164,7 @@ namespace ProyectoInge
                         ++contador;
                     }
                 }
-
             }
-
             if (0 < contador)
             {
                 listReqProyecto.Items.Add("Todos los requerimientos");
@@ -190,10 +188,32 @@ namespace ProyectoInge
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     modulo = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    if (listModAgregadosProyecto.Items.FindByText(modulo) == null)
+                    if (listModAgregados.Items.FindByText(modulo) == null)
                     {
-                        modulo.Substring(2, 0);
-                        if(modulo)
+                        modulo.Substring(3,5);
+                        if (modulo == "SG")
+                        {
+                            modulo = "Seguridad";
+                        }else if(modulo == "RH")
+                        {
+                            modulo = "Recursos Humanos";
+                        }
+                        else if (modulo == "PR")
+                        {
+                            modulo = "Proyecto";
+                        }
+                        else if (modulo == "DP")
+                        {
+                            modulo = "Diseño de Pruebas";
+                        }
+                        else if (modulo == "CP")
+                        {
+                            modulo = "Casos de Prueba";
+                        }
+                        else if (modulo == "EP")
+                        {
+                            modulo = "Ejecución de Pruebas";
+                        }
                         listModProyecto.Items.Add(modulo);
                         ++contador;
                     }
