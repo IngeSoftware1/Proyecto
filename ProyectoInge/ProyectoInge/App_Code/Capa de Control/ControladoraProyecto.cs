@@ -495,6 +495,19 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
+
+        /**Metodo para consultar los modulos de los proyectos
+        * Requiere: los nombres de los modulos
+        * Modifica: no modifica nada
+        * Retorna: un datable  con los identificadores para obtener los nombres de los modulos.
+        */
+        public DataTable consultarIdReqProyecto(int idProyecto)
+        {
+            return controladoraBDProyecto.consultarIdReqProyecto(idProyecto);
+        }
+
+
+
         /* Método para consultar los proyectos en los cuales un miembro es lider
         * Requiere: un string con la cedula del miembro
         * Retorna: un DataTable con los proyectos en los que el miembro es lider
