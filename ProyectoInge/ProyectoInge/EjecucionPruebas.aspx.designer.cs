@@ -85,13 +85,22 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.DropDownList comboDiseño;
         
         /// <summary>
-        /// Control lblDatosDiseño.
+        /// Control datosDiseno.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDatosDiseño;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl datosDiseno;
+        
+        /// <summary>
+        /// Control panelDiseno.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl panelDiseno;
         
         /// <summary>
         /// Control lblDiseño.
@@ -182,5 +191,32 @@ namespace ProyectoInge {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox listRequerimientoDisponibles;
+        
+        /// <summary>
+        /// Control gridEjecuciones.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridEjecuciones;
+        
+        /// <summary>
+        /// Control btnAddRow.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddRow;
+        
+        /// <summary>
+        /// Control lblDatosDiseño.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDatosDiseño;
     }
 }
