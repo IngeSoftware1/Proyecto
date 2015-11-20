@@ -207,6 +207,7 @@
     <Content Include="PanelPrincipal.aspx" />
     <Content Include="ProyectodePruebas.aspx" />
     <Content Include="RecursosHumanos.aspx" />
+    <Compile Include="ReporteDinamico.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -302,6 +303,7 @@
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDProyectos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
+    <Compile Include="App_Code\Capa de Control\ControladoraReportes.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadRequerimientoDiseño.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -417,6 +419,13 @@
     </Compile>
     <Compile Include="RecursosHumanos.aspx.designer.cs">
       <DependentUpon>RecursosHumanos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteDinamico.aspx.cs">
+      <DependentUpon>ReporteDinamico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReporteDinamico.aspx.designer.cs">
+      <DependentUpon>ReporteDinamico.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
