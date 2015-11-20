@@ -279,7 +279,7 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>-->
+                        </div>-->  
                         <div class="modal-footer">
                             <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
                   
