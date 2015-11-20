@@ -207,7 +207,7 @@
     <Content Include="PanelPrincipal.aspx" />
     <Content Include="ProyectodePruebas.aspx" />
     <Content Include="RecursosHumanos.aspx" />
-    <Compile Include="ReporteDinamico.aspx" />
+    <Content Include="ReporteDinamico.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
