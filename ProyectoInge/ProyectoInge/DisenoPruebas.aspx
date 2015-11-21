@@ -1,23 +1,24 @@
 ﻿<%@ Page Title="Diseño de Pruebas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DisenoPruebas.aspx.cs" Inherits="ProyectoInge.DisenoPruebas" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-  <div class="form-group">
-      <div class="row">
-        <div class="col-sm-9 ">
-        <nav class="navbar navbar-default navbar-static-top">
-            <ul class="navbar-default nav navbar-nav">
-                <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
-                <li><a runat="server" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
-                <li ><a runat="server" style ="background-color:ActiveCaption" href="~/DisenoPruebas.aspx" >Diseño de pruebas</a></li>
-                <li><a runat="server" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
-                <%-- <li ><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx" >Cerrar sesión</a></li>--%>
-                <li><a runat="server" href="~/Login.aspx">Cerrar sesión</a></li>
-            </ul>
-        </nav>
-       </div>
-         <br/>
-         <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
-       </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-9 ">
+                <nav class="navbar navbar-default navbar-static-top">
+                    <ul class="navbar-default nav navbar-nav">
+                        <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
+                        <li><a runat="server" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
+                        <li><a runat="server" style="background-color: ActiveCaption" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
+                        <li><a runat="server" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
+                        <li><a runat="server" href="ReporteDinamico.aspx">Reportes</a></li>
+                        <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
+
+                    </ul>
+                </nav>
+            </div>
+            <br />
+            <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
+        </div>
     </div>
 
     <div class="row">
@@ -30,7 +31,7 @@
             <%--Div de botones para el IMEC--%>
             <div id="btnsControl" style="float: right">
                 <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick ="btnModificar_Click"/>
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnEliminar_Click" />
             </div>
         </div>
@@ -49,27 +50,27 @@
         </div>
         <br>
 
-     <asp:UpdatePanel ID="proyectoUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+        <asp:UpdatePanel ID="proyectoUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
             <ContentTemplate>
-        <%-- Proyecto asociado al diseño --%>
-        <div class="form-group">
-            
-            <div class="row">
-                <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado"  EnableViewState="true">
-                    </asp:DropDownList>
+                <%-- Proyecto asociado al diseño --%>
+                <div class="form-group">
+
+                    <div class="row">
+                        <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                        <div class="col-sm-3 ">
+                            <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado" EnableViewState="true">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
-  
 
-        </div>
-
-                 </ContentTemplate>
+            </ContentTemplate>
         </asp:UpdatePanel>
-                   
+
         <br>
-        
+
 
         <asp:UpdatePanel ID="UpdateAsociarDesasociarRequerimientos" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
             <ContentTemplate>
@@ -93,7 +94,7 @@
                                             <br>
                                             <br>
                                             <%-- Botón para agregar requerimientos a un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11" onClick="btnAgregarRequerimiento">
+                                            <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick="btnAgregarRequerimiento">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -104,7 +105,7 @@
                                     <div class="row">
                                         <div class="">
                                             <%-- Botón para quitar requerimientos de un diseño --%>
-                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick ="btnQuitarReq" >
+                                            <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11" OnClick="btnQuitarReq">
                                         <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
                                             </asp:LinkButton>
                                         </div>
@@ -137,36 +138,35 @@
                     <asp:RegularExpressionValidator runat="server" ID="valInput"
                         ControlToValidate="txtProposito"
                         ValidationExpression="^[\s\S]{0,50}$"
-                        ErrorMessage="Por favor ingrese un máximo de 50 carácteres."
-                     ></asp:RegularExpressionValidator>
+                        ErrorMessage="Por favor ingrese un máximo de 50 carácteres."></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
 
-        
-  
+
+
         <br />
 
         <asp:UpdatePanel ID="NivelPruebaUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
             <ContentTemplate>
-        <div class="form-group">
-            <div class="row">
-                <%-- Nivel de la prueba --%>
-                <asp:Label ID="lblNivel" runat="server" Text="Nivel de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboNivel" AutoPostBack="True" onselectedindexchanged="pruebaUnitariaSeleccionada" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <%-- Nivel de la prueba --%>
+                        <asp:Label ID="lblNivel" runat="server" Text="Nivel de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                        <div class="col-sm-3 ">
+                            <asp:DropDownList runat="server" ID="comboNivel" AutoPostBack="True" OnSelectedIndexChanged="pruebaUnitariaSeleccionada" CssClass="form-control">
+                            </asp:DropDownList>
+                        </div>
 
-                <%-- Técnica de la prueba --%>
-                <asp:Label ID="lblTecnica" runat="server" Text="Técnica de prueba:" CssClass="col-sm-2  control-label"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboTecnica" AutoPostBack="True" CssClass="form-control">
-                    </asp:DropDownList>
+                        <%-- Técnica de la prueba --%>
+                        <asp:Label ID="lblTecnica" runat="server" Text="Técnica de prueba:" CssClass="col-sm-2  control-label"></asp:Label>
+                        <div class="col-sm-3 ">
+                            <asp:DropDownList runat="server" ID="comboTecnica" AutoPostBack="True" CssClass="form-control">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-      </ContentTemplate>
+            </ContentTemplate>
         </asp:UpdatePanel>
 
 
@@ -174,7 +174,7 @@
 
         <div class="form-group">
             <div class="row">
-                
+
                 <%-- ambiente del diseño --%>
                 <asp:Label ID="lblAmbiente" runat="server" Text="Ambiente de prueba:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                 <div class="col-sm-8 ">
@@ -182,8 +182,7 @@
                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator1"
                         ControlToValidate="txtAmbiente"
                         ValidationExpression="^[\s\S]{0,100}$"
-                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
-                     ></asp:RegularExpressionValidator>
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
@@ -197,8 +196,7 @@
                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator2"
                         ControlToValidate="txtProcedimiento"
                         ValidationExpression="^[\s\S]{0,100}$"
-                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
-                     ></asp:RegularExpressionValidator>
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
@@ -212,51 +210,50 @@
                     <asp:RegularExpressionValidator runat="server" ID="RegularExpressionValidator3"
                         ControlToValidate="txtCriterios"
                         ValidationExpression="^[\s\S]{0,100}$"
-                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."
-                     ></asp:RegularExpressionValidator>
+                        ErrorMessage="Por favor ingrese un máximo de 100 carácteres."></asp:RegularExpressionValidator>
                 </div>
             </div>
         </div>
 
 
-<asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+        <asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
             <ContentTemplate>
-        <div class="form-group">
-            <div class="row">
-                <%-- Responsable del diseño --%>
-                <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-2 col-sm-offset-1 control-label" onClick ="responsableSeleccionado"></asp:Label>
-                <div class="col-sm-3 ">
-                    <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control">
-                    </asp:DropDownList>
-                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <%-- Responsable del diseño --%>
+                        <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-2 col-sm-offset-1 control-label" onClick="responsableSeleccionado"></asp:Label>
+                        <div class="col-sm-3 ">
+                            <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control">
+                            </asp:DropDownList>
+                        </div>
 
-                <%-- Fecha del diseño --%>
-                <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                    <ContentTemplate>
-                        
+                        <%-- Fecha del diseño --%>
+                        <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                            <ContentTemplate>
+
                                 <asp:Label ID="lblFecha" runat="server" Text="Fecha*:" CssClass="col-sm-2  control-label"></asp:Label>
                                 <div class="col-sm-3 ">
                                     <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control"></asp:TextBox>
                                 </div>
-                               <div class="col-sm-push-12">
+                                <div class="col-sm-push-12">
                                     <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar" OnClick="lnkCalendario_Click">
                                      <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
                                     </asp:LinkButton>
                                 </div>
                                 <br />
                                 <div class="form-group">
-                                     <div class="row">  
+                                    <div class="row">
                                         <div class="col-sm-3 col-sm-offset-8  ">
-                                            <asp:Calendar runat="server" ID="calendarFecha" Visible="false"  OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
+                                            <asp:Calendar runat="server" ID="calendarFecha" Visible="false" OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
                                         </div>
                                     </div>
                                 </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </div>
-        </div>
-  </ContentTemplate>
-                </asp:UpdatePanel>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
 
     <div class="col-lg-11">
@@ -282,20 +279,20 @@
                         <Columns>
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                     <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>                
-                                      
+                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>
+
                                 </ItemTemplate>
 
                             </asp:TemplateField>
 
                             <asp:TemplateField HeaderText="">
                                 <ItemTemplate>
-                                                    
-                                     <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton> 
+
+                                    <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton>
                                 </ItemTemplate>
 
                             </asp:TemplateField>
-                           
+
 
                         </Columns>
                     </asp:GridView>
@@ -304,7 +301,7 @@
         </div>
     </div>
 
-      <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
+    <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
     <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
@@ -327,20 +324,20 @@
         </div>
 
     </div>
-      <%--Modal Confirmar--%>
+    <%--Modal Confirmar--%>
     <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color = "#Red">Aviso</font></i></h3>
+                    <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
                 </div>
                 <div class="modal-body">
-                     Está seguro que desea eliminar este diseno de pruebas?            
+                    Está seguro que desea eliminar este diseno de pruebas?            
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info"  Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server"/> 
-                    <button type="button" id="botonVolver"  class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info" Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server" />
+                    <button type="button" id="botonVolver" class="btn btn-info" data-dismiss="modal">Cancelar</button>
 
                 </div>
             </div>

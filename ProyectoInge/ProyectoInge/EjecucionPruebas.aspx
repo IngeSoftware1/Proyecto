@@ -11,6 +11,7 @@
                         <li><a runat="server" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
                         <li><a runat="server" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
                         <li><a runat="server" style="background-color: ActiveCaption" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
+                        <li><a runat="server" href="ReporteDinamico.aspx">Reportes</a></li>
                         <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
                     </ul>
                 </nav>
@@ -147,11 +148,11 @@
 
                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText=" ">
                                         <ItemTemplate>
-                                            <asp:LinkButton runat="server" ID="lnkModificar" CommandName="seleccionaAgregar" > Modificar </asp:LinkButton>
+                                            <asp:LinkButton runat="server" ID="lnkModificar" CommandName="seleccionaAgregar"> Modificar </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
-                                      <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="TipoNC">
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="TipoNC">
                                         <ItemTemplate>
                                             <asp:Label ID="lblTipoNC" runat="server" Text='<%# Eval("TipoNC") %>'></asp:Label>
                                         </ItemTemplate>
@@ -163,7 +164,7 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
-                                
+
                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Código caso de prueba">
                                         <ItemTemplate>
                                             <asp:Label ID="lblCasoPrueba" runat="server" Text='<%# Eval("IdPrueba") %>'></asp:Label>
@@ -186,7 +187,7 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
-                                      <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Justificación">
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Justificación">
                                         <ItemTemplate>
                                             <asp:Label ID="lblJustificacion" runat="server" Text='<%# Eval("Justificacion") %>'></asp:Label>
                                         </ItemTemplate>
@@ -195,7 +196,7 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
-                                      <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Resultados">
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Resultados">
                                         <ItemTemplate>
                                             <asp:Label ID="lblResultados" runat="server" Text='<%# Eval("Resultados") %>'></asp:Label>
                                         </ItemTemplate>
@@ -204,7 +205,7 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
-                                      
+
                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Estado">
                                         <ItemTemplate>
                                             <asp:Label ID="lblEstado" runat="server" Text='<%# Eval("Estado") %>'></asp:Label>
@@ -217,9 +218,9 @@
                                         </FooterTemplate>
                                     </asp:TemplateField>
 
-                                          <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText=" ">
+                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText=" ">
                                         <ItemTemplate>
-                                            <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" > Imagen </asp:LinkButton>
+                                            <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen"> Imagen </asp:LinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
@@ -244,18 +245,18 @@
     </div>
     <%--Div que cierra el row principal --%>
 
-    
 
-    
-            <!-- Edit Modal Starts here -->
-            <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="editModalLabel">Edit Record</h3>
-                </div>
-                <asp:UpdatePanel ID="upEdit" runat="server">
-                    <ContentTemplate>
-                      <!--  <div class="modal-body">
+
+
+    <!-- Edit Modal Starts here -->
+    <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="editModalLabel">Edit Record</h3>
+        </div>
+        <asp:UpdatePanel ID="upEdit" runat="server">
+            <ContentTemplate>
+                <!--  <div class="modal-body">
                             <table class="table">
                                 <tr>
                                     <td>Country Code : 
@@ -279,20 +280,20 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>-->  
-                        <div class="modal-footer">
-                            <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
-                  
-                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
-                        </div>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="gridEjecuciones" EventName="RowCommand" />
-                 
-                    </Triggers>
-                </asp:UpdatePanel>
-            </div>
-            <!-- Edit Modal Ends here -->
-			
+                        </div>-->
+                <div class="modal-footer">
+                    <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
+
+                    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="gridEjecuciones" EventName="RowCommand" />
+
+            </Triggers>
+        </asp:UpdatePanel>
+    </div>
+    <!-- Edit Modal Ends here -->
+
 
 </asp:Content>
