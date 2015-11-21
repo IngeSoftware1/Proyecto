@@ -192,16 +192,17 @@ desc_incidencia varchar(70),
 fecha varchar(15),
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
 ON DELETE NO ACTION
-ON UPDATE CASCADE,
+ON UPDATE CASCADE
 );
 
 CREATE TABLE Caso_Ejecutado(
 id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
 ON DELETE CASCADE
-ON UPDATE NO ACTION,}
+ON UPDATE NO ACTION,
 id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
 ON DELETE CASCADE
-ON UPDATE NO ACTION  
+ON UPDATE NO ACTION,
+PRIMARY KEY(id_caso, id_ejecucion) 
 );
 
 CREATE TABLE Tipo_NC(
