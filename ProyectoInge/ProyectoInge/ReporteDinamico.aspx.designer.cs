@@ -220,13 +220,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Button btnReiniciar;
         
         /// <summary>
-        /// Control btnDescargar.
+        /// Control dropDownListDescargar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDescargar;
+        protected global::System.Web.UI.WebControls.DropDownList dropDownListDescargar;
         
         /// <summary>
         /// Control lblReporte.

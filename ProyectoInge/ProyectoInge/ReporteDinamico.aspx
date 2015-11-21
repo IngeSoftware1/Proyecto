@@ -191,12 +191,18 @@
 
 
             <%--Div de botones--%>
-            <div class="col-lg-11">
-                <div id="btnsControl" style="float: right">
-                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" />
-                    <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" />
-                    <asp:Button ID="btnDescargar" runat="server" Text="Descargar" CssClass="btn btn-primary" />
+            <div class="col-sm-12">
+                 <div class="col-sm-8">
+                     </div>
+                <div class="col-sm-3">
+                        <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" />
+
                 </div>
+                <div class="col-sm-1 col-sm-pull-1">
+                        <asp:DropDownList runat="server" ID="dropDownListDescargar" AutoPostBack="True" CssClass="form-control" Style="width: 80px;" EnableViewState="true"></asp:DropDownList>
+                </div>
+
             </div>
 
             <br>
