@@ -121,6 +121,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDCasosPrueba.consultarCasoPrueba(id_caso);
         }
 
+        public DataTable getCodigosCasos(int idDiseno)
+        {
+            return controladoraBDCasosPrueba.getCodigosCasos(idDiseno);
+        }
+
 
     }
 

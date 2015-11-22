@@ -443,5 +443,37 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
+
+        public DataTable getDatosDiseno(int idDiseno)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT D.proposito_diseno, D.tecnica, D.nivel, D.procedimiento_diseno FROM Diseno_Pruebas D WHERE D.id_diseno= " + idDiseno;
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+
+        public DataTable getReqDiseno(int idDiseno, int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT R.id_req FROM Requerimiento_Diseno R WHERE R.id_proyecto = " + idProyecto + " AND id_diseno=" + idDiseno + ";";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
     }
 }
