@@ -75,7 +75,7 @@ namespace ProyectoInge
             int numColumna = 0;
 
 
-            this.listReqProyecto.Items.Clear();
+            //this.listReqProyecto.Items.Clear();
 
             if (cedulaUsuario == null)
             {
@@ -85,7 +85,7 @@ namespace ProyectoInge
                 {
                     numDatos = nombresProyecto.Rows.Count;
                 }
-        }
+            }
             else
             {
                 nombresProyecto = controladoraReporte.consultarProyectosLider(cedulaUsuario);
@@ -129,8 +129,8 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
+                this.controladoraReporte.DataSource = datos;
+                this.controladoraReporte.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
@@ -138,90 +138,8 @@ namespace ProyectoInge
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
-            }
-        }
-
-        //metodo para llenar requerimientos del proyecto
-        protected void llenarRequerimientosProyecto(int idProyecto)
-        {
-            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
-            string requerimiento = "";
-            int contador = 0;
-            requerimiento = "";
-            listReqProyecto.Items.Clear();
-
-            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
-            {
-                listReqProyecto.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    if (listReqAgregados.Items.FindByText(requerimiento) == null)
-                    {
-                        listReqProyecto.Items.Add(requerimiento);
-                        ++contador;
-                    }
-                }
-            }
-            if (0 < contador)
-            {
-                listReqProyecto.Items.Add("Todos los requerimientos");
-            }
-            UpdateAsociarDesasociarRequerimientos.Update();
-            proyectoUpdate.Update();
-        }
-
-        //metodo para llenar requerimientos del proyecto
-        protected void llenarNombresModulos(int idProyecto)
-        {
-            DataTable datosReqProyecto = controladoraReporte.consultarIdReqProyecto(idProyecto);
-            string modulo = "";
-            int contador = 0;
-            modulo = "";
-            listModProyecto.Items.Clear();
-
-            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
-            {
-                listModProyecto.Items.Clear();
-                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
-                {
-                    modulo = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
-                    if (listModAgregados.Items.FindByText(modulo) == null)
-                    {
-                        modulo.Substring(3,5);
-                        if (modulo == "SG")
-                        {
-                            modulo = "Seguridad";
-                        }else if(modulo == "RH")
-                        {
-                            modulo = "Recursos Humanos";
-                        }
-                        else if (modulo == "PR")
-                        {
-                            modulo = "Proyecto";
-                        }
-                        else if (modulo == "DP")
-                        {
-                            modulo = "Diseño de Pruebas";
-                        }
-                        else if (modulo == "CP")
-                        {
-                            modulo = "Casos de Prueba";
-                        }
-                        else if (modulo == "EP")
-                        {
-                            modulo = "Ejecución de Pruebas";
-                        }
-                        listModProyecto.Items.Add(modulo);
-                        ++contador;
-                    }
-                }
-            }
-            if (0 < contador)
-            {
-                listModProyecto.Items.Add("Todos los requerimientos");
+                this.controladoraReporte.DataSource = datos;
+                this.controladoraReporte.DataBind();
             }
             UpdateAsociarDesasociarModulos.Update();
             proyectoUpdate.Update();

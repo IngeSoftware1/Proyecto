@@ -348,6 +348,26 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         }
 
+        public DataTable consultarDisenos(int idProyecto)
+        {
+            DataTable disenos = controladoraBDDiseno.consultarDisenoAsociadoAProyecto(idProyecto);
+            return disenos;
+        }
+
+        public DataTable getDatosDiseno(int idDiseno)
+        {
+            DataTable disenos = controladoraBDDiseno.getDatosDiseno(idDiseno);
+            return disenos;
+        }
+
+        public DataTable getReqDiseno(int idDiseno, int idProyecto)
+        {
+            DataTable IdRequerimientos = controladoraBDDiseno.getReqDiseno(idDiseno, idProyecto);
+            return IdRequerimientos;
+        }
+       
+       
+
 
     }
 }

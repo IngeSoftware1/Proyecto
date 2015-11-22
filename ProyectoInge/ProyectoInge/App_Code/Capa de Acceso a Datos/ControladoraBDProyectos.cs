@@ -795,11 +795,11 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
 
 
- /*Método para consultar los proyectos en los cuales el miembro es lider
-      * Requiere: la cedula del lider
-      * Modifica: no realiza modificaciones
-      * Retorna: un DataTable con los resultados de la consulta 
-      */
+        /*Método para consultar los proyectos en los cuales el miembro es lider
+             * Requiere: la cedula del lider
+             * Modifica: no realiza modificaciones
+             * Retorna: un DataTable con los resultados de la consulta 
+             */
         public DataTable consultarProyectosDeLider(String cedula)
         {
             DataTable dt = new DataTable();
@@ -820,7 +820,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         public DataTable consultarNombresProyectosDeDisenos(DataTable diseños)
         {
             int contador = 0;
-            string consulta="";
+            string consulta = "";
             DataTable dt;
             try
             {
@@ -847,5 +847,47 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
 
-        }    }
+        }
+
+        /*Método para consultar el nombre de los requerimientos a partir de su id
+        * Requiere: un DataTable con el id de los requerimientos que se desea consultar
+        * Modifica: no realiza modificaciones
+        * Retorna: un DataTable con los resultados de la consulta 
+        */
+        public DataTable getNombreReqDiseno(DataTable ReqDiseno, int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+
+            try
+            {
+                for (int i = 0; i < ReqDiseno.Rows.Count; ++i)
+                {
+                    ++contador;
+
+                    Debug.WriteLine("el contenido es: " + ReqDiseno.Rows[i][0].ToString());
+                    consulta = consulta + " " + "SELECT R.id_req, R.nombre_req FROM Requerimiento R WHERE R.id_req = '" + ReqDiseno.Rows[i][0].ToString() + "'" + "AND R.id_proyecto = '" + idProyecto + "'";
+
+
+                    if (contador != ReqDiseno.Rows.Count)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+
+                }
+
+                Debug.WriteLine("la consulta es: " + consulta);
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+    }
 }

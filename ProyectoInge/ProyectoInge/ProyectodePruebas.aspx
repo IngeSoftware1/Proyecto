@@ -2,22 +2,23 @@
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-<div class="form-group">
-  <div class="row">
-    <div class="col-sm-9 ">     
-    <nav class="navbar navbar-default navbar-static-top">
-       <ul class="navbar-default nav navbar-nav">
-             <li><a runat="server"  href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
-             <li ><a runat="server" style ="background-color:ActiveCaption"  href="~/ProyectodePruebas.aspx" >Proyecto</a></li>
-             <li ><a runat="server" href="~/DisenoPruebas.aspx" >Diseño de pruebas</a></li>
-             <li ><a runat="server" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
-             <li ><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx" >Cerrar sesión</a></li>
-       </ul>
-    </nav>
-    </div>
-      <br/>
-      <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
-    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-9 ">
+                <nav class="navbar navbar-default navbar-static-top">
+                    <ul class="navbar-default nav navbar-nav">
+                        <li><a runat="server" href="~/RecursosHumanos.aspx">Recursos Humanos</a></li>
+                        <li><a runat="server" style="background-color: ActiveCaption" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
+                        <li><a runat="server" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
+                        <li><a runat="server" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
+                        <li><a runat="server" href="ReporteDinamico.aspx">Reportes</a></li>
+                        <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <br />
+            <asp:Label ID="lblLogueado" runat="server" Text="" Font-Bold="True" CssClass="col-sm-2 control-label"></asp:Label>
+        </div>
 
     </div>
 
@@ -249,7 +250,7 @@
                                     <br />
                                     <div class="row">
                                         <div class="">
- 
+
                                             <br>
                                             <asp:Label ID="lblSiglaReq" runat="server" Text="Código:" CssClass="col-sm-1 col-sm-offset-2 control-label"></asp:Label>
                                             <div class="col-sm-2 ">
@@ -282,12 +283,12 @@
                                         <div class="">
 
                                             <div class="col-sm-8 col-sm-offset-2">
-                                                <asp:ListBox runat="server" ID="listRequerimientosAgregados" Style="height: 120px" CssClass="form-control" ></asp:ListBox>
+                                                <asp:ListBox runat="server" ID="listRequerimientosAgregados" Style="height: 120px" CssClass="form-control"></asp:ListBox>
                                             </div>
 
                                             <%-- Botón para quitar requerimientos de un proyecto --%>
                                             <div class="col-sm-1 ">
-                                                <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos"  OnClick="btnEliminarRequerimiento">
+                                                <asp:LinkButton runat="server" ID="lnkQuitarRequerimientos" OnClick="btnEliminarRequerimiento">
                                                 <span aria-hidden="true" class="glyphicon glyphicon-minus-sign blueColor col-sm-push-11"></span>
                                                 </asp:LinkButton>
                                             </div>

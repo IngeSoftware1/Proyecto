@@ -483,10 +483,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.eliminarRequerimintoDiseno(siglaBase, idProyecto);
         }
- /* Método para consultar si un miembro tiene como rol el lider de pruebas, para consultar de cuales proyecto es lider
-        * Requiere: un string con la cedula del miembro
-        * Retorna: un booleano que me indica si el miembro es lider o no  
-        */
+        /* Método para consultar si un miembro tiene como rol el lider de pruebas, para consultar de cuales proyecto es lider
+               * Requiere: un string con la cedula del miembro
+               * Retorna: un booleano que me indica si el miembro es lider o no  
+               */
         public Boolean consultarRolLider(string cedula)
         {
             controladoraRH = new ControladoraRecursos();
@@ -515,10 +515,19 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarProyectosDeLider(string cedula)
         {
             return controladoraBDProyecto.consultarProyectosDeLider(cedula);
-        }        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños)
+        }
+
+        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños)
         {
 
             return controladoraBDProyecto.consultarNombresProyectosDeDisenos(diseños);
 
-        }    }
+        }
+
+
+        public DataTable getNombreReqDiseno(DataTable ReqDiseno, int idProyecto)
+        {
+            return controladoraBDProyecto.getNombreReqDiseno(ReqDiseno, idProyecto);
+        }
+    }
 }
