@@ -7,6 +7,14 @@ using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style;
+using OfficeOpenXml;
 
 namespace ProyectoInge
 {
@@ -30,8 +38,8 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
-                /*ponerNombreDeUsuarioLogueado();
-                controlarCampos(false);
+                //ponerNombreDeUsuarioLogueado();
+                /*controlarCampos(false);
                 cambiarEnabledTxtCalendar(false);
                 cambiarEnabled(false, this.btnModificar);
                 cambiarEnabled(false, this.btnEliminar);
@@ -42,18 +50,19 @@ namespace ProyectoInge
                 cambiarEnabled(true, this.btnInsertar);
                 llenarComboNivel();
                 llenarComboTecnica();
+                 */ 
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    llenarComboRecursos();
-                    llenarGrid(null);
+                    //llenarComboRecursos();
+                    //llenarGrid(null);
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                    llenarComboRecursos();
-                    llenarGrid(Session["cedula"].ToString());
-                }*/
+                    //llenarComboRecursos();
+                    //llenarGrid(Session["cedula"].ToString());
+                }
 
             }
         }
@@ -74,8 +83,6 @@ namespace ProyectoInge
             int indiceProyecto = 1;
             int numColumna = 0;
 
-
-            //this.listReqProyecto.Items.Clear();
 
             if (cedulaUsuario == null)
             {
@@ -129,8 +136,8 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-              //  this.controladoraReporte.DataSource = datos;
-             //   this.controladoraReporte.DataBind();
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
                 Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
@@ -138,10 +145,136 @@ namespace ProyectoInge
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-              //  this.controladoraReporte.DataSource = datos;
-               // this.controladoraReporte.DataBind();
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
             }
         }
+
+
+        // Genera el reporte en Excel.
+        protected void generarReporteExcel(object sender, EventArgs e)
+        {
+
+            ExcelPackage package = new ExcelPackage();
+            package.Workbook.Worksheets.Add("Reportes");
+            ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+            worksheet.Cells.Style.Font.Size = 12;
+            worksheet.Cells.Style.Font.Name = "Calibri";
+
+            // Poner un titulo.
+            worksheet.Cells[1, 1].Value = "Reporte de proyectos " + DateTime.Today.ToString("(dd/MM/yyyy).");
+            worksheet.Row(1).Style.Font.Bold = true;
+            worksheet.Row(1).Style.Font.Size = 14;
+
+            // Rellenar los datos.
+            int c = 1;
+            int r = 2;
+            // Poner el header.
+            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+            {
+                worksheet.Cells[r, c++].Value = cell.Text;
+            }
+            // Dar formato al header.
+            worksheet.Row(r).Style.Font.Bold = true;
+            worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
+            r++;
+            // Poner el resto de los datos.
+            foreach (TableRow row in gridReportes.Rows)
+            {
+                c = 1;
+                foreach (TableCell cell in row.Cells)
+                {
+                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
+                }
+                // Coloreamos las filas.
+                if (0 == r % 2)
+                {
+                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                }
+                r++;
+            }
+
+            // Ajustamos el ancho de las columnas.
+            worksheet.DefaultColWidth = 10;
+            worksheet.Cells.AutoFitColumns();
+
+            Response.Clear();
+            Response.Buffer = true;
+            Response.BinaryWrite(package.GetAsByteArray());
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment;  filename=Reporte.xlsx");
+            Response.Flush();
+            Response.End();
+        }
+
+        // Genera el reporte en PDF.
+        protected void generarReportePDF(object sender, EventArgs e)
+        {
+            Response.ClearContent();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", "attachment; filename=Reporte.pdf");
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+
+            Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+
+            Document pdfDoc = new Document(PageSize.LETTER.Rotate(), 5f, 5f, 5f, 0f);
+            PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
+
+            pdfDoc.Open();
+
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(Request.MapPath("~/estatico/img/logo.png"));
+            logo.Alignment = iTextSharp.text.Image.ALIGN_LEFT;
+            logo.ScalePercent(20f);
+
+            PdfPTable table = new PdfPTable(3);
+            table.DefaultCell.Border = PdfPCell.BOTTOM_BORDER;
+
+            float[] columnWidths = new float[] { 25f, 50f, 25f };
+            table.SetWidths(columnWidths);
+
+            PdfPCell cell = new PdfPCell(logo);
+            cell.Border = PdfPCell.BOTTOM_BORDER;
+
+            table.AddCell(cell);
+            table.AddCell(new Paragraph("Reporte: Sistema de Gestión de Pruebas"));
+            table.AddCell(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")));
+
+            pdfDoc.Add(table);
+
+            int columns = gridReportes.Rows[0].Cells.Count;
+            int rows = gridReportes.Rows.Count;
+
+            PdfPTable elGrid = new PdfPTable(columns);
+            elGrid.DefaultCell.Border = PdfPCell.BOX;
+            elGrid.HeaderRows = 1;
+            elGrid.WidthPercentage = 95f;
+
+            for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+            {
+                string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
+                elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
+            }
+
+            for (int rowCounter = 0; rowCounter < rows; rowCounter++)
+            {
+                for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+                {
+                    string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
+                    elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
+                }
+            }
+            pdfDoc.Add(elGrid);
+
+            pdfDoc.Close();
+
+            Response.Write(pdfDoc);
+            Response.End();
+        }
+
+
+
 
     }
 }

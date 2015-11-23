@@ -217,7 +217,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-1">
                         <div id="scroll" style="height: 183px; width: 700px; overflow: auto;">
-                            <asp:GridView ID="gridRH" runat="server" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" AutoGenerateColumns="true" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                            <asp:GridView ID="gridReportes" runat="server" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" AutoGenerateColumns="true" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                                 <Columns>
                                     <asp:TemplateField HeaderText="">
                                         <ItemTemplate>
