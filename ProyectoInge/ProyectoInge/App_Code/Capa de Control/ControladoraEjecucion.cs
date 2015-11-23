@@ -130,6 +130,43 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             DataTable nombreReq = controladoraProyecto.getNombreReqDiseno(ReqDiseno, idProyecto);
             return nombreReq;
         }
+
+        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+       * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+       * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+       * Retorna el valor de la variable booleana.
+       */
+        public bool ejecutarAccion(int modo, int accion, Object[] datos, String nombre)
+        {
+
+            Boolean resultado = false;
+            switch (modo)
+            {
+                case 1:
+                    { // INSERTAR
+                        if (accion == 1) //inserta ejecución de pruebas
+                        {
+                            EntidadEjecucionPrueba nuevo = new EntidadEjecucionPrueba(datos);
+                            resultado = controladoraBDEjecucion.insertarEjecucionPrueba(nuevo);
+                        }
+                        
+                    }
+                    break;
+                case 2:
+                    { // MODIFICAR
+
+                       
+                    }
+                    break;
+                case 3:
+                    { //ELIMINAR
+                        
+                    }
+                    break;
+            }
+            return resultado;
+
+        }
     }
 
 

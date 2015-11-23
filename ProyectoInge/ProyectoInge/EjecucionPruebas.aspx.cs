@@ -30,10 +30,17 @@ namespace ProyectoInge
         private static DropDownList comboIdCasoModificar;
         private static DropDownList comboIdEstadoModificar;
         private static bool casosIniciados = false;
+        private int modo;
 
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["cedula"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+
+            }
+
             if (!IsPostBack)
             {
                 //  gridTipoNC_Inicial();
@@ -48,10 +55,22 @@ namespace ProyectoInge
                     //  llenarGrid(Session["cedula"].ToString());
                 }
 
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                habilitarCampos(false);
             }
+
+            
 
         }
 
+        protected void habilitarCampos(bool condicion)
+        {
+            txtIncidencias.Enabled = condicion;
+            comboResponsable.Enabled = condicion;
+        }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
         protected void lnkCalendario_Click(object sender, EventArgs e)
@@ -654,7 +673,135 @@ namespace ProyectoInge
 
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
+            modo = 1;
+            vaciarCampos();
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnInsertar);
+            habilitarCampos(true);
 
+        }
+
+        /*Método para limpiar los textbox
+         * Requiere: No requiere parámetros
+         * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
+         * Retorna: no retorna ningún valor
+         */
+        protected void vaciarCampos()
+        {
+            txtCalendar.Text = "";
+            txtIncidencias.Text = "";
+            gridTipoNC_Inicial((Int32.Parse(Session["idDisenoEjecucion"].ToString())));
+        }
+
+        /*Método para habilitar/deshabilitar el botón
+          * Requiere: el booleano para la acción
+          * Modifica: La propiedad enable del botón
+          * Retorna: no retorna ningún valor
+          */
+        protected void cambiarEnabled(bool condicion, Button boton)
+        {
+            boton.Enabled = condicion;
+        }
+
+        /*Método para obtener la cédula de un miembro a partir del nombre
+        * Requiere: nombre
+        * Modifica: el valor de la cédula solicitada.
+        * Retorna: la cédula del miembro solicitado.
+        */
+        protected string obtenerCedula(string nombreMiembro)
+        {
+            string cedula = "";
+
+            Dictionary<string, string> cedulasMiembros = (Dictionary<string, string>)Session["vectorCedulasResponsables"];
+
+            if (!cedulasMiembros.TryGetValue(nombreMiembro, out cedula)) // Returns true.
+            {
+                //lblModalTitle.Text = "ERROR";
+                //lblModalBody.Text = "Nombre del miembro es inválido.";
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                //upModal.Update();
+            }
+
+            return cedula;
+
+        }
+
+        /*Método para distinguir las diferentes situaciones en las que se puede seleccionar el botón de aceptar.
+         * Requiere: Recibe el evento cuando se presiona el botón de aceptar
+         * Modifica: Contiene un case el cual depende del tipo de modo en que se encuentre la aplicación ya sea Insertar, Modificar o Eliminar (1,2,3 respectivamente)
+         * Retorna: no retorna ningún valor
+         */
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            switch (modo)
+            {
+                case 1:
+                    {
+                        btnAceptar_Insertar();
+                    }
+                    break;
+
+                case 2:
+                    {
+                        //btnAceptar_Modificar();
+                    }
+                    break;
+
+            }
+        }
+
+        /*Método para la acción de aceptar cuando esta en modo de inserción
+         * Requiere: No requiere ningún parámetro
+         * Modifica: Crea un objeto con los datos obtenidos en la interfaz mediante textbox y 
+         * valida que todos los datos se encuentren para la inserción
+         * Retorna: No retorna ningún valor
+         */
+        protected void btnAceptar_Insertar()
+        {
+            int tipoInsercion = 1;
+
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "Debe completar los datos obligatorios para agregar la ejecución.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //habilitarCamposInsertar();
+            }
+            else
+            {
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                Object[] datosNuevos = new Object[4];
+                Debug.Print( this.txtIncidencias.Text);
+
+                datosNuevos[0] = this.txtIncidencias.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+
+                //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
+                {
+                    lblModalTitle.Text = "LISTO";
+                    lblModalBody.Text = "INSERTÉ CORRECTAMENTE";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
+        }
+
+        protected bool faltanDatos()
+        {
+            bool resultado = false;
+
+            if (txtCalendar.Text == "" || comboResponsable.Text == "Seleccione")
+            {
+                resultado = true;
+            }
+            return resultado;
         }
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
@@ -721,43 +868,53 @@ namespace ProyectoInge
 
             dr = dt.NewRow();
 
-            string comboTipoNC = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
-            string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
-            string descripcion = (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text;
-            string justificacion = (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
-            string resultados = (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Text;
-            string estado = (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
-
-
-            dr[0] = comboTipoNC;
-            dr[1] = idCaso;
-            dr[2] = descripcion;
-            dr[3] = justificacion;
-            dr[4] = resultados;
-            dr[5] = estado;
-
-            dt.Rows.Add(dr); // Agrega las filas
-
-
-            gridNoConformidades.DataSource = dt;
-            gridNoConformidades.DataBind();
-
-
-            //Carga del comboBox con los tipos de no conformidades
-            llenarComboTipoNC(true);
-
-
-            //Carga del comboBox con los códigos de los casos de prueba
-            llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-
-            //Carga del comboBox con los estados de las no conformidades
-            llenarComboEstados(true);
-    
-            for (int j = 0; j < gridNoConformidades.Columns.Count; ++j)
+            if ((gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value == "Seleccione" || (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione" || (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value == "Seleccione")
             {
-                gridNoConformidades.Columns[j].ItemStyle.Width = 5;
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "Debe completar los datos obligatorios para agregar la no conformidad.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
             }
+            else
+            { 
 
+                string comboTipoNC = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
+                string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
+                string descripcion = (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text;
+                string justificacion = (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
+                string resultados = (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Text;
+                string estado = (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
+
+
+                dr[0] = comboTipoNC;
+                dr[1] = idCaso;
+                dr[2] = descripcion;
+                dr[3] = justificacion;
+                dr[4] = resultados;
+                dr[5] = estado;
+
+                dt.Rows.Add(dr); // Agrega las filas
+
+
+                gridNoConformidades.DataSource = dt;
+                gridNoConformidades.DataBind();
+
+
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
+
+
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
+    
+                for (int j = 0; j < gridNoConformidades.Columns.Count; ++j)
+                {
+                    gridNoConformidades.Columns[j].ItemStyle.Width = 5;
+                }
+            }
         }
 
 

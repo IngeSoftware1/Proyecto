@@ -8,6 +8,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
     public class EntidadAdministrador
     {
         //Atributos de la tabla Administrador
+
         private String cedula_admin;
 
         public EntidadAdministrador(Object[] datos)

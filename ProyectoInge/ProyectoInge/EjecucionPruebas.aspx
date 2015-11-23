@@ -169,10 +169,10 @@
                                     <asp:Label ID="lblListaConformidades" runat="server" Visible="false" Font-Size="120%" Font-Bold="True" Text="Lista de no conformidades clasificada por el tipo" CssClass="col-sm-6 col-sm-offset-4 control-label"></asp:Label>
                                 </div>
                             </div>
-                            <div id="scroll" style="width: 900px; height: 183px; overflow: auto;">
+                            <div id="scroll" style="width: 900px; height: 500px; overflow: auto;">
                                 <asp:GridView ID="gridNoConformidades" ShowFooter="true"
                                     ShowFooterWhenEmpty="true" ShowHeaderWhenEmpty="true" CssClass="dataGridTable" OnRowDataBound="RowDataBound"
-                                    Style="text-align: center; width: 900px" Font-Size="14px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
+                                    Style="text-align: center; width: 900px" Font-Size="10px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
                                     AutoGenerateColumns="false" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
 
                                     <Columns>
@@ -191,7 +191,7 @@
                                         </asp:TemplateField>
 
                                         <%--Tipo de no conformidad  --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="TipoNC">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="No conformidad*">
 
                                             <EditItemTemplate>
                                                 <asp:DropDownList ID="dropDownListTipoNC" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionadoModificar" CssClass="form-control">
@@ -208,7 +208,7 @@
                                         </asp:TemplateField>
 
                                         <%--Código caso de prueba  --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Código caso de prueba">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Código caso de prueba*">
 
                                             <EditItemTemplate>
                                                 <asp:DropDownList ID="dropDownListPrueba" runat="server" CssClass="form-control">
@@ -268,7 +268,7 @@
                                         </asp:TemplateField>
 
                                         <%-- Estado --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Estado">
+                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Estado*">
 
                                             <EditItemTemplate>
                                                 <asp:DropDownList ID="dropDownListEstado" runat="server" CssClass="form-control">
@@ -308,9 +308,9 @@
                                 <ContentTemplate>
 
                                     <div class="row col-sm-6">
-                                        <asp:Label ID="lblFecha" runat="server" Text="Fecha última asignación:" CssClass="col-sm-3  control-label"></asp:Label>
+                                        <asp:Label ID="lblFecha" runat="server" Text="Fecha última asignación*:" CssClass="col-sm-3  control-label"></asp:Label>
                                         <div class="col-sm-7">
-                                            <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control col-sm-offset-1"></asp:TextBox>
+                                            <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control col-sm-offset-1" Enabled="false"></asp:TextBox>
                                         </div>
                                         <div class="col-sm-1">
                                             <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar col-sm-pull-2" OnClick="lnkCalendario_Click">
@@ -321,7 +321,7 @@
                                     <asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
                                             <div class="row col-sm-6">
-                                                <asp:Label ID="lblResponsable" runat="server" Text="Responsable:" CssClass="col-sm-3  control-label"></asp:Label>
+                                                <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-3  control-label"></asp:Label>
 
                                                 <div class="col-sm-7 ">
                                                     <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control col-sm-offset-4" EnableViewState="true">
@@ -375,7 +375,7 @@
         <div class="col-lg-11">
             <%-- Botones para aceptar y cancelar --%>
             <div id="btnsBD" style="float: right">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
             </div>
         </div>
@@ -425,31 +425,7 @@
         </div>
         <asp:UpdatePanel ID="upEdit" runat="server">
             <ContentTemplate>
-                <!--  <div class="modal-body">
-                            <table class="table">
-                                <tr>
-                                    <td>Country Code : 
-                            <asp:Label ID="lblCountryCode" runat="server"></asp:Label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Population : 
-                            <asp:TextBox ID="txtPopulation" runat="server"></asp:TextBox>
-                                        <asp:Label runat="server" Text="Type Integer Value!" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Country Name:
-                            <asp:TextBox ID="txtName" runat="server"></asp:TextBox>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Continent:
-                            <asp:TextBox ID="txtContinent1" runat="server"></asp:TextBox>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>-->
+           
                 <div class="modal-footer">
                     <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
 
@@ -457,6 +433,30 @@
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
+    </div>
+
+     <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">
+                                <asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
+                        </div>
+                        <div class="modal-body">
+                            <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
+
     </div>
     <!-- Edit Modal Ends here -->
     <%--Modal Confirmar--%>

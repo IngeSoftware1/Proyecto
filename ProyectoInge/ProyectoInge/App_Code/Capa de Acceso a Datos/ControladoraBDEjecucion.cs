@@ -102,5 +102,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /*Método para insertar en la base de datos una nueva ejecución de pruebas
+         * Requiere: un objeto tipo EntidadEjecucionPrueba con los datos a guardar
+         * Modifica: realiza la sentencia sql para insertar la ejecucion de pruebas
+         * Retorna: true si la inserción fue exitosa, false si no se pudo insertar en la base de datos
+         */
+        public bool insertarEjecucionPrueba(EntidadEjecucionPrueba nuevo)
+        {
+            try
+            {
+                string insercion = "INSERT INTO Ejecucion_Prueba (desc_incidencia, fecha, cedula_responsable, id_diseno) VALUES ('" + nuevo.getDescIncidencia + "', '" + nuevo.getFecha + "', '" + nuevo.getCedulaResponsable +  "', '"+nuevo.getIdDiseño+"')";
+                return acceso.insertarDatos(insercion);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
     }
 }

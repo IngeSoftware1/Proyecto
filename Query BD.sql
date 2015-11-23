@@ -174,7 +174,7 @@ entrada_datos varchar(100),
 resultado_esperado varchar(100),
 id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
 ON DELETE CASCADE 
-ON UPDATE CASCADE,
+ON UPDATE CASCADE
 );
 
 CREATE TABLE Estado_Ejecucion(
@@ -182,7 +182,7 @@ estado_ejecucion varchar(20) PRIMARY KEY
 );
 
 INSERT INTO Estado_Ejecucion VALUES('Satisfactoria');
-INSERT INTO Estado_Ejecucion VALUES( 'Faliida');
+INSERT INTO Estado_Ejecucion VALUES( 'Fallida');
 INSERT INTO Estado_Ejecucion VALUES('Pendiente');
 INSERT INTO Estado_Ejecucion VALUES('Cancelada');
 
@@ -192,7 +192,10 @@ desc_incidencia varchar(70),
 fecha varchar(15),
 cedula_responsable varchar(9) FOREIGN KEY REFERENCES Miembro(cedula_miembro)
 ON DELETE NO ACTION
-ON UPDATE CASCADE
+ON UPDATE CASCADE,
+id_diseno int FOREIGN KEY REFERENCES Diseno_Pruebas(id_diseno)
+ON DELETE NO ACTION 
+ON UPDATE NO ACTION
 );
 
 CREATE TABLE Caso_Ejecutado(

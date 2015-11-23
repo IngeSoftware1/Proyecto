@@ -1201,7 +1201,6 @@ namespace ProyectoInge
                 lblModalBody.Text = "Está seguro que desea cambiar el estado del proyecto?";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalCambiarEstado", "$('#modalCambiarEstado').modal();", true);
                 upModal.Update();
-                //mensaje = "<script>window.alert('Está seguro que desea cambiar el estado del proyecto?');</script>";
             }
 
         }

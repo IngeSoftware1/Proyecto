@@ -15,6 +15,12 @@ namespace ProyectoInge
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["cedula"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+
+            }
+
             ponerNombreDeUsuarioLogueado();
         }
 
