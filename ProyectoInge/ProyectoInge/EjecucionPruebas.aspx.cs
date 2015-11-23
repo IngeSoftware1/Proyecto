@@ -17,53 +17,688 @@ namespace ProyectoInge
     {
         ControladoraEjecucion controladoraEjecucionPruebas = new ControladoraEjecucion();
 
+        //Variablaes globales utilizadas para cuando el cliente modifica alguna fila del grid
+        private static string comboTipoNCTxt = "";
+        private static string idCasoTxt = "";
+        private static string descripcionTxt = "";
+        private static string justificacionTxt = "";
+        private static string resultadosTxt = "";
+        private static string estadoTxt = "";
+        private static int filaEliminar = 0;
+        private static List<int> comboDedisenos = new List<int>();
+        private static DropDownList comboTipoNCModificar;
+        private static DropDownList comboIdCasoModificar;
+        private static DropDownList comboIdEstadoModificar;
+        private static bool casosIniciados = false;
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                gridEjecuciones.DataSource = GetTableWithInitialData(); // get first initial data
-                gridEjecuciones.DataBind();
+                //  gridTipoNC_Inicial();
+                if (Session["perfil"].ToString().Equals("Administrador"))
+                {
+                    llenarComboProyecto(null);
+                    //  llenarGrid(null);
+                }
+                else
+                {
+                    llenarComboProyecto(Session["cedula"].ToString());
+                    //  llenarGrid(Session["cedula"].ToString());
+                }
+
             }
 
         }
 
-        protected void btnInsertar_Click(object sender, EventArgs e)
+
+        /*Método para hacer visible el calendario cuando el usuario presiona el botón */
+        protected void lnkCalendario_Click(object sender, EventArgs e)
         {
-            this.panelDiseno.Visible = true;
-            this.datosDiseno.Visible = true;
+            calendarFecha.Visible = true;
+            calendarFecha.SelectedDate = calendarFecha.TodaysDate;
+            UpdatePanelCalendario.Update();
+        }
+
+        /*Método para leer la fecha seleccionada por el usuario */
+        protected void calendarioSeleccionado(object sender, EventArgs e)
+        {
+            calendarFecha.Visible = false;
+            txtCalendar.Text = calendarFecha.SelectedDate.ToString().Substring(0, 10);
+            UpdatePanelCalendario.Update();
+        }
+
+        /*Método para que la página no se actualice cada vez que el usuario elige un nuevo mes */
+        protected void cambioDeMes(object sender, MonthChangedEventArgs e)
+        {
+            UpdatePanelCalendario.Update();
         }
 
 
-        public DataTable GetTableWithInitialData() // this might be your sp for select
+        /* Método para llenar el comboBox de los tipos de no conformidades
+       * Modifica: llena el comboBox con los datos obtenidos de la BD
+       * Retorna: no retorna ningún valor */
+        protected void llenarComboTipoNC(bool tipoCombo)
+        {
+            DropDownList comboNoConformidades = (DropDownList)gridNoConformidades.FooterRow.FindControl("comboTipoNC");
+            DataTable tiposNC = controladoraEjecucionPruebas.consultarTiposNC();
+
+            if (tipoCombo == true)
+            {
+                comboNoConformidades = (DropDownList)gridNoConformidades.FooterRow.FindControl("comboTipoNC");
+            }
+            else
+            {
+                comboNoConformidades = comboTipoNCModificar;
+            }
+
+            int numDatos = tiposNC.Rows.Count;
+            Object[] datos;
+
+            if (tiposNC.Rows.Count >= 1)
+            {
+                numDatos = tiposNC.Rows.Count;
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < tiposNC.Rows.Count; ++i)
+                {
+                    datos[i + 1] = tiposNC.Rows[i][0].ToString();
+                }
+
+                datos[0] = "Seleccione";
+                comboNoConformidades.DataSource = datos;
+                comboNoConformidades.DataBind();
+
+                if (tipoCombo == false)
+                {
+                    ListItem itemEstablecido = comboNoConformidades.Items.FindByText(comboTipoNCTxt);
+                    comboNoConformidades.SelectedValue = itemEstablecido.Value;
+                }
+
+            }
+        }
+
+        /* Método para llenar el comboBox de los estados 
+        * Modifica: llena el comboBox con los datos obtenidos de la BD
+        * Retorna: no retorna ningún valor */
+        protected void llenarComboEstados(bool tipoCombo)
+        {
+
+            DropDownList comboDeEstado = (DropDownList)gridNoConformidades.FooterRow.FindControl("comboEstado");
+            DataTable estados = controladoraEjecucionPruebas.consultarEstados();
+
+            if (tipoCombo == true)
+            {
+                comboDeEstado = (DropDownList)gridNoConformidades.FooterRow.FindControl("comboEstado");
+            }
+            else
+            {
+                comboDeEstado = comboIdEstadoModificar;
+            }
+
+            int numDatos = estados.Rows.Count;
+            Object[] datos;
+
+            if (estados.Rows.Count >= 1)
+            {
+                numDatos = estados.Rows.Count;
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < estados.Rows.Count; ++i)
+                {
+                    datos[i + 1] = estados.Rows[i][0].ToString();
+                }
+
+                datos[0] = "Seleccione";
+                comboDeEstado.DataSource = datos;
+                comboDeEstado.DataBind();
+
+                if (tipoCombo == false)
+                {
+                    ListItem itemEstablecido = comboDeEstado.Items.FindByText(estadoTxt);
+                    comboDeEstado.SelectedValue = itemEstablecido.Value;
+                }
+
+            }
+        }
+
+        /* Método para llenar el comboBox los  proyectos de acuerdo a si es miembro o administrador 
+        * Modifica: llena el comboBox con los datos obtenidos de la BD
+        * Retorna: no retorna ningún valor */
+        protected void llenarComboProyecto(string cedulaUsuario)
+        {
+            Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
+            Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
+            string nombre = "";
+            this.comboProyecto.Items.Clear();
+            DataTable nombresProyecto;
+            int numDatos = 0;
+            Object[] datos;
+            int indiceProyecto = 1;
+            int numColumna = 0;
+
+            if (cedulaUsuario == null)
+            {
+
+                nombresProyecto = controladoraEjecucionPruebas.consultarNombresProyectos();
+                if (nombresProyecto != null && nombresProyecto.Rows.Count > 0)
+                {
+                    numDatos = nombresProyecto.Rows.Count;
+                }
+            }
+            else
+            {
+                nombresProyecto = controladoraEjecucionPruebas.consultarProyectosLider(cedulaUsuario);
+                if (nombresProyecto == null || nombresProyecto.Rows.Count == 0)
+                {
+                    nombresProyecto = controladoraEjecucionPruebas.consultarProyectosDeUsuario(cedulaUsuario);
+                }
+
+                numDatos = nombresProyecto.Rows.Count;
+
+            }
+
+
+            if (numDatos > 0)
+            {
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < numDatos; ++i)
+                {
+                    foreach (DataColumn column in nombresProyecto.Columns)
+                    {
+                        if (numColumna == 1)
+                        {
+
+                            nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
+                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(), nombre);
+
+
+                        }
+                        else
+                        {
+                            nombre = nombresProyecto.Rows[i][0].ToString();
+                        }
+
+                        ++numColumna;
+                    }
+
+                    datos[indiceProyecto] = nombre;
+                    ++indiceProyecto;
+                    numColumna = 0;
+                    nombre = "";
+                }
+                datos[0] = "Seleccione";
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+                Session["vectorIdProyectos"] = nombres_id_proyectos;
+                Session["vectorIdNombres"] = id_nombres_proyectos;
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+            }
+
+        //    proyectoDisenoUpdate.Update();
+        }
+
+        protected void llenarComboRecursos()
+        {
+
+            Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
+            Dictionary<string, string> cedulasNombreRepresentantes = new Dictionary<string, string>();
+            int id = -1;
+            DataTable Recursos;
+            Object[] datos;
+            int numDatos = 0;
+
+
+            if (this.comboProyecto.Text.Equals("Seleccione") == false)
+            {
+
+                id = controladoraEjecucionPruebas.obtenerIdProyecto(this.comboProyecto.Text);
+                Recursos = controladoraEjecucionPruebas.consultarMiembrosDeProyecto(id.ToString());
+                numDatos = Recursos.Rows.Count;
+
+                string nombre = "";
+                int numColumna = 0;
+                int indiceResponsables = 1;
+                this.comboResponsable.Items.Clear();
+
+                if (Recursos != null && Recursos.Rows.Count >= 1) //bloque para consultar miembros
+                {
+                    numDatos = Recursos.Rows.Count;
+                    datos = new Object[numDatos + 2];
+
+                    for (int i = 0; i < Recursos.Rows.Count; ++i)
+                    {
+
+
+                        foreach (DataColumn column in Recursos.Columns)
+                        {
+                            if (numColumna == 4)
+                            {
+
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[i][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[i][numColumna].ToString(), nombre);
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        numColumna = 0;
+                        nombre = "";
+
+                    }
+
+                    numColumna = 0;
+                    Recursos = controladoraEjecucionPruebas.consultarLider(id); // consultar lider
+
+                    if (Recursos != null && Recursos.Rows.Count == 1)
+                    {
+
+                        foreach (DataColumn column in Recursos.Columns)
+                        {
+                            if (numColumna == 3)
+                            {
+
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        nombre = "";
+
+                    }
+
+                    datos[0] = "Seleccione";
+                    this.comboResponsable.DataSource = datos;
+                    this.comboResponsable.DataBind();
+                    Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                    Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
+                }
+                else
+                {
+
+                    // en caso que no haya miembros verifica si hay lideres
+                    numColumna = 0;
+                    Recursos = controladoraEjecucionPruebas.consultarLider(id);
+                    indiceResponsables = 1;
+                    if (Recursos != null && Recursos.Rows.Count == 1)
+                    {
+
+                        numDatos = Recursos.Rows.Count;
+                        datos = new Object[numDatos + 1];
+                        foreach (DataColumn column in Recursos.Columns)
+                        {
+                            if (numColumna == 3)
+                            {
+
+                                cedulasRepresentantes.Add(nombre, Recursos.Rows[0][numColumna].ToString());
+                                cedulasNombreRepresentantes.Add(Recursos.Rows[0][numColumna].ToString(), nombre);
+
+                            }
+                            else
+                            {
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                            }
+
+                            ++numColumna;
+                        }
+
+                        datos[indiceResponsables] = nombre;
+                        ++indiceResponsables;
+                        nombre = "";
+                        datos[0] = "Seleccione";
+                        Session["vectorCedulasResponsables"] = cedulasRepresentantes;
+                        Session["vectorCedulasNombreResponsables"] = cedulasNombreRepresentantes;
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+                        Debug.WriteLine("cantidad de items: " + comboResponsable.Items.Count);
+
+                    }
+                    else
+                    {
+                        datos = new Object[1];
+                        datos[0] = "Seleccione";
+                        this.comboResponsable.DataSource = datos;
+                        this.comboResponsable.DataBind();
+                    }
+                }
+
+            }
+            else // si no hay proyecto seleccionado
+            {
+
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboResponsable.DataSource = datos;
+                this.comboResponsable.DataBind();
+
+
+            }
+
+            comboResponsableUpdate.Update();
+
+
+        }
+
+        protected void llenarComboDisenos()
+        {
+            int idProyecto = (Int32.Parse(Session["idProyectoEjecucion"].ToString()));
+            DataTable disenos = controladoraEjecucionPruebas.consultarDisenos(idProyecto);
+            comboDedisenos.Clear();
+
+            Object[] datos;
+            int numDatos = 0;
+            int indice = 1;
+
+            if (disenos.Rows.Count >= 1)
+            {
+                numDatos = disenos.Rows.Count;
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < disenos.Rows.Count; ++i)
+                {
+                    datos[indice] = disenos.Rows[i][1].ToString();
+                    comboDedisenos.Add(Int32.Parse(disenos.Rows[i][0].ToString()));
+                    ++indice;
+                }
+
+                datos[0] = "Seleccione";
+                this.comboDiseño.DataSource = datos;
+                this.comboDiseño.DataBind();
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboDiseño.DataSource = datos;
+                this.comboDiseño.DataBind();
+            }
+
+          //  proyectoDisenoUpdate.Update();
+
+        }
+
+        protected void llenarComboCasos(int idDiseno, bool tipoCombo)
+        {
+            DataTable casos = controladoraEjecucionPruebas.getCodigosCasos(idDiseno);
+            DropDownList comboDeCasos;
+
+            if (tipoCombo == true)
+            {
+                comboDeCasos = (DropDownList)gridNoConformidades.FooterRow.FindControl("comboCasoPrueba");
+            }
+            else
+            {
+                comboDeCasos = comboIdCasoModificar;
+            }
+
+
+            Object[] datos;
+            int numDatos = 0;
+            int indice = 1;
+
+            if (casos.Rows.Count > 0)
+            {
+                numDatos = casos.Rows.Count;
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < casos.Rows.Count; ++i)
+                {
+                    datos[indice] = casos.Rows[i][0].ToString();
+                    ++indice;
+                }
+
+                datos[0] = "Seleccione";
+                comboDeCasos.DataSource = datos;
+                comboDeCasos.DataBind();
+
+                if (tipoCombo == false)
+                {
+                    ListItem itemEstablecido = comboDeCasos.Items.FindByText(idCasoTxt);
+                    comboDeCasos.SelectedValue = itemEstablecido.Value;
+                }
+
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                comboDeCasos.DataSource = datos;
+                comboDeCasos.DataBind();
+            }
+        }
+
+
+        protected void btnOcultarDiseno(object sender, EventArgs e)
+        {
+            this.panelDiseno.Visible = false;
+            this.datosDiseno.Visible = false;
+            this.lblDatosDiseño.Visible = false;
+          //  proyectoDisenoUpdate.Update();
+           
+        }
+
+        protected void llenarDatosDiseno(int idDiseno, int idProyecto)
+        {
+           
+            DataTable datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
+            DataTable ReqDiseno = controladoraEjecucionPruebas.getReqDiseno(idDiseno, idProyecto);
+            DataTable datosReqDiseno;
+            string requerimiento = "";
+            string idReq = "";
+
+            if (datosDiseno.Rows.Count > 0)
+            {
+                Debug.WriteLine("estoy en el if de datos ");
+                this.txtPropositoDiseño.Text = datosDiseno.Rows[0][0].ToString();
+                this.txtTecnicaPrueba.Text = datosDiseno.Rows[0][1].ToString();
+                this.txtNivel.Text = datosDiseno.Rows[0][2].ToString();
+                this.txtProcedimiento.Text = datosDiseno.Rows[0][3].ToString();
+
+                if (ReqDiseno.Rows.Count > 0)
+                {
+
+                    datosReqDiseno = controladoraEjecucionPruebas.getNombreReqDiseno(ReqDiseno, idProyecto);
+                    if (datosReqDiseno.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                        {
+                            idReq = datosReqDiseno.Rows[i][0].ToString();
+                            requerimiento = datosReqDiseno.Rows[i][1].ToString();
+                            requerimiento = idReq + " " + requerimiento;
+                            this.listRequerimientoDisponibles.Items.Add(requerimiento);
+                            requerimiento = "";
+                            idReq = "";
+                        }
+                    }
+                }
+
+                this.panelDiseno.Visible = true;
+                this.datosDiseno.Visible = true;
+                this.lblDatosDiseño.Visible = true;
+
+           //     proyectoDisenoUpdate.Update();
+
+            }
+
+        }
+
+        protected void disenoSeleccionado(object sender, EventArgs e)
+        {
+
+            if (this.comboDiseño.Text.Equals("Seleccione") == false)
+            {
+                int idDiseno = comboDedisenos[comboDiseño.SelectedIndex - 1];
+                Session["idDisenoEjecucion"] = idDiseno;
+                Debug.WriteLine("este es el id en disenoSelecciionado" + idDiseno);
+                this.txtPropositoDiseño.Text = "";
+                this.txtTecnicaPrueba.Text = "";
+                this.txtNivel.Text = "";
+                this.txtProcedimiento.Text = "";
+                this.listRequerimientoDisponibles.Items.Clear();
+                if(casosIniciados == true)
+                {
+                    llenarComboCasos(idDiseno, true);
+                }
+            
+                llenarDatosDiseno(idDiseno, Int32.Parse(Session["idProyectoEjecucion"].ToString()));
+                gridTipoNC_Inicial(idDiseno);
+            }
+
+       //     proyectoDisenoUpdate.Update();
+     
+        }
+
+        protected void proyectoSeleccionado(object sender, EventArgs e)
+        {
+            llenarComboRecursos();
+            int id = controladoraEjecucionPruebas.obtenerIdProyecto(this.comboProyecto.Text);
+            Session["idProyectoEjecucion"] = id;
+            llenarComboDisenos();
+            this.panelDiseno.Visible = false;
+            this.datosDiseno.Visible = false;
+            this.lblDatosDiseño.Visible = false;
+
+        //    proyectoDisenoUpdate.Update();
+         
+
+        }
+
+        protected void tipoNCSeleccionado(object sender, EventArgs e)
+        {
+            string tipoNCSeleccionado = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
+
+            if (tipoNCSeleccionado.Equals("Seleccione") == false)
+            {
+                Debug.WriteLine("estoy en tipo nc seleccionado");
+                DataTable descripcionNC = controladoraEjecucionPruebas.getDescripcionNC(tipoNCSeleccionado);
+
+                if (descripcionNC.Rows.Count > 0)
+                {
+                    (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text = descripcionNC.Rows[0][0].ToString();
+                }
+            }
+
+        }
+
+
+        protected void tipoNCSeleccionadoModificar(object sender, EventArgs e)
+        {
+            GridViewRow gvr = gridNoConformidades.Rows[gridNoConformidades.EditIndex];
+            DropDownList tipoNCSeleccionado = (gvr.FindControl("dropDownListTipoNC") as DropDownList);
+
+            if (tipoNCSeleccionado.SelectedItem.Value.Equals("Seleccione") == false)
+            {
+                DataTable descripcionNC = controladoraEjecucionPruebas.getDescripcionNC(tipoNCSeleccionado.SelectedItem.Value);
+
+                if (descripcionNC.Rows.Count > 0)
+                {
+                    (gvr.FindControl("txtDescripcionEdit") as TextBox).Text = descripcionNC.Rows[0][0].ToString();
+                }
+            }
+
+        }
+
+
+        /** Método para mostrar el grid inicial de no conformidades en pantalla.
+        * Requiere: no recibe parámetros.
+        * Modifica: El grid de no conformidades que se presenta en pantalla.
+        * Retorna: No tiene valor de retorno.
+        */
+        protected void gridTipoNC_Inicial(int idDiseno)
+        {
+            gridNoConformidades.DataSource = getTablaConDatosIniciales(); // get first initial data
+            gridNoConformidades.DataBind();
+            GridViewRow gvr = gridNoConformidades.Rows[0];
+            gvr.FindControl("lnkModificar").Visible = false;
+            gvr.FindControl("lnkEliminar").Visible = false;
+            this.lblListaConformidades.Visible = true;
+            casosIniciados = true;
+           
+
+            //Carga del comboBox con los tipos de no conformidades
+            llenarComboTipoNC(true);
+
+
+            //Carga del comboBox con los códigos de los casos de prueba
+            llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+            //Carga del comboBox con los estados de las no conformidades
+            llenarComboEstados(true);
+
+        }
+
+
+        protected void btnInsertar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
+        * Requiere: no recibe parámetros.
+        * Modifica: El grid de no conformidades que que se presenta en pantalla.
+        * Retorna: La tabla que será mostrada mediante el grid de no conformidades en pantalla.
+        */
+        public DataTable getTablaConDatosIniciales() // this might be your sp for select
         {
             DataTable table = new DataTable();
-            DataRow dr;
+
             table.Columns.Add("TipoNC", typeof(string));
             table.Columns.Add("IdPrueba", typeof(string));
             table.Columns.Add("Descripcion", typeof(string));
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Resultados", typeof(string));
             table.Columns.Add("Estado", typeof(string));
+            table.Columns.Add("Imagen", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-" );
+            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
 
             return table;
-        }  
+        }
 
-        protected void btnAddRow_Click(object sender, EventArgs e)
+        /** Método para agregar una nuevo no conformidad en el grid.
+        * Modifica: El grid de no conformidades que se presenta en pantalla.
+        * Retorna: No tiene valor de retorno.
+        */
+        protected void btnAgregarNC_Click(object sender, EventArgs e)
         {
+
             DataTable dt = GetTableWithNoData(); // get select column header only records not required
             DataRow dr;
             GridViewRow gvr;
             int i = 0;
 
-            
-            for (i = 0; i < gridEjecuciones.Rows.Count; ++i)
+
+
+            for (i = 0; i < gridNoConformidades.Rows.Count; ++i)
             {
-                gvr = gridEjecuciones.Rows[i];
+                gvr = gridNoConformidades.Rows[i];
                 Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
 
-                if(lblTipoNC.Text != "-")
+                if (lblTipoNC.Text != "-")
                 {
                     dr = dt.NewRow();
 
@@ -82,19 +717,16 @@ namespace ProyectoInge
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
                 }
-
-                    
-               
             }
 
             dr = dt.NewRow();
 
-            string comboTipoNC = (gridEjecuciones.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
-            string idCaso = (gridEjecuciones.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
-            string descripcion = (gridEjecuciones.FooterRow.FindControl("txtDescripcion") as TextBox).Text;
-            string justificacion = (gridEjecuciones.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
-            string resultados = (gridEjecuciones.FooterRow.FindControl("txtResultados") as TextBox).Text;
-            string estado = (gridEjecuciones.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
+            string comboTipoNC = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
+            string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
+            string descripcion = (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text;
+            string justificacion = (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
+            string resultados = (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Text;
+            string estado = (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
 
 
             dr[0] = comboTipoNC;
@@ -104,13 +736,37 @@ namespace ProyectoInge
             dr[4] = resultados;
             dr[5] = estado;
 
-            dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
+            dt.Rows.Add(dr); // Agrega las filas
 
-            gridEjecuciones.DataSource = dt; // bind new datatable to grid
-            gridEjecuciones.DataBind();
+
+            gridNoConformidades.DataSource = dt;
+            gridNoConformidades.DataBind();
+
+
+            //Carga del comboBox con los tipos de no conformidades
+            llenarComboTipoNC(true);
+
+
+            //Carga del comboBox con los códigos de los casos de prueba
+            llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+            //Carga del comboBox con los estados de las no conformidades
+            llenarComboEstados(true);
+    
+            for (int j = 0; j < gridNoConformidades.Columns.Count; ++j)
+            {
+                gridNoConformidades.Columns[j].ItemStyle.Width = 5;
+            }
+
         }
 
-        public DataTable GetTableWithNoData() // returns only structure if the select columns
+
+        /** Método para establecer las columnas del grid.
+          * Requiere: no recibe parámetros.
+          * Modifica: Modifica el grid para que se puedan crear las filas en él
+          * Retorna: la estructura de las columnas que tendrá el grid de no conformidades
+          */
+        public DataTable GetTableWithNoData()
         {
             DataTable table = new DataTable();
             table.Columns.Add("TipoNC", typeof(string));
@@ -119,10 +775,11 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Resultados", typeof(string));
             table.Columns.Add("Estado", typeof(string));
+            table.Columns.Add("Imagen", typeof(string));
+
             return table;
 
         }
-
 
 
         /** Método para cerrar la sesión abierta de un usuario y dirigirse a la página de inicio.
@@ -139,41 +796,104 @@ namespace ProyectoInge
         }
 
 
-      /*Método para obtener el registro que se desea consulta en el dataGriedViw y mostrar los resultados de la consulta en pantalla.
-      * Modifica: el valor del la variable idDiseño con el ID del diseño que se desea consultar.
-      * Retorna: no retorna ningún valor
-      */
+        protected void RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && gridNoConformidades.EditIndex == e.Row.RowIndex)
+            {
+                comboTipoNCModificar = (DropDownList)e.Row.FindControl("dropDownListTipoNC");
+                comboIdCasoModificar = (DropDownList)e.Row.FindControl("dropDownListPrueba");
+                comboIdEstadoModificar = (DropDownList)e.Row.FindControl("dropDownListEstado");
+
+                //Carga del comboBox con los tipos de no conformidades y selección del valor según el correspondiente al campo editado
+                llenarComboTipoNC(false);
+
+
+                //Carga del comboBox con los códigos de los casos de prueba y selección del valor según el correspondiente al campo editado
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), false);
+ 
+
+                //Carga del comboBox con los estados de las no conformidades y selección del valor según el correspondiente al campo editado
+                llenarComboEstados(false);
+
+            }
+        }
+        /*Método para obtener la acción que desea realizar el usuario en el grid de no conformidades.
+        * Modifica: el grid de no conformidades de acuerdo a la acción que realice el usuario.
+        * Retorna: no retorna ningún valor
+        */
+
         protected void gridTiposNC_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "seleccionaAgregar")
+            DataTable dt = GetTableWithNoData(); // get select column header only records not required
+            DataRow dr;
+            GridViewRow gvr;
+            int fila;
+            int indice = 0;
+            if (e.CommandName == "seleccionaModificar")
             {
-                DataTable dt = GetTableWithNoData(); // get select column header only records not required
-                DataRow dr;
-                GridViewRow gvr;
-                int i = 0;
 
-                int indice = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+                fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+                gridNoConformidades.EditIndex = fila;
 
-                gvr = gridEjecuciones.Rows[indice];
-
-                string setTipoNC = (gvr.FindControl("lblTipoNC") as Label).Text;
-                string setIdCaso = (gvr.FindControl("lblCasoPrueba") as Label).Text;
-                string setDescripcion = (gvr.FindControl("lblDescripcion") as Label).Text;
-                string setJustificacion = (gvr.FindControl("lblJustificacion") as Label).Text;
-                string setResultados = (gvr.FindControl("lblResultados") as Label).Text;
-                string setEstado = (gvr.FindControl("lblEstado") as Label).Text;
-
-                for (i = 0; i < gridEjecuciones.Rows.Count; ++i)
+                for (indice = 0; indice < gridNoConformidades.Rows.Count; ++indice)
                 {
 
-                    Debug.WriteLine("cantidad de rows es: " + gridEjecuciones.Rows.Count);
-                    Debug.WriteLine("el valor de la i es: " + i);
+                    dr = dt.NewRow();
+                    gvr = gridNoConformidades.Rows[indice];
 
-                    if (i != indice || (i == indice && gridEjecuciones.Rows.Count == 1 ))
+                    Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
+                    Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
+                    Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
+                    Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
+                    Label lblResultados = gvr.FindControl("lblResultados") as Label;
+                    Label lblEstado = gvr.FindControl("lblEstado") as Label;
+
+                    if (indice == fila)
                     {
- 
+                        comboTipoNCTxt = lblTipoNC.Text;
+                        idCasoTxt = lblCasoPrueba.Text;
+                        descripcionTxt = lblDescripcion.Text;
+                        justificacionTxt = lblJustificacion.Text;
+                        resultadosTxt = lblResultados.Text;
+                        estadoTxt = lblEstado.Text;
+                    }
+
+                    dr[0] = lblTipoNC.Text;
+                    dr[1] = lblCasoPrueba.Text;
+                    dr[2] = lblDescripcion.Text;
+                    dr[3] = lblJustificacion.Text;
+                    dr[4] = lblResultados.Text;
+                    dr[5] = lblEstado.Text;
+                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
+                }
+
+                gvr = gridNoConformidades.Rows[fila];
+                gridNoConformidades.DataSource = dt; // bind new datatable to grid
+                gridNoConformidades.DataBind();
+
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
+
+
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
+
+
+            }
+            else if (e.CommandName == "seleccionaAceptar")
+            {
+                fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+
+                for (indice = 0; indice < gridNoConformidades.Rows.Count; ++indice)
+                {
+                    if (indice != fila)
+                    {
                         dr = dt.NewRow();
-                        gvr = gridEjecuciones.Rows[i];
+                        gvr = gridNoConformidades.Rows[indice];
 
                         Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
                         Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
@@ -188,67 +908,185 @@ namespace ProyectoInge
                         dr[3] = lblJustificacion.Text;
                         dr[4] = lblResultados.Text;
                         dr[5] = lblEstado.Text;
-
-                        Debug.WriteLine("dr0 tiene: " + dr[0]);
-                        Debug.WriteLine("dr1 tiene: " + dr[1]);
-                        Debug.WriteLine("dr2 tiene: " + dr[2]);
-                        Debug.WriteLine("dr3 tiene: " + dr[3]);
-
-
-                        dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
+                        dt.Rows.Add(dr); // add grid values in to row and add row to the blank table   
                     }
-                    else if(i == indice && gridEjecuciones.Rows.Count == 1)
-                    {
-                        dr = dt.NewRow();
 
-                        dr[0] = "-";
-                        dr[1] = "-";
-                        dr[2] = "-"; 
-                        dr[3] = "-"; 
-                        dr[4] = "-"; 
-                        dr[5] = "-"; 
+                    dr = dt.NewRow();
+                    gvr = gridNoConformidades.Rows[fila];
 
-                        Debug.WriteLine("dr0 tiene: " + dr[0]);
-                        Debug.WriteLine("dr1 tiene: " + dr[1]);
-                        Debug.WriteLine("dr2 tiene: " + dr[2]);
-                        Debug.WriteLine("dr3 tiene: " + dr[3]);
+                    string comboTipoNCModificado = (gvr.FindControl("dropDownListTipoNC") as DropDownList).SelectedItem.Value;
+                    string idCasoModificado = (gvr.FindControl("dropDownListPrueba") as DropDownList).SelectedItem.Value;
+                    string descripcionModificada = (gvr.FindControl("txtDescripcionEdit") as TextBox).Text;
+                    string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
+                    string resultadosModificados = (gvr.FindControl("txtResultadosEdit") as TextBox).Text;
+                    string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
 
 
-                        dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
-                    }
+                    dr[0] = comboTipoNCModificado;
+                    dr[1] = idCasoModificado;
+                    dr[2] = descripcionModificada;
+                    dr[3] = justificacionModificada;
+                    dr[4] = resultadosModificados;
+                    dr[5] = estadoModificado;
+
+                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
+                    gridNoConformidades.EditIndex = -1;
+
+                    gridNoConformidades.DataSource = dt; // bind new datatable to grid
+                    gridNoConformidades.DataBind();
 
                 }
 
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
 
 
-                gridEjecuciones.DataSource = dt; // bind new datatable to grid
-                gridEjecuciones.DataBind();
-
-
-                ListItem itemCombo = (gridEjecuciones.FooterRow.FindControl("comboTipoNC") as DropDownList).Items.FindByText(setTipoNC);
-                (gridEjecuciones.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedValue = itemCombo.Value;
-                itemCombo = (gridEjecuciones.FooterRow.FindControl("comboCasoPrueba") as DropDownList).Items.FindByText(setTipoNC);
-                (gridEjecuciones.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedValue = itemCombo.Value;
-                (gridEjecuciones.FooterRow.FindControl("txtDescripcion") as TextBox).Text = setDescripcion;
-                (gridEjecuciones.FooterRow.FindControl("txtJustificacion") as TextBox).Text = setJustificacion;
-                (gridEjecuciones.FooterRow.FindControl("txtResultados") as TextBox).Text = setResultados;
-                itemCombo = (gridEjecuciones.FooterRow.FindControl("comboEstado") as DropDownList).Items.FindByText(setEstado);
-                (gridEjecuciones.FooterRow.FindControl("comboEstado") as DropDownList).SelectedValue = itemCombo.Value;
-
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+    
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
 
             }
-            else if (e.CommandName.Equals("cargarImagen"))
+            else if (e.CommandName == "seleccionaCancelar")
             {
-                lblResult.Visible = false;
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                sb.Append(@"<script type='text/javascript'>");
-                sb.Append("$('#editModal').modal('show');");
-                sb.Append(@"</script>");
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalScript", sb.ToString(), false);
+                gridNoConformidades.EditIndex = -1;
+                fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
 
+                for (indice = 0; indice < gridNoConformidades.Rows.Count; ++indice)
+                {
+
+                    dr = dt.NewRow();
+                    gvr = gridNoConformidades.Rows[indice];
+
+                    if (indice == fila)
+                    {
+                        dr[0] = comboTipoNCTxt;
+                        dr[1] = idCasoTxt;
+                        dr[2] = descripcionTxt;
+                        dr[3] = justificacionTxt;
+                        dr[4] = resultadosTxt;
+                        dr[5] = estadoTxt;
+                    }
+                    else
+                    {
+                        Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
+                        Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
+                        Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
+                        Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
+                        Label lblResultados = gvr.FindControl("lblResultados") as Label;
+                        Label lblEstado = gvr.FindControl("lblEstado") as Label;
+
+                        dr[0] = lblTipoNC.Text;
+                        dr[1] = lblCasoPrueba.Text;
+                        dr[2] = lblDescripcion.Text;
+                        dr[3] = lblJustificacion.Text;
+                        dr[4] = lblResultados.Text;
+                        dr[5] = lblEstado.Text;
+                    }
+
+
+                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank table 
+                }
+
+                gridNoConformidades.DataSource = dt; // bind new datatable to grid
+                gridNoConformidades.DataBind();
+
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
+
+
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
+
+            }
+            else if (e.CommandName == "seleccionaEliminar")
+            {
+                filaEliminar = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
+
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
+
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+     
+
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
+
+            }
+
+
+            /*     else if (e.CommandName.Equals("cargarImagen"))
+                 {
+                     lblResult.Visible = false;
+                     System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                     sb.Append(@"<script type='text/javascript'>");
+                     sb.Append("$('#editModal').modal('show');");
+                     sb.Append(@"</script>");
+                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "EditModalScript", sb.ToString(), false);
+
+                 } */
+        }
+
+        /*Método para la acción de aceptar cuando esta en modo de eliminar algún registro del grid de no conformidades
+         * Requiere: No requiere ningún parámetro
+         * Modifica: Elimina el registro especificado del grid de no conformidades
+         * Retorna: No retorna ningún valor
+         */
+        protected void btnAceptarEliminarTipoNC(object sender, EventArgs e)
+        {
+            DataTable dt = GetTableWithNoData(); // get select column header only records not required
+            DataRow dr;
+            GridViewRow gvr;
+            int indice = 0;
+
+            for (indice = 0; indice < gridNoConformidades.Rows.Count; ++indice)
+            {
+
+                if (indice != filaEliminar)
+                {
+                    dr = dt.NewRow();
+                    gvr = gridNoConformidades.Rows[indice];
+
+                    Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
+                    Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
+                    Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
+                    Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
+                    Label lblResultados = gvr.FindControl("lblResultados") as Label;
+                    Label lblEstado = gvr.FindControl("lblEstado") as Label;
+
+                    dr[0] = lblTipoNC.Text;
+                    dr[1] = lblCasoPrueba.Text;
+                    dr[2] = lblDescripcion.Text;
+                    dr[3] = lblJustificacion.Text;
+                    dr[4] = lblResultados.Text;
+                    dr[5] = lblEstado.Text;
+                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
+                }
+            }
+
+            if (dt.Rows.Count == 0)
+            {
+                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+            }
+            else
+            {
+                gridNoConformidades.DataSource = dt;
+                gridNoConformidades.DataBind();
             }
         }
+
+        protected void gridEjecuciones_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+
     }
 }
 
-  

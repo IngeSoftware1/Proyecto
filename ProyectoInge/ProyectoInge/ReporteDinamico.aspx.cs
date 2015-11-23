@@ -136,18 +136,18 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
-                Session["vectorIdProyectos"] = nombres_id_proyectos;
+                  this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();                Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
             else
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
-            }
+              this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();            }
+     //       UpdateAsociarDesasociarModulos.Update();
+     //       proyectoUpdate.Update();
         }
 
 
