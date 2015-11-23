@@ -186,7 +186,7 @@
                                                 <asp:LinkButton ID="lnkCancelar" runat="server" CommandName="seleccionaCancelar">Cancelar</asp:LinkButton>
                                             </EditItemTemplate>
                                             <FooterTemplate>
-                                                <asp:Button ID="btnAddRow" runat="server" CssClass="btn btn-primary" OnClick="btnAddRow_Click" Text="Add Row" />
+                                                <asp:Button ID="btnAgregarNC" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarNC_Click" Text="Agregar" />
                                             </FooterTemplate>
                                         </asp:TemplateField>
 
