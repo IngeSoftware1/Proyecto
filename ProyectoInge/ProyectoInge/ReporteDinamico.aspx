@@ -70,94 +70,29 @@
                                                 <%--Requerimientos del proyecto --%>
                                                 <asp:Label ID="lblReqProyecto" runat="server" Text="Modulos del proyecto" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-1">
-                                                    <asp:ListBox runat="server" ID="listModProyecto" CssClass="form-control" Style="height: 170px"></asp:ListBox>
+                                                   
+                                                     <asp:CheckBoxList ID="chklistModulos" runat="server" Style="height: 170px" CssClass="form-control">
+                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-sm-1">
-                                            <div class="row">
-                                                <div class="">
-                                                    <br>
-                                                    <br>
-                                                    <%-- Botón para agregar requerimientos a un diseño --%>
-                                                    <asp:LinkButton runat="server" ID="lnkAgregarMod" Style="height: 100px" CssClass="col-sm-offset-11">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
-                                                    </asp:LinkButton>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <div class="row">
-                                                <div class="">
-                                                    <%-- Botón para quitar requerimientos de un diseño --%>
-                                                    <asp:LinkButton runat="server" ID="lnkQuitarMod" Style="height: 100px" CssClass="col-sm-offset-11">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
-                                                    </asp:LinkButton>
-                                                </div>
-                                            </div>
-                                        </div>
+                                      
 
                                         <div class="form-group col-sm-5">
                                             <div class="row">
                                                 <%--Requerimientos asociados al diseño --%>
-                                                <asp:Label ID="lblReqAsignados" runat="server" Text="Modulos del reporte" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
+                                                <asp:Label ID="lblReqAsignados" runat="server" Text="Requerimientos" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-2">
-                                                    <asp:ListBox runat="server" ID="listModAgregados" CssClass="form-control" Style="height: 170px"></asp:ListBox>
+
+                                                      <asp:CheckBoxList ID="chklistReq" runat="server" Style="height: 170px" CssClass="form-control">
+                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <br />
-                                <%--REQUERIMIENTO --%>
-                                <div class="row">
-                                    <div class="col-sm-10">
-
-                                        <div class="form-group col-sm-5 col-sm-offset-1">
-                                            <div class="row">
-                                                <%--Requerimientos del proyecto --%>
-                                                <asp:Label ID="LabelReq1" runat="server" Text="Requerimentos del proyecto" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
-                                                <div class="col-sm-12 col-sm-offset-1">
-                                                    <asp:ListBox runat="server" ID="listReqProyecto" CssClass="form-control" Style="height: 170px"></asp:ListBox>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-1">
-                                            <div class="row">
-                                                <div class="">
-                                                    <br>
-                                                    <br>
-                                                    <%-- Botón para agregar requerimientos a un diseño --%>
-                                                    <asp:LinkButton runat="server" ID="lnkAgregarReq" Style="height: 100px" CssClass="col-sm-offset-11">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-right blueColor"></span>
-                                                    </asp:LinkButton>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <br>
-                                            <br>
-                                            <div class="row">
-                                                <div class="">
-                                                    <%-- Botón para quitar requerimientos de un diseño --%>
-                                                    <asp:LinkButton runat="server" ID="lnkQuitarReq" Style="height: 100px" CssClass="col-sm-offset-11">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-hand-left blueColor"></span>
-                                                    </asp:LinkButton>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group col-sm-5">
-                                            <div class="row">
-                                                <%--Requerimientos asociados al diseño --%>
-                                                <asp:Label ID="LabelReq2" runat="server" Text="Modulos del reporte" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
-                                                <div class="col-sm-12 col-sm-offset-2">
-                                                    <asp:ListBox runat="server" ID="listReqAgregados" CssClass="form-control" Style="height: 170px"></asp:ListBox>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
 
                                 <%--CHECKS--%>

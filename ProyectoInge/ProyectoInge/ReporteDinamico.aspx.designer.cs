@@ -67,31 +67,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblReqProyecto;
         
         /// <summary>
-        /// Control listModProyecto.
+        /// Control chklistModulos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox listModProyecto;
-        
-        /// <summary>
-        /// Control lnkAgregarMod.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkAgregarMod;
-        
-        /// <summary>
-        /// Control lnkQuitarMod.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkQuitarMod;
+        protected global::System.Web.UI.WebControls.CheckBoxList chklistModulos;
         
         /// <summary>
         /// Control lblReqAsignados.
@@ -103,67 +85,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblReqAsignados;
         
         /// <summary>
-        /// Control listModAgregados.
+        /// Control chklistReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox listModAgregados;
-        
-        /// <summary>
-        /// Control LabelReq1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelReq1;
-        
-        /// <summary>
-        /// Control listReqProyecto.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox listReqProyecto;
-        
-        /// <summary>
-        /// Control lnkAgregarReq.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkAgregarReq;
-        
-        /// <summary>
-        /// Control lnkQuitarReq.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lnkQuitarReq;
-        
-        /// <summary>
-        /// Control LabelReq2.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelReq2;
-        
-        /// <summary>
-        /// Control listReqAgregados.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox listReqAgregados;
+        protected global::System.Web.UI.WebControls.CheckBoxList chklistReq;
         
         /// <summary>
         /// Control checkBoxConf.

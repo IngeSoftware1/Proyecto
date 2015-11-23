@@ -56,6 +56,13 @@ namespace ProyectoInge
                     llenarComboProyecto(null);
                     //llenarComboRecursos();
                     //llenarGrid(null);
+                    Object[] datos;
+                    datos = new Object[1];
+                    datos[0]="Ejemplo";
+                    this.chklistModulos.DataSource = datos;
+                    this.chklistModulos.DataBind();
+                    this.chklistReq.DataSource = datos;
+                    this.chklistReq.DataBind();
                 }
                 else
                 {
@@ -63,6 +70,8 @@ namespace ProyectoInge
                     //llenarComboRecursos();
                     //llenarGrid(Session["cedula"].ToString());
                 }
+
+
 
             }
         }
