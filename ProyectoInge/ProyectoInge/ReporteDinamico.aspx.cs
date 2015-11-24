@@ -40,24 +40,22 @@ namespace ProyectoInge
             if (!IsPostBack)
             {
                 ponerNombreDeUsuarioLogueado();
- 
+                llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    proyectoUpdate.Update();
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                    proyectoUpdate.Update();
                 }
             }
         }
 
         protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (checkBoxTodos.Checked == true)
-            //{
+            if (checkBoxTodos.Checked == true)
+            {
                 this.checkBoxConf.Checked = true;
                 this.checkBoxNC.Checked = true;
                 this.checkBoxPropositoCaso.Checked = true;
@@ -67,7 +65,7 @@ namespace ProyectoInge
                 this.checkBoxResponsableDiseno.Checked = true;
                 this.checkBoxEstadoEjecucion.Checked = true;
                 this.checkBoxID_TipoNC.Checked = true;
-            //}
+            }
         }
         
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -157,8 +155,7 @@ namespace ProyectoInge
                 this.comboProyecto.DataSource = datos;
                 this.comboProyecto.DataBind();
             }
-     //         UpdateAsociarDesasociarModulos.Update();
-     //         proyectoUpdate.Update();
+            proyectoUpdate.Update();
         }
 
         // Genera el reporte en Excel.
@@ -300,8 +297,8 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //no deber[ia ser un boton porque la generacion la hace el combobox
-            llenarDropDownTipoDescarga();
+            //
+            //lena el grid
         }
 
         //metodo para llenar requerimientos del proyecto
@@ -368,7 +365,7 @@ namespace ProyectoInge
             Session["idProyecto"] = id;
             Response.Write("acaaa"+id);
             llenarRequerimientosProyecto(id);
-            proyectoUpdate.Update();
+            UpdatePanel3.Update();
             
         }
 
