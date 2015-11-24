@@ -51,431 +51,469 @@
             </div>
             <div class="col-sm-10 col-sm-offset-1">
                 <div class="panel panel-default" runat="server" id="datosPanelEjecucion" style="height: 700px">
-                    <div class="panel-body" runat="server" id ="panelEjecucion">
+                    <div class="panel-body" runat="server" id="panelEjecucion">
                         <div class="form-group">
-                            <%--Proyecto --%>
-
-                            <div class="row col-sm-6">
-                                <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-3 control-label"></asp:Label>
-                                <div class="col-sm-7">
-                                    <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" OnSelectedIndexChanged="proyectoSeleccionado" CssClass="form-control col-sm-offset-1" EnableViewState="true">
-                                    </asp:DropDownList>
-                                </div>
-                            </div>
-
-                            <div class="row col-sm-6">
-                                <asp:Label ID="lblDiseñoPruebas" runat="server" Text="Diseño de Prueba*:" CssClass="col-sm-5  control-label"></asp:Label>
-                                <div class="col-sm-7 ">
-                                    <asp:DropDownList runat="server" ID="comboDiseño" AutoPostBack="True" OnSelectedIndexChanged="disenoSeleccionado" CssClass="form-control col-sm-pull-1" EnableViewState="true">
-                                    </asp:DropDownList>
-                                </div>
-                            </div>
-
-                        </div>
-                        <br>
-                        <br>
-
-                        <div class="row col-sm-6 ">
-                            <asp:Label runat="server" ID="lblDatosDiseño" Visible="false" Font-Bold="True" Text="Datos del diseño" CssClass="col-sm-5 control-label"></asp:Label>
-                        </div>
-
-                        <div class="col-sm-10  ">
-                            <div class="panel panel-default" runat="server" id="datosDiseno" style="height: 300px; width: 120%" visible="false">
-                                <div class="panel-body" runat="server" id="panelDiseno" visible="false">
-
-                                    <div class="form-group">
-                                        <%--Proposito del diseño --%>
-                                        <div class="row col-sm-6">
-                                            <asp:Label ID="lblDiseño" runat="server" Text="Propósito:" CssClass="col-sm-3 control-label"></asp:Label>
-                                            <div class="col-sm-7 col-sm-offset-1 ">
-                                                <asp:TextBox runat="server" ID="txtPropositoDiseño" Enabled="false" CssClass="form-control col-sm-offset-2"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <%--Nivel de prueba--%>
-                                        <div class="row col-sm-6">
-                                            <asp:Label ID="lblPrueba" runat="server" Text="Nivel de prueba:" CssClass="col-sm-4  control-label"></asp:Label>
-
-                                            <div class="col-sm-7 ">
-                                                <asp:TextBox runat="server" ID="txtNivel" Enabled="false" CssClass="form-control col-sm-offset-3"></asp:TextBox>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <div class="form-group">
-
-                                        <div class="row col-sm-6">
-                                            <%--Técnica de prueba--%>
-                                            <asp:Label ID="lblTecnica" runat="server" Text="Técnica de prueba:" CssClass="col-sm-5  control-label"></asp:Label>
-
-                                            <div class="col-sm-7">
-                                                <asp:TextBox runat="server" ID="txtTecnicaPrueba" Enabled="false" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <%--Procedimiento--%>
-
-                                        <div class="row col-sm-6">
-                                            <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento:" CssClass="col-sm-4   control-label"></asp:Label>
-
-                                            <div class="col-sm-7 ">
-                                                <asp:TextBox runat="server" ID="txtProcedimiento" Enabled="false" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control col-sm-offset-3"></asp:TextBox>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <br>
-                                    <br>
-
-                                    <div class="form-group">
-
-
-                                        <div class="row col-sm-6">
-                                            <%--Requerimientos--%>
-                                            <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos:" CssClass="col-sm-4 control-label"></asp:Label>
-
-                                            <div class="col-sm-7 col-sm-offset-1">
-                                                <asp:ListBox runat="server" ID="listRequerimientoDisponibles" Enabled="false" Style="height: 100px" CssClass="form-control"></asp:ListBox>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-
-                                    <div class="row">
-
-                                        <br>
-                                        <br>
-                                        <%-- Botón para ocultar el diseño --%>
-                                        <asp:LinkButton runat="server" ID="lnkOcultarReq" Style="height: 100px" CssClass=".glyphicon.glyphicon-remove col-sm-offset-6" Enabled="true" OnClick="btnOcultarDiseno">
-                                        <span aria-hidden="true" class="glyphicon glyphicon-remove-circle blueColor"></span>
-                                        </asp:LinkButton>
-
-                                    </div>
-
-
-                                </div>
-                                <%--Cierra el panel body--%>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="row">
-                                <div id="consultar">
-                                    <asp:Label ID="lblListaConformidades" runat="server" Visible="false" Font-Size="120%" Font-Bold="True" Text="Lista de no conformidades clasificada por el tipo" CssClass="col-sm-6 col-sm-offset-4 control-label"></asp:Label>
-                                </div>
-                            </div>
-                            <div id="scroll" style="width: 900px; height: 500px; overflow: auto;">
-                                <asp:GridView ID="gridNoConformidades" ShowFooter="true"
-                                    ShowFooterWhenEmpty="true" ShowHeaderWhenEmpty="true" CssClass="dataGridTable" OnRowDataBound="RowDataBound"
-                                    Style="text-align: center; width: 900px" Font-Size="10px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
-                                    AutoGenerateColumns="false" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
-
-                                    <Columns>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText=" ">
-                                            <ItemTemplate>
-                                                <asp:LinkButton runat="server" ID="lnkModificar" CommandName="seleccionaModificar"> Modificar </asp:LinkButton>
-                                                <asp:LinkButton runat="server" ID="lnkEliminar" CommandName="seleccionaEliminar"> Eliminar </asp:LinkButton>
-                                            </ItemTemplate>
-                                            <EditItemTemplate>
-                                                <asp:LinkButton ID="lnkAceptar" runat="server" CommandName="seleccionaAceptar">Aceptar</asp:LinkButton>
-                                                <asp:LinkButton ID="lnkCancelar" runat="server" CommandName="seleccionaCancelar">Cancelar</asp:LinkButton>
-                                            </EditItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:Button ID="btnAgregarNC" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarNC_Click" Text="Agregar" />
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%--Tipo de no conformidad  --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="No conformidad*">
-
-                                            <EditItemTemplate>
-                                                <asp:DropDownList ID="dropDownListTipoNC" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionadoModificar" CssClass="form-control">
-                                                </asp:DropDownList>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblTipoNC" runat="server" Text='<%# Bind("TipoNC") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:DropDownList ID="comboTipoNC" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionado" CssClass="form-control">
-                                                    <asp:ListItem>Seleccione</asp:ListItem>
-                                                </asp:DropDownList>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%--Código caso de prueba  --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Código caso de prueba*">
-
-                                            <EditItemTemplate>
-                                                <asp:DropDownList ID="dropDownListPrueba" runat="server" CssClass="form-control">
-                                                </asp:DropDownList>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblCasoPrueba" runat="server" Text='<%# Bind("IdPrueba") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:DropDownList ID="comboCasoPrueba" runat="server" CssClass="form-control">
-                                                </asp:DropDownList>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%-- Descripción de la no conformidad --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Descripción no conformidad">
-
-
-                                            <EditItemTemplate>
-                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblDescripcion" runat="server" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%-- Justificación --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-VerticalAlign="Top" HeaderText="Justificación">
-
-                                            <EditItemTemplate>
-                                                <asp:TextBox ID="txtJustificacionEdit" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblJustificacion" Style="width: 5px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:TextBox ID="txtJustificacion" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%-- Resultados --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Resultados">
-
-
-                                            <EditItemTemplate>
-                                                <asp:TextBox ID="txtResultadosEdit" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblResultados" runat="server" CssClass="control-label" Text='<%# Bind("Resultados") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:TextBox ID="txtResultados" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%-- Estado --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Estado*">
-
-                                            <EditItemTemplate>
-                                                <asp:DropDownList ID="dropDownListEstado" runat="server" CssClass="form-control">
-                                                </asp:DropDownList>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblEstado" runat="server" Text='<%# Bind("Estado") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:DropDownList ID="comboEstado" runat="server" CssClass="form-control">
-                                                </asp:DropDownList>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-
-                                        <%-- Imagen --%>
-                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" HeaderText="Imagen">
-                                            <HeaderStyle Width="5%" />
-                                            <EditItemTemplate>
-                                                <asp:FileUpload ID="FileImage" runat="server"></asp:FileUpload>
-                                                <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
-                                            </EditItemTemplate>
-                                            <ItemTemplate>
-                                                <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen"> Imagen </asp:LinkButton>
-                                            </ItemTemplate>
-                                            <FooterTemplate>
-                                                <asp:FileUpload ID="FileImage" runat="server"></asp:FileUpload>
-                                                <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
-                                            </FooterTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                </asp:GridView>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                            <asp:UpdatePanel ID="UpdateProyectoDiseno" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                                 <ContentTemplate>
+                                    <%--Proyecto --%>
+                                    <div class="row col-sm-6">
+                                        <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-3 control-label"></asp:Label>
+                                        <div class="col-sm-7">
+                                            <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" OnSelectedIndexChanged="proyectoSeleccionado" CssClass="form-control col-sm-offset-1" EnableViewState="true">
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
 
                                     <div class="row col-sm-6">
-                                        <asp:Label ID="lblFecha" runat="server" Text="Fecha última asignación*:" CssClass="col-sm-3  control-label"></asp:Label>
-                                        <div class="col-sm-7">
-                                            <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control col-sm-offset-1" Enabled="false"></asp:TextBox>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar col-sm-pull-2" OnClick="lnkCalendario_Click">
-                                     <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
-                                            </asp:LinkButton>
+                                        <asp:Label ID="lblDiseñoPruebas" runat="server" Text="Diseño de Prueba*:" CssClass="col-sm-5  control-label"></asp:Label>
+                                        <div class="col-sm-7 ">
+                                            <asp:DropDownList runat="server" ID="comboDiseño" AutoPostBack="True" OnSelectedIndexChanged="disenoSeleccionado" CssClass="form-control col-sm-pull-1" EnableViewState="true">
+                                            </asp:DropDownList>
                                         </div>
                                     </div>
-                                    <asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                                        <ContentTemplate>
-                                            <div class="row col-sm-6">
-                                                <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-3  control-label"></asp:Label>
 
-                                                <div class="col-sm-7 ">
-                                                    <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control col-sm-offset-4" EnableViewState="true">
-                                                    </asp:DropDownList>
+                                    </div>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <br>
+                            <br>
+                            <asp:UpdatePanel ID="UpdateDatosDiseno" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                <ContentTemplate>
+                                    <div class="row col-sm-6 ">
+                                        <asp:Label runat="server" ID="lblDatosDiseño" Visible="false" Font-Bold="True" Text="Datos del diseño" CssClass="col-sm-5 control-label"></asp:Label>
+                                    </div>
+
+                                    <div class="col-sm-10  ">
+                                        <div class="panel panel-default" runat="server" id="datosDiseno" style="height: 300px; width: 120%" visible="false">
+                                            <div class="panel-body" runat="server" id="panelDiseno" visible="false">
+
+                                                <div class="form-group">
+                                                    <%--Proposito del diseño --%>
+                                                    <div class="row col-sm-6">
+                                                        <asp:Label ID="lblDiseño" runat="server" Text="Propósito:" CssClass="col-sm-3 control-label"></asp:Label>
+                                                        <div class="col-sm-7 col-sm-offset-1 ">
+                                                            <asp:TextBox runat="server" ID="txtPropositoDiseño" Enabled="false" CssClass="form-control col-sm-offset-2"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                    <%--Nivel de prueba--%>
+                                                    <div class="row col-sm-6">
+                                                        <asp:Label ID="lblPrueba" runat="server" Text="Nivel de prueba:" CssClass="col-sm-4  control-label"></asp:Label>
+
+                                                        <div class="col-sm-7 ">
+                                                            <asp:TextBox runat="server" ID="txtNivel" Enabled="false" CssClass="form-control col-sm-offset-3"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="form-group">
+
+                                                    <div class="row col-sm-6">
+                                                        <%--Técnica de prueba--%>
+                                                        <asp:Label ID="lblTecnica" runat="server" Text="Técnica de prueba:" CssClass="col-sm-5  control-label"></asp:Label>
+
+                                                        <div class="col-sm-7">
+                                                            <asp:TextBox runat="server" ID="txtTecnicaPrueba" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+                                                    <%--Procedimiento--%>
+
+                                                    <div class="row col-sm-6">
+                                                        <asp:Label ID="lblProcedimiento" runat="server" Text="Procedimiento:" CssClass="col-sm-4   control-label"></asp:Label>
+
+                                                        <div class="col-sm-7 ">
+                                                            <asp:TextBox runat="server" ID="txtProcedimiento" Enabled="false" MultiLine="true" TextMode="MultiLine" Height="100px" MaxLength="70" CssClass="form-control col-sm-offset-3"></asp:TextBox>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <br>
+                                                <br>
+
+                                                <div class="form-group">
+
+
+                                                    <div class="row col-sm-6">
+                                                        <%--Requerimientos--%>
+                                                        <asp:Label ID="lblRequerimiento" runat="server" Text="Requerimientos:" CssClass="col-sm-4 control-label"></asp:Label>
+
+                                                        <div class="col-sm-7 col-sm-offset-1">
+                                                            <asp:ListBox runat="server" ID="listRequerimientoDisponibles" Enabled="false" Style="height: 100px" CssClass="form-control"></asp:ListBox>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+
+                                                <div class="row">
+
+                                                    <br>
+                                                    <br>
+                                                    <%-- Botón para ocultar el diseño --%>
+                                                    <asp:LinkButton runat="server" ID="lnkOcultarReq" Style="height: 100px" CssClass=".glyphicon.glyphicon-remove col-sm-offset-6" Enabled="true" OnClick="btnOcultarDiseno">
+                                        <span aria-hidden="true" class="glyphicon glyphicon-remove-circle blueColor" style="font-size:25px"></span>
+                                                    </asp:LinkButton>
+
                                                 </div>
                                             </div>
-
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                    <br>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-6 col-sm-pull-4">
-                                                <asp:Calendar runat="server" ID="calendarFecha" Visible="false" OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
-                                            </div>
+                                            <%--Cierra el panel body--%>
                                         </div>
                                     </div>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
-
                             <div class="form-group">
+                                <asp:UpdatePanel ID="UpdatePanelCalendario" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
 
-                                <div class="row col-sm-6">
-                                    <asp:Label ID="lblIndidencias" runat="server" Text="Incidencias durante la ejecución:" CssClass="col-sm-3  control-label"></asp:Label>
+                                        <div class="row col-sm-6">
+                                            <asp:Label ID="lblFecha" runat="server" Text="Fecha última asignación*:" CssClass="col-sm-3  control-label"></asp:Label>
+                                            <div class="col-sm-7">
+                                                <asp:TextBox runat="server" ID="txtCalendar" CssClass=" form-control col-sm-offset-1" Enabled="false"></asp:TextBox>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <asp:LinkButton runat="server" ID="lnkCalendario" CssClas=".glyphicon.glyphicon-calendar col-sm-pull-2" OnClick="lnkCalendario_Click">
+                                     <span aria-hidden="true" class="glyphicon glyphicon-calendar blueColor" ></span>
+                                                </asp:LinkButton>
+                                            </div>
+                                        </div>
+                                        <asp:UpdatePanel ID="comboResponsableUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                            <ContentTemplate>
+                                                <div class="row col-sm-6">
+                                                    <asp:Label ID="lblResponsable" runat="server" Text="Responsable*:" CssClass="col-sm-3  control-label"></asp:Label>
 
-                                    <div class="col-sm-8 ">
-                                        <asp:TextBox runat="server" ID="txtIncidencias" CssClass=" form-control col-sm-offset-1"
-                                            MultiLine="true" TextMode="MultiLine" Height="80px"></asp:TextBox>
+                                                    <div class="col-sm-7 ">
+                                                        <asp:DropDownList runat="server" ID="comboResponsable" AutoPostBack="True" CssClass="form-control col-sm-offset-4" EnableViewState="true">
+                                                        </asp:DropDownList>
+                                                    </div>
+                                                </div>
+
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <br>
+                                                <div class="col-sm-6 col-sm-pull-4">
+                                                    <asp:Calendar runat="server" ID="calendarFecha" Visible="false" OnVisibleMonthChanged="cambioDeMes" OnSelectionChanged="calendarioSeleccionado"></asp:Calendar>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+
+                                <asp:UpdatePanel ID="UpdateGridNoConformidades" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div id="consultar">
+                                                    <asp:Label ID="lblListaConformidades" runat="server" Visible="false" Font-Size="120%" Font-Bold="True" Text="Lista de no conformidades clasificada por el tipo" CssClass="col-sm-6 col-sm-offset-4 control-label"></asp:Label>
+                                                </div>
+                                            </div>
+                                             <div id="scroll" style="width:950px; height: 500px; overflow-y: auto; overflow-x: hidden" >
+                                                <asp:GridView ID="gridNoConformidades" ShowFooter="true"
+                                                    ShowFooterWhenEmpty="true" ShowHeaderWhenEmpty="true" CssClass="dataGridTable" OnRowDataBound="RowDataBound"
+                                                    Style="text-align: center; width: 950px" Font-Size="12px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
+                                                    AutoGenerateColumns="false" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+
+                                                    <Columns>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText=" ">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton runat="server" ID="lnkModificar" CommandName="seleccionaModificar">
+                                                    <span aria-hidden="true" class="glyphicon glyphicon-edit blueColor" style="font-size:25px" ></span>
+                                                                </asp:LinkButton>
+                                                                <asp:LinkButton runat="server" ID="lnkEliminar" CommandName="seleccionaEliminar">
+                                                  <span aria-hidden="true" class="glyphicon glyphicon-remove-sign  blueColor" style="font-size:25px" ></span>
+                                                                </asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <EditItemTemplate>
+                                                                <asp:LinkButton ID="lnkAceptar" runat="server" CommandName="seleccionaAceptar">
+                                                     <span aria-hidden="true" class="glyphicon glyphicon-ok-circle blueColor" style="font-size:25px" ></span>
+                                                                </asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkCancelar" runat="server" CommandName="seleccionaCancelar">
+                                                     <span aria-hidden="true" class="glyphicon glyphicon-remove-circle blueColor" style="font-size:25px" ></span>
+                                                                </asp:LinkButton>
+                                                            </EditItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:LinkButton runat="server" ID="btnAgregarNC" OnClick="btnAgregarNC_Click">
+                                            <span aria-hidden="true" class="glyphicon glyphicon-plus-sign blueColor" style="font-size:25px" ></span>
+                                                                </asp:LinkButton>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        <%--Tipo de no conformidad  --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-Font-Size="12px" HeaderText="TipoNC">
+
+                                                            <EditItemTemplate>
+                                                                <asp:DropDownList ID="dropDownListTipoNC" Style="width: 111px; font-size: 12px" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionadoModificar" CssClass="form-control">
+                                                                </asp:DropDownList>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblTipoNC" runat="server" Style="width: 111px; font-size: 12px" Text='<%# Bind("TipoNC") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:DropDownList ID="comboTipoNC" Style="width: 111px; font-size: 12px" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionado" CssClass="form-control">
+                                                                    <asp:ListItem>Seleccione</asp:ListItem>
+                                                                </asp:DropDownList>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        <%--Código caso de prueba  --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Código caso de prueba">
+
+                                                            <EditItemTemplate>
+                                                                <asp:DropDownList ID="dropDownListPrueba" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">
+                                                                </asp:DropDownList>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblCasoPrueba" runat="server" Style="width: 111px; font-size: 12px" Text='<%# Bind("IdPrueba") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:DropDownList ID="comboCasoPrueba" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">
+                                                                </asp:DropDownList>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        <%-- Descripción de la no conformidad --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="100px" HeaderText="Descripción no conformidad">
+
+
+                                                            <EditItemTemplate>
+                                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 111px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblDescripcion" runat="server" Style="width: 111px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:TextBox ID="txtDescripcion" runat="server" MultiLine="true" TextMode="MultiLine" Style="width: 111px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        <%-- Justificación --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="180px" HeaderText="Justificación">
+
+                                                            <EditItemTemplate>
+                                                                <asp:TextBox ID="txtJustificacionEdit" Style="width: 111px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblJustificacion" Style="width: 180px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:TextBox ID="txtJustificacion" Style="width: 180px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+
+                                                        <%-- Resultados --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Resultados">
+
+
+                                                            <EditItemTemplate>
+                                                                <asp:TextBox ID="txtResultadosEdit" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblResultados" Style="word-wrap: break-word; width: 111px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Resultados") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:TextBox ID="txtResultados" Style="width: 200px; font-size: 12px" MultiLine="true" TextMode="MultiLine" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        <%-- Estado --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Estado">
+
+                                                            <EditItemTemplate>
+                                                                <asp:DropDownList ID="dropDownListEstado" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">
+                                                                </asp:DropDownList>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblEstado" Style="width: 111px; font-size: 12px" runat="server" Text='<%# Bind("Estado") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:DropDownList ID="comboEstado" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">
+                                                                </asp:DropDownList>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+
+                                                        <%-- Imagen --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
+                                                            <EditItemTemplate>
+                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen"> Imagen </asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </div>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+
+
+                                <div class="form-group">
+
+                                    <div class="row col-sm-6">
+                                        <asp:Label ID="lblIndidencias" runat="server" Text="Incidencias durante la ejecución:" CssClass="col-sm-3  control-label"></asp:Label>
+
+                                        <div class="col-sm-8 ">
+                                            <asp:TextBox runat="server" ID="txtIncidencias" CssClass=" form-control col-sm-offset-1"
+                                                MultiLine="true" TextMode="MultiLine" Height="80px"></asp:TextBox>
+                                        </div>
                                     </div>
                                 </div>
+
+
+                                <br>
+                                <br>
+                                <%--Cierra el panel body--%>
                             </div>
-
-
-                            <br>
-                            <br>
-                            <%--Cierra el panel body--%>
                         </div>
+
                     </div>
-
+                    <%--Div que cierra los datos de la ejecucion --%>
                 </div>
-                <%--Div que cierra los datos de la ejecucion --%>
+
             </div>
-
+            <%--Div que cierra el row principal --%>
         </div>
-        <%--Div que cierra el row principal --%>
-    </div>
 
-    <div class="row">
-
-        <div class="col-lg-11">
-            <%-- Botones para aceptar y cancelar --%>
-            <div id="btnsBD" style="float: right">
-                <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
-                <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
-            </div>
-        </div>
-    </div>
-    <br>
-
-
-    <div class="form-group">
         <div class="row">
-            <div id="consultarEjecuciones">
-                <asp:Label ID="lblConsultarEjecuciones" runat="server" Font-Bold="True" Text="Lista de ejecuciones" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-1">
-                <div id="scrollGrid" style="height: 183px; width: 700px; overflow: auto;">
-                    <asp:GridView ID="gridEjecuciones" runat="server" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" AutoGenerateColumns="true" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
-                        <Columns>
-                            <asp:TemplateField HeaderText="">
-                                <ItemTemplate>
-                                    <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>
 
-                                </ItemTemplate>
-
-                            </asp:TemplateField>
-
-                            <asp:TemplateField HeaderText="">
-                                <ItemTemplate>
-
-                                    <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-
-                        </Columns>
-                    </asp:GridView>
+            <div class="col-lg-11">
+                <%-- Botones para aceptar y cancelar --%>
+                <div id="btnsBD" style="float: right">
+                    <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" CssClass="btn btn-primary" OnClick="btnAceptar_Click" />
+                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" />
                 </div>
             </div>
         </div>
-    </div>
+        <br>
 
 
-    <!-- Edit Modal Starts here -->
-    <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="editModalLabel">Edit Record</h3>
-        </div>
-        <asp:UpdatePanel ID="upEdit" runat="server">
-            <ContentTemplate>
-           
-                <div class="modal-footer">
-                    <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
-
-                    <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+        <div class="form-group">
+            <div class="row">
+                <div id="consultarEjecuciones">
+                    <asp:Label ID="lblConsultarEjecuciones" runat="server" Font-Bold="True" Text="Lista de ejecuciones" CssClass="col-sm-3 col-sm-offset-1 control-label"></asp:Label>
                 </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-    </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-1">
+                    <div id="scrollGrid" style="height: 183px; width: 700px; overflow: auto;">
+                        <asp:GridView ID="gridEjecuciones" runat="server" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" AutoGenerateColumns="true" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                            <Columns>
+                                <asp:TemplateField HeaderText="">
+                                    <ItemTemplate>
+                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>
 
-     <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
-    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                                    </ItemTemplate>
+
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="">
+                                    <ItemTemplate>
+
+                                        <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Edit Modal Starts here -->
+        <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="editModalLabel">Edit Record</h3>
+            </div>
+            <asp:UpdatePanel ID="upEdit" runat="server">
                 <ContentTemplate>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">
-                                <asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
-                        </div>
-                        <div class="modal-body">
-                            <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
-                        </div>
+
+                    <div class="modal-footer">
+                        <asp:Label ID="lblResult" Visible="false" runat="server"></asp:Label>
+
+                        <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
 
-    </div>
-    <!-- Edit Modal Ends here -->
-    <%--Modal Confirmar--%>
-    <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
-                </div>
-                <div class="modal-body">
-                    Está seguro que desea eliminar esta no conformidad?            
-                </div>
-                <div class="modal-footer">
-                    <asp:Button ID="botonAceptarEliminar" class="btn btn-info" Text="Aceptar" OnClick="btnAceptarEliminarTipoNC" runat="server" />
-                    <button type="button" id="botonVolver" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+        <!-- Con esto se permite crear los mensajes de aviso en el formato lindo-->
+        <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">
+                                    <asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
+                            </div>
+                            <div class="modal-body">
+                                <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+
+        </div>
+        <!-- Edit Modal Ends here -->
+        <%--Modal Confirmar--%>
+        <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
+                    </div>
+                    <div class="modal-body">
+                        Está seguro que desea eliminar esta no conformidad?            
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="botonAceptarEliminar" class="btn btn-info" Text="Aceptar" OnClick="btnAceptarEliminarTipoNC" runat="server" />
+                        <button type="button" id="botonVolver" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+
+        <%--Modal Imagen --%>
+        <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalImagenConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Cargar Imagen</font></i></h3>
+                    </div>
+                    <div class="modal-body">
+                        Seleccione la imagen que desea cargar:      
+                           <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px"></asp:FileUpload>
+                        <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="Button1" class="btn btn-info" Text="Aceptar" runat="server" />
+                        <button type="button" id="botonVolver2" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </asp:Content>

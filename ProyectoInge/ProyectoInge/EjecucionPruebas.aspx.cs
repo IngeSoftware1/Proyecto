@@ -48,19 +48,27 @@ namespace ProyectoInge
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
+                    cambiarEnabled(false, this.btnModificar);
+                    cambiarEnabled(false, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);        
+                    gridTipoNC_Inicial(0, false);
+                    habilitarCampos(false);
+                    
+                    UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
+                    cambiarEnabled(false, this.btnModificar);
+                    cambiarEnabled(false, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    cambiarEnabled(false, this.btnCancelar);
+                    gridTipoNC_Inicial(0, false);
+                    UpdateProyectoDiseno.Update();
                     //  llenarGrid(Session["cedula"].ToString());
                 }
-
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
-                habilitarCampos(false);
             }
 
             
@@ -71,6 +79,24 @@ namespace ProyectoInge
         {
             txtIncidencias.Enabled = condicion;
             comboResponsable.Enabled = condicion;
+            this.comboDiseño.Enabled = condicion;
+            this.comboProyecto.Enabled = condicion;
+            this.comboResponsable.Enabled = condicion;
+            cambiarEnabledGridNC(condicion);
+        }
+
+        protected void cambiarEnabledGridNC(bool condicion)
+        {
+
+            (gridNoConformidades.FooterRow.FindControl("btnAgregarNC") as LinkButton).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).Enabled = condicion;
+            (gridNoConformidades.FooterRow.FindControl("lnkCargarImagen") as Button).Enabled = condicion;
+
         }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
@@ -137,6 +163,8 @@ namespace ProyectoInge
                 }
 
             }
+
+            UpdateGridNoConformidades.Update();
         }
 
         /* Método para llenar el comboBox de los estados 
@@ -181,6 +209,8 @@ namespace ProyectoInge
                 }
 
             }
+
+            UpdateGridNoConformidades.Update();
         }
 
         /* Método para llenar el comboBox los  proyectos de acuerdo a si es miembro o administrador 
@@ -263,7 +293,7 @@ namespace ProyectoInge
                 this.comboProyecto.DataBind();
             }
 
-        //    proyectoDisenoUpdate.Update();
+            UpdateProyectoDiseno.Update();
         }
 
         protected void llenarComboRecursos()
@@ -457,7 +487,7 @@ namespace ProyectoInge
                 this.comboDiseño.DataBind();
             }
 
-          //  proyectoDisenoUpdate.Update();
+            UpdateProyectoDiseno.Update();
 
         }
 
@@ -509,6 +539,8 @@ namespace ProyectoInge
                 comboDeCasos.DataSource = datos;
                 comboDeCasos.DataBind();
             }
+
+            UpdateGridNoConformidades.Update();
         }
 
 
@@ -517,8 +549,7 @@ namespace ProyectoInge
             this.panelDiseno.Visible = false;
             this.datosDiseno.Visible = false;
             this.lblDatosDiseño.Visible = false;
-          //  proyectoDisenoUpdate.Update();
-           
+            UpdateDatosDiseno.Update();         
         }
 
         protected void llenarDatosDiseno(int idDiseno, int idProyecto)
@@ -560,8 +591,7 @@ namespace ProyectoInge
                 this.datosDiseno.Visible = true;
                 this.lblDatosDiseño.Visible = true;
 
-           //     proyectoDisenoUpdate.Update();
-
+                UpdateDatosDiseno.Update();
             }
 
         }
@@ -585,11 +615,12 @@ namespace ProyectoInge
                 }
             
                 llenarDatosDiseno(idDiseno, Int32.Parse(Session["idProyectoEjecucion"].ToString()));
-                gridTipoNC_Inicial(idDiseno);
+                gridTipoNC_Inicial(idDiseno, true);
             }
 
-       //     proyectoDisenoUpdate.Update();
-     
+            UpdateProyectoDiseno.Update();
+            UpdateDatosDiseno.Update();
+            UpdateGridNoConformidades.Update();    
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
@@ -602,9 +633,10 @@ namespace ProyectoInge
             this.datosDiseno.Visible = false;
             this.lblDatosDiseño.Visible = false;
 
-        //    proyectoDisenoUpdate.Update();
-         
+            gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
 
+            UpdateProyectoDiseno.Update();
+            UpdateDatosDiseno.Update();
         }
 
         protected void tipoNCSeleccionado(object sender, EventArgs e)
@@ -621,6 +653,8 @@ namespace ProyectoInge
                     (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text = descripcionNC.Rows[0][0].ToString();
                 }
             }
+
+            UpdateGridNoConformidades.Update();
 
         }
 
@@ -640,6 +674,8 @@ namespace ProyectoInge
                 }
             }
 
+            UpdateGridNoConformidades.Update();
+
         }
 
 
@@ -648,7 +684,7 @@ namespace ProyectoInge
         * Modifica: El grid de no conformidades que se presenta en pantalla.
         * Retorna: No tiene valor de retorno.
         */
-        protected void gridTipoNC_Inicial(int idDiseno)
+        protected void gridTipoNC_Inicial(int idDiseno, bool condicion)
         {
             gridNoConformidades.DataSource = getTablaConDatosIniciales(); // get first initial data
             gridNoConformidades.DataBind();
@@ -656,18 +692,23 @@ namespace ProyectoInge
             gvr.FindControl("lnkModificar").Visible = false;
             gvr.FindControl("lnkEliminar").Visible = false;
             this.lblListaConformidades.Visible = true;
-            casosIniciados = true;
            
+            if(condicion == true)
+            {
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
 
-            //Carga del comboBox con los tipos de no conformidades
-            llenarComboTipoNC(true);
 
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
 
-            //Carga del comboBox con los códigos de los casos de prueba
-            llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
 
-            //Carga del comboBox con los estados de las no conformidades
-            llenarComboEstados(true);
+                casosIniciados = true;
+            }
+
+            UpdateGridNoConformidades.Update();
 
         }
 
@@ -682,6 +723,7 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
             habilitarCampos(true);
+            cambiarEnabledGridNC(true);
 
         }
 
@@ -694,7 +736,7 @@ namespace ProyectoInge
         {
             txtCalendar.Text = "";
             txtIncidencias.Text = "";
-            gridTipoNC_Inicial((Int32.Parse(Session["idDisenoEjecucion"].ToString())));
+            gridTipoNC_Inicial(0, false);
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -1003,6 +1045,12 @@ namespace ProyectoInge
             return table;
         }
 
+        protected void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalImagen", "$('#modalImagen').modal();", true);
+
+        }
+
         /** Método para agregar una nuevo no conformidad en el grid.
         * Modifica: El grid de no conformidades que se presenta en pantalla.
         * Retorna: No tiene valor de retorno.
@@ -1092,6 +1140,8 @@ namespace ProyectoInge
                     gridNoConformidades.Columns[j].ItemStyle.Width = 5;
                 }
             }
+
+            UpdateGridNoConformidades.Update();
         }
 
 
@@ -1407,7 +1457,7 @@ namespace ProyectoInge
 
             if (dt.Rows.Count == 0)
             {
-                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true); 
             }
             else
             {

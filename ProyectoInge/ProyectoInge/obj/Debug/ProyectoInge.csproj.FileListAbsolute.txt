@@ -1851,3 +1851,9 @@ C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsh
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\WarstarDev.Office2k7.dll
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\XlsxAspNet.dll
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xml
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\EPPlus.dll
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.dll
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\WarstarDev.Office2k7.dll
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\XlsxAspNet.dll
+C:\Users\Lari\Desktop\Inge\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xml
