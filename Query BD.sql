@@ -229,7 +229,7 @@ id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
 justificacion varchar(40),
-imagen image,
+imagen varbinary(MAX),
 estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE, 
