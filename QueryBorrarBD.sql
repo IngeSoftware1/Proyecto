@@ -1,7 +1,6 @@
 USE g3inge
 
 DROP TABLE Caso_Ejecutado;
-DROP TABLE Ejecucion_NC;
 DROP TABLE Tipo_NC;
 DROP TABLE Ejecucion_Prueba;
 DROP TABLE Estado_Ejecucion;

@@ -50,7 +50,7 @@
                 <asp:Label runat="server" ID="lblDatosEjecucion" Font-Bold="True" Text=" Datos de la Ejecución" CssClass="col-sm-5 col-sm-offset-2 control-label"></asp:Label>
             </div>
             <div class="col-sm-10 col-sm-offset-1">
-                <div class="panel panel-default" runat="server" id="datosPanelEjecucion" style="height: 700px">
+                <div class="panel panel-default" runat="server" id="datosPanelEjecucion" >
                     <div class="panel-body" runat="server" id="panelEjecucion">
                         <div class="form-group">
                             <asp:UpdatePanel ID="UpdateProyectoDiseno" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
@@ -214,10 +214,10 @@
                                                     <asp:Label ID="lblListaConformidades" runat="server" Visible="false" Font-Size="120%" Font-Bold="True" Text="Lista de no conformidades clasificada por el tipo" CssClass="col-sm-6 col-sm-offset-4 control-label"></asp:Label>
                                                 </div>
                                             </div>
-                                             <div id="scroll" style="width:950px; height: 500px; overflow-y: auto; overflow-x: hidden" >
+                                             <div id="scroll" style="width:950px; max-height:500px; overflow-y: auto; overflow-x: hidden" >
                                                 <asp:GridView ID="gridNoConformidades" ShowFooter="true"
                                                     ShowFooterWhenEmpty="true" ShowHeaderWhenEmpty="true" CssClass="dataGridTable" OnRowDataBound="RowDataBound"
-                                                    Style="text-align: center; width: 950px" Font-Size="12px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
+                                                    Style="text-align: center; width: 930px" Font-Size="12px" runat="server" OnRowCommand="gridTiposNC_RowCommand" RowStyle-Wrap="true"
                                                     AutoGenerateColumns="false" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
 
                                                     <Columns>
@@ -279,47 +279,31 @@
                                                         </asp:TemplateField>
 
                                                         <%-- Descripción de la no conformidad --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="100px" HeaderText="Descripción no conformidad">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="150px" HeaderText="Descripción no conformidad">
 
 
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 111px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 120px; font-size: 12px" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblDescripcion" runat="server" Style="width: 111px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
+                                                                <asp:Label ID="lblDescripcion" runat="server" Style="width: 150px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
-                                                                <asp:TextBox ID="txtDescripcion" runat="server" MultiLine="true" TextMode="MultiLine" Style="width: 111px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtDescripcion" runat="server" MultiLine="true" TextMode="MultiLine" Style="width: 150px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
                                                         <%-- Justificación --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="180px" HeaderText="Justificación">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="350px" HeaderText="Justificación">
 
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="txtJustificacionEdit" Style="width: 111px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtJustificacionEdit" Style="width: 350px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblJustificacion" Style="width: 180px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
+                                                                <asp:Label ID="lblJustificacion" Style="width: 350px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
-                                                                <asp:TextBox ID="txtJustificacion" Style="width: 180px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
-                                                            </FooterTemplate>
-                                                        </asp:TemplateField>
-
-
-                                                        <%-- Resultados --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Resultados">
-
-
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="txtResultadosEdit" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblResultados" Style="word-wrap: break-word; width: 111px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Resultados") %>'></asp:Label>
-                                                            </ItemTemplate>
-                                                            <FooterTemplate>
-                                                                <asp:TextBox ID="txtResultados" Style="width: 200px; font-size: 12px" MultiLine="true" TextMode="MultiLine" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtJustificacion" Style="width: 350px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
@@ -362,15 +346,16 @@
 
                                 <div class="form-group">
 
-                                    <div class="row col-sm-6">
-                                        <asp:Label ID="lblIndidencias" runat="server" Text="Incidencias durante la ejecución:" CssClass="col-sm-3  control-label"></asp:Label>
-
-                                        <div class="col-sm-8 ">
-                                            <asp:TextBox runat="server" ID="txtIncidencias" CssClass=" form-control col-sm-offset-1"
+                                    <div class="row col-sm-12">
+                                        <asp:Label ID="lblIndidencias" runat="server" Text="Incidencias durante la ejecución:" CssClass="col-sm-4  control-label"></asp:Label>
+                                        </div>
+                                    <div class="row col-sm-12">
+                                        <div class="col-sm-11">
+                                            <asp:TextBox runat="server" ID="txtIncidencias" CssClass=" form-control col-sm-pull-3"
                                                 MultiLine="true" TextMode="MultiLine" Height="80px"></asp:TextBox>
                                         </div>
                                     </div>
-                                </div>
+                                 </div>
 
 
                                 <br>

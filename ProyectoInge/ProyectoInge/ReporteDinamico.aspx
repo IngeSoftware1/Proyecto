@@ -33,10 +33,6 @@
         </div>
 
         <div id="Datos">
-
-
-            <asp:UpdatePanel ID="reporteUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                <ContentTemplate>
                     <div class="col-sm-10 col-sm-offset-1">
                         <div class="form-group">
                             <br />
@@ -48,25 +44,35 @@
                             <%-- PROYECTO --%>
                             <div class="panel panel-default col-sm-12">
                                 <br />
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <div class="form-group col-sm-5 col-sm-offset-1">
-                                            <div class="row">
-                                                <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
-                                                <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
-                                                    <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado" EnableViewState="true">
-                                                    </asp:DropDownList>
+                                <asp:UpdatePanel ID="proyectoUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <div class="form-group col-sm-5 col-sm-offset-1">
+                                                    <div class="row">
+                                                        <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                                        <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
+                                                            <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado" EnableViewState="true">
+                                                            </asp:DropDownList>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+
+
                                 <br />
 
                                 <%-- MODULO /REPORTE--%>
+
                                 <div class="row">
                                     <div class="col-sm-10">
 
+
+                                        <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                         <div class="form-group col-sm-5 col-sm-offset-1">
                                             <div class="row">
                                                 <%--Requerimientos del proyecto --%>
@@ -78,10 +84,19 @@
                                                 </div>
                                             </div>
                                         </div>
+
+
+                                        </ContentTemplate>
+                                </asp:UpdatePanel>
                                         <div class="form-group col-sm-1">
                                             <div class="row">
                                             </div>
                                         </div>
+
+                                        <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
+
+
                                         <div class="form-group col-sm-5">
                                             <div class="row">
                                                 <%--Requerimientos asociados al diseño --%>
@@ -93,69 +108,62 @@
                                                 </div>
                                             </div>
                                         </div>
+                                          </ContentTemplate>
+                                </asp:UpdatePanel>
+
+
                                     </div>
                                 </div>
+                                <%-- DISENO --%>
+                                <br />
+                                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
+                                        <div class="row">
+                                            <div class="col-sm-10">
+                                                <div class="form-group col-sm-5 col-sm-offset-1">
+                                                    <div class="row">
+                                                        <asp:Label ID="Label14" runat="server" Text="Diseño:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                                        <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
+                                                            <asp:DropDownList runat="server" ID="comboBoxDiseno" AutoPostBack="True" CssClass="form-control" EnableViewState="true">
+                                                            </asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <br />
                             </div>
                             <br />
-
                             <div class="form-group">
                                 <div class="row">
                                     <asp:Label ID="Label13" runat="server" Text="Datos del reporte:" Font-Bold="True" CssClass="col-sm-12 control-label"></asp:Label>
                                 </div>
                             </div>
-
-                            <%--CHECKS 0--%>
                             <div class="panel panel-default col-sm-12">
-
+                                <%--CHECKS 0--%>
                                 <div class="row">
                                     <div class="col-sm-10">
-
                                         <%--Todos--%>
                                         <div class="form-group col-sm-5 col-sm-offset-1">
-
                                             <div class="row">
                                                 <div class="col-sm-1 col-sm-offset-1">
                                                     <asp:CheckBox ID="checkBoxTodos" runat="server" AutoPostBack="true" />
                                                 </div>
                                                 <asp:Label ID="Label18" runat="server" Text="Seleccionar todos los datos" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
                                 <%--CHECKS 1--%>
                                 <div class="row">
                                     <div class="col-sm-10">
-                                        <div class="form-group col-sm-5 col-sm-offset-1">
-                                            <%--METRICAS--%>
-                                            <div class="row">
-                                                <asp:Label ID="Label10" runat="server" Text="Métricas" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-1 col-sm-offset-1">
-                                                    <asp:CheckBox ID="checkBoxConf" runat="server" AutoPostBack="true" />
-                                                </div>
-                                                <asp:Label ID="Label1" runat="server" Text="De conformidades" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-1 col-sm-offset-1">
-                                                    <asp:CheckBox ID="checkBoxNC" runat="server" AutoPostBack="true" />
-                                                </div>
-                                                <asp:Label ID="Label2" runat="server" Text="De no conformidades" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-group col-sm-1">
-                                            <div class="row">
-                                            </div>
-                                        </div>
-
-
                                         <%--DP--%>
                                         <div class="form-group col-sm-5 col-sm-offset-1">
                                             <div class="row">
-                                                <asp:Label ID="Label11" runat="server" Text="Diseño de pruebas" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                                <asp:Label ID="Label11" runat="server" Text="Diseño de pruebas" Font-Bold="True" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-1 col-sm-offset-1">
@@ -176,16 +184,14 @@
                                                 <asp:Label ID="Label9" runat="server" Text="Responsable" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <%--CHECKS 2--%>
-                                <div class="row">
-                                    <div class="col-sm-10">
-                                        <div class="form-group col-sm-5 col-sm-offset-1">
-
-                                            <%--CP--%>
+                                        <div class="form-group col-sm-1">
                                             <div class="row">
-                                                <asp:Label ID="Label12" runat="server" Text="Casos de Prueba" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <%--CP--%>
+                                        <div class="form-group col-sm-5 col-sm-offset-1">
+                                            <div class="row">
+                                                <asp:Label ID="Label12" runat="server" Text="Casos de Prueba" Font-Bold="True" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-1 col-sm-offset-1">
@@ -200,18 +206,15 @@
                                                 <asp:Label ID="Label6" runat="server" Text="Resultado esperado" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                         </div>
-
-
-                                        <div class="form-group col-sm-1">
-                                            <div class="row">
-                                            </div>
-                                        </div>
-
-
+                                    </div>
+                                </div>
+                                <%--CHECKS 2--%>
+                                <div class="row">
+                                    <div class="col-sm-10">
                                         <%--EP--%>
                                         <div class="form-group col-sm-5 col-sm-offset-1">
                                             <div class="row">
-                                                <asp:Label ID="Label15" runat="server" Text="Ejecución de pruebas" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                                <asp:Label ID="Label15" runat="server" Text="Ejecución de pruebas" Font-Bold="True" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-1 col-sm-offset-1">
@@ -227,12 +230,30 @@
                                                 <asp:Label ID="Label8" runat="server" Text="Id del tipo de no conformidad" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                             </div>
                                         </div>
+
+                                        <%--METRICAS--%>
+                                        <div class="form-group col-sm-5 col-sm-offset-1">
+                                            <div class="row">
+                                                <asp:Label ID="Label10" runat="server" Text="Métricas" Font-Bold="True" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxConf" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label1" runat="server" Text="De conformidades" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxNC" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label2" runat="server" Text="De no conformidades" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+          
             <br>
 
 
@@ -241,13 +262,20 @@
                 <div class="col-sm-7">
                 </div>
                 <div class="col-sm-3">
-                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" OnClick="btnGenerar_Click"/>
-                     <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" OnClick="btnReiniciar_Click" />
+                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" OnClick="btnGenerar_Click" />
+                    <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" OnClick="btnReiniciar_Click" />
 
                 </div>
-                <div class="col-sm-2 col-sm-pull-1 ">
-                    <asp:DropDownList runat="server" ID="comboTipoDescarga" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="tipoDescargaSeleccionada" EnableViewState="true"></asp:DropDownList>
-                </div>
+
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                    <ContentTemplate>
+
+                        <div class="col-sm-2 col-sm-pull-1 ">
+                            <asp:DropDownList runat="server" ID="comboTipoDescarga" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="tipoDescargaSeleccionada" EnableViewState="true"></asp:DropDownList>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+
 
             </div>
 

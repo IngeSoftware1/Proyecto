@@ -198,16 +198,6 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 );
 
-CREATE TABLE Caso_Ejecutado(
-id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
-ON DELETE CASCADE
-ON UPDATE NO ACTION,
-id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
-ON DELETE CASCADE
-ON UPDATE NO ACTION,
-PRIMARY KEY(id_caso, id_ejecucion) 
-);
-
 CREATE TABLE Tipo_NC(
 id_tipoNC varchar(70) PRIMARY KEY,
 desc_NC varchar(150)
@@ -221,17 +211,20 @@ INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Excepciones (EXC)', 'El sistema
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('No correspondencia de lo implementado con lo documentado (NC)', 'Consiste en el incumplimiento de la correspondencia que debe existir entre una aplicación informática y lo que está documentado al respecto.');
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Ortografía (ORT)', 'Errores de ortografía o mal escritos.');
 
-CREATE TABLE Ejecucion_NC(
+CREATE TABLE Caso_Ejecutado(
+id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
+ON DELETE CASCADE
+ON UPDATE NO ACTION,
+id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
+ON DELETE CASCADE
+ON UPDATE NO ACTION,
 id_tipoNC varchar(70) FOREIGN KEY REFERENCES Tipo_NC(id_tipoNC)
 ON DELETE CASCADE
 ON UPDATE CASCADE,
-id_ejecucion int FOREIGN KEY REFERENCES Ejecucion_Prueba(id_ejecucion)
-ON DELETE CASCADE
-ON UPDATE CASCADE,
 justificacion varchar(40),
-imagen image,
+imagen varbinary(MAX),
 estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE, 
-PRIMARY KEY (id_tipoNC, id_ejecucion)
+PRIMARY KEY(id_caso, id_ejecucion, id_tipoNC) 
 );

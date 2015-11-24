@@ -23,7 +23,6 @@ namespace ProyectoInge
         private static string idCasoTxt = "";
         private static string descripcionTxt = "";
         private static string justificacionTxt = "";
-        private static string resultadosTxt = "";
         private static string estadoTxt = "";
         private static int filaEliminar = 0;
         private static List<int> comboDedisenos = new List<int>();
@@ -53,8 +52,7 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);        
                     gridTipoNC_Inicial(0, false);
-                    habilitarCampos(false);
-                    
+                    habilitarCampos(false);                   
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
@@ -93,7 +91,6 @@ namespace ProyectoInge
             (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Enabled = condicion;
-            (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("lnkCargarImagen") as Button).Enabled = condicion;
 
@@ -645,7 +642,6 @@ namespace ProyectoInge
 
             if (tipoNCSeleccionado.Equals("Seleccione") == false)
             {
-                Debug.WriteLine("estoy en tipo nc seleccionado");
                 DataTable descripcionNC = controladoraEjecucionPruebas.getDescripcionNC(tipoNCSeleccionado);
 
                 if (descripcionNC.Rows.Count > 0)
@@ -1036,11 +1032,10 @@ namespace ProyectoInge
             table.Columns.Add("IdPrueba", typeof(string));
             table.Columns.Add("Descripcion", typeof(string));
             table.Columns.Add("Justificacion", typeof(string));
-            table.Columns.Add("Resultados", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
+            table.Rows.Add("-", "-", "-", "-", "-", "-");
 
             return table;
         }
@@ -1077,15 +1072,13 @@ namespace ProyectoInge
                     Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
-                    Label lblResultados = gvr.FindControl("lblResultados") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
 
                     dr[0] = lblTipoNC.Text;
                     dr[1] = lblCasoPrueba.Text;
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
-                    dr[4] = lblResultados.Text;
-                    dr[5] = lblEstado.Text;
+                    dr[4] = lblEstado.Text;
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
                 }
@@ -1107,7 +1100,6 @@ namespace ProyectoInge
                 string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
                 string descripcion = (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text;
                 string justificacion = (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
-                string resultados = (gridNoConformidades.FooterRow.FindControl("txtResultados") as TextBox).Text;
                 string estado = (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
 
 
@@ -1115,8 +1107,7 @@ namespace ProyectoInge
                 dr[1] = idCaso;
                 dr[2] = descripcion;
                 dr[3] = justificacion;
-                dr[4] = resultados;
-                dr[5] = estado;
+                dr[4] = estado;
 
                 dt.Rows.Add(dr); // Agrega las filas
 
@@ -1157,7 +1148,6 @@ namespace ProyectoInge
             table.Columns.Add("IdPrueba", typeof(string));
             table.Columns.Add("Descripcion", typeof(string));
             table.Columns.Add("Justificacion", typeof(string));
-            table.Columns.Add("Resultados", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
 
@@ -1229,7 +1219,6 @@ namespace ProyectoInge
                     Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
-                    Label lblResultados = gvr.FindControl("lblResultados") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
 
                     if (indice == fila)
@@ -1238,7 +1227,6 @@ namespace ProyectoInge
                         idCasoTxt = lblCasoPrueba.Text;
                         descripcionTxt = lblDescripcion.Text;
                         justificacionTxt = lblJustificacion.Text;
-                        resultadosTxt = lblResultados.Text;
                         estadoTxt = lblEstado.Text;
                     }
 
@@ -1246,8 +1234,7 @@ namespace ProyectoInge
                     dr[1] = lblCasoPrueba.Text;
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
-                    dr[4] = lblResultados.Text;
-                    dr[5] = lblEstado.Text;
+                    dr[4] = lblEstado.Text;
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
                 }
 
@@ -1283,15 +1270,13 @@ namespace ProyectoInge
                         Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
                         Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
-                        Label lblResultados = gvr.FindControl("lblResultados") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
 
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
                         dr[2] = lblDescripcion.Text;
                         dr[3] = lblJustificacion.Text;
-                        dr[4] = lblResultados.Text;
-                        dr[5] = lblEstado.Text;
+                        dr[4] = lblEstado.Text;
                         dt.Rows.Add(dr); // add grid values in to row and add row to the blank table   
                     }
 
@@ -1302,7 +1287,6 @@ namespace ProyectoInge
                     string idCasoModificado = (gvr.FindControl("dropDownListPrueba") as DropDownList).SelectedItem.Value;
                     string descripcionModificada = (gvr.FindControl("txtDescripcionEdit") as TextBox).Text;
                     string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
-                    string resultadosModificados = (gvr.FindControl("txtResultadosEdit") as TextBox).Text;
                     string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
 
 
@@ -1310,8 +1294,7 @@ namespace ProyectoInge
                     dr[1] = idCasoModificado;
                     dr[2] = descripcionModificada;
                     dr[3] = justificacionModificada;
-                    dr[4] = resultadosModificados;
-                    dr[5] = estadoModificado;
+                    dr[4] = estadoModificado;
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
                     gridNoConformidades.EditIndex = -1;
@@ -1349,8 +1332,7 @@ namespace ProyectoInge
                         dr[1] = idCasoTxt;
                         dr[2] = descripcionTxt;
                         dr[3] = justificacionTxt;
-                        dr[4] = resultadosTxt;
-                        dr[5] = estadoTxt;
+                        dr[4] = estadoTxt;
                     }
                     else
                     {
@@ -1358,15 +1340,13 @@ namespace ProyectoInge
                         Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
                         Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
-                        Label lblResultados = gvr.FindControl("lblResultados") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
 
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
                         dr[2] = lblDescripcion.Text;
                         dr[3] = lblJustificacion.Text;
-                        dr[4] = lblResultados.Text;
-                        dr[5] = lblEstado.Text;
+                        dr[4] = lblEstado.Text;
                     }
 
 
@@ -1442,15 +1422,13 @@ namespace ProyectoInge
                     Label lblCasoPrueba = gvr.FindControl("lblCasoPrueba") as Label;
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
-                    Label lblResultados = gvr.FindControl("lblResultados") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
 
                     dr[0] = lblTipoNC.Text;
                     dr[1] = lblCasoPrueba.Text;
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
-                    dr[4] = lblResultados.Text;
-                    dr[5] = lblEstado.Text;
+                    dr[4] = lblEstado.Text;
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
                 }
             }
