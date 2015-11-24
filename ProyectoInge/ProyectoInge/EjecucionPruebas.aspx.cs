@@ -16,6 +16,7 @@ namespace ProyectoInge
     public partial class EjecucionPruebas : System.Web.UI.Page
     {
         ControladoraEjecucion controladoraEjecucionPruebas = new ControladoraEjecucion();
+        
 
         //Variablaes globales utilizadas para cuando el cliente modifica alguna fila del grid
         private static string comboTipoNCTxt = "";
@@ -746,7 +747,7 @@ namespace ProyectoInge
 
                 case 2:
                     {
-                        //btnAceptar_Modificar();
+                        btnAceptar_Modificar();
                     }
                     break;
 
@@ -802,6 +803,182 @@ namespace ProyectoInge
                 resultado = true;
             }
             return resultado;
+        }
+
+
+        /*Método para la acción de aceptar cuando esta en modo de modificación
+       * Requiere: No requiere ningún parámetro
+       * Modifica: Modifica un objeto con los datos obtenidos en la interfaz mediante textbox y 
+       * valida que todos los datos se encuentren para la modificaión
+       * Retorna: No retorna ningún valor
+       */
+        protected void btnAceptar_Modificar()
+        {
+            int tipoModificacion = 1;
+
+            if (faltanDatos())
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "Debe completar los datos obligatorios para agregar la ejecución.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+                //habilitarCamposModificar();
+            }
+            else
+            {
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                Object[] datosNuevos = new Object[4];
+                Debug.Print(this.txtIncidencias.Text);
+
+                datosNuevos[0] = this.txtIncidencias.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+            }
+        }
+
+
+
+        /*Método para llenar y cargar datos en los campos del diseno asociado a la ejecucion de pruebas
+        *necesarios para el modificar
+        * Requiere: el id del proyecto relacionado al diseno que se quiere modificar
+        * Modifica: Cambia el contenido de las cajas de texto de requerimientos diseno y requerimientos proyecto
+        * Retorna: no retorna ningún valor
+        */
+        protected void disenoAsociado(int idDiseno)
+        {
+            DataTable diseno = controladoraEjecucionPruebas.consultarDiseno(idDiseno);
+            if (diseno != null && diseno.Rows.Count >= 1)
+            {
+                this.txtPropositoDiseño.Text = diseno.Rows[0][1].ToString();
+                this.txtCalendar.Text = diseno.Rows[0][2].ToString();
+                this.txtProcedimiento.Text = diseno.Rows[0][3].ToString();
+                if( (diseno.Rows[0][6].ToString()) != null){
+                    this.txtTecnicaPrueba.Text = diseno.Rows[0][6].ToString();
+                }
+                 if( (diseno.Rows[0][7].ToString()) != null){
+                     this.txtNivel.Text = diseno.Rows[0][7].ToString();
+                }  
+            }
+            //UpdateAsociarDesasociarRequerimientos.Update();
+            //proyectoUpdate.Update();
+        }
+
+        /*Método para habilitar/deshabilitar todos los campos y los botones que permite el modificar, escucha al boton modificar
+        * Requiere: object sender, EventArgs e
+        * Modifica: Cambia la propiedad Enabled de las cajas y botones
+        * Retorna: no retorna ningún valor
+        */
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnModificar);
+            //llenar los txtbox con la table
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
+            llenarDatos(Session["idDiseñoS"].ToString());
+            this.disenoAsociado(Int32.Parse(Session["idDiseñoS"].ToString()));
+            modo = 2;
+            //habilitarCamposModificar();
+        }
+
+
+        /*Método para llenar los campos de la interfaz con los resultados de la consulta.
+        * Requiere: El identificador del diseño que se desea consultar.
+        * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
+        * Retorna: No retorna ningún valor. 
+        */
+        public void llenarDatos(string idDiseño)
+        {
+           /* listReqAgregados.Items.Clear();
+            if (idDiseño != null && idDiseño.Equals("-") == false)
+            {
+                string nombreRepresentante = "";
+                string nombre = "";
+                ListItem representante;
+                ListItem proyecto;
+                Dictionary<string, string> nombresDelRepresentante;
+                Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
+                String cedulaRepresentante = "";
+                String nombreProyecto = "";
+                idDiseñoConsultado = idDiseño;
+                DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+                DataTable datosMiembro = null;
+                DataTable datosReqProyecto = null;
+                DataTable datosReqDiseno = null;
+                listReqAgregados.Items.Clear();
+
+                if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
+                {
+                    this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
+                    this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
+                    this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
+                    this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
+                    this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
+                    idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                    Session["idProyecto"] = idProyectoConsultado;
+                    cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
+                    datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                    datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
+                    datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+
+                    if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                    {
+                        ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
+                        this.comboNivel.SelectedValue = niveles.Value;
+                    }
+                    if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
+                    {
+                        ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
+                        this.comboTecnica.SelectedValue = tecnica.Value;
+                    }
+
+
+
+                    nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
+
+                    nombre = nombre + nombreProyecto;
+                    if (this.comboProyecto.Items.FindByText(nombre) != null)
+                    {
+                        proyecto = this.comboProyecto.Items.FindByText(nombre);
+                        this.comboProyecto.SelectedValue = proyecto.Value;
+
+                    }
+
+                    llenarComboRecursos();
+                    nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
+                    nombre = "";
+                    nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                    nombre = nombre + nombreRepresentante;
+
+                    if (this.comboResponsable.Items.FindByText(nombre) != null)
+                    {
+                        representante = this.comboResponsable.Items.FindByText(nombre);
+                        this.comboResponsable.SelectedValue = representante.Value;
+                    }
+
+
+                    string requerimiento = "";
+
+                    if (datosReqDiseno.Rows.Count >= 1)
+                    {
+
+                        for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                        {
+
+                            requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
+                            listReqAgregados.Items.Add(requerimiento);
+
+                        }
+                    }
+
+
+                    llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
+                }
+
+            }
+            * */
         }
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.

@@ -96,6 +96,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return disenos;
         }
 
+        public DataTable consultarDiseno(int idDiseno)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            DataTable disenos = controladoraDiseno.consultarDiseno(idDiseno);
+            return disenos;
+        }
+
+        
+
         public DataTable getDatosDiseno(int idDiseno)
         {
             controladoraDiseno = new ControladoraDiseno();
