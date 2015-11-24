@@ -33,8 +33,6 @@
         </div>
 
         <div id="Datos">
-            <asp:UpdatePanel ID="reporteUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                <ContentTemplate>
                     <div class="col-sm-10 col-sm-offset-1">
                         <div class="form-group">
                             <br />
@@ -237,8 +235,7 @@
                                 </div>
                             </div>
                         </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+          
             <br>
 
 

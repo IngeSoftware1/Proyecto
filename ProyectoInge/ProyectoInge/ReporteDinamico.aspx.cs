@@ -44,11 +44,12 @@ namespace ProyectoInge
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    llenarRequerimientosProyecto(1);
+                    proyectoUpdate.Update();
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
+                    proyectoUpdate.Update();
                 }
             }
         }
@@ -363,11 +364,12 @@ namespace ProyectoInge
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
-
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
             Response.Write("acaaa"+id);
             llenarRequerimientosProyecto(id);
+            proyectoUpdate.Update();
+            
         }
 
         //dropDownListDescargar
