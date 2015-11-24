@@ -368,6 +368,8 @@ namespace ProyectoInge
             Session["idProyecto"] = id;
             Response.Write("acaaa"+id);
             llenarRequerimientosProyecto(id);
+            proyectoUpdate.Update();
+            reporteUpdate.Update();
         }
 
         //dropDownListDescargar
