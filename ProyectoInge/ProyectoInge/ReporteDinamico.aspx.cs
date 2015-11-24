@@ -380,7 +380,7 @@ namespace ProyectoInge
             datos[1] = "EXCEL";
             this.comboTipoDescarga.DataSource = datos;
             this.comboTipoDescarga.DataBind();
-            //UpdatePanelDropDown.Update();
+            UpdatePanel1.Update();
         }
 
         protected void tipoDescargaSeleccionada(object sender, EventArgs e)
@@ -393,6 +393,7 @@ namespace ProyectoInge
             {
                 generarReporteExcel();
             }
+            UpdatePanel1.Update();
         }
     }
 }
