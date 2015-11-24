@@ -279,47 +279,31 @@
                                                         </asp:TemplateField>
 
                                                         <%-- Descripción de la no conformidad --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="100px" HeaderText="Descripción no conformidad">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="150px" HeaderText="Descripción no conformidad">
 
 
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 111px; font-size: 12px" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 120px; font-size: 12px" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblDescripcion" runat="server" Style="width: 111px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
+                                                                <asp:Label ID="lblDescripcion" runat="server" Style="width: 150px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
-                                                                <asp:TextBox ID="txtDescripcion" runat="server" MultiLine="true" TextMode="MultiLine" Style="width: 111px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtDescripcion" runat="server" MultiLine="true" TextMode="MultiLine" Style="width: 150px; font-size: 12px" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
                                                         <%-- Justificación --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="180px" HeaderText="Justificación">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="350px" HeaderText="Justificación">
 
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="txtJustificacionEdit" Style="width: 180px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtJustificacionEdit" Style="width: 350px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblJustificacion" Style="width: 180px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
+                                                                <asp:Label ID="lblJustificacion" Style="width: 350px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Justificacion") %>'></asp:Label>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
-                                                                <asp:TextBox ID="txtJustificacion" Style="width: 180px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
-                                                            </FooterTemplate>
-                                                        </asp:TemplateField>
-
-
-                                                        <%-- Resultados --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Resultados">
-
-
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="txtResultadosEdit" Style="width: 200px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblResultados" Style="width: 200px; font-size: 12px" runat="server" CssClass="control-label" Text='<%# Bind("Resultados") %>'></asp:Label>
-                                                            </ItemTemplate>
-                                                            <FooterTemplate>
-                                                                <asp:TextBox ID="txtResultados" Style="width: 200px; font-size: 12px" MultiLine="true" TextMode="MultiLine" runat="server" CssClass="form-control" Text='<%# Bind("Resultados") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtJustificacion" Style="width: 350px; font-size: 12px" runat="server" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Justificacion") %>'></asp:TextBox>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
