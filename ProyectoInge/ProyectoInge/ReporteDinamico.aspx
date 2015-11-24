@@ -53,7 +53,8 @@
                                             <div class="row">
                                                 <asp:Label ID="lblProyecto" runat="server" Text="Proyecto*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
-                                                    <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" EnableViewState="true"></asp:DropDownList>
+                                                     <asp:DropDownList runat="server" ID="comboProyecto" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="proyectoSeleccionado" EnableViewState="true">
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                         </div>

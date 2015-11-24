@@ -54,15 +54,7 @@ namespace ProyectoInge
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    //llenarComboRecursos();
-                    //llenarGrid(null);
-                    Object[] datos;
-                    datos = new Object[1];
-                    datos[0]="Ejemplo";
-                    this.chklistModulos.DataSource = datos;
-                    this.chklistModulos.DataBind();
-                    this.chklistReq.DataSource = datos;
-                    this.chklistReq.DataBind();
+                    llenarRequerimientosProyecto(1);
                 }
                 else
                 {
@@ -280,6 +272,68 @@ namespace ProyectoInge
 
             Response.Write(pdfDoc);
             Response.End();
+        }
+
+
+        //metodo para reiniciar los chechBox
+        private void reiniciarCheck()
+        {
+            this.checkBoxConf.Checked = false;
+            this.checkBoxEstadoEjecucion.Checked = false;
+            this.checkBoxID_TipoNC.Checked = false;
+            this.checkBoxNC.Checked = false;
+            this.checkBoxPropositoCaso.Checked = false;
+            this.checkBoxPropositoDiseno.Checked = false;
+            this.checkBoxRequerimientosDiseno.Checked = false;
+            this.checkBoxResponsableDiseno.Checked = false;
+            this.checkBoxResultadoEsperado.Checked = false;
+        }
+
+
+        //metodo para llenar requerimientos del proyecto
+        protected void llenarRequerimientosProyecto(int idProyecto)
+        {
+            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
+            string requerimiento = "";
+            int contador = 0;
+            requerimiento = "";
+            chklistModulos.Items.Clear();
+
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+      
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString();
+                    if (chklistModulos.Items.FindByText(requerimiento) == null)
+                    {
+                        chklistModulos.Items.Add(requerimiento.Substring(0,2));
+                        ++contador;
+                    }
+
+
+                }
+
+            }
+
+            if (1 < contador)
+            {
+                chklistModulos.Items.Add("Todos los requerimientos");
+            }
+
+            chklistModulos.DataBind();
+
+        }
+
+
+        //metodo cuando se selecciona en comboBox de proyectos
+        protected void proyectoSeleccionado(object sender, EventArgs e)
+        {
+
+            int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
+            Session["idProyecto"] = id;
+            Response.Write("acaaa"+id);
+            llenarRequerimientosProyecto(id);
         }
 
 

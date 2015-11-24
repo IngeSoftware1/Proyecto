@@ -68,6 +68,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
 
+        /*Método para obtener el id del proyecto mediante el nombre.
+         * Requiere: el id del proyecto a consultar.
+         * Modifica: no modifica datos
+         * Retorna: el id del proyecto consultado
+         */
+        public int obtenerIDconNombreProyecto(string nomProyecto)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
+        }
+
+
 
 
 
