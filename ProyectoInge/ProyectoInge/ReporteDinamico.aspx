@@ -241,12 +241,12 @@
                 <div class="col-sm-7">
                 </div>
                 <div class="col-sm-3">
-                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" />
-                    <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" OnClick="btnGenerar_Click"/>
+                     <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" OnClick="btnReiniciar_Click" />
 
                 </div>
                 <div class="col-sm-2 col-sm-pull-1 ">
-                    <asp:DropDownList runat="server" ID="dropDownListDescargar" AutoPostBack="True" CssClass="form-control" EnableViewState="true"></asp:DropDownList>
+                    <asp:DropDownList runat="server" ID="comboTipoDescarga" AutoPostBack="True" CssClass="form-control" OnSelectedIndexChanged="tipoDescargaSeleccionada" EnableViewState="true"></asp:DropDownList>
                 </div>
 
             </div>

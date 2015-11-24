@@ -337,13 +337,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Button btnReiniciar;
         
         /// <summary>
-        /// dropDownListDescargar control.
+        /// comboTipoDescarga control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropDownListDescargar;
+        protected global::System.Web.UI.WebControls.DropDownList comboTipoDescarga;
         
         /// <summary>
         /// lblReporte control.

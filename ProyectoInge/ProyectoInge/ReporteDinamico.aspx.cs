@@ -22,6 +22,7 @@ namespace ProyectoInge
     {
         ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
         ControladoraReportes controladoraReporte = new ControladoraReportes();
+        ControladoraRecursos controladoraRh = new ControladoraRecursos();
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
 
@@ -38,19 +39,8 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
-                //ponerNombreDeUsuarioLogueado();
-                /*controlarCampos(false);
-                cambiarEnabledTxtCalendar(false);
-                cambiarEnabled(false, this.btnModificar);
-                cambiarEnabled(false, this.btnEliminar);
-                cambiarEnabled(false, this.btnAceptar);
-                cambiarEnabled(false, this.btnCancelar);
-                cambiarEnabledManosReq(false, this.lnkAgregarReq);
-                cambiarEnabledManosReq(false, this.lnkQuitarReq);
-                cambiarEnabled(true, this.btnInsertar);
-                llenarComboNivel();
-                llenarComboTecnica();
-                 */ 
+                ponerNombreDeUsuarioLogueado();
+ 
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
@@ -59,12 +49,37 @@ namespace ProyectoInge
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                    //llenarComboRecursos();
-                    //llenarGrid(Session["cedula"].ToString());
                 }
+            }
+        }
 
-
-
+        protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if (checkBoxTodos.Checked == true)
+            //{
+                this.checkBoxConf.Checked = true;
+                this.checkBoxNC.Checked = true;
+                this.checkBoxPropositoCaso.Checked = true;
+                this.checkBoxResultadoEsperado.Checked = true;
+                this.checkBoxRequerimientosDiseno.Checked = true;
+                this.checkBoxPropositoDiseno.Checked = true;
+                this.checkBoxResponsableDiseno.Checked = true;
+                this.checkBoxEstadoEjecucion.Checked = true;
+                this.checkBoxID_TipoNC.Checked = true;
+            //}
+        }
+        
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraRh.consultarRH(Session["cedula"].ToString());
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
             }
         }
 
@@ -83,11 +98,8 @@ namespace ProyectoInge
             Object[] datos;
             int indiceProyecto = 1;
             int numColumna = 0;
-
-
             if (cedulaUsuario == null)
             {
-
                 nombresProyecto = controladoraReporte.consultarNombresProyectos();
                 if (nombresProyecto != null && nombresProyecto.Rows.Count > 0)
                 {
@@ -103,9 +115,7 @@ namespace ProyectoInge
                 }
 
                 numDatos = nombresProyecto.Rows.Count;
-
             }
-
 
             if (numDatos > 0)
             {
@@ -120,8 +130,6 @@ namespace ProyectoInge
 
                             nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
                             id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(), nombre);
-
-
                         }
                         else
                         {
@@ -145,15 +153,15 @@ namespace ProyectoInge
             {
                 datos = new Object[1];
                 datos[0] = "Seleccione";
-              this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();            }
-     //       UpdateAsociarDesasociarModulos.Update();
-     //       proyectoUpdate.Update();
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+            }
+     //         UpdateAsociarDesasociarModulos.Update();
+     //         proyectoUpdate.Update();
         }
 
-
         // Genera el reporte en Excel.
-        protected void generarReporteExcel(object sender, EventArgs e)
+        protected void generarReporteExcel()
         {
 
             ExcelPackage package = new ExcelPackage();
@@ -211,7 +219,7 @@ namespace ProyectoInge
         }
 
         // Genera el reporte en PDF.
-        protected void generarReportePDF(object sender, EventArgs e)
+        protected void generarReportePDF()
         {
             Response.ClearContent();
             Response.ContentType = "application/pdf";
@@ -276,7 +284,7 @@ namespace ProyectoInge
 
 
         //metodo para reiniciar los chechBox
-        private void reiniciarCheck()
+        protected void btnReiniciar_Click(object sender, EventArgs e)
         {
             this.checkBoxConf.Checked = false;
             this.checkBoxEstadoEjecucion.Checked = false;
@@ -289,6 +297,11 @@ namespace ProyectoInge
             this.checkBoxResultadoEsperado.Checked = false;
         }
 
+        protected void btnGenerar_Click(object sender, EventArgs e)
+        {
+            //no deber[ia ser un boton porque la generacion la hace el combobox
+            llenarDropDownTipoDescarga();
+        }
 
         //metodo para llenar requerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
@@ -300,8 +313,7 @@ namespace ProyectoInge
             chklistModulos.Items.Clear();
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
-            {
-      
+            {      
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
@@ -310,23 +322,45 @@ namespace ProyectoInge
                         chklistModulos.Items.Add(requerimiento.Substring(0,2));
                         ++contador;
                     }
-
-
                 }
-
             }
 
             if (1 < contador)
             {
                 chklistModulos.Items.Add("Todos los requerimientos");
             }
-
             chklistModulos.DataBind();
-
         }
 
+        //Rosaura
+        protected void llenarRequerimientos(int idProyecto)
+        {
+            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
+            string requerimiento = "";
+            int contador = 0;
+            requerimiento = "";
+            chklistReq.Items.Clear();
 
-        //metodo cuando se selecciona en comboBox de proyectos
+            if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
+            {
+                for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
+                {
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString();
+                    if (chklistReq.Items.FindByText(requerimiento) == null)
+                    {
+                        //chklistReq.Items.Add(requerimiento.Substring(0, 2));
+                        ++contador;
+                    }
+                }
+            }
+
+            if (1 < contador)
+            {
+                chklistReq.Items.Add("Todos los requerimientos");
+            }
+            chklistReq.DataBind();
+        }
+
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
 
@@ -336,8 +370,29 @@ namespace ProyectoInge
             llenarRequerimientosProyecto(id);
         }
 
+        //dropDownListDescargar
+        protected void llenarDropDownTipoDescarga()
+        {
+            this.comboTipoDescarga.Items.Clear();
+            Object[] datos = new Object[2];
 
+            datos[0] = "PDF";
+            datos[1] = "EXCEL";
+            this.comboTipoDescarga.DataSource = datos;
+            this.comboTipoDescarga.DataBind();
+            //UpdatePanelDropDown.Update();
+        }
 
-
+        protected void tipoDescargaSeleccionada(object sender, EventArgs e)
+        {
+            if (this.comboTipoDescarga.Items[this.comboTipoDescarga.SelectedIndex].Text == "PDF")
+            {
+                generarReportePDF();
+            }
+            else
+            {
+                generarReporteExcel();
+            }
+        }
     }
 }
