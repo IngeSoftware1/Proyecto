@@ -53,8 +53,7 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);        
                     gridTipoNC_Inicial(0, false);
-                    habilitarCampos(false);
-                    
+                    habilitarCampos(false);                   
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
