@@ -70,13 +70,13 @@
                                                 <%--Requerimientos del proyecto --%>
                                                 <asp:Label ID="lblReqProyecto" runat="server" Text="Modulos del proyecto" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-1">
-                                                   
-                                                     <asp:CheckBoxList ID="chklistModulos" runat="server" Style="height: 170px" CssClass="form-control">
-                                                     </asp:CheckBoxList>
+
+                                                    <asp:CheckBoxList ID="chklistModulos" runat="server" Style="height: 170px" CssClass="form-control">
+                                                    </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
-                                      
+
 
                                         <div class="form-group col-sm-5">
                                             <div class="row">
@@ -84,15 +84,15 @@
                                                 <asp:Label ID="lblReqAsignados" runat="server" Text="Requerimientos" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-2">
 
-                                                      <asp:CheckBoxList ID="chklistReq" runat="server" Style="height: 170px" CssClass="form-control">
-                                                     </asp:CheckBoxList>
+                                                    <asp:CheckBoxList ID="chklistReq" runat="server" Style="height: 170px" CssClass="form-control">
+                                                    </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <br />
-                                
+
 
 
                                 <%--CHECKS--%>
@@ -118,6 +118,80 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <%--CHECKS--%>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group col-sm-5 col-sm-offset-1">
+                                            <%--DP--%>
+
+                                            <%--<div class="row">
+                                                <div class="col-sm-6 ">
+                                                    <asp:Label ID="Label10" runat="server" Text="Datos diseño pruebas:" CssClass="col-sm-6  control-label"></asp:Label>
+                                                </div>
+                                            </div>--%>
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+
+                                                    <asp:CheckBox ID="checkBoxPropositoDiseno" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label3" runat="server" Text="Propósito del diseño" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxRequerimientosDiseno" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label4" runat="server" Text="Requerimientos del diseño" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxResponsableDiseno" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label9" runat="server" Text="Responsable del diseño" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+                                            <%--CP--%>
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <%--<asp:Label ID="Label11" runat="server" Text="Datos caso de pruebas:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>--%>
+                                                    <asp:CheckBox ID="checkBoxPropositoCaso" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label5" runat="server" Text="Propósito del caso" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxResultadoEsperado" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label6" runat="server" Text="Resultado esperado" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+                                            <%--EP--%>
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <%--<asp:Label ID="Label12" runat="server" Text="Datos Ejecución de pruebas:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>--%>
+                                                    <asp:CheckBox ID="checkBoxEstadoEjecucion" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label7" runat="server" Text="Estado de ejecucion" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-1 col-sm-offset-1">
+                                                    <asp:CheckBox ID="checkBoxID_TipoNC" runat="server" AutoPostBack="true" />
+                                                </div>
+                                                <asp:Label ID="Label8" runat="server" Text="Id del tipo de no conformidad" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 </ContentTemplate>
@@ -127,15 +201,15 @@
 
             <%--Div de botones--%>
             <div class="col-sm-12">
-                 <div class="col-sm-8">
-                     </div>
+                <div class="col-sm-8">
+                </div>
                 <div class="col-sm-3">
-                        <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" />
-                        <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnGenerar" runat="server" Text="Generar" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnReiniciar" runat="server" Text="Reiniciar" CssClass="btn btn-primary" />
 
                 </div>
                 <div class="col-sm-1 col-sm-pull-1">
-                        <asp:DropDownList runat="server" ID="dropDownListDescargar" AutoPostBack="True" CssClass="form-control" Style="width: 80px;" EnableViewState="true"></asp:DropDownList>
+                    <asp:DropDownList runat="server" ID="dropDownListDescargar" AutoPostBack="True" CssClass="form-control" Style="width: 80px;" EnableViewState="true"></asp:DropDownList>
                 </div>
 
             </div>
@@ -161,6 +235,24 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="modal fade" id="modalConformidades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
+                        </div>
+                        <div class="modal-body">
+                            Está seguro que desea eliminar este caso de prueba?            
+                        </div>
+                        <div class="modal-footer">
                         </div>
                     </div>
                 </div>
