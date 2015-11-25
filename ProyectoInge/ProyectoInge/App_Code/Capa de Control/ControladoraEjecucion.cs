@@ -89,10 +89,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return miembrosProyecto;
         }
 
-        public DataTable consultarDisenos(int idProyecto)
+        public DataTable consultarDisenosCasos(int idProyecto)
         {
             controladoraDiseno = new ControladoraDiseno();
-            DataTable disenos = controladoraDiseno.consultarDisenos(idProyecto);
+            DataTable disenos = controladoraDiseno.consultarDisenosCasos(idProyecto);
             return disenos;
         }
 
