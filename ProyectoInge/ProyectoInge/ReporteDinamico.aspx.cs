@@ -54,7 +54,7 @@ namespace ProyectoInge
 
         protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*   if (checkBoxTodos.Checked == true)
+               if (checkBoxTodos.Checked == true)
                {
                    this.checkBoxConf.Checked = true;
                    this.checkBoxNC.Checked = true;
@@ -65,7 +65,7 @@ namespace ProyectoInge
                    this.checkBoxResponsableDiseno.Checked = true;
                    this.checkBoxEstadoEjecucion.Checked = true;
                    this.checkBoxID_TipoNC.Checked = true;
-               } */
+               } 
         }
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -177,17 +177,17 @@ namespace ProyectoInge
             int c = 1;
             int r = 2;
             // Poner el header.
-            /*     foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+                 foreach (TableCell cell in gridReportes.HeaderRow.Cells)
                  {
                      worksheet.Cells[r, c++].Value = cell.Text;
-                 } */
+                 } 
             // Dar formato al header.
             worksheet.Row(r).Style.Font.Bold = true;
             worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
             r++;
             // Poner el resto de los datos.
-            /*    foreach (TableRow row in gridReportes.Rows)
+                foreach (TableRow row in gridReportes.Rows)
                 {
                     c = 1;
                     foreach (TableCell cell in row.Cells)
@@ -201,7 +201,7 @@ namespace ProyectoInge
                         worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
                     }
                     r++;
-                } */
+                } 
 
             // Ajustamos el ancho de las columnas.
             worksheet.DefaultColWidth = 10;
@@ -250,29 +250,29 @@ namespace ProyectoInge
 
             pdfDoc.Add(table);
 
-            //         int columns = gridReportes.Rows[0].Cells.Count;
-            //         int rows = gridReportes.Rows.Count;
+            int columns = gridReportes.Rows[0].Cells.Count;
+            int rows = gridReportes.Rows.Count;
 
-            /*         PdfPTable elGrid = new PdfPTable(columns);
-                     elGrid.DefaultCell.Border = PdfPCell.BOX;
-                     elGrid.HeaderRows = 1;
-                     elGrid.WidthPercentage = 95f; */
+            PdfPTable elGrid = new PdfPTable(columns);
+            elGrid.DefaultCell.Border = PdfPCell.BOX;
+            elGrid.HeaderRows = 1;
+            elGrid.WidthPercentage = 95f; 
 
-            /*     for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+            for (int columnCounter = 0; columnCounter < columns; columnCounter++)
                  {
-       //              string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
+                    string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
                      elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
-                 } */
+                 } 
 
-            /*         for (int rowCounter = 0; rowCounter < rows; rowCounter++)
+                    for (int rowCounter = 0; rowCounter < rows; rowCounter++)
                      {
                          for (int columnCounter = 0; columnCounter < columns; columnCounter++)
                          {
-              //               string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
+                             string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
                              elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
                          }
                      }
-                     pdfDoc.Add(elGrid); */
+                     pdfDoc.Add(elGrid); 
 
             pdfDoc.Close();
 
@@ -327,15 +327,10 @@ namespace ProyectoInge
             {
                 chklistModulos.Items.Add("Todos los requerimientos");
             }
-
-            Debug.WriteLine("estoy en req");
-            //this.texto.Visible = true;
             chklistModulos.DataBind();
             proyectoUpdate.Update();
             UpdatePanel2.Update();
             UpdatePanel3.Update();
-            //     UpdatePanel2.Update();
-            //   UpdatePanel3.Update();
         }
 
         //Rosaura
@@ -345,16 +340,16 @@ namespace ProyectoInge
             string requerimiento = "";
             int contador = 0;
             requerimiento = "";
-            //  chklistReq.Items.Clear();
+            chklistModulos.Items.Clear();
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    //        if (chklistReq.Items.FindByText(requerimiento) == null)
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + datosReqProyecto.Rows[i][1].ToString();
+                    if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
-                        //chklistReq.Items.Add(requerimiento.Substring(0, 2));
+                        chklistReq.Items.Add(requerimiento);
                         ++contador;
                     }
                 }
@@ -362,23 +357,21 @@ namespace ProyectoInge
 
             if (1 < contador)
             {
-                //     chklistReq.Items.Add("Todos los requerimientos");
+                   chklistReq.Items.Add("Todos los requerimientos");
             }
-            //     chklistReq.DataBind();
+               chklistReq.DataBind();
+               UpdatePanel2.Update();
+               UpdatePanel4.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            //   Response.Write("acaaa" + id);
+            llenarRequerimientos(id);       
+            UpdatePanel4.Update();
             llenarRequerimientosProyecto(id);
-            proyectoUpdate.Update();
-            UpdatePanel2.Update();
             UpdatePanel3.Update();
-            //   UpdatePanel2.Update();
-            //      UpdatePanel3.Update();
-            //    UpdatePanel3.Update();
 
         }
 
