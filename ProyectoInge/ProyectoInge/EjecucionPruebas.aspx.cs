@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 
 namespace ProyectoInge
 {
@@ -28,7 +29,7 @@ namespace ProyectoInge
         private static DropDownList comboIdEstadoModificar;
         private static bool casosIniciados = false;
         private int modo = 1;
-        object[] imagenes = new Object[100];
+        object[] imagenes = new object[100];
         private int contador = 0;
 
 
@@ -861,11 +862,14 @@ namespace ProyectoInge
 
                 if (lblTipoNC.Text != "-")
                 {
-                    Object[] NuevaNC = new Object[5];
+                    Object[] NuevaNC = new Object[6];
                     NuevaNC[0] = controladoraEjecucionPruebas.consultarIdCasoPrueba((gvr.FindControl("lblCasoPrueba") as Label).Text);
                     NuevaNC[1] = idEjecucion;
                     NuevaNC[2] = (gvr.FindControl("lblTipoNC") as Label).Text;
                     NuevaNC[3] = (gvr.FindControl("lblJustificacion") as Label).Text;
+                    //NuevaNC[4] = obtiene la columna del grid que es de byte[];
+                    //NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+
                     NuevaNC[4] = (gvr.FindControl("lblEstado") as Label).Text;
 
                     Debug.Print((gvr.FindControl("lblCasoPrueba") as Label).Text + " " + idEjecucion + " " + (gvr.FindControl("lblTipoNC") as Label).Text + " " + (gvr.FindControl("lblJustificacion") as Label).Text + " " + (gvr.FindControl("lblEstado") as Label).Text);
@@ -1161,9 +1165,17 @@ namespace ProyectoInge
                 dr[4] = estado;
 
                 dt.Rows.Add(dr); // Agrega las filas
-                 
-                //contador=gridNoConformidades.Rows.Count;
-                //imagenes[contador] = FileImage.PostedFile.InputStream;
+
+                if (FileImage.HasFile)//Si el usuario seleccionó una imagen
+                {
+                    //guarda esta linea en el row
+                    byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
+
+                }
+                else
+                {
+                    //guarde en el row un en la imagen un -1
+                }
 
                 gridNoConformidades.DataSource = dt;
                 gridNoConformidades.DataBind();

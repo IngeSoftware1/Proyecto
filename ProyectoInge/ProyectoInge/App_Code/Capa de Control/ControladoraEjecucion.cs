@@ -204,7 +204,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         public int consultarIdCasoPrueba(string identificador)
         { 
-            controladoraCasosPruebas = new ControladoraCasosPrueba();
+            //controladoraCasosPruebas = new ControladoraCasosPrueba();
 
             return controladoraCasosPruebas.consultarIdCasoPrueba(identificador);
         }
