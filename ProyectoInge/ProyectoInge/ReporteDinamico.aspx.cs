@@ -20,9 +20,9 @@ namespace ProyectoInge
 {
     public partial class ReporteDinamico : System.Web.UI.Page
     {
-        ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
+ 
         ControladoraReportes controladoraReporte = new ControladoraReportes();
-        ControladoraRecursos controladoraRh = new ControladoraRecursos();
+
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
 
@@ -39,7 +39,7 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
-                ponerNombreDeUsuarioLogueado();
+                //ponerNombreDeUsuarioLogueado();
                 llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
@@ -72,7 +72,7 @@ namespace ProyectoInge
         *Requiere: nada
         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
         *Retorna: no retorna ningún valor*/
-        protected void ponerNombreDeUsuarioLogueado()
+        /*protected void ponerNombreDeUsuarioLogueado()
         {
             DataTable datosFilaFuncionario = controladoraRh.consultarRH(Session["cedula"].ToString());
             if (datosFilaFuncionario.Rows.Count == 1)
@@ -80,7 +80,7 @@ namespace ProyectoInge
                 string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
                 this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
             }
-        }
+        }*/
 
         //llenar el combobox de proyecto
         /* Método para llenar el comboBox los  proyectos de acuerdo a si es miembro o administrador 
@@ -361,9 +361,9 @@ namespace ProyectoInge
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(0, 2)) == null)
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(2, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(0, 2));
+                        chklistModulos.Items.Add(requerimiento.Substring(2,2));
                         ++contador;
                     }
                 }
@@ -375,18 +375,33 @@ namespace ProyectoInge
             }
             chklistModulos.DataBind();
             proyectoUpdate.Update();
-            UpdatePanel2.Update();
+            //UpdatePanel2.Update();
             UpdatePanel3.Update();
         }
 
         //Rosaura
-        protected void llenarRequerimientos(int idProyecto)
+        protected void llenarRequerimientos()
         {
-            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
+            chklistReq.Items.Clear();
+            Object[] modulos;
+            int contadorModulos = 0;
+            int indice = 0;
+            modulos = new Object[chklistModulos.Items.Count];
+            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            {
+                if(this.chklistModulos.Items[i].Selected == true){
+                    ++contadorModulos;
+                    modulos[indice] = chklistModulos.Items[i].Text;
+                    ++indice;
+                }
+            }
+
+           DataTable datosReqProyecto = controladoraReporte.consultarReqModulos(modulos,contadorModulos);
+           Debug.WriteLine("cantidad de rows es: " + datosReqProyecto.Rows.Count);
             string requerimiento = "";
             int contador = 0;
             requerimiento = "";
-            chklistModulos.Items.Clear();
+        
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
@@ -395,6 +410,7 @@ namespace ProyectoInge
                     requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
+                        Debug.WriteLine("ESTOY POR ACA req");
                         chklistReq.Items.Add(requerimiento);
                         ++contador;
                     }
@@ -405,21 +421,47 @@ namespace ProyectoInge
             {
                    chklistReq.Items.Add("Todos los requerimientos");
             }
+            
                chklistReq.DataBind();
-               UpdatePanel2.Update();
-               UpdatePanel4.Update();
+             //  proyectoUpdate.Update();
+               UpdatePanel3.Update();
+             //  UpdatePanel4.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            llenarRequerimientos(id);       
-            UpdatePanel4.Update();
             llenarRequerimientosProyecto(id);
             UpdatePanel3.Update();
-
+         //   UpdatePanel4.Update();  
         }
+
+        protected void seleccionarChkListModulos(object sender, EventArgs e)
+        {
+            int contadorModulos = 0;
+            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            {
+                if(this.chklistModulos.Items[i].Selected == true){
+                    ++contadorModulos;
+
+                }
+            }
+
+
+            if(contadorModulos != 0){
+                llenarRequerimientos();
+                // proyectoUpdate.Update();
+                UpdatePanel3.Update();
+                //  UpdatePanel4.Update();
+            }else if(contadorModulos == 0){
+                chklistReq.Items.Clear();
+                UpdatePanel3.Update();
+            }
+            
+        }
+
+
 
         //dropDownListDescargar
         protected void llenarDropDownTipoDescarga()
@@ -445,6 +487,12 @@ namespace ProyectoInge
                 generarReporteExcel();
             }
             UpdatePanel1.Update();
+        }
+
+
+        protected void llenarDatos()
+        {
+            DataTable requerimientos;
         }
     }
 }

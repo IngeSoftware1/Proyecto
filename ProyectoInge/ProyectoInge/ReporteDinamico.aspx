@@ -79,22 +79,20 @@
                                                 <asp:Label ID="lblReqProyecto" runat="server" Text="Módulos del proyecto:" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-1">
 
-                                                    <asp:CheckBoxList ID="chklistModulos" runat="server" Style="height: 170px" CssClass="form-control">
+                                                    <asp:CheckBoxList ID="chklistModulos" AutoPostBack="True" OnSelectedIndexChanged = "seleccionarChkListModulos" runat="server" Style="height: 170px" CssClass="form-control">
                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
 
 
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
+                                  
                                 <div class="form-group col-sm-1">
                                     <div class="row">
                                     </div>
                                 </div>
 
-                                <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
+                               
 
 
                                         <div class="form-group col-sm-5">
@@ -103,14 +101,14 @@
                                                 <asp:Label ID="lblReqAsignados" runat="server" Text="Requerimientos de los módulos:" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-2">
 
-                                                    <asp:CheckBoxList ID="chklistReq" runat="server" Style="height: 170px" CssClass="form-control">
+                                                    <asp:CheckBoxList ID="chklistReq"  AutoPostBack="True" runat="server" EnableViewState="true" Style="height: 170px" CssClass="form-control" >
                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
-
+                                    
+ </ContentTemplate>
+                        </asp:UpdatePanel>
 
                             </div>
                         </div>

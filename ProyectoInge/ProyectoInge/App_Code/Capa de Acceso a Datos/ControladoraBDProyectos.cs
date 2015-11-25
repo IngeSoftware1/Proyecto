@@ -889,5 +889,38 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+
+        //consultar requerimientos de los modulos asociados a los proyectos
+        public DataTable consultarReqModulos(Object[] modulos, int contadorDos)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+            try
+            {
+                for (int i = 0; i < contadorDos; ++i)
+                {
+                    ++contador;
+                    consulta = consulta + " " + "SELECT * FROM Requerimiento WHERE id_req LIKE '%" + modulos[i].ToString() + "%'";
+                    if (contador != contadorDos)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+                    
+
+                }
+                Debug.WriteLine("la consulta es: " + consulta);
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
     }
 }

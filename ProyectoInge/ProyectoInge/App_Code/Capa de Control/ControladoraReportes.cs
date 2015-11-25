@@ -83,5 +83,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
         }
+
+        //consultar requerimientos de los modulos asociados a los proyectos
+        public DataTable consultarReqModulos(Object[] modulos,int contador)
+        {
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarReqModulos(modulos,contador);
+        }
+
     }
 }

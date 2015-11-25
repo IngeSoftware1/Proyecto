@@ -529,5 +529,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDProyecto.getNombreReqDiseno(ReqDiseno, idProyecto);
         }
+
+
+        //consultar requerimientos de los modulos asociados a los proyectos
+        public DataTable consultarReqModulos(Object[] modulos,int contador)
+        {
+            return controladoraBDProyecto.consultarReqModulos(modulos,contador);
+        }
+
     }
 }
