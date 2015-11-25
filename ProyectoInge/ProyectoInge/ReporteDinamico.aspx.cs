@@ -319,15 +319,11 @@ namespace ProyectoInge
                     columna.DataType = System.Type.GetType("System.String");
                     columna.ColumnName = "Diseño";
                     dt_casos.Columns.Add(columna);
-                    if (chklistModulos != null)
-                    { 
-                    
-                    }
 
-                    columna = new DataColumn();
-                    columna.DataType = System.Type.GetType("System.String");
-                    columna.ColumnName = "Diseño";
-                    dt_casos.Columns.Add(columna);
+                    
+
+
+                 
                 }
 
                 columna = new DataColumn();
