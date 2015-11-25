@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 
 namespace ProyectoInge
 {
@@ -30,7 +28,9 @@ namespace ProyectoInge
         private static DropDownList comboIdCasoModificar;
         private static DropDownList comboIdEstadoModificar;
         private static bool casosIniciados = false;
-        private int modo;
+        private int modo = 1;
+        object[] imagenes = new object[100];
+        private int contador = 0;
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -720,6 +720,7 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnInsertar);
             habilitarCampos(true);
             cambiarEnabledGridNC(true);
+            Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
 
         }
 
@@ -824,10 +825,64 @@ namespace ProyectoInge
                 //si la ejecución de pruebas se pudo insertar correctamente entra a este if
                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                 {
-                    lblModalTitle.Text = "LISTO";
-                    lblModalBody.Text = "INSERTÉ CORRECTAMENTE";
+                    int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                    Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
+                    guardarNoConformidades(ejecucion);
+
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
+                }
+                else
+                {
+
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+            }
+        }
+
+        /*
+         */
+        protected void guardarNoConformidades(int idEjecucion)
+        {
+            int tipoInsercion = 2;
+            DataTable dt = GetTableWithNoData(); 
+            DataRow dr;
+            GridViewRow gvr;
+            int i = 0;
+
+            for (i = 0; i < gridNoConformidades.Rows.Count; ++i)
+            {
+                gvr = gridNoConformidades.Rows[i];
+                Label lblTipoNC = gvr.FindControl("lblTipoNC") as Label;
+
+                if (lblTipoNC.Text != "-")
+                {
+                    Object[] NuevaNC = new Object[6];
+                    NuevaNC[0] = controladoraEjecucionPruebas.consultarIdCasoPrueba((gvr.FindControl("lblCasoPrueba") as Label).Text);
+                    NuevaNC[1] = idEjecucion;
+                    NuevaNC[2] = (gvr.FindControl("lblTipoNC") as Label).Text;
+                    NuevaNC[3] = (gvr.FindControl("lblJustificacion") as Label).Text;
+                    //NuevaNC[4] = obtiene la columna del grid que es de byte[];
+                    //NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+
+                    NuevaNC[4] = (gvr.FindControl("lblEstado") as Label).Text;
+
+                    Debug.Print((gvr.FindControl("lblCasoPrueba") as Label).Text + " " + idEjecucion + " " + (gvr.FindControl("lblTipoNC") as Label).Text + " " + (gvr.FindControl("lblJustificacion") as Label).Text + " " + (gvr.FindControl("lblEstado") as Label).Text);
+                    if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, NuevaNC, ""))
+                    {
+                    }
+                    else
+                    {
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "La no conformidad con el nombre " + (gvr.FindControl("lblTipoNC") as Label).Text + ", con el caso de prueba " + (gvr.FindControl("lblCasoPrueba") as Label).Text + " y el estado " + (gvr.FindControl("lblEstado") as Label).Text + " no se puedo agregar al sistema.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
                 }
             }
         }
@@ -1086,10 +1141,10 @@ namespace ProyectoInge
 
             dr = dt.NewRow();
 
-            if ((gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value == "Seleccione" || (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione" || (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value == "Seleccione")
+            if ( (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione")
             {
                 lblModalTitle.Text = "ERROR";
-                lblModalBody.Text = "Debe completar los datos obligatorios para agregar la no conformidad.";
+                lblModalBody.Text = "Debe ingresar un caso de prueba para poder agregar la no conformidad.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
             }
@@ -1111,6 +1166,16 @@ namespace ProyectoInge
 
                 dt.Rows.Add(dr); // Agrega las filas
 
+                if (FileImage.HasFile)//Si el usuario seleccionó una imagen
+                {
+                    //guarda esta linea en el row
+                    byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
+
+                }
+                else
+                {
+                    //guarde en el row un en la imagen un -1
+                }
 
                 gridNoConformidades.DataSource = dt;
                 gridNoConformidades.DataBind();

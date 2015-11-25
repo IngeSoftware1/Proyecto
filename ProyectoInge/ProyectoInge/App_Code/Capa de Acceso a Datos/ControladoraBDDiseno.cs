@@ -6,6 +6,8 @@ using System.Data;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data.SqlClient;
 
+
+
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
     public class ControladoraBDDiseno
