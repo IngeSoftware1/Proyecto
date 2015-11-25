@@ -40,36 +40,34 @@ namespace ProyectoInge
             if (!IsPostBack)
             {
                 ponerNombreDeUsuarioLogueado();
-                llenarDropDownTipoDescarga();
+                //           llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    //Debug.Write(Session["idProyecto"]);
-                    //llenarComboDiseno(id);
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                 }
+                }
             }
         }
 
-        protected void checkBoxTodos_Checked(object sender, EventArgs e)
+        protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (checkBoxTodos.Checked == true)
-            {
-                this.checkBoxConf.Checked = true;
-                this.checkBoxNC.Checked = true;
-                this.checkBoxPropositoCaso.Checked = true;
-                this.checkBoxResultadoEsperado.Checked = true;
-                this.checkBoxRequerimientosDiseno.Checked = true;
-                this.checkBoxPropositoDiseno.Checked = true;
-                this.checkBoxResponsableDiseno.Checked = true;
-                this.checkBoxEstadoEjecucion.Checked = true;
-                this.checkBoxID_TipoNC.Checked = true;
-            }
+            /*   if (checkBoxTodos.Checked == true)
+               {
+                   this.checkBoxConf.Checked = true;
+                   this.checkBoxNC.Checked = true;
+                   this.checkBoxPropositoCaso.Checked = true;
+                   this.checkBoxResultadoEsperado.Checked = true;
+                   this.checkBoxRequerimientosDiseno.Checked = true;
+                   this.checkBoxPropositoDiseno.Checked = true;
+                   this.checkBoxResponsableDiseno.Checked = true;
+                   this.checkBoxEstadoEjecucion.Checked = true;
+                   this.checkBoxID_TipoNC.Checked = true;
+               } */
         }
-        
+
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
         *Requiere: nada
         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
@@ -147,8 +145,7 @@ namespace ProyectoInge
                 }
                 datos[0] = "Seleccione";
                 this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
-                Session["vectorIdProyectos"] = nombres_id_proyectos;
+                this.comboProyecto.DataBind(); Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
             else
@@ -159,86 +156,6 @@ namespace ProyectoInge
                 this.comboProyecto.DataBind();
             }
             proyectoUpdate.Update();
-        }
-
-        //ROOOOOOO AQUIIIIII
-        //revisar el manejo del id de PROYECTO
-        protected void llenarComboDiseno(int idProyecto)
-        {
-            //Debug.Write(idProyecto);
-            Dictionary < int, string> proposito_id_disenos = new Dictionary<int, string>();
-            string proposito = "";
-            this.comboBoxDiseno.Items.Clear();
-            DataTable nombresDiseno;//todos los disenos de un proyecto, con el id y proposito
-            int numDatos = 0;
-            Object[] datos;
-            int indiceDiseno = 1;
-            int numColumna = 0;
-
-            if (idProyecto != 0)
-            {
-                nombresDiseno = controladoraReporte.consultarNomPropositoDiseno(idProyecto);
-                if (nombresDiseno != null && nombresDiseno.Rows.Count > 0)
-                {
-                    numDatos = nombresDiseno.Rows.Count;
-                }
-            }
-            else
-            {
-                nombresDiseno = controladoraReporte.consultarNomPropositoDiseno(idProyecto);//contiene todo el datatable con n diseños asociados a un proyecto
-                /*if (nombresDiseno == null || nombresDiseno.Rows.Count == 0)
-                {
-                    nombresDiseno = controladoraReporte.consultarProyectosDeUsuario(idProyecto);
-                }
-                */
-                numDatos = nombresDiseno.Rows.Count;
-            }
-
-            if (numDatos > 0)
-            {
-                //
-                datos = new Object[numDatos + 1];
-
-                for (int i = 0; i < numDatos; ++i)
-                {
-                    foreach (DataColumn column in nombresDiseno.Columns)
-                    {
-                        Debug.Write("Numero de diseños para ese proyecto: " + numDatos);
-                        if (numColumna == 1)
-                        {
-                            /*nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
-                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(), nombre);*/
-
-                           // id_nombres_disenos.Add(idProyecto, nombresDiseno.Rows[i][1].ToString());
-                            proposito = nombresDiseno.Rows[i][0].ToString();
-
-                        }
-                        else
-                        {
-                            proposito_id_disenos.Add(idProyecto, nombresDiseno.Rows[i][1].ToString());
-                        }
-
-                        ++numColumna;
-                    }
-
-                    datos[indiceDiseno] = proposito;
-                    ++indiceDiseno;
-                    numColumna = 0;
-                    proposito = "";
-                }
-                datos[0] = "Seleccione";
-                this.comboBoxDiseno.DataSource = datos;
-                this.comboBoxDiseno.DataBind();
-                Session["vectorIdDisenos"] = proposito_id_disenos;
-            }
-            else
-            {
-                datos = new Object[1];
-                datos[0] = "Seleccione";
-                this.comboBoxDiseno.DataSource = datos;
-                this.comboBoxDiseno.DataBind();
-            }
-            UpdatePanel2.Update();
         }
 
         // Genera el reporte en Excel.
@@ -260,31 +177,31 @@ namespace ProyectoInge
             int c = 1;
             int r = 2;
             // Poner el header.
-            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
-            {
-                worksheet.Cells[r, c++].Value = cell.Text;
-            }
+            /*     foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+                 {
+                     worksheet.Cells[r, c++].Value = cell.Text;
+                 } */
             // Dar formato al header.
             worksheet.Row(r).Style.Font.Bold = true;
             worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
             r++;
             // Poner el resto de los datos.
-            foreach (TableRow row in gridReportes.Rows)
-            {
-                c = 1;
-                foreach (TableCell cell in row.Cells)
+            /*    foreach (TableRow row in gridReportes.Rows)
                 {
-                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
-                }
-                // Coloreamos las filas.
-                if (0 == r % 2)
-                {
-                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
-                }
-                r++;
-            }
+                    c = 1;
+                    foreach (TableCell cell in row.Cells)
+                    {
+                        worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
+                    }
+                    // Coloreamos las filas.
+                    if (0 == r % 2)
+                    {
+                        worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                    }
+                    r++;
+                } */
 
             // Ajustamos el ancho de las columnas.
             worksheet.DefaultColWidth = 10;
@@ -333,35 +250,36 @@ namespace ProyectoInge
 
             pdfDoc.Add(table);
 
-            int columns = gridReportes.Rows[0].Cells.Count;
-            int rows = gridReportes.Rows.Count;
+            //         int columns = gridReportes.Rows[0].Cells.Count;
+            //         int rows = gridReportes.Rows.Count;
 
-            PdfPTable elGrid = new PdfPTable(columns);
-            elGrid.DefaultCell.Border = PdfPCell.BOX;
-            elGrid.HeaderRows = 1;
-            elGrid.WidthPercentage = 95f;
+            /*         PdfPTable elGrid = new PdfPTable(columns);
+                     elGrid.DefaultCell.Border = PdfPCell.BOX;
+                     elGrid.HeaderRows = 1;
+                     elGrid.WidthPercentage = 95f; */
 
-            for (int columnCounter = 0; columnCounter < columns; columnCounter++)
-            {
-                string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
-                elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
-            }
+            /*     for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+                 {
+       //              string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
+                     elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
+                 } */
 
-            for (int rowCounter = 0; rowCounter < rows; rowCounter++)
-            {
-                for (int columnCounter = 0; columnCounter < columns; columnCounter++)
-                {
-                    string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
-                    elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
-                }
-            }
-            pdfDoc.Add(elGrid);
+            /*         for (int rowCounter = 0; rowCounter < rows; rowCounter++)
+                     {
+                         for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+                         {
+              //               string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
+                             elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
+                         }
+                     }
+                     pdfDoc.Add(elGrid); */
 
             pdfDoc.Close();
 
             Response.Write(pdfDoc);
             Response.End();
         }
+
 
         //metodo para reiniciar los chechBox
         protected void btnReiniciar_Click(object sender, EventArgs e)
@@ -379,9 +297,8 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //VISTA PREVIA
+            //
             //lena el grid
-
         }
 
         //metodo para llenar requerimientos del proyecto
@@ -394,13 +311,13 @@ namespace ProyectoInge
             chklistModulos.Items.Clear();
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
-            {      
+            {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
                     if (chklistModulos.Items.FindByText(requerimiento) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(0,2));
+                        chklistModulos.Items.Add(requerimiento.Substring(0, 2));
                         ++contador;
                     }
                 }
@@ -410,7 +327,15 @@ namespace ProyectoInge
             {
                 chklistModulos.Items.Add("Todos los requerimientos");
             }
+
+            Debug.WriteLine("estoy en req");
+            //this.texto.Visible = true;
             chklistModulos.DataBind();
+            proyectoUpdate.Update();
+            UpdatePanel2.Update();
+            UpdatePanel3.Update();
+            //     UpdatePanel2.Update();
+            //   UpdatePanel3.Update();
         }
 
         //Rosaura
@@ -420,14 +345,14 @@ namespace ProyectoInge
             string requerimiento = "";
             int contador = 0;
             requerimiento = "";
-            chklistReq.Items.Clear();
+            //  chklistReq.Items.Clear();
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistReq.Items.FindByText(requerimiento) == null)
+                    //        if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
                         //chklistReq.Items.Add(requerimiento.Substring(0, 2));
                         ++contador;
@@ -437,21 +362,24 @@ namespace ProyectoInge
 
             if (1 < contador)
             {
-                chklistReq.Items.Add("Todos los requerimientos");
+                //     chklistReq.Items.Add("Todos los requerimientos");
             }
-            chklistReq.DataBind();
+            //     chklistReq.DataBind();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
-
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            llenarComboDiseno(id);
-            Response.Write("acaaa"+id);
+            //   Response.Write("acaaa" + id);
             llenarRequerimientosProyecto(id);
+            proyectoUpdate.Update();
+            UpdatePanel2.Update();
             UpdatePanel3.Update();
-            
+            //   UpdatePanel2.Update();
+            //      UpdatePanel3.Update();
+            //    UpdatePanel3.Update();
+
         }
 
         //dropDownListDescargar
@@ -481,3 +409,4 @@ namespace ProyectoInge
         }
     }
 }
+
