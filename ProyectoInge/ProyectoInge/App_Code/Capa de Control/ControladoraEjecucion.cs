@@ -103,11 +103,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return disenos;
         }
 
-        public DataTable consultarEjecucionNC(int idDiseno)
-        {
-            DataTable disenos = controladoraBDEjecucion.consultarEjecucionNC(idDiseno);
-            return disenos;
-        }
+        //public DataTable consultarEjecucionNC(int idDiseno)
+        //{
+        //    DataTable disenos = controladoraBDEjecucion.consultarEjecucionNC(idDiseno);
+        //    return disenos;
+        //}
         public DataTable consultarEjecucionPrueba(int idDiseno)
         {
             DataTable disenos = controladoraBDEjecucion.consultarEjecucionPrueba(idDiseno);
@@ -167,6 +167,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                             EntidadEjecucionPrueba nuevo = new EntidadEjecucionPrueba(datos);
                             resultado = controladoraBDEjecucion.insertarEjecucionPrueba(nuevo);
                         }
+
+                        if (accion == 2) //inserta no conformidad
+                        {
+                            EntidadCasoEjecutado nuevo = new EntidadCasoEjecutado(datos);
+                            resultado = controladoraBDEjecucion.insertarNC(nuevo);
+                        }
                         
                     }
                     break;
@@ -184,6 +190,23 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             }
             return resultado;
 
+        }
+
+        /*Método que obtiene el ultimo id autoincremental que se creó para una ejecución de pruebas
+         * Requiere: No recibe parámetros
+         * Modifica: Obtiene el valor autonumerico de la tabla
+         * Retorna: el valor autonumerico
+         */
+        public int obtenerIdEjecucionRecienCreado()
+        {
+            return controladoraBDEjecucion.obtenerIdEjecucionRecienCreado();
+        }
+
+        public int consultarIdCasoPrueba(string identificador)
+        { 
+            controladoraCasosPruebas = new ControladoraCasosPrueba();
+
+            return controladoraCasosPruebas.consultarIdCasoPrueba(identificador);
         }
     }
 

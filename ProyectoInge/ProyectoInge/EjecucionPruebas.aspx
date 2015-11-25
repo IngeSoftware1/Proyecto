@@ -11,6 +11,7 @@
                         <li><a runat="server" href="~/ProyectodePruebas.aspx">Proyecto</a></li>
                         <li><a runat="server" href="~/DisenoPruebas.aspx">Diseño de pruebas</a></li>
                         <li><a runat="server" style="background-color: ActiveCaption" href="~/EjecucionPruebas.aspx">Ejecución de pruebas</a></li>
+                        <li><a runat="server" href="ReporteDinamico.aspx">Reportes</a></li>
                         <li><a runat="server" onserverclick="cerrarSesion" href="~/Login.aspx">Cerrar sesión</a></li>
                     </ul>
                 </nav>
@@ -263,7 +264,7 @@
                                                         </asp:TemplateField>
 
                                                         <%--Código caso de prueba  --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Código caso de prueba">
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Código caso de prueba*">
 
                                                             <EditItemTemplate>
                                                                 <asp:DropDownList ID="dropDownListPrueba" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">

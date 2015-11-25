@@ -320,6 +320,7 @@
     <Compile Include="App_Code\Capa de Control\ControladoraRecursos.cs" />
     <Compile Include="App_Code\Capa de Acceso a Datos\ControladoraBDRecursos.cs" />
     <Compile Include="App_Code\Capa de Control\ControladoraReportes.cs" />
+    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadCasoEjecutado.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadRequerimientoDiseño.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -342,7 +343,6 @@
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadEstadoEjecucion.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionPrueba.cs" />
     <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadTipoNC.cs" />
-    <Compile Include="App_Code\Capa de Datos %28Entidad%29\EntidadEjecucionNC.cs" />
     <Content Include="App_Code\DataSetProyectos.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

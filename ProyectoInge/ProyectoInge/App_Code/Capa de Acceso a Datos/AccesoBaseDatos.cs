@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
@@ -12,10 +13,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
         /*En Initial Catalog se agrega la base de datos propia. Intregated Security es para utilizar Windows Authentication*/
         //String conexion = @"Data Source=RAQUELCHAVADDEF; Initial Catalog=RAQUEL; Integrated Security=SSPI";
-        String conexion = @"Data Source=.; Initial Catalog=bdRaque; Integrated Security=SSPI";
+        //String conexion = @"Data Source=.; Initial Catalog=bdRaque; Integrated Security=SSPI";
         //String conexion = @"Data Source=CAROLINA-HP\CAROLINA; Initial Catalog=Inge1; Integrated Security=SSPI";
         //String conexion = @"Data Source=LARI-PC; Initial Catalog=Inge1; Integrated Security=SSPI";
-        //String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
+        String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
         //String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI";       
         //String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";
        // String conexion = @"Data Source=ASUS; Initial Catalog=g3inge; Integrated Security=SSPI";
@@ -41,6 +42,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             catch (SqlException ex)
             {
+                Debug.Print("SOY EL NUMERO DE EXCEPCION DE SQL " + ex.Number.ToString());
                 return false;
             }
         }
