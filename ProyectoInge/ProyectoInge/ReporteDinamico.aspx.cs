@@ -40,7 +40,7 @@ namespace ProyectoInge
             if (!IsPostBack)
             {
                 ponerNombreDeUsuarioLogueado();
-                //           llenarDropDownTipoDescarga();
+                llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
@@ -346,7 +346,7 @@ namespace ProyectoInge
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + datosReqProyecto.Rows[i][1].ToString();
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
                         chklistReq.Items.Add(requerimiento);
