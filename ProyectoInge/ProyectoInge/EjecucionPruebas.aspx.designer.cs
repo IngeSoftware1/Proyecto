@@ -472,6 +472,24 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.FileUpload FileImage;
         
         /// <summary>
+        /// Control ImagePreview.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImagePreview;
+        
+        /// <summary>
+        /// Control btnPrueba.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPrueba;
+        
+        /// <summary>
         /// Control btnAceptarImagen.
         /// </summary>
         /// <remarks>

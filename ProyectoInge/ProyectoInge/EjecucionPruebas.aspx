@@ -511,10 +511,12 @@
                     </div>
                     <div class="modal-body">
                         Seleccione la imagen que desea cargar:      
-                           <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px"></asp:FileUpload>
-                       
+                           <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px" ></asp:FileUpload>
+                        
                         <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
-                    </div>
+                            <asp:Image runat="server" ID="ImagePreview" Height="164px" Width="125px" />
+                        <asp:Button ID="btnPrueba" class="btn btn-info" Text="Aceptar" OnClick="btnPrueba_Click"  runat="server" />
+                         </div>
                     <div class="modal-footer">
                         <asp:Button ID="btnAceptarImagen" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
                         <asp:Button ID="btnCancelarImagen" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen"  runat="server" />

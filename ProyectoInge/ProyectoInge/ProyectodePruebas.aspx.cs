@@ -1177,7 +1177,7 @@ namespace ProyectoInge
          */
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            string mensaje;
+
             cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(true, this.btnEliminar);

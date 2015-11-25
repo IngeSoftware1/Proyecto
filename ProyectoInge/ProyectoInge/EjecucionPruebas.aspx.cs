@@ -30,8 +30,7 @@ namespace ProyectoInge
         private static bool casosIniciados = false;
         private int modo = 1;
         object[] imagenes = new object[100];
-        private int contador = 0;
-        private static string imagen = "";
+        private static byte[] imagen = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -1178,24 +1177,45 @@ namespace ProyectoInge
             {
                 //guarda esta linea en el row
 
-                HttpPostedFile img = FileImage.PostedFile;
+                imagen = FileImage.FileBytes;
 
-                byte[] datosImagen = File.ReadAllBytes(img.FileName);
-                Debug.Print("Imagen : " + img.FileName);
+                string base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
+                ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
 
-                char[] chars = new char[datosImagen.Length / sizeof(char)];
-                System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
-                imagen = new string(chars);
-                Debug.WriteLine("Este es el nombre de la imagen" + imagen);
+
+                Debug.WriteLine("Llegué al final de la imagen" );
 
             }
             else
             {
-                imagen = "-1";
-
-
+                imagen = null;
             }
         }
+
+        protected void btnPrueba_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("ESTOY EN PRUEBA");
+            if (FileImage.HasFile)//Si el usuario seleccionó una imagen
+            {
+                //guarda esta linea en el row
+
+                imagen = FileImage.FileBytes;
+
+                Debug.WriteLine(imagen);
+
+                //string base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
+
+                //ImagePreview.ImageUrl = "data:image/jpg;base64," + base64String;
+
+                Debug.WriteLine("Llegué al final de prueba");
+
+            }
+            else
+            {
+                imagen = null;
+            }
+        }
+ 
 
         /*Método para la acción de aceptar cuando esta en modo de detener la carga de una imagen
          * Requiere: No requiere ningún parámetro
@@ -1204,7 +1224,7 @@ namespace ProyectoInge
          */
         protected void CancelarImagen(object sender, EventArgs e)
         {
-            imagen = "-1";
+            imagen = null;
         }
 
         /** Método para agregar una nuevo no conformidad en el grid.
