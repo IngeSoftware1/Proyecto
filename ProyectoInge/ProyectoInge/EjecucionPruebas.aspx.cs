@@ -1177,7 +1177,11 @@ namespace ProyectoInge
             if (FileImage.HasFile)//Si el usuario seleccionó una imagen
             {
                 //guarda esta linea en el row
-                byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
+
+                HttpPostedFile img = FileImage.PostedFile;
+
+                byte[] datosImagen = File.ReadAllBytes(img.FileName);
+                Debug.Print("Imagen : " + img.FileName);
 
                 char[] chars = new char[datosImagen.Length / sizeof(char)];
                 System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
@@ -1269,21 +1273,7 @@ namespace ProyectoInge
 
                 dt.Rows.Add(dr); // Agrega las filas
 
-                if (FileImage.HasFile)//Si el usuario seleccionó una imagen
-                {
-                    //guarda esta linea en el row
-                    byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
-
-                    char[] chars = new char[datosImagen.Length / sizeof(char)];
-                    System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
-                    String imagen = new string(chars);
-                    dr[5] = imagen;
-
-                }
-                else
-                {
-                    dr[5] = -1;
-                }
+               
 
                 gridNoConformidades.DataSource = dt;
                 gridNoConformidades.DataBind();
