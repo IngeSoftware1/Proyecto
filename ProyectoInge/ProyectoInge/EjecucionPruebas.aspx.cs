@@ -66,9 +66,8 @@ namespace ProyectoInge
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(Session["cedula"].ToString());
                 }
+
             }
-
-
 
         }
 
@@ -1200,6 +1199,20 @@ namespace ProyectoInge
                 //guarda esta linea en el row
 
                 imagen = FileImage.FileBytes;
+
+
+                string filePath = FileImage.PostedFile.FileName;
+                string filename = Path.GetFileName(filePath);
+                string ext = Path.GetExtension(filename);
+                string contenttype = String.Empty;
+
+                Stream fs = FileImage.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                Byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
+                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
+
 
                 Debug.WriteLine(imagen);
 
