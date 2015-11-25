@@ -298,51 +298,164 @@ namespace ProyectoInge
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
            
-            crearTablaRequerimientos();
+            llenarGrid();
+        }
+        public void llenarGrid()
+        {
+            DataTable dt = crearTablaRequerimientos();
+            int numCols = dt.Rows.Count;
+            int indice=0;
+            Object[] datos = new Object[numCols];
+            for (int i = 0; i < numCols; i++)
+            {
+                datos[i] = "";
+            }
+            String proyecto = comboProyecto.Text;
+            //METO EL PROYECTO
+            if (proyecto != "Seleccione")
+            {
+                //datos[indice] = proyecto;
+                //indice++;
+            }
+            //METE EL DISENO
+            String diseno = comboBoxDiseno.Text;
+            if (diseno != "Seleccione")
+            {
+                //datos[indice] = proyecto;
+                //indice++;
+            }
+            //METO LOS MODULOS
+            int numModulos=0;
+            for (int i = 0; i < chklistModulos.Items.Count; i++ )
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    numModulos++;
+                }
+            }
+            Object[] datosModulos = new Object[numModulos];
+            for (int i = 0; i < numModulos; i++)
+            {
+                datosModulos[i] = "";
+            }
+            for (int i = 0; i < chklistModulos.Items.Count; i++ )
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    String modulo = this.chklistModulos.Items[i].Text;
+                    datosModulos[i] = modulo;
+                }
+            }
+            //METE LOS REQUERIMIENTOS
+            int numRequerimientos = 0;
+            for (int i = 0; i < chklistModulos.Items.Count; i++)
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    numRequerimientos++;
+                }
+            }
+            Object[] datosRequerimientos = new Object[numRequerimientos];
+            for (int i = 0; i < numModulos; i++)
+            {
+                datosRequerimientos[i] = "";
+            }
+            for (int i = 0; i < chklistReq.Items.Count; i++)
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    String requrimiento = this.chklistModulos.Items[i].Text;
+                    String idReq = conseguirId(requrimiento);
+                    String nombreReq = conseguirNombre(requrimiento);
+                    String porcentajeConformidad = calcularPorcentajeConformidad(idReq);
+                    String porcentajeNoConformidad = calcularPorcentajeNoConformidad(idReq);
+                    String resultado = "Id: " + idReq + "Nombre: "+nombreReq+ "\n %Conformidad: " + porcentajeConformidad + "\n % No conformidad: " + porcentajeNoConformidad;
+                    datosModulos[i] = resultado;
+                }
+            }
+            //METE CASOS DE PRUEBA
+            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
+            {
+                
+            }
+            //METE LAS EJECUCIONES DE PRUEBA
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked == true)
+            {
+               
+            }
+
+            this.gridReportes.DataSource = dt;
+            this.gridReportes.DataBind();
         }
 
+        private string conseguirNombre(string requrimiento)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string conseguirId(string requrimiento)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string calcularPorcentajeNoConformidad(string modulo)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string calcularPorcentajeConformidad(string modulo)
+        {
+            throw new NotImplementedException();
+        }
         protected DataTable crearTablaRequerimientos()
         {
             DataTable dt_casos = new DataTable();
             DataColumn columna;
             String proyecto = comboProyecto.Text;
-             String diseno = comboBoxDiseno.Text;
+            String diseno = comboBoxDiseno.Text;
             if (proyecto != "Seleccione")
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
                 columna.ColumnName = "Proyecto";
                 dt_casos.Columns.Add(columna);
-                if (diseno != null)
-                {
-                    columna = new DataColumn();
-                    columna.DataType = System.Type.GetType("System.String");
-                    columna.ColumnName = "Diseño";
-                    dt_casos.Columns.Add(columna);
-
-                    
-
-
-                 
-                }
-
+            }
+            if (this.chklistModulos.Items.Count > 0)
+            {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
-                columna.ColumnName = "Propósito diseño";
+                columna.ColumnName = "Módulo";
                 dt_casos.Columns.Add(columna);
 
+            }
+            if (this.chklistReq.Items.Count > 0)
+            {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
-                columna.ColumnName = "Id del caso de pruebas";
-                dt_casos.Columns.Add(columna);
-
-                columna = new DataColumn();
-                columna.DataType = System.Type.GetType("System.String");
-                columna.ColumnName = "Propósito del caso de pruebas";
+                columna.ColumnName = "Requerimientos";
                 dt_casos.Columns.Add(columna);
             }
-            
-
+            if (diseno != null)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Diseño";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Caso de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked==true)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Estado de ejecucion de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
             return dt_casos;
         }
 
