@@ -846,6 +846,7 @@ namespace ProyectoInge
         }
 
         /*
+         * Guarda todo lo del grid de no conformidades
          */
         protected void guardarNoConformidades(int idEjecucion)
         {
@@ -973,9 +974,26 @@ namespace ProyectoInge
             llenarDatos(Session["idDiseñoS"].ToString());
             this.disenoAsociado(Int32.Parse(Session["idDiseñoS"].ToString()));
             modo = 2;
-            //habilitarCamposModificar();
+            habilitarCamposModificar();
         }
 
+
+        /*Método para habilitar/deshabilitar todos los campos que permite el modificar
+        * Requiere: 
+        * Modifica: Cambia la propiedad Enabled de las cajas 
+        * Retorna: no retorna ningún valor
+        */
+        private void habilitarCamposModificar()
+        {
+            this.comboResponsable.Enabled = true;
+            this.calendarFecha.Enabled = true;
+            this.txtIncidencias.Enabled = true;
+            this.txtNivel.Enabled = false;
+            this.txtProcedimiento.Enabled = false;
+            this.comboProyecto.Enabled = false;
+            this.comboDiseño.Enabled = false;
+            //this.gridNoConformidades.Enabled 
+        }
 
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
         * Requiere: El identificador del diseño que se desea consultar.
