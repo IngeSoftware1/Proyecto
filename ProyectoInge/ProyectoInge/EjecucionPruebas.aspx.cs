@@ -453,7 +453,7 @@ namespace ProyectoInge
         protected void llenarComboDisenos()
         {
             int idProyecto = (Int32.Parse(Session["idProyectoEjecucion"].ToString()));
-            DataTable disenos = controladoraEjecucionPruebas.consultarDisenos(idProyecto);
+            DataTable disenos = controladoraEjecucionPruebas.consultarDisenosCasos(idProyecto);
             comboDedisenos.Clear();
 
             Object[] datos;
