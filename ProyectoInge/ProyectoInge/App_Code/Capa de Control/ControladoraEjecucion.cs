@@ -103,7 +103,16 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return disenos;
         }
 
-        
+        public DataTable consultarEjecucionNC(int idDiseno)
+        {
+            DataTable disenos = controladoraBDEjecucion.consultarEjecucionNC(idDiseno);
+            return disenos;
+        }
+        public DataTable consultarEjecucionPrueba(int idDiseno)
+        {
+            DataTable disenos = controladoraBDEjecucion.consultarEjecucionPrueba(idDiseno);
+            return disenos;
+        }
 
         public DataTable getDatosDiseno(int idDiseno)
         {

@@ -119,5 +119,77 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
+
+        /* Método para obtener la ejecucion de prueba.
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con los estados que tiene almacenada la base de datos.
+        */
+        public DataTable consultarEjecucionPrueba(int idEjecucion)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            try
+            {
+
+                consulta = "SELECT *" + " FROM Ejecucion_Prueba WHERE id_ejecucion  = '" + idEjecucion + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        /* Método para obtener el caso ejecutado
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con los estados que tiene almacenada la base de datos.
+        */
+        public DataTable consultarCasoEjecutado(int idEjecucion)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            try
+            {
+
+                consulta = "SELECT *" + " FROM Caso_Ejecutado WHERE id_ejecucion  = '" + idEjecucion + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+        public DataTable consultarDiseno(int idEjecucion)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT * FROM Diseno_Pruebas WHERE id_ejecucion = '" + idEjecucion + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
     }
 }
