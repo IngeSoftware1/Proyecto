@@ -57,7 +57,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     }
             }
             return resultado;
-
         }
 
         //metodo para consultar infomacion del diseño de caso

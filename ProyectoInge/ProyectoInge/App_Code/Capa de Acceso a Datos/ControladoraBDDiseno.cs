@@ -167,6 +167,33 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+
+        /* Método para consultar un diseño
+        * Requiere: un int con el identificador del diseño
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los datos del diseño
+        */
+        public DataTable consultarNomPropositoDiseno(int idProyecto)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+
+                consulta = "SELECT id_diseno, proposito_diseno FROM Diseno_Pruebas WHERE id_proyecto = '" + idProyecto + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
         /*Método para modificar un requerimiento asociado a un diseño
         * Requiere: las llaves de la tabla requerimientos diseño y la instancia de la entidad 
         * Modifica: modifica la tabla de Diseno_Pruebas

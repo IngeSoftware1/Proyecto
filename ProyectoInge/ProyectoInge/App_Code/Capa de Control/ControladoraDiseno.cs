@@ -41,6 +41,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarIdentificadoresProyectos();
         }
 
+        public DataTable consultarNomPropositoDiseno(int proy)
+        {
+            return controladoraBDDiseno.consultarNomPropositoDiseno(proy);
+        }
+
         /* Método para obtener los nombres de los proyectos 
         * Requiere: no requiere informacion
         * Modifica: no modifica datos

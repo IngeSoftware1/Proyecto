@@ -27,7 +27,6 @@ namespace ProyectoInge
             if (Session["cedula"] == null)
             {
                 Response.Redirect("~/Login.aspx");
-
             }
 
             if (!IsPostBack)
@@ -56,9 +55,7 @@ namespace ProyectoInge
                     llenarComboRecursos();
                     llenarGrid(Session["cedula"].ToString());
                 }
-
             }
-
         }
         /*Método para habilitar/deshabilitar el campo txt del calendario
       * Requiere: el booleano para la acción
@@ -376,9 +373,6 @@ namespace ProyectoInge
 
             if (this.comboProyecto.Text.Equals("Seleccione") == false)
             {
-
-
-
                 id = controladoraDiseno.obtenerIdProyecto(this.comboProyecto.Text);
                 Recursos = controladoraDiseno.consultarMiembrosDeProyecto(id.ToString());
                 numDatos = Recursos.Rows.Count;
@@ -548,10 +542,7 @@ namespace ProyectoInge
                         listReqProyecto.Items.Add(requerimiento);
                         ++contador;
                     }
-
-
                 }
-
             }
 
             if (0 < contador)

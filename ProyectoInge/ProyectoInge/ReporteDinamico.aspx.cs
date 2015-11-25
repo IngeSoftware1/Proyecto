@@ -44,15 +44,17 @@ namespace ProyectoInge
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
+                    //Debug.Write(Session["idProyecto"]);
+                    //llenarComboDiseno(id);
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                }
+                 }
             }
         }
 
-        protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
+        protected void checkBoxTodos_Checked(object sender, EventArgs e)
         {
             if (checkBoxTodos.Checked == true)
             {
@@ -144,8 +146,9 @@ namespace ProyectoInge
                     nombre = "";
                 }
                 datos[0] = "Seleccione";
-                  this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();                Session["vectorIdProyectos"] = nombres_id_proyectos;
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+                Session["vectorIdProyectos"] = nombres_id_proyectos;
                 Session["vectorIdNombres"] = id_nombres_proyectos;
             }
             else
@@ -156,6 +159,86 @@ namespace ProyectoInge
                 this.comboProyecto.DataBind();
             }
             proyectoUpdate.Update();
+        }
+
+        //ROOOOOOO AQUIIIIII
+        //revisar el manejo del id de PROYECTO
+        protected void llenarComboDiseno(int idProyecto)
+        {
+            //Debug.Write(idProyecto);
+            Dictionary < int, string> proposito_id_disenos = new Dictionary<int, string>();
+            string proposito = "";
+            this.comboBoxDiseno.Items.Clear();
+            DataTable nombresDiseno;//todos los disenos de un proyecto, con el id y proposito
+            int numDatos = 0;
+            Object[] datos;
+            int indiceDiseno = 1;
+            int numColumna = 0;
+
+            if (idProyecto != 0)
+            {
+                nombresDiseno = controladoraReporte.consultarNomPropositoDiseno(idProyecto);
+                if (nombresDiseno != null && nombresDiseno.Rows.Count > 0)
+                {
+                    numDatos = nombresDiseno.Rows.Count;
+                }
+            }
+            else
+            {
+                nombresDiseno = controladoraReporte.consultarNomPropositoDiseno(idProyecto);//contiene todo el datatable con n diseños asociados a un proyecto
+                /*if (nombresDiseno == null || nombresDiseno.Rows.Count == 0)
+                {
+                    nombresDiseno = controladoraReporte.consultarProyectosDeUsuario(idProyecto);
+                }
+                */
+                numDatos = nombresDiseno.Rows.Count;
+            }
+
+            if (numDatos > 0)
+            {
+                //
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < numDatos; ++i)
+                {
+                    foreach (DataColumn column in nombresDiseno.Columns)
+                    {
+                        Debug.Write("Numero de diseños para ese proyecto: " + numDatos);
+                        if (numColumna == 1)
+                        {
+                            /*nombres_id_proyectos.Add(nombre, nombresProyecto.Rows[i][1].ToString());
+                            id_nombres_proyectos.Add(nombresProyecto.Rows[i][1].ToString(), nombre);*/
+
+                           // id_nombres_disenos.Add(idProyecto, nombresDiseno.Rows[i][1].ToString());
+                            proposito = nombresDiseno.Rows[i][0].ToString();
+
+                        }
+                        else
+                        {
+                            proposito_id_disenos.Add(idProyecto, nombresDiseno.Rows[i][1].ToString());
+                        }
+
+                        ++numColumna;
+                    }
+
+                    datos[indiceDiseno] = proposito;
+                    ++indiceDiseno;
+                    numColumna = 0;
+                    proposito = "";
+                }
+                datos[0] = "Seleccione";
+                this.comboBoxDiseno.DataSource = datos;
+                this.comboBoxDiseno.DataBind();
+                Session["vectorIdDisenos"] = proposito_id_disenos;
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboBoxDiseno.DataSource = datos;
+                this.comboBoxDiseno.DataBind();
+            }
+            UpdatePanel2.Update();
         }
 
         // Genera el reporte en Excel.
@@ -280,7 +363,6 @@ namespace ProyectoInge
             Response.End();
         }
 
-
         //metodo para reiniciar los chechBox
         protected void btnReiniciar_Click(object sender, EventArgs e)
         {
@@ -297,8 +379,9 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //
+            //VISTA PREVIA
             //lena el grid
+
         }
 
         //metodo para llenar requerimientos del proyecto
@@ -361,8 +444,10 @@ namespace ProyectoInge
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
+
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
+            llenarComboDiseno(id);
             Response.Write("acaaa"+id);
             llenarRequerimientosProyecto(id);
             UpdatePanel3.Update();

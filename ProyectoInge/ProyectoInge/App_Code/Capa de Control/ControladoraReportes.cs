@@ -12,6 +12,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         ControladoraRecursos controladoraRH;
         ControladoraProyecto controladoraProyectos;
+        ControladoraDiseno controladoraDiseno;
 
 
         /* Método para obtener los nombres de los proyectos 
@@ -25,6 +26,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarNombresProyectos();
         }
 
+        
+        public DataTable consultarNomPropositoDiseno(int id)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarNomPropositoDiseno(id);
+        }
 
         /* Método para obtener los id de los proyectos pero tomando en cuenta el usuario
         * Requiere: un string con el identificador del usuario
@@ -43,7 +50,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarProyectosLider(cedula);
         }
-
 
         /* Método para consultar requerimientos de un proyecto
         * Requiere: el id del proyecto
@@ -67,7 +73,6 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarIdReqProyecto(idProyecto);
         }
 
-
         /*Método para obtener el id del proyecto mediante el nombre.
          * Requiere: el id del proyecto a consultar.
          * Modifica: no modifica datos
@@ -78,13 +83,5 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
         }
-
-
-
-
-
     }
-
-
-
 }
