@@ -40,7 +40,7 @@ namespace ProyectoInge
             if (!IsPostBack)
             {
                 ponerNombreDeUsuarioLogueado();
-                //           llenarDropDownTipoDescarga();
+                llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
@@ -297,9 +297,59 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //
-            //lena el grid
+           
+            crearTablaRequerimientos();
         }
+
+        protected DataTable crearTablaRequerimientos()
+        {
+            DataTable dt_casos = new DataTable();
+            DataColumn columna;
+            String proyecto = comboProyecto.Text;
+             String diseno = comboBoxDiseno.Text;
+            if (proyecto != "Seleccione")
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Proyecto";
+                dt_casos.Columns.Add(columna);
+                if (diseno != null)
+                {
+                    columna = new DataColumn();
+                    columna.DataType = System.Type.GetType("System.String");
+                    columna.ColumnName = "Diseño";
+                    dt_casos.Columns.Add(columna);
+                    if (chklistModulos != null)
+                    { 
+                    
+                    }
+
+                    columna = new DataColumn();
+                    columna.DataType = System.Type.GetType("System.String");
+                    columna.ColumnName = "Diseño";
+                    dt_casos.Columns.Add(columna);
+                }
+
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Propósito diseño";
+                dt_casos.Columns.Add(columna);
+
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Id del caso de pruebas";
+                dt_casos.Columns.Add(columna);
+
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Propósito del caso de pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            
+
+            return dt_casos;
+        }
+
 
         //metodo para llenar requerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
@@ -346,7 +396,7 @@ namespace ProyectoInge
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + datosReqProyecto.Rows[i][1].ToString();
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
                         chklistReq.Items.Add(requerimiento);
