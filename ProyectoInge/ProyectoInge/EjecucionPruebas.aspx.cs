@@ -916,10 +916,13 @@ namespace ProyectoInge
                 lblModalBody.Text = "Debe completar los datos obligatorios para agregar la ejecución.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-                //habilitarCamposModificar();
+                habilitarCamposModificar();
             }
             else
             {
+                // se elmina todo 
+
+
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                 Object[] datosNuevos = new Object[4];
                 Debug.Print(this.txtIncidencias.Text);
@@ -928,6 +931,27 @@ namespace ProyectoInge
                 datosNuevos[1] = this.txtCalendar.Text;
                 datosNuevos[2] = obtenerCedula(comboResponsable.Text);
                 datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+
+                //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoModificacion, datosNuevos, ""))
+                {
+                    int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                    Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
+                    guardarNoConformidades(ejecucion);
+
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                else
+                {
+
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
             }
         }
 
@@ -988,10 +1012,9 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = true;
             this.calendarFecha.Enabled = true;
             this.txtIncidencias.Enabled = true;
-            this.txtNivel.Enabled = false;
-            this.txtProcedimiento.Enabled = false;
+            this.txtCalendar.Enabled = true;
             this.comboProyecto.Enabled = false;
-            this.comboDiseño.Enabled = false;
+            this.comboDiseño.Enabled = false;  
             //this.gridNoConformidades.Enabled 
         }
 
