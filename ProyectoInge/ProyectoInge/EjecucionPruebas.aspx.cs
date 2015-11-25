@@ -14,7 +14,7 @@ namespace ProyectoInge
     public partial class EjecucionPruebas : System.Web.UI.Page
     {
         ControladoraEjecucion controladoraEjecucionPruebas = new ControladoraEjecucion();
-        
+
 
         //Variablaes globales utilizadas para cuando el cliente modifica alguna fila del grid
         private static string comboTipoNCTxt = "";
@@ -50,9 +50,9 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnModificar);
                     cambiarEnabled(false, this.btnEliminar);
                     cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);        
+                    cambiarEnabled(false, this.btnCancelar);
                     gridTipoNC_Inicial(0, false);
-                    habilitarCampos(false);                   
+                    habilitarCampos(false);
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
@@ -69,9 +69,25 @@ namespace ProyectoInge
                 }
             }
 
-            
+
 
         }
+
+
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(Session["cedula"].ToString());
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
+            }
+        }
+
 
         protected void habilitarCampos(bool condicion)
         {
@@ -546,12 +562,12 @@ namespace ProyectoInge
             this.panelDiseno.Visible = false;
             this.datosDiseno.Visible = false;
             this.lblDatosDiseño.Visible = false;
-            UpdateDatosDiseno.Update();         
+            UpdateDatosDiseno.Update();
         }
 
         protected void llenarDatosDiseno(int idDiseno, int idProyecto)
         {
-           
+
             DataTable datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
             DataTable ReqDiseno = controladoraEjecucionPruebas.getReqDiseno(idDiseno, idProyecto);
             DataTable datosReqDiseno;
@@ -606,18 +622,18 @@ namespace ProyectoInge
                 this.txtNivel.Text = "";
                 this.txtProcedimiento.Text = "";
                 this.listRequerimientoDisponibles.Items.Clear();
-                if(casosIniciados == true)
+                if (casosIniciados == true)
                 {
                     llenarComboCasos(idDiseno, true);
                 }
-            
+
                 llenarDatosDiseno(idDiseno, Int32.Parse(Session["idProyectoEjecucion"].ToString()));
                 gridTipoNC_Inicial(idDiseno, true);
             }
 
             UpdateProyectoDiseno.Update();
             UpdateDatosDiseno.Update();
-            UpdateGridNoConformidades.Update();    
+            UpdateGridNoConformidades.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
@@ -688,8 +704,8 @@ namespace ProyectoInge
             gvr.FindControl("lnkModificar").Visible = false;
             gvr.FindControl("lnkEliminar").Visible = false;
             this.lblListaConformidades.Visible = true;
-           
-            if(condicion == true)
+
+            if (condicion == true)
             {
                 //Carga del comboBox con los tipos de no conformidades
                 llenarComboTipoNC(true);
@@ -815,7 +831,7 @@ namespace ProyectoInge
             {
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                 Object[] datosNuevos = new Object[4];
-                Debug.Print( this.txtIncidencias.Text);
+                Debug.Print(this.txtIncidencias.Text);
 
                 datosNuevos[0] = this.txtIncidencias.Text;
                 datosNuevos[1] = this.txtCalendar.Text;
@@ -851,7 +867,7 @@ namespace ProyectoInge
         protected void guardarNoConformidades(int idEjecucion)
         {
             int tipoInsercion = 2;
-            DataTable dt = GetTableWithNoData(); 
+            DataTable dt = GetTableWithNoData();
             DataRow dr;
             GridViewRow gvr;
             int i = 0;
@@ -920,37 +936,40 @@ namespace ProyectoInge
             }
             else
             {
-                // se elmina todo 
-
-
-                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-                Object[] datosNuevos = new Object[4];
-                Debug.Print(this.txtIncidencias.Text);
-
-                datosNuevos[0] = this.txtIncidencias.Text;
-                datosNuevos[1] = this.txtCalendar.Text;
-                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
-                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
-
-                //si la ejecución de pruebas se pudo insertar correctamente entra a este if
-                if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoModificacion, datosNuevos, ""))
+                // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
+                if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null , ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
                 {
-                    int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                    Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
-                    guardarNoConformidades(ejecucion);
+                    Debug.Print("Pudo eliminar la ejecucion de pruebas ");
+                    //Ahora debería agregarlos de nuevo
+                    //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                    Object[] datosNuevos = new Object[4];
+                    //Debug.Print(this.txtIncidencias.Text);
 
-                    lblModalTitle.Text = "";
-                    lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
+                    datosNuevos[0] = this.txtIncidencias.Text;
+                    datosNuevos[1] = this.txtCalendar.Text;
+                    datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                    datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+
+                    //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                    if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoModificacion, datosNuevos, ""))
+                    {
+                        int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                        Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
+                        guardarNoConformidades(ejecucion);
+
+                        lblModalTitle.Text = "";
+                        lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    else
+                    {
+                        Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
+                    }
                 }
                 else
                 {
-
-                    lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
+                    Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
                 }
             }
         }
@@ -971,12 +990,14 @@ namespace ProyectoInge
                 this.txtPropositoDiseño.Text = diseno.Rows[0][1].ToString();
                 this.txtCalendar.Text = diseno.Rows[0][2].ToString();
                 this.txtProcedimiento.Text = diseno.Rows[0][3].ToString();
-                if( (diseno.Rows[0][6].ToString()) != null){
+                if ((diseno.Rows[0][6].ToString()) != null)
+                {
                     this.txtTecnicaPrueba.Text = diseno.Rows[0][6].ToString();
                 }
-                 if( (diseno.Rows[0][7].ToString()) != null){
-                     this.txtNivel.Text = diseno.Rows[0][7].ToString();
-                }  
+                if ((diseno.Rows[0][7].ToString()) != null)
+                {
+                    this.txtNivel.Text = diseno.Rows[0][7].ToString();
+                }
             }
             //UpdateAsociarDesasociarRequerimientos.Update();
             //proyectoUpdate.Update();
@@ -1014,9 +1035,11 @@ namespace ProyectoInge
             this.txtIncidencias.Enabled = true;
             this.txtCalendar.Enabled = true;
             this.comboProyecto.Enabled = false;
-            this.comboDiseño.Enabled = false;  
+            this.comboDiseño.Enabled = false;
             //this.gridNoConformidades.Enabled 
         }
+
+
 
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
         * Requiere: El identificador del diseño que se desea consultar.
@@ -1025,94 +1048,94 @@ namespace ProyectoInge
         */
         public void llenarDatos(string idDiseño)
         {
-           /* listReqAgregados.Items.Clear();
-            if (idDiseño != null && idDiseño.Equals("-") == false)
-            {
-                string nombreRepresentante = "";
-                string nombre = "";
-                ListItem representante;
-                ListItem proyecto;
-                Dictionary<string, string> nombresDelRepresentante;
-                Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
-                String cedulaRepresentante = "";
-                String nombreProyecto = "";
-                idDiseñoConsultado = idDiseño;
-                DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
-                DataTable datosMiembro = null;
-                DataTable datosReqProyecto = null;
-                DataTable datosReqDiseno = null;
-                listReqAgregados.Items.Clear();
+            /* listReqAgregados.Items.Clear();
+             if (idDiseño != null && idDiseño.Equals("-") == false)
+             {
+                 string nombreRepresentante = "";
+                 string nombre = "";
+                 ListItem representante;
+                 ListItem proyecto;
+                 Dictionary<string, string> nombresDelRepresentante;
+                 Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
+                 String cedulaRepresentante = "";
+                 String nombreProyecto = "";
+                 idDiseñoConsultado = idDiseño;
+                 DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+                 DataTable datosMiembro = null;
+                 DataTable datosReqProyecto = null;
+                 DataTable datosReqDiseno = null;
+                 listReqAgregados.Items.Clear();
 
-                if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
-                {
-                    this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
-                    this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
-                    this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
-                    this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
-                    this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
-                    idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
-                    Session["idProyecto"] = idProyectoConsultado;
-                    cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
-                    datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
-                    datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
-                    datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+                 if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
+                 {
+                     this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
+                     this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
+                     this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
+                     this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
+                     this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
+                     idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                     Session["idProyecto"] = idProyectoConsultado;
+                     cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
+                     datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                     datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
+                     datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
 
-                    if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
-                    {
-                        ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
-                        this.comboNivel.SelectedValue = niveles.Value;
-                    }
-                    if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
-                    {
-                        ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
-                        this.comboTecnica.SelectedValue = tecnica.Value;
-                    }
-
-
-
-                    nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
-
-                    nombre = nombre + nombreProyecto;
-                    if (this.comboProyecto.Items.FindByText(nombre) != null)
-                    {
-                        proyecto = this.comboProyecto.Items.FindByText(nombre);
-                        this.comboProyecto.SelectedValue = proyecto.Value;
-
-                    }
-
-                    llenarComboRecursos();
-                    nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
-                    nombre = "";
-                    nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
-                    nombre = nombre + nombreRepresentante;
-
-                    if (this.comboResponsable.Items.FindByText(nombre) != null)
-                    {
-                        representante = this.comboResponsable.Items.FindByText(nombre);
-                        this.comboResponsable.SelectedValue = representante.Value;
-                    }
+                     if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                     {
+                         ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
+                         this.comboNivel.SelectedValue = niveles.Value;
+                     }
+                     if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
+                     {
+                         ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
+                         this.comboTecnica.SelectedValue = tecnica.Value;
+                     }
 
 
-                    string requerimiento = "";
 
-                    if (datosReqDiseno.Rows.Count >= 1)
-                    {
+                     nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
 
-                        for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
-                        {
+                     nombre = nombre + nombreProyecto;
+                     if (this.comboProyecto.Items.FindByText(nombre) != null)
+                     {
+                         proyecto = this.comboProyecto.Items.FindByText(nombre);
+                         this.comboProyecto.SelectedValue = proyecto.Value;
 
-                            requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
-                            listReqAgregados.Items.Add(requerimiento);
+                     }
 
-                        }
-                    }
+                     llenarComboRecursos();
+                     nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
+                     nombre = "";
+                     nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                     nombre = nombre + nombreRepresentante;
+
+                     if (this.comboResponsable.Items.FindByText(nombre) != null)
+                     {
+                         representante = this.comboResponsable.Items.FindByText(nombre);
+                         this.comboResponsable.SelectedValue = representante.Value;
+                     }
 
 
-                    llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
-                }
+                     string requerimiento = "";
 
-            }
-            * */
+                     if (datosReqDiseno.Rows.Count >= 1)
+                     {
+
+                         for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                         {
+
+                             requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
+                             listReqAgregados.Items.Add(requerimiento);
+
+                         }
+                     }
+
+
+                     llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
+                 }
+
+             }
+             * */
         }
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
@@ -1183,7 +1206,7 @@ namespace ProyectoInge
 
             dr = dt.NewRow();
 
-            if ( (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione")
+            if ((gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione")
             {
                 lblModalTitle.Text = "ERROR";
                 lblModalBody.Text = "Debe ingresar un caso de prueba para poder agregar la no conformidad.";
@@ -1191,7 +1214,7 @@ namespace ProyectoInge
                 upModal.Update();
             }
             else
-            { 
+            {
 
                 string comboTipoNC = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
                 string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
@@ -1221,7 +1244,7 @@ namespace ProyectoInge
                 }
                 else
                 {
-                    dr[5] = -1; 
+                    dr[5] = -1;
                 }
 
                 gridNoConformidades.DataSource = dt;
@@ -1237,7 +1260,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
-    
+
                 for (int j = 0; j < gridNoConformidades.Columns.Count; ++j)
                 {
                     gridNoConformidades.Columns[j].ItemStyle.Width = 5;
@@ -1298,7 +1321,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba y selección del valor según el correspondiente al campo editado
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), false);
- 
+
 
                 //Carga del comboBox con los estados de las no conformidades y selección del valor según el correspondiente al campo editado
                 llenarComboEstados(false);
@@ -1424,7 +1447,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-    
+
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
 
@@ -1492,7 +1515,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-     
+
 
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
@@ -1549,7 +1572,7 @@ namespace ProyectoInge
 
             if (dt.Rows.Count == 0)
             {
-                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true); 
+                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true);
             }
             else
             {
