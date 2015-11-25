@@ -315,7 +315,7 @@ namespace ProyectoInge
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento) == null)
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(0, 2)) == null)
                     {
                         chklistModulos.Items.Add(requerimiento.Substring(0, 2));
                         ++contador;
