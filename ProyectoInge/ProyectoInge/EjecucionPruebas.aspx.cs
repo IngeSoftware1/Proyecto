@@ -1107,8 +1107,9 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-");
+            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
 
             return table;
         }
@@ -1189,10 +1190,15 @@ namespace ProyectoInge
                     //guarda esta linea en el row
                     byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
 
+                    char[] chars = new char[datosImagen.Length / sizeof(char)];
+                    System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
+                    String imagen = new string(chars);
+                    dr[5] = imagen;
+
                 }
                 else
                 {
-                    //guarde en el row un en la imagen un -1
+                    dr[5] = -1; 
                 }
 
                 gridNoConformidades.DataSource = dt;
@@ -1233,6 +1239,8 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
+
 
             return table;
 

@@ -373,7 +373,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         public DataTable consultarDisenosCasos(int idProyecto)
         {
-            return controladoraBDDiseno.consultarDisenosCasoso(idProyecto);
+            return controladoraBDDiseno.consultarDisenosCasos(idProyecto);
         }
 
 
