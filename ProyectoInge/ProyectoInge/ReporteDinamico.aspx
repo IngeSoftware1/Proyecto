@@ -281,14 +281,6 @@
 
                 <br>
 
-
-
-
-
-
-
-
-
                 <div class="form-group">
                     <div class="row">
                         <br />
