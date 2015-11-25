@@ -246,6 +246,8 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
+
+
                                                         <%--Tipo de no conformidad  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-Font-Size="12px" HeaderText="TipoNC">
 
@@ -322,6 +324,24 @@
                                                                 <asp:DropDownList ID="comboEstado" Style="width: 111px; font-size: 12px" runat="server" CssClass="form-control">
                                                                 </asp:DropDownList>
                                                             </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                        
+                                                          <%--Imagen Invisible  --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false" >
+
+                                                           
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblImagenInvisible" runat="server" Visible="false" Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </ItemTemplate>
+
+
+                                                             <FooterTemplate>
+                                                                 <asp:Label ID="lblFootImagenInvisible" runat="server" Visible="false"  Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </FooterTemplate>
+
+
+                                                           
                                                         </asp:TemplateField>
 
 

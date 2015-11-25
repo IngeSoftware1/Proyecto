@@ -846,6 +846,7 @@ namespace ProyectoInge
         }
 
         /*
+         * Guarda todo lo del grid de no conformidades
          */
         protected void guardarNoConformidades(int idEjecucion)
         {
@@ -973,9 +974,26 @@ namespace ProyectoInge
             llenarDatos(Session["idDiseñoS"].ToString());
             this.disenoAsociado(Int32.Parse(Session["idDiseñoS"].ToString()));
             modo = 2;
-            //habilitarCamposModificar();
+            habilitarCamposModificar();
         }
 
+
+        /*Método para habilitar/deshabilitar todos los campos que permite el modificar
+        * Requiere: 
+        * Modifica: Cambia la propiedad Enabled de las cajas 
+        * Retorna: no retorna ningún valor
+        */
+        private void habilitarCamposModificar()
+        {
+            this.comboResponsable.Enabled = true;
+            this.calendarFecha.Enabled = true;
+            this.txtIncidencias.Enabled = true;
+            this.txtNivel.Enabled = false;
+            this.txtProcedimiento.Enabled = false;
+            this.comboProyecto.Enabled = false;
+            this.comboDiseño.Enabled = false;
+            //this.gridNoConformidades.Enabled 
+        }
 
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
         * Requiere: El identificador del diseño que se desea consultar.
@@ -1089,8 +1107,9 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-");
+            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
 
             return table;
         }
@@ -1171,10 +1190,15 @@ namespace ProyectoInge
                     //guarda esta linea en el row
                     byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
 
+                    char[] chars = new char[datosImagen.Length / sizeof(char)];
+                    System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
+                    String imagen = new string(chars);
+                    dr[5] = imagen;
+
                 }
                 else
                 {
-                    //guarde en el row un en la imagen un -1
+                    dr[5] = -1; 
                 }
 
                 gridNoConformidades.DataSource = dt;
@@ -1215,6 +1239,8 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
+
 
             return table;
 
