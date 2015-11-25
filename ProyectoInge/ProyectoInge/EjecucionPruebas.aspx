@@ -501,7 +501,6 @@
             </div>
         </div>
 
-
         <%--Modal Imagen --%>
         <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
@@ -517,8 +516,8 @@
                         <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
                     </div>
                     <div class="modal-footer">
-                        <asp:Button ID="Button1" class="btn btn-info" Text="Aceptar" runat="server" />
-                        <button type="button" id="botonVolver2" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnAceptarImagen" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
+                        <asp:Button ID="btnCancelarImagen" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen"  runat="server" />
                     </div>
                 </div>
             </div>

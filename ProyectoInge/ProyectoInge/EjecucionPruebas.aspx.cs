@@ -31,7 +31,7 @@ namespace ProyectoInge
         private int modo = 1;
         object[] imagenes = new object[100];
         private int contador = 0;
-
+        private static string imagen = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -1166,6 +1166,43 @@ namespace ProyectoInge
 
         }
 
+
+        /*Método para la acción de aceptar cuando esta en modo de aceptar la carga de una imagen
+     * Requiere: No requiere ningún parámetro
+     * Modifica: La variable global imagen que almacena los bytes de la misma
+     * Retorna: No retorna ningún valor
+     */
+        protected void AceptarImagen(object sender, EventArgs e)
+        {
+            if (FileImage.HasFile)//Si el usuario seleccionó una imagen
+            {
+                //guarda esta linea en el row
+                byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
+
+                char[] chars = new char[datosImagen.Length / sizeof(char)];
+                System.Buffer.BlockCopy(datosImagen, 0, chars, 0, datosImagen.Length);
+                imagen = new string(chars);
+                Debug.WriteLine("Este es el nombre de la imagen" + imagen);
+
+            }
+            else
+            {
+                imagen = "-1";
+
+
+            }
+        }
+
+        /*Método para la acción de aceptar cuando esta en modo de detener la carga de una imagen
+         * Requiere: No requiere ningún parámetro
+         * Modifica: La variable global imagen con un -1 para indicar que no hay imagen para cargar
+         * Retorna: No retorna ningún valor
+         */
+        protected void CancelarImagen(object sender, EventArgs e)
+        {
+            imagen = "-1";
+        }
+
         /** Método para agregar una nuevo no conformidad en el grid.
         * Modifica: El grid de no conformidades que se presenta en pantalla.
         * Retorna: No tiene valor de retorno.
@@ -1228,6 +1265,7 @@ namespace ProyectoInge
                 dr[2] = descripcion;
                 dr[3] = justificacion;
                 dr[4] = estado;
+                dr[5] = imagen;
 
                 dt.Rows.Add(dr); // Agrega las filas
 
@@ -1286,6 +1324,7 @@ namespace ProyectoInge
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
             table.Columns.Add("ImagenInvisible", typeof(string));
+
 
 
             return table;
