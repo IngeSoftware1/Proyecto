@@ -65,7 +65,7 @@ namespace ProyectoInge
         *Retorna: no retorna ningún valor*/
         protected void ponerNombreDeUsuarioLogueado()
         {
-            DataTable datosFilaFuncionario = controladoraRH.consultarRH(Session["cedula"].ToString());
+            DataTable datosFilaFuncionario = controladoraCasoPruebas.consultarRH(Session["cedula"].ToString());
             if (datosFilaFuncionario.Rows.Count == 1)
             {
                 string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();

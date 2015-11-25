@@ -21,6 +21,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
 
         }
+
+
+        /*Método para poner nombre usuario logueado
+*/
+        public DataTable consultarRH(string cedula)
+        {
+            return controladoraRH.consultarRH(cedula);
+        }
         /*Método buscar la asignación del proyecto con la cédula
         * Requiere: la cedula de la persona 
         * Modifica: no modifica
