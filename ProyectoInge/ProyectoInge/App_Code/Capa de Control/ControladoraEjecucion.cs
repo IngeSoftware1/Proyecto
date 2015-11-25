@@ -178,18 +178,29 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-
-                       
+                        if (accion == 1) //inserta ejecución de pruebas
+                        {
+                            EntidadEjecucionPrueba nuevo = new EntidadEjecucionPrueba(datos);
+                            resultado = controladoraBDEjecucion.insertarEjecucionPrueba(nuevo);
+                        }   
                     }
                     break;
                 case 3:
                     { //ELIMINAR
-                        
+                        if (accion == 1) //
+                        {
+                        } 
                     }
                     break;
             }
             return resultado;
 
+        }
+        /*Método para poner nombre usuario logueado
+        */
+        public DataTable consultarRH(string cedula)
+        {
+            return controladoraRH.consultarRH(cedula);
         }
 
         /*Método que obtiene el ultimo id autoincremental que se creó para una ejecución de pruebas

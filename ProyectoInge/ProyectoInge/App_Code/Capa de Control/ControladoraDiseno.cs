@@ -375,7 +375,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDDiseno.consultarDisenosCasos(idProyecto);
         }
-
-
+        /*Método para obtener un DataTable con los datos del funcionario especificado mediante el número de cédula.
+        * Requiere: La cédula del funcionario que se desea consultar
+        * Retorna: el DataTable con los datos del funcionario.
+         */
+        public DataTable consultarRH(string cedula)
+        {
+            return controladoraRH.consultarRH(cedula);
+        }
     }
 }
