@@ -132,7 +132,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string insercion = "INSERT INTO Caso_Ejecutado (id_caso, id_ejecucion, id_tipoNC, justificacion, estado_ejecucion) VALUES ('" + nuevo.getIdCaso + "', '" + nuevo.getIdEjecucion + "', '" + nuevo.getIdTipoNC + "', '" + nuevo.getJustificacion + "', '"+nuevo.getEstadoEjecucion+"')";
+
+                string insercion = "INSERT INTO Caso_Ejecutado (id_caso, id_ejecucion, id_tipoNC, justificacion, imagen, estado_ejecucion) VALUES ('" + nuevo.getIdCaso + "', '" + nuevo.getIdEjecucion + "', '" + nuevo.getIdTipoNC + "', '" + nuevo.getJustificacion + "', '"+nuevo.getImagen+"', '"+nuevo.getEstadoEjecucion+"')";
                 return acceso.insertarDatos(insercion);
             }
             catch (SqlException e)

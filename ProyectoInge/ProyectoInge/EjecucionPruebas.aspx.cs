@@ -31,6 +31,7 @@ namespace ProyectoInge
         private int modo = 1;
         object[] imagenes = new object[100];
         private static byte[] imagen = null;
+        private static string base64String = "";                //String global para la columna invisible del grid con la imagen
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -840,7 +841,6 @@ namespace ProyectoInge
                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                 {
                     int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                    Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
                     guardarNoConformidades(ejecucion);
 
                     lblModalTitle.Text = "";
@@ -882,12 +882,11 @@ namespace ProyectoInge
                     NuevaNC[1] = idEjecucion;
                     NuevaNC[2] = (gvr.FindControl("lblTipoNC") as Label).Text;
                     NuevaNC[3] = (gvr.FindControl("lblJustificacion") as Label).Text;
-                    //NuevaNC[4] = obtiene la columna del grid que es de byte[];
-                    //NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+                    NuevaNC[4] = (gvr.FindControl("lblImagenInvisible") as Label).Text;
+                    NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
 
-                    NuevaNC[4] = (gvr.FindControl("lblEstado") as Label).Text;
+                    Debug.Print("Imagen" + (gvr.FindControl("lblImagenInvisible") as Label).Text);
 
-                    Debug.Print((gvr.FindControl("lblCasoPrueba") as Label).Text + " " + idEjecucion + " " + (gvr.FindControl("lblTipoNC") as Label).Text + " " + (gvr.FindControl("lblJustificacion") as Label).Text + " " + (gvr.FindControl("lblEstado") as Label).Text);
                     if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, NuevaNC, ""))
                     {
                     }
@@ -1176,31 +1175,6 @@ namespace ProyectoInge
             {
                 //guarda esta linea en el row
 
-                imagen = FileImage.FileBytes;
-
-                string base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
-                ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
-
-
-                Debug.WriteLine("Llegué al final de la imagen");
-
-            }
-            else
-            {
-                imagen = null;
-            }
-        }
-
-        protected void btnPrueba_Click(object sender, EventArgs e)
-        {
-            Debug.WriteLine("ESTOY EN PRUEBA");
-            if (FileImage.HasFile)//Si el usuario seleccionó una imagen
-            {
-                //guarda esta linea en el row
-
-                imagen = FileImage.FileBytes;
-
-
                 string filePath = FileImage.PostedFile.FileName;
                 string filename = Path.GetFileName(filePath);
                 string ext = Path.GetExtension(filename);
@@ -1208,24 +1182,48 @@ namespace ProyectoInge
 
                 Stream fs = FileImage.PostedFile.InputStream;
                 BinaryReader br = new BinaryReader(fs);
-                Byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                imagen = br.ReadBytes((Int32)fs.Length);
 
-                string base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
-                ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
+                base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
+
+                //Se obtiene la extension de la imagen con esta línea de código
+                string extension = Path.GetExtension(Path.GetFileName(FileImage.PostedFile.FileName));
 
 
-                Debug.WriteLine(imagen);
-
-                //string base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
-
-                //ImagePreview.ImageUrl = "data:image/jpg;base64," + base64String;
-
-                Debug.WriteLine("Llegué al final de prueba");
+                ////De acuerdo al tipo de imagen se carga con extension distinta en el image control
+                //switch (extension)
+                //{
+                //    case ".JPEG":
+                //        ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
+                //        break;
+                //    case ".jpg":
+                //        ImagePreview.ImageUrl = "data:image/jpg;base64," + base64String;
+                //        break;
+                //    case ".JPG":
+                //        ImagePreview.ImageUrl = "data:image/JPG;base64," + base64String;
+                //        break;
+                //    case ".gif":
+                //        ImagePreview.ImageUrl = "data:image/gif;base64," + base64String;
+                //        break;
+                //    case ".GIF":
+                //        ImagePreview.ImageUrl = "data:image/GIF;base64," + base64String;
+                //        break;
+                //    case ".png":
+                //        ImagePreview.ImageUrl = "data:image/png;base64," + base64String;
+                //        break;
+                //    case ".PNG":
+                //        ImagePreview.ImageUrl = "data:image/PNG;base64," + base64String;
+                //        break;
+                //    case ".jpeg":
+                //        ImagePreview.ImageUrl = "data:image/jpeg;base64," + base64String;
+                //        break;
+                //}
 
             }
             else
             {
                 imagen = null;
+                base64String = "";
             }
         }
 
@@ -1251,8 +1249,6 @@ namespace ProyectoInge
             DataRow dr;
             GridViewRow gvr;
             int i = 0;
-
-
 
             for (i = 0; i < gridNoConformidades.Rows.Count; ++i)
             {
@@ -1302,7 +1298,7 @@ namespace ProyectoInge
                 dr[2] = descripcion;
                 dr[3] = justificacion;
                 dr[4] = estado;
-                dr[5] = imagen;
+                dr[5] = base64String;
 
                 dt.Rows.Add(dr); // Agrega las filas
 
