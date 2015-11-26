@@ -416,5 +416,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
         }
 
+        public int obtenerIdReqPorNombre(string s)
+        {
+            return controladoraBDDiseno.obtenerIdReqPorNombre(s);
+        }
+
     }
 }

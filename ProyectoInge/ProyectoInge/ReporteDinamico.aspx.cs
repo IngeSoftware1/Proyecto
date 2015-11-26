@@ -735,7 +735,7 @@ namespace ProyectoInge
         protected void llenarComboDiseno()
         {
             int id = 0;
-            Debug.WriteLine("Estoy aca");
+            //Debug.WriteLine("Estoy aca");
             Object[] requerimientos;
             String cadena = "";
             int contadorReq = 0;

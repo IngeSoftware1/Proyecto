@@ -107,5 +107,24 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
         }
+
+        public int obtenerIdReqPorNombre(string s)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.obtenerIdReqPorNombre(s);
+        }
+
+        public DataTable consultarDisenosPorReq(DataTable s)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarDisenosPorReq(s);
+        }
+
+        public DataTable consultarPropositosDisenosPorId(DataTable idDisenos)
+        {
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarPropositosDisenosPorId(idDisenos);
+        }
+
     }
 }
