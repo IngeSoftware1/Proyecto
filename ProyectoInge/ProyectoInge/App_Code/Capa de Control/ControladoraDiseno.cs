@@ -98,7 +98,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraRH = new ControladoraRecursos();
             return controladoraRH.consultarMiembrosProyecto(idProyecto);
         }
-     
+
 
         /* Método para obtener los id de los proyectos pero tomando en cuenta el usuario
         * Requiere: un string con el identificador del usuario
@@ -138,7 +138,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         * Modifica: no modifica datos
         * Retorna: un DataTable que contiene los requerimientos del proyecto
         */
-        public DataTable consultarReqProyecto( int idProyecto)
+        public DataTable consultarReqProyecto(int idProyecto)
         {
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarReqProyecto(idProyecto);
@@ -155,6 +155,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
 
             DataTable resultado = controladoraBDDiseno.consultarDisenos(idProyectos);
+            return resultado;
+        }
+
+        public DataTable consultarDisenosPorReq(DataTable idReqs)
+        {
+
+            DataTable resultado = controladoraBDDiseno.consultarDisenosPorReq(idReqs);
             return resultado;
         }
 
@@ -189,7 +196,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-        
+
         //metodo para consultar el ID del proyecto a partir del nombre
         public int obtenerIdProyecto(string nombreProyecto)
         {
@@ -197,11 +204,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.obtenerIDconNombreProyecto(nombreProyecto);
         }
 
-     /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
-        * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
-        * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
-        * Retorna el valor de la variable booleana.
-        */
+        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+           * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+           * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+           * Retorna el valor de la variable booleana.
+           */
         public bool ejecutarAccion(int modo, int accion, Object[] datos, int identificador, string perfil)
         {
 
@@ -228,7 +235,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                         if (accion == 1)
                         {
-                            EntidadDiseno entDiseño = new EntidadDiseno(datos);                            
+                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
                             return controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
 
                         }
@@ -291,7 +298,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
         }
 
-      //metodo para consultarProyectos si es lider
+        //metodo para consultarProyectos si es lider
         public DataTable consultarProyectosLider(string cedula)
         {
             controladoraProyectos = new ControladoraProyecto();
@@ -324,15 +331,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.eliminarDiseño(idDiseño);
         }
 
-       /* Método para consultar requerimientos disponibles de un proyecto
-       * Requiere: el id del proyecto
-       * Modifica: no modifica datos
-       * Retorna: un DataTable que contiene los requerimientos del proyecto
-       */
+        /* Método para consultar requerimientos disponibles de un proyecto
+        * Requiere: el id del proyecto
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene los requerimientos del proyecto
+        */
         public DataTable consultarReqDisponibles(int idProyecto, int idDiseno)
         {
             controladoraProyectos = new ControladoraProyecto();
-            return controladoraProyectos.consultarReqDisponibles(idProyecto,idDiseno);
+            return controladoraProyectos.consultarReqDisponibles(idProyecto, idDiseno);
         }
 
         /* Método para eliminar los requerimientos de diseno
@@ -346,11 +353,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
         //metodo para consultar los nombres de los proyectos de diseños
-        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños){
+        public DataTable consultarNombresProyectosDeDisenos(DataTable diseños) {
 
             controladoraProyectos = new ControladoraProyecto();
             return controladoraProyectos.consultarNombresProyectosDeDisenos(diseños);
 
+        }
+        public DataTable consultarPropositosDisenosPorId(DataTable idDisenos)
+        {
+
+            controladoraBDDiseno = new ControladoraBDDiseno();
+            return controladoraBDDiseno.consultarPropositosDisenosPorId(idDisenos);
         }
 
         public DataTable consultarDisenos(int idProyecto)
@@ -373,9 +386,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         public DataTable consultarDisenosCasos(int idProyecto)
         {
-            return controladoraBDDiseno.consultarDisenosCasoso(idProyecto);
+            return controladoraBDDiseno.consultarDisenosCasos(idProyecto);
         }
 
-
+        public int obtenerIdReqPorNombre(string s)
+        {
+            return controladoraBDDiseno.obtenerIdReqPorNombre(s);
+        }
     }
 }

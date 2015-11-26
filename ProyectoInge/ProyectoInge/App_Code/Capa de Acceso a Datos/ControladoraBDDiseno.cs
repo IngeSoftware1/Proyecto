@@ -311,11 +311,90 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        public DataTable consultarDisenosPorReq(DataTable reqs)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+                try
+                {
+
+                    for (int i = 0; i < reqs.Rows.Count; ++i)
+                    {
+                        ++contador;
+
+                        consulta = "Select id_diseno from Requerimiento_Diseno where id_req'" + reqs.Rows[i][0].ToString() + "'";
+                        if (contador != reqs.Rows.Count)
+                        {
+                            consulta = consulta + "UNION";
+                        }
+
+                    }
+
+                    dt = acceso.ejecutarConsultaTabla(consulta);
+
+                }
+                catch (SqlException e)
+                {
+                    dt = null;
+                }
+            return dt;
+        }
+
+         public DataTable consultarPropositosDisenosPorId(DataTable idDisenos)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+            try
+            {
+
+                for (int i = 0; i < idDisenos.Rows.Count; ++i)
+                {
+                    ++contador;
+
+                    consulta = "Select proposito_diseno from Diseno_Pruebas where id_diseno = '" + idDisenos.Rows[i][0].ToString() + "'";
+                    if (contador != idDisenos.Rows.Count)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+
+                }
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
+
+        public int obtenerIdReqPorNombre(string s)
+        {
+            string consulta = "Select id_req from Requerimiento where nombre_req = '" + s + "';"; ;
+            int resultado = -1;
+            DataTable dt = new DataTable();
+            try
+            {
+                dt = acceso.ejecutarConsultaTabla(consulta);
+                if (dt.Rows.Count == 1)
+                {
+                    resultado = Int32.Parse(dt.Rows[0][0].ToString());
+                }
+            }
+            catch (SqlException e)
+            {
+            }
+            return resultado;
+        }
+
         /*Método para insertar un diseño
-        * Requiere: la entidad de diseño
-        * Modifica: modifica la tabla Diseno_Pruebas
-        * Retorna:booleano si logra insertar el diseño
-        */
+       * Requiere: la entidad de diseño
+       * Modifica: modifica la tabla Diseno_Pruebas
+       * Retorna:booleano si logra insertar el diseño
+       */
         public bool insertarDiseno(EntidadDiseno nuevo)
         {
             try
@@ -489,6 +568,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+
         public DataTable getReqDiseno(int idDiseno, int idProyecto)
         {
             DataTable dt = new DataTable();
@@ -521,7 +601,5 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
             
         }
-
-
     }
 }

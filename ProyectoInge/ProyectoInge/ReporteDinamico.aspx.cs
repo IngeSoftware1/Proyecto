@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.UI;
+using System.Windows.Forms;
 using System.Web.UI.WebControls;
 using ProyectoInge.App_Code.Capa_de_Control;
 using System.Data;
-using System.Diagnostics;
-using System.IO;
+using System.Drawing;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.html.simpleparser;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml;
 
 namespace ProyectoInge
 {
@@ -54,18 +50,18 @@ namespace ProyectoInge
 
         protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
         {
-               if (checkBoxTodos.Checked == true)
-               {
-                   this.checkBoxConf.Checked = true;
-                   this.checkBoxNC.Checked = true;
-                   this.checkBoxPropositoCaso.Checked = true;
-                   this.checkBoxResultadoEsperado.Checked = true;
-                   this.checkBoxRequerimientosDiseno.Checked = true;
-                   this.checkBoxPropositoDiseno.Checked = true;
-                   this.checkBoxResponsableDiseno.Checked = true;
-                   this.checkBoxEstadoEjecucion.Checked = true;
-                   this.checkBoxID_TipoNC.Checked = true;
-               } 
+            if (checkBoxTodos.Checked == true)
+            {
+                this.checkBoxConf.Checked = true;
+                this.checkBoxNC.Checked = true;
+                this.checkBoxPropositoCaso.Checked = true;
+                this.checkBoxResultadoEsperado.Checked = true;
+                this.checkBoxRequerimientosDiseno.Checked = true;
+                this.checkBoxPropositoDiseno.Checked = true;
+                this.checkBoxResponsableDiseno.Checked = true;
+                this.checkBoxEstadoEjecucion.Checked = true;
+                this.checkBoxID_TipoNC.Checked = true;
+            }
         }
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -86,6 +82,8 @@ namespace ProyectoInge
         /* Método para llenar el comboBox los  proyectos de acuerdo a si es miembro o administrador 
      * Modifica: llena el comboBox con los datos obtenidos de la BD
      * Retorna: no retorna ningún valor */
+
+
         protected void llenarComboProyecto(string cedulaUsuario)
         {
             Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
@@ -158,6 +156,78 @@ namespace ProyectoInge
             proyectoUpdate.Update();
         }
 
+        protected void llenarComboDiseño()
+        {
+            //Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
+            //Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
+            string nombre = "";
+            this.comboBoxDiseno.Items.Clear();
+            DataTable nombresDiseno;
+            DataTable requerimientos;
+            DataTable propositosDiseños;
+            int numDatos = 0;
+            Object[] datos;
+            int indiceDiseno = 1;
+            int numColumna = 0;
+            requerimientos= tableLlenarComboDiseno();
+            nombresDiseno=controladoraReporte.consultarDisenosPorReq(requerimientos);
+            propositosDiseños = controladoraReporte.consultarPropositosDisenosPorId(nombresDiseno);
+
+            if (propositosDiseños != null && propositosDiseños.Rows.Count > 0)
+                {
+                    numDatos = propositosDiseños.Rows.Count;
+                }
+            else
+            {
+                if (propositosDiseños == null || propositosDiseños.Rows.Count == 0)
+                {
+                    propositosDiseños = controladoraReporte.consultarPropositosDisenosPorId(nombresDiseno);
+                }
+
+                numDatos = nombresDiseno.Rows.Count;
+            }
+
+            if (numDatos > 0)
+            {
+                datos = new Object[numDatos + 1];
+
+                for (int i = 0; i < numDatos; ++i)
+                {
+                    foreach (DataColumn column in nombresDiseno.Columns)
+                    {
+                        if (numColumna == 1)
+                        {
+
+                            //nombres_id_proyectos.Add(nombre, nombresDiseno.Rows[i][1].ToString());
+                        }
+                        else
+                        {
+                            nombre = propositosDiseños.Rows[i][0].ToString();
+                        }
+
+                        ++numColumna;
+                    }
+
+                    datos[indiceDiseno] = nombre;
+                    ++indiceDiseno;
+                    numColumna = 0;
+                    nombre = "";
+                }
+                datos[0] = "Seleccione";
+                this.comboBoxDiseno.DataSource = datos;
+                this.comboBoxDiseno.DataBind();
+                //Session["vectorIdProyectos"] = nombres_id_proyectos;
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboBoxDiseno.DataSource = datos;
+                this.comboBoxDiseno.DataBind();
+            }
+            //disenoUpdate.Update();
+        }
+
         // Genera el reporte en Excel.
         protected void generarReporteExcel()
         {
@@ -177,31 +247,31 @@ namespace ProyectoInge
             int c = 1;
             int r = 2;
             // Poner el header.
-                 foreach (TableCell cell in gridReportes.HeaderRow.Cells)
-                 {
-                     worksheet.Cells[r, c++].Value = cell.Text;
-                 } 
+            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+            {
+                worksheet.Cells[r, c++].Value = cell.Text;
+            }
             // Dar formato al header.
             worksheet.Row(r).Style.Font.Bold = true;
             worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
             r++;
             // Poner el resto de los datos.
-                foreach (TableRow row in gridReportes.Rows)
+            foreach (TableRow row in gridReportes.Rows)
+            {
+                c = 1;
+                foreach (TableCell cell in row.Cells)
                 {
-                    c = 1;
-                    foreach (TableCell cell in row.Cells)
-                    {
-                        worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
-                    }
-                    // Coloreamos las filas.
-                    if (0 == r % 2)
-                    {
-                        worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
-                    }
-                    r++;
-                } 
+                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
+                }
+                // Coloreamos las filas.
+                if (0 == r % 2)
+                {
+                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                }
+                r++;
+            }
 
             // Ajustamos el ancho de las columnas.
             worksheet.DefaultColWidth = 10;
@@ -224,7 +294,7 @@ namespace ProyectoInge
             Response.AddHeader("content-disposition", "attachment; filename=Reporte.pdf");
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
-            Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
+            //Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
 
             Document pdfDoc = new Document(PageSize.LETTER.Rotate(), 5f, 5f, 5f, 0f);
             PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
@@ -256,23 +326,23 @@ namespace ProyectoInge
             PdfPTable elGrid = new PdfPTable(columns);
             elGrid.DefaultCell.Border = PdfPCell.BOX;
             elGrid.HeaderRows = 1;
-            elGrid.WidthPercentage = 95f; 
+            elGrid.WidthPercentage = 95f;
 
             for (int columnCounter = 0; columnCounter < columns; columnCounter++)
-                 {
-                    string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
-                     elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
-                 } 
+            {
+                string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
+                //elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
+            }
 
-                    for (int rowCounter = 0; rowCounter < rows; rowCounter++)
-                     {
-                         for (int columnCounter = 0; columnCounter < columns; columnCounter++)
-                         {
-                             string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
-                             elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
-                         }
-                     }
-                     pdfDoc.Add(elGrid); 
+            for (int rowCounter = 0; rowCounter < rows; rowCounter++)
+            {
+                for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+                {
+                    string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
+                    elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
+                }
+            }
+            pdfDoc.Add(elGrid);
 
             pdfDoc.Close();
 
@@ -333,6 +403,30 @@ namespace ProyectoInge
             UpdatePanel3.Update();
         }
 
+        protected DataTable tableLlenarComboDiseno()
+        {
+            int i;
+            int idReq;
+            string s;
+            DataTable idsReq = null; 
+            DataRow fila;
+            for (i = 0; i <= (chklistReq.Items.Count - 1); i++)
+            {
+                if (chklistReq.Items[i].Selected == true)
+                {
+                    s = chklistReq.Items[i].ToString();
+                    Response.Write(s);
+                    //buscar en que diseño esta ese requerimiento y ponerlo en el combo de diseño
+                    idReq = controladoraReporte.obtenerIdReqPorNombre(s);
+                    //llenar un table con todos los requerimientos que se obtienen
+                    fila = idsReq.NewRow();
+                    fila[i] = idReq;
+                    idsReq.Rows.Add(fila);
+                }
+            }
+            return idsReq;
+
+        }
         //Rosaura
         protected void llenarRequerimientos(int idProyecto)
         {
@@ -401,5 +495,7 @@ namespace ProyectoInge
             UpdatePanel1.Update();
         }
     }
+
+
 }
 
