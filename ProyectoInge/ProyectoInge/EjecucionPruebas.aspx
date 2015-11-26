@@ -330,6 +330,10 @@
                                                           <%--Imagen Invisible  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false" >
 
+                                                            <EditItemTemplate>
+                                                                <asp:Label ID="lblImagenInvisibleEdit" runat="server" Visible="false" Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </EditItemTemplate>
+
                                                            
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblImagenInvisible" runat="server" Visible="false" Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
@@ -348,10 +352,10 @@
                                                         <%-- Imagen --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
                                                             <EditItemTemplate>
-                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
+                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnEditarImagen_Click" Text="Add" />
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen"> Imagen </asp:LinkButton>
+                                                                <asp:Button ID="lnkVerImagen" runat="server" CssClass="btn btn-primary" OnClick="btnVerImagen_Click"  CommandName="cargarImagen" Text="Ver" />
                                                             </ItemTemplate>
                                                             <FooterTemplate>
                                                                 <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
@@ -535,7 +539,7 @@
                            <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px"  ></asp:FileUpload>
                         
                         <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
-                           
+                            <asp:Image ID="image1" runat="server" Visible = "true"/>   
                          </div>
                     <div class="modal-footer">
                         <asp:Button ID="btnAceptarImagen" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
@@ -544,4 +548,25 @@
                 </div>
             </div>
         </div>
+
+        
+        <%--Modal Ver Imagen --%>
+        <div class="modal fade" id="modalVerImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalVerImagenConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Imagen </font></i></h3>
+                    </div>
+                    <div class="modal-body">                        
+                         <asp:Image ID="imagenMostrada" runat="server" Visible = "true"/>                                             
+                         </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="Button1" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
+                        <asp:Button ID="Button2" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen"  runat="server" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </asp:Content>
