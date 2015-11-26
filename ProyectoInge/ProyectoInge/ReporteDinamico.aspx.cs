@@ -160,7 +160,7 @@ namespace ProyectoInge
         //necesito guardar el id del diseño y el propositp
         protected void llenarComboDiseno()
         {
-            Dictionary<int, string> id_propositosDisenos = new Dictionary<int, string>();
+            Dictionary<string, string> id_propositosDisenos = new Dictionary<string, string>();
             int id = 0;
             //Debug.WriteLine("Estoy aca");
             Object[] requerimientos;
@@ -183,56 +183,53 @@ namespace ProyectoInge
             //meter el id de diseño y el proposito al dictionary
 
             id = Int32.Parse(Session["idProyecto"].ToString());
-            //con el siguiente se devuelven los propositos de los diseños 
+
+            //con el siguiente se devuelven los ids de los diseños y los propositos de los diseños  
             DataTable disenos = controladoraReporte.consultarDisenosReq(id, requerimientos, contadorReq);
             //meter los diseños al combobox diseño
             numDatos = disenos.Rows.Count;
 
-            /*if (numDatos > 0)
+            //ir a la base a la tabla req diseño 
+            string idDiseno = "";
+            string proposito = "";
+            int contador = 0;
+            Object[] propositosDiseno;
+            foreach (DataRow fila in disenos.Rows)
             {
-                requerimientos = new Object[numDatos + 1];
+                idDiseno = fila[0].ToString();
+                proposito = fila[1].ToString();
 
-                for (int i = 0; i < numDatos; ++i)
+                id_propositosDisenos.Add(idDiseno, proposito);
+                
+                contador++;
+            }
+
+
+            if (contador >0)
+            {
+                propositosDiseno = new Object[contador + 1];
+                propositosDiseno[0] = "Seleccione";
+
+                for(int i = 1; i<contador; i++ )
                 {
-                    foreach (DataColumn column in disenos.Columns)
-                    {
-                        if (numColumna == 1)
-                        {
-
-                            id_propositosDisenos.Add(cadena, disenos.Rows[i][1].ToString());
-                            
-                        }
-                        else
-                        {
-                            nombre = disenos.Rows[i][0].ToString();
-                        }
-
-                        ++numColumna;
-                    }
-
-                    requerimientos[indiceProyecto] = nombre;
-                    ++indiceProyecto;
-                    numColumna = 0;
-                    cadena = "";
+                    propositosDiseno[i] = id_propositosDisenos.ElementAt(i);
                 }
-                requerimientos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind(); Session["vectorIdProyectos"] = nombres_id_proyectos;
-                Session["vectorIdNombres"] = id_nombres_proyectos;
+                this.comboBoxDiseno.DataSource = propositosDiseno;
+                this.comboBoxDiseno.DataBind();
             }
             else
             {
-                datos = new Object[1];
-                datos[0] = "Seleccione";
-                this.comboProyecto.DataSource = datos;
-                this.comboProyecto.DataBind();
+                propositosDiseno = new Object[1];
+                propositosDiseno[0] = "Seleccione";
+                this.comboBoxDiseno.DataSource = propositosDiseno;
+                this.comboBoxDiseno.DataBind();
             }
-            proyectoUpdate.Update();*/
 
+            UpdatePanel2.Update();
         }
 
 
-        protected void llenarComboDiseño()
+       /* protected void llenarComboDiseño()
         {
             //Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
             //Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
@@ -302,7 +299,7 @@ namespace ProyectoInge
                 this.comboBoxDiseno.DataBind();
             }
             //disenoUpdate.Update();
-        }
+        }*/
 
         // Genera el reporte en Excel.
         protected void generarReporteExcel()
