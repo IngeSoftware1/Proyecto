@@ -391,10 +391,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
         /*Método para insertar un diseño
-       * Requiere: la entidad de diseño
-       * Modifica: modifica la tabla Diseno_Pruebas
-       * Retorna:booleano si logra insertar el diseño
-       */
+        * Requiere: la entidad de diseño
+        * Modifica: modifica la tabla Diseno_Pruebas
+        * Retorna:booleano si logra insertar el diseño
+        */
         public bool insertarDiseno(EntidadDiseno nuevo)
         {
             try
@@ -591,7 +591,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string consulta = "";
             try
             {
-                consulta = "SELECT D.id_diseno, D.proposito_diseno FROM Diseno_Pruebas D, Caso_Prueba C WHERE D.id_diseno = C.id_diseno AND R.id_proyecto = " + idProyecto;
+                consulta = "SELECT D.id_diseno, D.proposito_diseno FROM Diseno_Pruebas D, Caso_Prueba C WHERE D.id_diseno = C.id_diseno AND D.id_proyecto = " + idProyecto;
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
@@ -601,5 +601,67 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
             
         }
+
+
+        /* Método para obtener el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        * Requiere: nada
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        */
+        public DataTable consultarNombresIdDisenosProyectos()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            try
+            {
+                consulta = "SELECT D.id_diseno, D.proposito_diseno, D.id_proyecto, P.nombre_proyecto  FROM Diseno_Pruebas D, Proyecto WHERE P.id_proyecto = D.id_proyecto";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
+        //metodo para consultar diseños asociados a requerimientos
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq)
+        {
+             DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+            try
+            {
+                for (int i = 0; i < contadorReq; ++i)
+                {
+                    ++contador;
+                    consulta = consulta + " " + "SELECT d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '"+ requerimientos[i].ToString() +"' AND id_proyecto ='"+id+"');";
+                    if (contador != contadorReq)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+                    
+
+                }
+
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+        
+
+
     }
 }

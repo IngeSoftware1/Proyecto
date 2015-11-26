@@ -688,6 +688,34 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+
+
+       /* Método para obtener los responsasables que trabajan en algun proyecto.
+       * Requiere: nada.
+       * Modifica: nada
+       * Retorna: un DataTable con los responsasables que trabajan en algun proyecto especifico.
+       */
+        public DataTable consultarResponsables()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+
+            try
+            {
+                    consulta = "SELECT distinct F.cedula, F.nombre, F.apellido1, F.apellido2" + " FROM Funcionario F,  Trabaja_En T WHERE F.cedula = T.cedula_miembro";
+                
+
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
         //metodo para consultar lider de un proyecto
 
         public DataTable consultarLider(int idProyecto)

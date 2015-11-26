@@ -21,6 +21,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
 
         }
+
+
+        /*Método para poner nombre usuario logueado
+*/
+        public DataTable consultarRH(string cedula)
+        {
+            return controladoraRH.consultarRH(cedula);
+        }
         /*Método buscar la asignación del proyecto con la cédula
         * Requiere: la cedula de la persona 
         * Modifica: no modifica
@@ -529,5 +537,13 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDProyecto.getNombreReqDiseno(ReqDiseno, idProyecto);
         }
+
+
+        //consultar requerimientos de los modulos asociados a los proyectos
+        public DataTable consultarReqModulos(Object[] modulos,int contador)
+        {
+            return controladoraBDProyecto.consultarReqModulos(modulos,contador);
+        }
+
     }
 }

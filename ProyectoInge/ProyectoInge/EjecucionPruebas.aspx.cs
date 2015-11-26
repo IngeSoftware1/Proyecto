@@ -14,7 +14,7 @@ namespace ProyectoInge
     public partial class EjecucionPruebas : System.Web.UI.Page
     {
         ControladoraEjecucion controladoraEjecucionPruebas = new ControladoraEjecucion();
-        
+
 
         //Variablaes globales utilizadas para cuando el cliente modifica alguna fila del grid
         private static string comboTipoNCTxt = "";
@@ -22,6 +22,7 @@ namespace ProyectoInge
         private static string descripcionTxt = "";
         private static string justificacionTxt = "";
         private static string estadoTxt = "";
+        private static string imageBase64String = "";
         private static int filaEliminar = 0;
         private static List<int> comboDedisenos = new List<int>();
         private static DropDownList comboTipoNCModificar;
@@ -29,9 +30,10 @@ namespace ProyectoInge
         private static DropDownList comboIdEstadoModificar;
         private static bool casosIniciados = false;
         private int modo = 1;
+        private static string imagenMostrar = "";
         object[] imagenes = new object[100];
-        private int contador = 0;
-
+        private static byte[] imagen = null;
+        private static string base64String = "";                //String global para la columna invisible del grid con la imagen
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -50,9 +52,9 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnModificar);
                     cambiarEnabled(false, this.btnEliminar);
                     cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);        
+                    cambiarEnabled(false, this.btnCancelar);
                     gridTipoNC_Inicial(0, false);
-                    habilitarCampos(false);                   
+                    habilitarCampos(false);
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
@@ -67,11 +69,26 @@ namespace ProyectoInge
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(Session["cedula"].ToString());
                 }
+
             }
 
-            
-
         }
+
+
+        /*Metodo para poner el nombre completo del usuario logueado en ese momento
+        *Requiere: nada
+        *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
+        *Retorna: no retorna ningún valor*/
+        protected void ponerNombreDeUsuarioLogueado()
+        {
+            DataTable datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(Session["cedula"].ToString());
+            if (datosFilaFuncionario.Rows.Count == 1)
+            {
+                string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
+            }
+        }
+
 
         protected void habilitarCampos(bool condicion)
         {
@@ -546,12 +563,12 @@ namespace ProyectoInge
             this.panelDiseno.Visible = false;
             this.datosDiseno.Visible = false;
             this.lblDatosDiseño.Visible = false;
-            UpdateDatosDiseno.Update();         
+            UpdateDatosDiseno.Update();
         }
 
         protected void llenarDatosDiseno(int idDiseno, int idProyecto)
         {
-           
+
             DataTable datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
             DataTable ReqDiseno = controladoraEjecucionPruebas.getReqDiseno(idDiseno, idProyecto);
             DataTable datosReqDiseno;
@@ -606,18 +623,18 @@ namespace ProyectoInge
                 this.txtNivel.Text = "";
                 this.txtProcedimiento.Text = "";
                 this.listRequerimientoDisponibles.Items.Clear();
-                if(casosIniciados == true)
+                if (casosIniciados == true)
                 {
                     llenarComboCasos(idDiseno, true);
                 }
-            
+
                 llenarDatosDiseno(idDiseno, Int32.Parse(Session["idProyectoEjecucion"].ToString()));
                 gridTipoNC_Inicial(idDiseno, true);
             }
 
             UpdateProyectoDiseno.Update();
             UpdateDatosDiseno.Update();
-            UpdateGridNoConformidades.Update();    
+            UpdateGridNoConformidades.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
@@ -688,8 +705,8 @@ namespace ProyectoInge
             gvr.FindControl("lnkModificar").Visible = false;
             gvr.FindControl("lnkEliminar").Visible = false;
             this.lblListaConformidades.Visible = true;
-           
-            if(condicion == true)
+
+            if (condicion == true)
             {
                 //Carga del comboBox con los tipos de no conformidades
                 llenarComboTipoNC(true);
@@ -815,7 +832,7 @@ namespace ProyectoInge
             {
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                 Object[] datosNuevos = new Object[4];
-                Debug.Print( this.txtIncidencias.Text);
+                Debug.Print(this.txtIncidencias.Text);
 
                 datosNuevos[0] = this.txtIncidencias.Text;
                 datosNuevos[1] = this.txtCalendar.Text;
@@ -826,7 +843,6 @@ namespace ProyectoInge
                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                 {
                     int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                    Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
                     guardarNoConformidades(ejecucion);
 
                     lblModalTitle.Text = "";
@@ -846,11 +862,12 @@ namespace ProyectoInge
         }
 
         /*
+         * Guarda todo lo del grid de no conformidades
          */
         protected void guardarNoConformidades(int idEjecucion)
         {
             int tipoInsercion = 2;
-            DataTable dt = GetTableWithNoData(); 
+            DataTable dt = GetTableWithNoData();
             DataRow dr;
             GridViewRow gvr;
             int i = 0;
@@ -867,12 +884,11 @@ namespace ProyectoInge
                     NuevaNC[1] = idEjecucion;
                     NuevaNC[2] = (gvr.FindControl("lblTipoNC") as Label).Text;
                     NuevaNC[3] = (gvr.FindControl("lblJustificacion") as Label).Text;
-                    //NuevaNC[4] = obtiene la columna del grid que es de byte[];
-                    //NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+                    NuevaNC[4] = (gvr.FindControl("lblImagenInvisible") as Label).Text;
+                    NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+   
+                    Debug.Print("Imagen" + (gvr.FindControl("lblImagenInvisible") as Label).Text);
 
-                    NuevaNC[4] = (gvr.FindControl("lblEstado") as Label).Text;
-
-                    Debug.Print((gvr.FindControl("lblCasoPrueba") as Label).Text + " " + idEjecucion + " " + (gvr.FindControl("lblTipoNC") as Label).Text + " " + (gvr.FindControl("lblJustificacion") as Label).Text + " " + (gvr.FindControl("lblEstado") as Label).Text);
                     if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, NuevaNC, ""))
                     {
                     }
@@ -915,18 +931,45 @@ namespace ProyectoInge
                 lblModalBody.Text = "Debe completar los datos obligatorios para agregar la ejecución.";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-                //habilitarCamposModificar();
+                habilitarCamposModificar();
             }
             else
             {
-                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-                Object[] datosNuevos = new Object[4];
-                Debug.Print(this.txtIncidencias.Text);
+                // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
+                if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                {
+                    Debug.Print("Pudo eliminar la ejecucion de pruebas ");
+                    //Ahora debería agregarlos de nuevo
+                    //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                    Object[] datosNuevos = new Object[4];
+                    //Debug.Print(this.txtIncidencias.Text);
 
-                datosNuevos[0] = this.txtIncidencias.Text;
-                datosNuevos[1] = this.txtCalendar.Text;
-                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
-                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+                    datosNuevos[0] = this.txtIncidencias.Text;
+                    datosNuevos[1] = this.txtCalendar.Text;
+                    datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                    datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+
+                    //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                    if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoModificacion, datosNuevos, ""))
+                    {
+                        int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                        Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
+                        guardarNoConformidades(ejecucion);
+
+                        lblModalTitle.Text = "";
+                        lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+                    }
+                    else
+                    {
+                        Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
+                    }
+                }
+                else
+                {
+                    Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
+                }
             }
         }
 
@@ -946,12 +989,14 @@ namespace ProyectoInge
                 this.txtPropositoDiseño.Text = diseno.Rows[0][1].ToString();
                 this.txtCalendar.Text = diseno.Rows[0][2].ToString();
                 this.txtProcedimiento.Text = diseno.Rows[0][3].ToString();
-                if( (diseno.Rows[0][6].ToString()) != null){
+                if ((diseno.Rows[0][6].ToString()) != null)
+                {
                     this.txtTecnicaPrueba.Text = diseno.Rows[0][6].ToString();
                 }
-                 if( (diseno.Rows[0][7].ToString()) != null){
-                     this.txtNivel.Text = diseno.Rows[0][7].ToString();
-                }  
+                if ((diseno.Rows[0][7].ToString()) != null)
+                {
+                    this.txtNivel.Text = diseno.Rows[0][7].ToString();
+                }
             }
             //UpdateAsociarDesasociarRequerimientos.Update();
             //proyectoUpdate.Update();
@@ -973,8 +1018,26 @@ namespace ProyectoInge
             llenarDatos(Session["idDiseñoS"].ToString());
             this.disenoAsociado(Int32.Parse(Session["idDiseñoS"].ToString()));
             modo = 2;
-            //habilitarCamposModificar();
+            habilitarCamposModificar();
         }
+
+
+        /*Método para habilitar/deshabilitar todos los campos que permite el modificar
+        * Requiere: 
+        * Modifica: Cambia la propiedad Enabled de las cajas 
+        * Retorna: no retorna ningún valor
+        */
+        private void habilitarCamposModificar()
+        {
+            this.comboResponsable.Enabled = true;
+            this.calendarFecha.Enabled = true;
+            this.txtIncidencias.Enabled = true;
+            this.txtCalendar.Enabled = true;
+            this.comboProyecto.Enabled = false;
+            this.comboDiseño.Enabled = false;
+            //this.gridNoConformidades.Enabled 
+        }
+
 
 
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
@@ -984,94 +1047,94 @@ namespace ProyectoInge
         */
         public void llenarDatos(string idDiseño)
         {
-           /* listReqAgregados.Items.Clear();
-            if (idDiseño != null && idDiseño.Equals("-") == false)
-            {
-                string nombreRepresentante = "";
-                string nombre = "";
-                ListItem representante;
-                ListItem proyecto;
-                Dictionary<string, string> nombresDelRepresentante;
-                Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
-                String cedulaRepresentante = "";
-                String nombreProyecto = "";
-                idDiseñoConsultado = idDiseño;
-                DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
-                DataTable datosMiembro = null;
-                DataTable datosReqProyecto = null;
-                DataTable datosReqDiseno = null;
-                listReqAgregados.Items.Clear();
+            /* listReqAgregados.Items.Clear();
+             if (idDiseño != null && idDiseño.Equals("-") == false)
+             {
+                 string nombreRepresentante = "";
+                 string nombre = "";
+                 ListItem representante;
+                 ListItem proyecto;
+                 Dictionary<string, string> nombresDelRepresentante;
+                 Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
+                 String cedulaRepresentante = "";
+                 String nombreProyecto = "";
+                 idDiseñoConsultado = idDiseño;
+                 DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
+                 DataTable datosMiembro = null;
+                 DataTable datosReqProyecto = null;
+                 DataTable datosReqDiseno = null;
+                 listReqAgregados.Items.Clear();
 
-                if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
-                {
-                    this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
-                    this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
-                    this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
-                    this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
-                    this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
-                    idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
-                    Session["idProyecto"] = idProyectoConsultado;
-                    cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
-                    datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
-                    datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
-                    datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
+                 if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
+                 {
+                     this.txtProposito.Text = datosFilaDiseño.Rows[0][1].ToString();
+                     this.txtCalendar.Text = datosFilaDiseño.Rows[0][2].ToString();
+                     this.txtProcedimiento.Text = datosFilaDiseño.Rows[0][3].ToString();
+                     this.txtAmbiente.Text = datosFilaDiseño.Rows[0][4].ToString();
+                     this.txtCriterios.Text = datosFilaDiseño.Rows[0][5].ToString();
+                     idProyectoConsultado = datosFilaDiseño.Rows[0][8].ToString();
+                     Session["idProyecto"] = idProyectoConsultado;
+                     cedulaRepresentante = datosFilaDiseño.Rows[0][9].ToString();
+                     datosMiembro = controladoraDiseno.consultarRepresentanteDiseno(cedulaRepresentante); //Se obtienen los miembros que trabajan en el proyecto
+                     datosReqProyecto = controladoraDiseno.consultarReqProyecto(Int32.Parse(idProyectoConsultado));
+                     datosReqDiseno = controladoraDiseno.consultarReqDisenoDeProyecto(Int32.Parse(idDiseño), Int32.Parse(idProyectoConsultado));
 
-                    if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
-                    {
-                        ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
-                        this.comboNivel.SelectedValue = niveles.Value;
-                    }
-                    if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
-                    {
-                        ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
-                        this.comboTecnica.SelectedValue = tecnica.Value;
-                    }
-
-
-
-                    nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
-
-                    nombre = nombre + nombreProyecto;
-                    if (this.comboProyecto.Items.FindByText(nombre) != null)
-                    {
-                        proyecto = this.comboProyecto.Items.FindByText(nombre);
-                        this.comboProyecto.SelectedValue = proyecto.Value;
-
-                    }
-
-                    llenarComboRecursos();
-                    nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
-                    nombre = "";
-                    nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
-                    nombre = nombre + nombreRepresentante;
-
-                    if (this.comboResponsable.Items.FindByText(nombre) != null)
-                    {
-                        representante = this.comboResponsable.Items.FindByText(nombre);
-                        this.comboResponsable.SelectedValue = representante.Value;
-                    }
+                     if (this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString()) != null)
+                     {
+                         ListItem niveles = this.comboNivel.Items.FindByText(datosFilaDiseño.Rows[0][7].ToString());
+                         this.comboNivel.SelectedValue = niveles.Value;
+                     }
+                     if (this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString()) != null)
+                     {
+                         ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
+                         this.comboTecnica.SelectedValue = tecnica.Value;
+                     }
 
 
-                    string requerimiento = "";
 
-                    if (datosReqDiseno.Rows.Count >= 1)
-                    {
+                     nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
 
-                        for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
-                        {
+                     nombre = nombre + nombreProyecto;
+                     if (this.comboProyecto.Items.FindByText(nombre) != null)
+                     {
+                         proyecto = this.comboProyecto.Items.FindByText(nombre);
+                         this.comboProyecto.SelectedValue = proyecto.Value;
 
-                            requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
-                            listReqAgregados.Items.Add(requerimiento);
+                     }
 
-                        }
-                    }
+                     llenarComboRecursos();
+                     nombresDelRepresentante = (Dictionary<string, string>)Session["vectorCedulasNombreResponsables"];
+                     nombre = "";
+                     nombresDelRepresentante.TryGetValue(datosFilaDiseño.Rows[0][9].ToString(), out nombreRepresentante);
+                     nombre = nombre + nombreRepresentante;
+
+                     if (this.comboResponsable.Items.FindByText(nombre) != null)
+                     {
+                         representante = this.comboResponsable.Items.FindByText(nombre);
+                         this.comboResponsable.SelectedValue = representante.Value;
+                     }
 
 
-                    llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
-                }
+                     string requerimiento = "";
 
-            }
-            * */
+                     if (datosReqDiseno.Rows.Count >= 1)
+                     {
+
+                         for (int i = 0; i < datosReqDiseno.Rows.Count; ++i)
+                         {
+
+                             requerimiento = datosReqDiseno.Rows[i][0].ToString() + " " + datosReqDiseno.Rows[i][2].ToString();
+                             listReqAgregados.Items.Add(requerimiento);
+
+                         }
+                     }
+
+
+                     llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
+                 }
+
+             }
+             * */
         }
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
@@ -1089,8 +1152,9 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-");
+            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
 
             return table;
         }
@@ -1099,6 +1163,114 @@ namespace ProyectoInge
         {
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalImagen", "$('#modalImagen').modal();", true);
 
+        }
+
+
+        protected void btnEditarImagen_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalImagen", "$('#modalImagen').modal();", true);
+        }
+
+
+
+        /*Método para la acción de aceptar cuando esta en modo de aceptar la carga de una imagen
+     * Requiere: No requiere ningún parámetro
+     * Modifica: La variable global imagen que almacena los bytes de la misma
+     * Retorna: No retorna ningún valor
+     */
+        protected void AceptarImagen(object sender, EventArgs e)
+        {
+            if (FileImage.HasFile)//Si el usuario seleccionó una imagen
+            {
+                //guarda esta linea en el row
+
+                string filePath = FileImage.PostedFile.FileName;
+                string filename = Path.GetFileName(filePath);
+                string ext = Path.GetExtension(filename);
+                string contenttype = String.Empty;
+
+                Stream fs = FileImage.PostedFile.InputStream;
+                BinaryReader br = new BinaryReader(fs);
+                imagen = br.ReadBytes((Int32)fs.Length);
+
+                base64String = Convert.ToBase64String(imagen, 0, imagen.Length);
+
+                Debug.WriteLine("esto tiene el base " + base64String);
+
+             //   image1.ImageUrl = "data:image/png;base64," + base64String;
+              //  imagenMostrada.ImageUrl = "data:image/png;base64," + base64String; 
+            //    Debug.WriteLine("este es el url" + image1.ImageUrl);
+              //  imagenMostrada.ImageUrl = "data:image/png;base64," + base64String;
+
+              
+
+                //Se obtiene la extension de la imagen con esta línea de código
+                string extension = Path.GetExtension(Path.GetFileName(FileImage.PostedFile.FileName));
+
+
+                ////De acuerdo al tipo de imagen se carga con extension distinta en el image control
+                //switch (extension)
+                //{
+                //    case ".JPEG":
+                //        ImagePreview.ImageUrl = "data:image/JPEG;base64," + base64String;
+                //        break;
+                //    case ".jpg":
+                //        ImagePreview.ImageUrl = "data:image/jpg;base64," + base64String;
+                //        break;
+                //    case ".JPG":
+                //        ImagePreview.ImageUrl = "data:image/JPG;base64," + base64String;
+                //        break;
+                //    case ".gif":
+                //        ImagePreview.ImageUrl = "data:image/gif;base64," + base64String;
+                //        break;
+                //    case ".GIF":
+                //        ImagePreview.ImageUrl = "data:image/GIF;base64," + base64String;
+                //        break;
+                //    case ".png":
+                //        ImagePreview.ImageUrl = "data:image/png;base64," + base64String;
+                //        break;
+                //    case ".PNG":
+                //        ImagePreview.ImageUrl = "data:image/PNG;base64," + base64String;
+                //        break;
+                //    case ".jpeg":
+                //        ImagePreview.ImageUrl = "data:image/jpeg;base64," + base64String;
+                //        break;
+                //}
+
+            }
+            else
+            {
+                imagen = null;
+                base64String = "";
+            }
+        }
+
+        protected void btnVerImagen_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("esto tiene el bise " + base64String);
+
+
+            imagenMostrada.ImageUrl = "data:image/png;base64," + base64String; 
+
+     //       imagenMostrada.ImageUrl = "data:image/png;base64," + base64String; 
+
+          //  imagenMostrada.ImageUrl = "data:image/png;base64," + imagenMostrar;
+        //    image1.ImageUrl = "data:image/png;base64," + base64String;
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
+        }
+
+
+
+        /*Método para la acción de aceptar cuando esta en modo de detener la carga de una imagen
+         * Requiere: No requiere ningún parámetro
+         * Modifica: La variable global imagen con un -1 para indicar que no hay imagen para cargar
+         * Retorna: No retorna ningún valor
+         */
+        protected void CancelarImagen(object sender, EventArgs e)
+        {
+            imagen = null;
+            base64String = "";
         }
 
         /** Método para agregar una nuevo no conformidad en el grid.
@@ -1113,8 +1285,6 @@ namespace ProyectoInge
             GridViewRow gvr;
             int i = 0;
 
-
-
             for (i = 0; i < gridNoConformidades.Rows.Count; ++i)
             {
                 gvr = gridNoConformidades.Rows[i];
@@ -1128,12 +1298,16 @@ namespace ProyectoInge
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
+                    Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
 
                     dr[0] = lblTipoNC.Text;
                     dr[1] = lblCasoPrueba.Text;
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
+                    dr[6] = lblImagen.Text;
+                    imagenMostrar = lblImagen.Text;
+                    
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
                 }
@@ -1141,7 +1315,7 @@ namespace ProyectoInge
 
             dr = dt.NewRow();
 
-            if ( (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione")
+            if ((gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value == "Seleccione")
             {
                 lblModalTitle.Text = "ERROR";
                 lblModalBody.Text = "Debe ingresar un caso de prueba para poder agregar la no conformidad.";
@@ -1149,7 +1323,7 @@ namespace ProyectoInge
                 upModal.Update();
             }
             else
-            { 
+            {
 
                 string comboTipoNC = (gridNoConformidades.FooterRow.FindControl("comboTipoNC") as DropDownList).SelectedItem.Value;
                 string idCaso = (gridNoConformidades.FooterRow.FindControl("comboCasoPrueba") as DropDownList).SelectedItem.Value;
@@ -1163,19 +1337,13 @@ namespace ProyectoInge
                 dr[2] = descripcion;
                 dr[3] = justificacion;
                 dr[4] = estado;
+                dr[6] = base64String;
+
+                imagenMostrar = base64String;
 
                 dt.Rows.Add(dr); // Agrega las filas
 
-                if (FileImage.HasFile)//Si el usuario seleccionó una imagen
-                {
-                    //guarda esta linea en el row
-                    byte[] datosImagen = File.ReadAllBytes(FileImage.PostedFile.FileName);
 
-                }
-                else
-                {
-                    //guarde en el row un en la imagen un -1
-                }
 
                 gridNoConformidades.DataSource = dt;
                 gridNoConformidades.DataBind();
@@ -1190,7 +1358,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
-    
+
                 for (int j = 0; j < gridNoConformidades.Columns.Count; ++j)
                 {
                     gridNoConformidades.Columns[j].ItemStyle.Width = 5;
@@ -1215,6 +1383,9 @@ namespace ProyectoInge
             table.Columns.Add("Justificacion", typeof(string));
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
+            table.Columns.Add("ImagenInvisible", typeof(string));
+
+
 
             return table;
 
@@ -1249,7 +1420,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba y selección del valor según el correspondiente al campo editado
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), false);
- 
+
 
                 //Carga del comboBox con los estados de las no conformidades y selección del valor según el correspondiente al campo editado
                 llenarComboEstados(false);
@@ -1285,6 +1456,7 @@ namespace ProyectoInge
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
+                    Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
 
                     if (indice == fila)
                     {
@@ -1293,6 +1465,8 @@ namespace ProyectoInge
                         descripcionTxt = lblDescripcion.Text;
                         justificacionTxt = lblJustificacion.Text;
                         estadoTxt = lblEstado.Text;
+                        imageBase64String = lblImagen.Text;
+                       
                     }
 
                     dr[0] = lblTipoNC.Text;
@@ -1300,6 +1474,10 @@ namespace ProyectoInge
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
+                    dr[6] = lblImagen.Text;
+
+                    Debug.WriteLine("esto contiene imagen en modificar " + indice + lblImagen.Text);
+
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
                 }
 
@@ -1336,12 +1514,15 @@ namespace ProyectoInge
                         Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
+                        Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
+
 
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
                         dr[2] = lblDescripcion.Text;
                         dr[3] = lblJustificacion.Text;
                         dr[4] = lblEstado.Text;
+                        dr[6] = lblImagen.Text;
                         dt.Rows.Add(dr); // add grid values in to row and add row to the blank table   
                     }
 
@@ -1353,13 +1534,14 @@ namespace ProyectoInge
                     string descripcionModificada = (gvr.FindControl("txtDescripcionEdit") as TextBox).Text;
                     string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
                     string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
-
+                    string imagenModificada = base64String;
 
                     dr[0] = comboTipoNCModificado;
                     dr[1] = idCasoModificado;
                     dr[2] = descripcionModificada;
                     dr[3] = justificacionModificada;
                     dr[4] = estadoModificado;
+                    dr[6] = imagenModificada;
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
                     gridNoConformidades.EditIndex = -1;
@@ -1375,7 +1557,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-    
+
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
 
@@ -1398,6 +1580,7 @@ namespace ProyectoInge
                         dr[2] = descripcionTxt;
                         dr[3] = justificacionTxt;
                         dr[4] = estadoTxt;
+                        dr[6] = imageBase64String;
                     }
                     else
                     {
@@ -1406,12 +1589,14 @@ namespace ProyectoInge
                         Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
+                        Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
 
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
                         dr[2] = lblDescripcion.Text;
                         dr[3] = lblJustificacion.Text;
                         dr[4] = lblEstado.Text;
+                        dr[6] = lblImagen.Text;
                     }
 
 
@@ -1443,7 +1628,7 @@ namespace ProyectoInge
 
                 //Carga del comboBox con los códigos de los casos de prueba
                 llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-     
+
 
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
@@ -1488,19 +1673,21 @@ namespace ProyectoInge
                     Label lblDescripcion = gvr.FindControl("lblDescripcion") as Label;
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
+                    Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
 
                     dr[0] = lblTipoNC.Text;
                     dr[1] = lblCasoPrueba.Text;
                     dr[2] = lblDescripcion.Text;
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
-                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank table       
+                    dr[6] = lblImagen.Text;
+                    dt.Rows.Add(dr);// add grid values in to row and add row to the blank table       
                 }
             }
 
             if (dt.Rows.Count == 0)
             {
-                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true); 
+                gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true);
             }
             else
             {
@@ -1513,6 +1700,291 @@ namespace ProyectoInge
         {
 
         }
+
+        protected DataTable getTablaEjecucion()
+        {
+
+            DataTable table = new DataTable();
+            table.Columns.Add("IdEjecucion", typeof(string));
+            table.Columns.Add("Fecha", typeof(string));
+            table.Columns.Add("Responsable", typeof(string));
+            table.Columns.Add("Diseno", typeof(string));
+            table.Columns.Add("Proyecto", typeof(string));
+
+            return table;
+
+        }
+
+
+        /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
+       * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
+       * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
+       * Retorna: no retorna ningún valor
+       */
+        protected void llenarGrid(string idUsuario)
+        {
+            Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
+            Dictionary<string, string> nombreProyectosConsultados = new Dictionary<string, string>();
+            string nombreProyecto = "";
+            DataRow filaEjecucion;
+            DataTable disenosProyectos;
+            DataTable responsables;
+            int contadorFilas = 0;
+            int tamResponsables = 0;
+            string nombreResponsable = "";
+            int tamDisenosProyectos = 0;
+            int tamProyecto = 0;
+            //DataTable dt = crearTablaDisenos();
+            DataTable tablaDatosEjecucion = getTablaEjecucion();
+            DataTable ejecuciones;
+            DataTable diseños;
+            DataTable idProyectos;
+            Object[] datos = new Object[6];
+            string representante = "";
+            string proyecto = "";
+            int indiceColumna = 0;
+            string nombreRepresentante = "";
+            DataTable representantes;
+            if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
+            //todos las ejecuciones
+            {
+                //Se obtienen todos las ejecuciones pues el administrador es el usuario del sistema
+                ejecuciones = controladoraEjecucionPruebas.consultarEjecucionesDePrueba();
+
+                if (ejecuciones.Rows.Count > 0)
+                {
+                    disenosProyectos = controladoraEjecucionPruebas.consultarNombresIdDisenosProyectos();
+                    responsables = controladoraEjecucionPruebas.consultarResponsables();
+                    for (int i = 0; i < ejecuciones.Rows.Count; ++i)
+                    {
+                        filaEjecucion = tablaDatosEjecucion.NewRow();
+
+                        foreach (DataColumn column in ejecuciones.Columns)
+                        {
+                            if (indiceColumna != 2)
+                            {
+
+                                filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
+
+                            }
+                            if (indiceColumna == 4)
+                            {
+                                contadorFilas = 0;
+                                tamDisenosProyectos = disenosProyectos.Rows.Count;
+                                while ((ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamDisenosProyectos))
+                                {
+                                    contadorFilas++;
+                                }
+                                if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+                                {
+                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                }
+                            }
+                            if (indiceColumna == 3)
+                            {
+                                contadorFilas = 0;
+                                tamResponsables = responsables.Rows.Count;
+                                while ((ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamResponsables))
+                                {
+                                    contadorFilas++;
+                                }
+                                if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                {
+                                    nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                    filaEjecucion[indiceColumna] = nombreResponsable;
+                                }
+                            }
+                            ++indiceColumna;
+                        }
+                        tablaDatosEjecucion.Rows.Add(filaEjecucion);
+                        indiceColumna = 0; //Contador para saber el número de columna actual.
+                        tamDisenosProyectos = 0;
+                        tamResponsables = 0;
+                        contadorFilas = 0;
+                        nombreResponsable = "";
+                    }
+                }
+                else
+                {
+                    filaEjecucion = tablaDatosEjecucion.NewRow();
+                    filaEjecucion[0] = "-";
+                    filaEjecucion[1] = "-";
+                    filaEjecucion[2] = "-";
+                    filaEjecucion[3] = "-";
+                    filaEjecucion[4] = "-";
+                    tablaDatosEjecucion.Rows.Add(filaEjecucion); // preguntar larisa
+                }
+            }
+            else
+            {
+                //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
+                idProyectos = controladoraEjecucionPruebas.consultarProyectosAsociados(idUsuario);
+                if (idProyectos.Rows.Count > 0)
+                {
+                    //Se obtienen todos las ejecuciones pues el administrador es el usuario del sistema
+                    ejecuciones = controladoraEjecucionPruebas.consultarEjecucionesDePrueba();
+                    if (ejecuciones.Rows.Count > 0)
+                    {
+                        disenosProyectos = controladoraEjecucionPruebas.consultarNombresIdDisenosProyectos();
+                        responsables = controladoraEjecucionPruebas.consultarResponsables();
+                        for (int i = 0; i < ejecuciones.Rows.Count; ++i)
+                        {
+                            filaEjecucion = tablaDatosEjecucion.NewRow();
+
+                            foreach (DataColumn column in ejecuciones.Columns)
+                            {
+                                if (indiceColumna != 2)
+                                {
+                                    filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
+
+                                }
+                                if (indiceColumna == 4)
+                                {
+                                    contadorFilas = 0;
+                                    tamDisenosProyectos = disenosProyectos.Rows.Count;
+                                    while ((ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamDisenosProyectos))
+                                    {
+                                        contadorFilas++;
+                                    }
+                                    if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+                                    {
+                                        contadorFilas = 0;
+                                        tamProyecto = idProyectos.Rows.Count;
+                                        string idProyecto = disenosProyectos.Rows[contadorFilas][2].ToString(); //id de proyecto
+                                        while ((idProyecto != idProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamProyecto))
+                                        {
+                                            contadorFilas++;
+                                        }
+                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                    }
+                                }
+                                if (indiceColumna == 3)
+                                {
+                                    contadorFilas = 0;
+                                    tamResponsables = responsables.Rows.Count;
+                                    while ((ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamResponsables))
+                                    {
+                                        contadorFilas++;
+                                    }
+                                    if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                    {
+                                        nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                        filaEjecucion[indiceColumna] = nombreResponsable;
+                                    }
+                                }
+                                ++indiceColumna;
+                            }
+                            tablaDatosEjecucion.Rows.Add(filaEjecucion);
+                            indiceColumna = 0; //Contador para saber el número de columna actual.
+                            tamDisenosProyectos = 0;
+                            tamResponsables = 0;
+                            contadorFilas = 0;
+                            nombreResponsable = "";
+                        }
+                    }
+                }
+            }
+            /*
+            for (int i = 0; i < representantes.Rows.Count; ++i)
+            {
+                foreach (DataColumn column in representantes.Columns)
+                {
+                    if (indiceColumna == 3)
+                    {
+                        if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString()) == false)
+                        {
+                            nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
+                        }
+                    }
+                    else
+                    {
+                        nombreRepresentante = nombreRepresentante + " " + representantes.Rows[i][column].ToString();
+                    }
+                    ++indiceColumna;
+                }
+                indiceColumna = 0; //Contador para saber el número de columna actual.
+                nombreRepresentante = "";
+            }
+            Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
+            if (idProyectos.Rows.Count > 0)
+            {
+                //Se obtiene un DataTable con los datos del o los proyectos 
+                diseños = controladoraDiseno.consultarDisenos(idProyectos);
+
+                indiceColumna = 0;
+                if (diseños != null)
+                {
+                    DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
+
+                    for (int i = 0; i < proyectos.Rows.Count; ++i)
+                    {
+                        foreach (DataColumn column in proyectos.Columns)
+                        {
+                            if (indiceColumna == 1)
+                            {
+                                if (nombreProyectosConsultados.ContainsKey(proyectos.Rows[i][column].ToString()) == false)
+                                {
+                                    nombreProyectosConsultados.Add(proyectos.Rows[i][column].ToString(), nombreProyecto);
+                                }
+                            }
+                            else
+                            {
+                                nombreProyecto = nombreProyecto + " " + proyectos.Rows[i][column].ToString();
+                            }
+
+                            ++indiceColumna;
+                        }
+                        indiceColumna = 0; //Contador para saber el número de columna actual.
+                        nombreProyecto = "";
+                    }
+                }
+                Session["nombreProyectos_Consultados"] = nombreProyectosConsultados;
+                if (diseños.Rows.Count > 0)
+                {
+                    foreach (DataRow fila in diseños.Rows)
+                    {
+                        datos[0] = fila[0].ToString();
+                        nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
+                        datos[1] = proyecto;
+                        datos[2] = fila[1].ToString();
+                        datos[3] = fila[2].ToString();
+                        datos[4] = fila[3].ToString();
+                        nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
+                        datos[5] = representante;
+                        dt.Rows.Add(datos);
+                    }
+                    representante = "";
+                }
+                else
+                {
+                    datos[0] = "-";
+                    datos[1] = "-";
+                    datos[2] = "-";
+                    datos[3] = "-";
+                    datos[4] = "-";
+                    datos[5] = "-";
+                    dt.Rows.Add(datos);
+                }
+            }
+            else
+            {
+                datos[0] = "-";
+                datos[1] = "-";
+                datos[2] = "-";
+                datos[3] = "-";
+                datos[4] = "-";
+                datos[5] = "-";
+                dt.Rows.Add(datos);
+            }
+        }
+        this.gridDisenos.DataSource = dt;
+        this.gridDisenos.DataBind();
+        */
+      }
+
+
 
     }
 }

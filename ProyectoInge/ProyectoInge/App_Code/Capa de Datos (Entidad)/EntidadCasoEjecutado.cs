@@ -11,7 +11,7 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
         private int idEjecucion;
         private String idTipoNC;
         private String justificacion;
-        //private byte[] imagen;
+        private byte[] imagen;
         private String estadoEjecucion;
 
         public EntidadCasoEjecutado(Object[] datos)
@@ -20,12 +20,8 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             idEjecucion = Convert.ToInt32(datos[1].ToString());
             idTipoNC = datos[2].ToString();
             justificacion = datos[3].ToString();
-            //imagen = Convert.ToByte(datos[4]);
-            //estadoEjecucion = datos[5].ToString();
-            estadoEjecucion = datos[4].ToString();
-
-            //imagen = new byte[datos[4].ToString().Length * sizeof(char)];
-            //System.Buffer.BlockCopy(datos[4].ToString().ToCharArray(), 0, imagen, 0, imagen.Length);
+            imagen = Convert.FromBase64String(datos[4].ToString());
+            estadoEjecucion = datos[5].ToString();
         }
 
         //Metodos set y get del atributo idCaso
@@ -56,12 +52,12 @@ namespace ProyectoInge.App_Code.Capa_de_Datos__Entidad_
             set { justificacion = value; }
         }
 
-        //////Metodos set y get del atributo imagen
-        //public byte[] getImagen
-        //{
-        //    get { return imagen; }
-        //    set { imagen = value; }
-        //}
+        ////Metodos set y get del atributo imagen
+        public byte[] getImagen
+        {
+            get { return imagen; }
+            set { imagen = value; }
+        }
 
         //Metodos set y get del atributo estadoEjecucion
         public String getEstadoEjecucion

@@ -98,7 +98,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraRH = new ControladoraRecursos();
             return controladoraRH.consultarMiembrosProyecto(idProyecto);
         }
-
+     
 
         /* Método para obtener los id de los proyectos pero tomando en cuenta el usuario
         * Requiere: un string con el identificador del usuario
@@ -196,7 +196,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return resultado;
         }
 
-
+        
         //metodo para consultar el ID del proyecto a partir del nombre
         public int obtenerIdProyecto(string nombreProyecto)
         {
@@ -204,11 +204,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.obtenerIDconNombreProyecto(nombreProyecto);
         }
 
-        /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
-           * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
-           * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
-           * Retorna el valor de la variable booleana.
-           */
+     /*Método para ejecutar la acción del IMEC correspondiente a la base de datos.
+        * Requiere: un modo que corresponde a 1 si es una inserción, 2 - modificación y 3 Borrado.
+        * Modifica una variable boolean dependiendo si la inserción el borrado y el modificar se llevan a cabo correctamente.
+        * Retorna el valor de la variable booleana.
+        */
         public bool ejecutarAccion(int modo, int accion, Object[] datos, int identificador, string perfil)
         {
 
@@ -235,7 +235,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
                         if (accion == 1)
                         {
-                            EntidadDiseno entDiseño = new EntidadDiseno(datos);
+                            EntidadDiseno entDiseño = new EntidadDiseno(datos);                            
                             return controladoraBDDiseno.modificarDiseño(entDiseño, identificador);
 
                         }
@@ -298,7 +298,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.consultarReqDisenoDeProyecto(idDiseño, idProyecto);
         }
 
-        //metodo para consultarProyectos si es lider
+      //metodo para consultarProyectos si es lider
         public DataTable consultarProyectosLider(string cedula)
         {
             controladoraProyectos = new ControladoraProyecto();
@@ -331,11 +331,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.eliminarDiseño(idDiseño);
         }
 
-        /* Método para consultar requerimientos disponibles de un proyecto
-        * Requiere: el id del proyecto
-        * Modifica: no modifica datos
-        * Retorna: un DataTable que contiene los requerimientos del proyecto
-        */
+       /* Método para consultar requerimientos disponibles de un proyecto
+       * Requiere: el id del proyecto
+       * Modifica: no modifica datos
+       * Retorna: un DataTable que contiene los requerimientos del proyecto
+       */
         public DataTable consultarReqDisponibles(int idProyecto, int idDiseno)
         {
             controladoraProyectos = new ControladoraProyecto();
@@ -388,10 +388,33 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraBDDiseno.consultarDisenosCasos(idProyecto);
         }
-
-        public int obtenerIdReqPorNombre(string s)
+        /*Método para obtener un DataTable con los datos del funcionario especificado mediante el número de cédula.
+        * Requiere: La cédula del funcionario que se desea consultar
+        * Retorna: el DataTable con los datos del funcionario.
+         */
+        public DataTable consultarRH(string cedula)
         {
-            return controladoraBDDiseno.obtenerIdReqPorNombre(s);
+            controladoraRH = new ControladoraRecursos();
+            return controladoraRH.consultarRH(cedula);
         }
+
+        /* Método para obtener el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        * Requiere: nada
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        */
+        public DataTable consultarNombresIdDisenosProyectos()
+        {
+
+            return controladoraBDDiseno.consultarNombresIdDisenosProyectos();
+        }
+
+
+        //metodo para consultar diseños asociados a requerimientos
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq)
+        {
+            return controladoraBDDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
+        }
+
     }
 }

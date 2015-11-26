@@ -16,9 +16,9 @@ namespace ProyectoInge
 {
     public partial class ReporteDinamico : System.Web.UI.Page
     {
-        ControladoraProyecto controladoraProyecto = new ControladoraProyecto();
+ 
         ControladoraReportes controladoraReporte = new ControladoraReportes();
-        ControladoraRecursos controladoraRh = new ControladoraRecursos();
+
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
 
@@ -35,8 +35,8 @@ namespace ProyectoInge
 
             if (!IsPostBack)
             {
-                ponerNombreDeUsuarioLogueado();
-                //           llenarDropDownTipoDescarga();
+                //ponerNombreDeUsuarioLogueado();
+                llenarDropDownTipoDescarga();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
@@ -68,7 +68,7 @@ namespace ProyectoInge
         *Requiere: nada
         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
         *Retorna: no retorna ningún valor*/
-        protected void ponerNombreDeUsuarioLogueado()
+        /*protected void ponerNombreDeUsuarioLogueado()
         {
             DataTable datosFilaFuncionario = controladoraRh.consultarRH(Session["cedula"].ToString());
             if (datosFilaFuncionario.Rows.Count == 1)
@@ -76,7 +76,7 @@ namespace ProyectoInge
                 string nombreCompletoUsuarioLogueado = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
                 this.lblLogueado.Text = nombreCompletoUsuarioLogueado;
             }
-        }
+        }*/
 
         //llenar el combobox de proyecto
         /* Método para llenar el comboBox los  proyectos de acuerdo a si es miembro o administrador 
@@ -367,13 +367,207 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-            //
-            //lena el grid
+           
+            llenarGrid();
         }
+        public void llenarGrid()
+        {
+            DataTable dt = crearTablaRequerimientos();
+            int numCols = dt.Rows.Count;
+            int indice=0;
+            Object[] datos = new Object[numCols];
+            for (int i = 0; i < numCols; i++)
+            {
+                datos[i] = "";
+            }
+            String proyecto = comboProyecto.Text;
+            //METO EL PROYECTO
+            if (proyecto != "Seleccione")
+            {
+                datos[indice] = proyecto;
+                indice++;
+            }
+            //METE EL DISENO
+            String diseno = comboBoxDiseno.Text;
+            if (diseno != "Seleccione")
+            {
+                datos[indice] = proyecto;
+                indice++;
+            }
+            //METO LOS MODULOS
+            int numModulos=0;
+            for (int i = 0; i < chklistModulos.Items.Count; i++ )
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    numModulos++;
+                }
+            }
+            Object[] datosModulos = new Object[numModulos];
+            for (int i = 0; i < numModulos; i++)
+            {
+                datosModulos[i] = "";
+            }
+            for (int i = 0; i < chklistModulos.Items.Count; i++ )
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    String modulo = this.chklistModulos.Items[i].Text;
+                    datosModulos[i] = modulo;
+                }
+            }
+            //METE LOS REQUERIMIENTOS
+            int numRequerimientos = 0;
+            for (int i = 0; i < chklistModulos.Items.Count; i++)
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    numRequerimientos++;
+                }
+            }
+            Object[] datosRequerimientos = new Object[numRequerimientos];
+            for (int i = 0; i < numModulos; i++)
+            {
+                datosRequerimientos[i] = "";
+            }
+            for (int i = 0; i < chklistReq.Items.Count; i++)
+            {
+                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                {
+                    String requrimiento = this.chklistModulos.Items[i].Text;
+                    String idReq = conseguirId(requrimiento);
+                    String nombreReq = conseguirNombre(requrimiento);
+                    String porcentajeConformidad = calcularPorcentajeConformidad(idReq);
+                    String porcentajeNoConformidad = calcularPorcentajeNoConformidad(idReq);
+                    String resultado = "Id: " + idReq + "Nombre: "+nombreReq+ "\n %Conformidad: " + porcentajeConformidad + "\n % No conformidad: " + porcentajeNoConformidad;
+                    datosModulos[i] = resultado;
+                }
+            }
+            //METE CASOS DE PRUEBA
+            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
+            {
+                //DEBERIA IR METIENDO A UN DICCIONARIO TODOS LOS IDS DE LOS CASOS
+                String r = "";
+                //la única forma de filtrar los casos es por medio de diseño
+                DataTable casos = controladoraReporte.consultarInformacionCasos(diseno);//AQUI viene id,prop,result
+                if (this.checkBoxPropositoCaso.Checked == true && this.checkBoxResultadoEsperado.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows) {
+                        r += "Caso:"+prop[0].ToString() +"\n Propósito: "+prop[1].ToString() +" Resultado esperado: "+prop[2]+"\n \n";
+                    }
+                }else if (this.checkBoxPropositoCaso.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Caso:" + prop[0].ToString() + "\n Propósito: " + prop[1].ToString() + "\n \n";
+                    }
+                }
+                else if (this.checkBoxResultadoEsperado.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Caso:" + prop[0].ToString() + " Resultado esperado: " + prop[2] + "\n \n";
+                    }
+                }
+            }
+            //METE LAS EJECUCIONES DE PRUEBA
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked == true)
+            {
+                //AQUI RECORRO EL DICCIONARIO O EL OBJETO
+                String idCaso = "";
+                String r = "";
+                //la única forma de filtrar los casos es por medio de diseño
+                DataTable casos = controladoraReporte.consultarInformacionEjecuciones(idCaso);//AQUI viene id,estado,tipoNC,
+                if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true && this.checkBoxNC.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Id ejecucion:" + prop[0].ToString() + "\n Estado: " + prop[1].ToString() + " Tipo no conformidad: " + prop[2] + "\n \n";
+                    }
+                }
+            }
+
+            this.gridReportes.DataSource = dt;
+            this.gridReportes.DataBind();
+        }
+
+        private string conseguirNombre(string requrimiento)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string conseguirId(string requrimiento)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string calcularPorcentajeNoConformidad(string modulo)
+        {
+            throw new NotImplementedException();
+        }
+
+        private string calcularPorcentajeConformidad(string modulo)
+        {
+            throw new NotImplementedException();
+        }
+        protected DataTable crearTablaRequerimientos()
+        {
+            DataTable dt_casos = new DataTable();
+            DataColumn columna;
+            String proyecto = comboProyecto.Text;
+            String diseno = comboBoxDiseno.Text;
+            if (proyecto != "Seleccione")
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Proyecto";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.chklistModulos.Items.Count > 0)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Módulo";
+                dt_casos.Columns.Add(columna);
+
+            }
+            if (this.chklistReq.Items.Count > 0)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Requerimientos";
+                dt_casos.Columns.Add(columna);
+            }
+            if (diseno != null)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Diseño";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Caso de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked==true)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Estado de ejecucion de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            return dt_casos;
+        }
+
 
         //metodo para llenar requerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
         {
+
+            
             DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
             string requerimiento = "";
             int contador = 0;
@@ -385,9 +579,9 @@ namespace ProyectoInge
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(0, 2)) == null)
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(2, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(0, 2));
+                        chklistModulos.Items.Add(requerimiento.Substring(2,2));
                         ++contador;
                     }
                 }
@@ -399,7 +593,6 @@ namespace ProyectoInge
             }
             chklistModulos.DataBind();
             proyectoUpdate.Update();
-            UpdatePanel2.Update();
             UpdatePanel3.Update();
         }
 
@@ -428,21 +621,39 @@ namespace ProyectoInge
 
         }
         //Rosaura
-        protected void llenarRequerimientos(int idProyecto)
+        protected void llenarRequerimientos()
         {
-            DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
+
+            Dictionary<string, string> id_nombre_req = new Dictionary<string, string>();
+            chklistReq.Items.Clear();
+            Object[] modulos;
+            int contadorModulos = 0;
+            int indice = 0;
+            modulos = new Object[chklistModulos.Items.Count];
+            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            {
+                if(this.chklistModulos.Items[i].Selected == true){
+                    ++contadorModulos;
+                    modulos[indice] = chklistModulos.Items[i].Text;
+                    ++indice;
+                }
+            }
+
+           DataTable datosReqProyecto = controladoraReporte.consultarReqModulos(modulos,contadorModulos);
             string requerimiento = "";
             int contador = 0;
             requerimiento = "";
-            chklistModulos.Items.Clear();
+        
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + datosReqProyecto.Rows[i][1].ToString();
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
+
+                        id_nombre_req.Add(datosReqProyecto.Rows[i][0].ToString(), datosReqProyecto.Rows[i][2].ToString());
                         chklistReq.Items.Add(requerimiento);
                         ++contador;
                     }
@@ -452,22 +663,46 @@ namespace ProyectoInge
             if (1 < contador)
             {
                    chklistReq.Items.Add("Todos los requerimientos");
-            }
+            }      
                chklistReq.DataBind();
-               UpdatePanel2.Update();
-               UpdatePanel4.Update();
+               UpdatePanel3.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
-            llenarRequerimientos(id);       
-            UpdatePanel4.Update();
             llenarRequerimientosProyecto(id);
             UpdatePanel3.Update();
-
+           
         }
+
+        protected void seleccionarChkListModulos(object sender, EventArgs e)
+        {
+            int contadorModulos = 0;
+            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            {
+                if(this.chklistModulos.Items[i].Selected == true){
+                    ++contadorModulos;
+
+                }
+            }
+
+
+            if(contadorModulos != 0){
+                llenarRequerimientos();
+                UpdatePanel3.Update();
+                llenarComboDiseno();
+            }else if(contadorModulos == 0){
+                chklistReq.Items.Clear();
+                UpdatePanel3.Update();
+            }
+
+           
+            
+        }
+
+
 
         //dropDownListDescargar
         protected void llenarDropDownTipoDescarga()
@@ -494,6 +729,65 @@ namespace ProyectoInge
             }
             UpdatePanel1.Update();
         }
+
+
+        //metodo para llenar el combo de diseño
+        protected void llenarComboDiseno()
+        {
+            int id = 0;
+            Debug.WriteLine("Estoy aca");
+            Object[] requerimientos;
+            String cadena = "";
+            int contadorReq = 0;
+            int indice = 0;
+            requerimientos = new Object[chklistReq.Items.Count];
+            for (int i = 0; i < chklistReq.Items.Count; ++i)
+            {
+                if (this.chklistReq.Items[i].Selected == true)
+                {
+                    ++contadorReq;
+                    cadena = (chklistReq.Items[i].Text).Substring(0,5);
+                    requerimientos[indice] = chklistReq.Items[i].Text;
+                    ++indice;
+                }
+            }
+
+            id = Int32.Parse(Session["idProyecto"].ToString());
+            DataTable datos = controladoraReporte.consultarDisenosReq(id, requerimientos,contadorReq);
+
+        }
+
+
+        protected void seleccionarChkListReq(object sender, EventArgs e)
+        {
+            int contadorReq = 0;
+            for (int i = 0; i < chklistReq.Items.Count; ++i)
+            {
+                if (this.chklistReq.Items[i].Selected == true)
+                {
+                    ++contadorReq;
+
+                }
+            }
+
+
+            if (contadorReq != 0)
+            {
+                llenarComboDiseno();
+                UpdatePanel3.Update();
+                
+            }
+            else if (contadorReq == 0)
+            {
+                chklistReq.Items.Clear();
+                UpdatePanel3.Update();
+            }
+
+
+
+        }
+
+
     }
 
 

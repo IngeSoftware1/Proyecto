@@ -373,6 +373,18 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         }
 
+
+      /* Método para obtener los responsasables que trabajan en algun proyecto.
+       * Requiere: nada.
+       * Modifica: nada
+       * Retorna: un DataTable con los responsasables que trabajan en algun proyecto especifico.
+       */
+        public DataTable consultarResponsables()
+        {
+            DataTable dt = controladoraBDRecurso.consultarResponsables();
+            return dt;
+        }
+
         
 
 

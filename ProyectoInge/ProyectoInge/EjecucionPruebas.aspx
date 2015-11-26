@@ -246,6 +246,8 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
+
+
                                                         <%--Tipo de no conformidad  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-Font-Size="12px" HeaderText="TipoNC">
 
@@ -324,14 +326,36 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
+                                                        
+                                                          <%--Imagen Invisible  --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false" >
+
+                                                            <EditItemTemplate>
+                                                                <asp:Label ID="lblImagenInvisibleEdit" runat="server" Visible="false" Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </EditItemTemplate>
+
+                                                           
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblImagenInvisible" runat="server" Visible="false" Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </ItemTemplate>
+
+
+                                                             <FooterTemplate>
+                                                                 <asp:Label ID="lblFootImagenInvisible" runat="server" Visible="false"  Text='<%# Bind("ImagenInvisible") %>'></asp:Label>
+                                                            </FooterTemplate>
+
+
+                                                           
+                                                        </asp:TemplateField>
+
 
                                                         <%-- Imagen --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
                                                             <EditItemTemplate>
-                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
+                                                                <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnEditarImagen_Click" Text="Add" />
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen"> Imagen </asp:LinkButton>
+                                                                <asp:Button ID="lnkVerImagen" runat="server" CssClass="btn btn-primary" OnClick="btnVerImagen_Click"  CommandName="cargarImagen" Text="Ver" />
                                                             </ItemTemplate>
                                                             <FooterTemplate>
                                                                 <asp:Button ID="lnkCargarImagen" runat="server" CssClass="btn btn-primary" OnClick="btnAgregarImagen_Click" Text="Add" />
@@ -399,16 +423,37 @@
                             <Columns>
                                 <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
-                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>
-
+                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarEjecucion" CommandArgument='<%#Eval("IDEjecucion") %>'> Consultar </asp:LinkButton>
                                     </ItemTemplate>
-
                                 </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="">
+                                <asp:TemplateField HeaderText="" Visible="false">
                                     <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblIDEjecucion" Visible="false" Text ='<%#Eval("IDEjecucion") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
-                                        <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton>
+                                <asp:TemplateField HeaderText="Fecha de última ejecución" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblFecha" Text ='<%#Eval("Fecha") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Responsable de ejecución" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblResponsable" Text ='<%#Eval("Responsable") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                 <asp:TemplateField HeaderText="Diseño" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblDiseno"  Text ='<%#Eval("Diseno") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Proyecto" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblProyecto" Text ='<%#Eval("Proyecto") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
@@ -481,7 +526,6 @@
             </div>
         </div>
 
-
         <%--Modal Imagen --%>
         <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
@@ -492,15 +536,37 @@
                     </div>
                     <div class="modal-body">
                         Seleccione la imagen que desea cargar:      
-                           <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px"></asp:FileUpload>
-                       
+                           <asp:FileUpload ID="FileImage" runat="server" Font-Size="14px"  ></asp:FileUpload>
+                        
                         <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
-                    </div>
+                            <asp:Image ID="image1" runat="server" Visible = "true"/>   
+                         </div>
                     <div class="modal-footer">
-                        <asp:Button ID="Button1" class="btn btn-info" Text="Aceptar" runat="server" />
-                        <button type="button" id="botonVolver2" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnAceptarImagen" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
+                        <asp:Button ID="btnCancelarImagen" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen"  runat="server" />
                     </div>
                 </div>
             </div>
         </div>
+
+        
+        <%--Modal Ver Imagen --%>
+        <div class="modal fade" id="modalVerImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalVerImagenConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Imagen </font></i></h3>
+                    </div>
+                    <div class="modal-body">                        
+                         <asp:Image ID="imagenMostrada" runat="server" Visible = "true"/>                                             
+                         </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="Button1" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen"  runat="server" />
+                        <asp:Button ID="Button2" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen"  runat="server" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </asp:Content>

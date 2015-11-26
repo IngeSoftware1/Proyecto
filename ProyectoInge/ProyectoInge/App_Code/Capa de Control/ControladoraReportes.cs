@@ -84,22 +84,28 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.obtenerIDconNombreProyecto(nomProyecto);
         }
 
-        public int obtenerIdReqPorNombre(string s)
+        //consultar requerimientos de los modulos asociados a los proyectos
+        public DataTable consultarReqModulos(Object[] modulos,int contador)
         {
-            controladoraDiseno = new ControladoraDiseno();
-            return controladoraDiseno.obtenerIdReqPorNombre(s);
+            controladoraProyectos = new ControladoraProyecto();
+            return controladoraProyectos.consultarReqModulos(modulos,contador);
         }
 
-        public DataTable consultarDisenosPorReq(DataTable s)
+
+        internal DataTable consultarInformacionCasos(string diseno)
         {
-            controladoraDiseno = new ControladoraDiseno();
-            return controladoraDiseno.consultarDisenosPorReq(s);
+            throw new NotImplementedException();
         }
 
-        public DataTable consultarPropositosDisenosPorId(DataTable idDisenos)
+        internal DataTable consultarInformacionEjecuciones(string diseno)
         {
+            throw new NotImplementedException();
+        }
+
+        //metodo para consultar diseños asociados a requerimientos
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq){
             controladoraDiseno = new ControladoraDiseno();
-            return controladoraDiseno.consultarPropositosDisenosPorId(idDisenos);
+            return controladoraDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
         }
     }
 }
