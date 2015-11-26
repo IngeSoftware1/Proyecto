@@ -48,8 +48,9 @@ namespace ProyectoInge
             }
         }
 
-        protected void checkBoxTodos_SelectedIndexChanged(object sender, EventArgs e)
+        protected void checkBoxTodos_CheckedChanged(object sender, EventArgs e)
         {
+
             if (checkBoxTodos.Checked == true)
             {
                 this.checkBoxConf.Checked = true;
@@ -83,13 +84,12 @@ namespace ProyectoInge
      * Modifica: llena el comboBox con los datos obtenidos de la BD
      * Retorna: no retorna ningún valor */
 
-
         protected void llenarComboProyecto(string cedulaUsuario)
         {
             Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
             Dictionary<string, string> id_nombres_proyectos = new Dictionary<string, string>();
             string nombre = "";
-            this.comboProyecto.Items.Clear();
+            this.comboProyecto.Items.Clear();  //diseño?
             DataTable nombresProyecto;
             int numDatos = 0;
             Object[] datos;
@@ -155,6 +155,82 @@ namespace ProyectoInge
             }
             proyectoUpdate.Update();
         }
+
+        //metodo para llenar el combo de diseño
+        //necesito guardar el id del diseño y el propositp
+        protected void llenarComboDiseno()
+        {
+            Dictionary<int, string> id_propositosDisenos = new Dictionary<int, string>();
+            int id = 0;
+            //Debug.WriteLine("Estoy aca");
+            Object[] requerimientos;
+            String cadena = "";
+            int numDatos = 0;
+            int contadorReq = 0;
+            int indice = 0;
+            requerimientos = new Object[chklistReq.Items.Count];
+            for (int i = 0; i < chklistReq.Items.Count; ++i)
+            {
+                if (this.chklistReq.Items[i].Selected == true)
+                {
+                    ++contadorReq;
+                    cadena = (chklistReq.Items[i].Text).Substring(0, 5);
+                    requerimientos[indice] = chklistReq.Items[i].Text;
+                    ++indice;
+                }
+            }
+
+            //meter el id de diseño y el proposito al dictionary
+
+            id = Int32.Parse(Session["idProyecto"].ToString());
+            //con el siguiente se devuelven los propositos de los diseños 
+            DataTable disenos = controladoraReporte.consultarDisenosReq(id, requerimientos, contadorReq);
+            //meter los diseños al combobox diseño
+            numDatos = disenos.Rows.Count;
+
+            /*if (numDatos > 0)
+            {
+                requerimientos = new Object[numDatos + 1];
+
+                for (int i = 0; i < numDatos; ++i)
+                {
+                    foreach (DataColumn column in disenos.Columns)
+                    {
+                        if (numColumna == 1)
+                        {
+
+                            id_propositosDisenos.Add(cadena, disenos.Rows[i][1].ToString());
+                            
+                        }
+                        else
+                        {
+                            nombre = disenos.Rows[i][0].ToString();
+                        }
+
+                        ++numColumna;
+                    }
+
+                    requerimientos[indiceProyecto] = nombre;
+                    ++indiceProyecto;
+                    numColumna = 0;
+                    cadena = "";
+                }
+                requerimientos[0] = "Seleccione";
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind(); Session["vectorIdProyectos"] = nombres_id_proyectos;
+                Session["vectorIdNombres"] = id_nombres_proyectos;
+            }
+            else
+            {
+                datos = new Object[1];
+                datos[0] = "Seleccione";
+                this.comboProyecto.DataSource = datos;
+                this.comboProyecto.DataBind();
+            }
+            proyectoUpdate.Update();*/
+
+        }
+
 
         protected void llenarComboDiseño()
         {
@@ -350,7 +426,6 @@ namespace ProyectoInge
             Response.End();
         }
 
-
         //metodo para reiniciar los chechBox
         protected void btnReiniciar_Click(object sender, EventArgs e)
         {
@@ -370,6 +445,7 @@ namespace ProyectoInge
            
             llenarGrid();
         }
+
         public void llenarGrid()
         {
             DataTable dt = crearTablaRequerimientos();
@@ -510,6 +586,7 @@ namespace ProyectoInge
         {
             throw new NotImplementedException();
         }
+
         protected DataTable crearTablaRequerimientos()
         {
             DataTable dt_casos = new DataTable();
@@ -561,7 +638,6 @@ namespace ProyectoInge
             }
             return dt_casos;
         }
-
 
         //metodo para llenar requerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
@@ -623,7 +699,6 @@ namespace ProyectoInge
         //Rosaura
         protected void llenarRequerimientos()
         {
-
             Dictionary<string, string> id_nombre_req = new Dictionary<string, string>();
             chklistReq.Items.Clear();
             Object[] modulos;
@@ -638,7 +713,6 @@ namespace ProyectoInge
                     ++indice;
                 }
             }
-
            DataTable datosReqProyecto = controladoraReporte.consultarReqModulos(modulos,contadorModulos);
             string requerimiento = "";
             int contador = 0;
@@ -659,7 +733,7 @@ namespace ProyectoInge
                     }
                 }
             }
-
+            //se añade la opcion de Todos los requerimientos cuando se añade en el checklist uno o mas requerimientos
             if (1 < contador)
             {
                    chklistReq.Items.Add("Todos los requerimientos");
@@ -702,8 +776,6 @@ namespace ProyectoInge
             
         }
 
-
-
         //dropDownListDescargar
         protected void llenarDropDownTipoDescarga()
         {
@@ -730,34 +802,6 @@ namespace ProyectoInge
             UpdatePanel1.Update();
         }
 
-
-        //metodo para llenar el combo de diseño
-        protected void llenarComboDiseno()
-        {
-            int id = 0;
-            //Debug.WriteLine("Estoy aca");
-            Object[] requerimientos;
-            String cadena = "";
-            int contadorReq = 0;
-            int indice = 0;
-            requerimientos = new Object[chklistReq.Items.Count];
-            for (int i = 0; i < chklistReq.Items.Count; ++i)
-            {
-                if (this.chklistReq.Items[i].Selected == true)
-                {
-                    ++contadorReq;
-                    cadena = (chklistReq.Items[i].Text).Substring(0,5);
-                    requerimientos[indice] = chklistReq.Items[i].Text;
-                    ++indice;
-                }
-            }
-
-            id = Int32.Parse(Session["idProyecto"].ToString());
-            DataTable datos = controladoraReporte.consultarDisenosReq(id, requerimientos,contadorReq);
-
-        }
-
-
         protected void seleccionarChkListReq(object sender, EventArgs e)
         {
             int contadorReq = 0;
@@ -766,11 +810,8 @@ namespace ProyectoInge
                 if (this.chklistReq.Items[i].Selected == true)
                 {
                     ++contadorReq;
-
                 }
             }
-
-
             if (contadorReq != 0)
             {
                 llenarComboDiseno();
@@ -782,14 +823,7 @@ namespace ProyectoInge
                 chklistReq.Items.Clear();
                 UpdatePanel3.Update();
             }
-
-
-
         }
-
-
     }
-
-
 }
 

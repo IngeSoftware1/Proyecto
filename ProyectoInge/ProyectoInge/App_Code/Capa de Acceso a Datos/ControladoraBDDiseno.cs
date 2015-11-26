@@ -631,7 +631,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         //metodo para consultar diseños asociados a requerimientos
         public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq)
         {
-             DataTable dt = new DataTable();
+            DataTable dt = new DataTable();
             string consulta = "";
             int contador = 0;
             try
@@ -639,12 +639,12 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 for (int i = 0; i < contadorReq; ++i)
                 {
                     ++contador;
-                    consulta = consulta + " " + "SELECT d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '"+ requerimientos[i].ToString() +"' AND id_proyecto ='"+id+"');";
+                    consulta = consulta + " " + "SELECT d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '" + requerimientos[i].ToString() + "' AND id_proyecto ='" + id + "');";
                     if (contador != contadorReq)
                     {
                         consulta = consulta + "UNION";
                     }
-                    
+
 
                 }
 
@@ -659,9 +659,5 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-
-        
-
-
     }
 }
