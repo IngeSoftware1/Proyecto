@@ -91,5 +91,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarReqModulos(modulos,contador);
         }
 
+
+        internal DataTable consultarInformacionCasos(string diseno)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal DataTable consultarInformacionEjecuciones(string diseno)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

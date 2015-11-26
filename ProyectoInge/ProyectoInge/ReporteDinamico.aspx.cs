@@ -376,12 +376,45 @@ namespace ProyectoInge
             //METE CASOS DE PRUEBA
             if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
             {
-                
+                //DEBERIA IR METIENDO A UN DICCIONARIO TODOS LOS IDS DE LOS CASOS
+                String r = "";
+                //la única forma de filtrar los casos es por medio de diseño
+                DataTable casos = controladoraReporte.consultarInformacionCasos(diseno);//AQUI viene id,prop,result
+                if (this.checkBoxPropositoCaso.Checked == true && this.checkBoxResultadoEsperado.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows) {
+                        r += "Caso:"+prop[0].ToString() +"\n Propósito: "+prop[1].ToString() +" Resultado esperado: "+prop[2]+"\n \n";
+                    }
+                }else if (this.checkBoxPropositoCaso.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Caso:" + prop[0].ToString() + "\n Propósito: " + prop[1].ToString() + "\n \n";
+                    }
+                }
+                else if (this.checkBoxResultadoEsperado.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Caso:" + prop[0].ToString() + " Resultado esperado: " + prop[2] + "\n \n";
+                    }
+                }
             }
             //METE LAS EJECUCIONES DE PRUEBA
             if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked == true)
             {
-               
+                //AQUI RECORRO EL DICCIONARIO O EL OBJETO
+                String idCaso = "";
+                String r = "";
+                //la única forma de filtrar los casos es por medio de diseño
+                DataTable casos = controladoraReporte.consultarInformacionEjecuciones(idCaso);//AQUI viene id,estado,tipoNC,
+                if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true && this.checkBoxNC.Checked == true)
+                {
+                    foreach (DataRow prop in casos.Rows)
+                    {
+                        r += "Id ejecucion:" + prop[0].ToString() + "\n Estado: " + prop[1].ToString() + " Tipo no conformidad: " + prop[2] + "\n \n";
+                    }
+                }
             }
 
             this.gridReportes.DataSource = dt;
