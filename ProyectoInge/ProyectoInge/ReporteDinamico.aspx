@@ -101,7 +101,7 @@
                                                 <asp:Label ID="lblReqAsignados" runat="server" Text="Requerimientos de los módulos:" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-2">
 
-                                                    <asp:CheckBoxList ID="chklistReq"  AutoPostBack="True" runat="server" EnableViewState="true" Style="height: 170px" CssClass="form-control" >
+                                                    <asp:CheckBoxList ID="chklistReq" OnSelectedIndexChanged = "seleccionarChkListReq"  AutoPostBack="True" runat="server" EnableViewState="true" Style="height: 170px" CssClass="form-control"  >
                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>

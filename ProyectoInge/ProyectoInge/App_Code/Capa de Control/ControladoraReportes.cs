@@ -101,5 +101,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             throw new NotImplementedException();
         }
+
+        //metodo para consultar diseños asociados a requerimientos
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq){
+            controladoraDiseno = new ControladoraDiseno();
+            return controladoraDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
+        }
     }
 }

@@ -395,5 +395,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.consultarNombresIdDisenosProyectos();
         }
 
+
+        //metodo para consultar diseños asociados a requerimientos
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq)
+        {
+            return controladoraBDDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
+        }
+
     }
 }
