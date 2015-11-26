@@ -419,16 +419,37 @@
                             <Columns>
                                 <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
-                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarDiseno" CommandArgument='<%#Eval("ID Diseño") %>'> Consultar </asp:LinkButton>
-
+                                        <asp:LinkButton runat="server" ID="lnkConsulta" CommandName="seleccionarEjecucion" CommandArgument='<%#Eval("IDEjecucion") %>'> Consultar </asp:LinkButton>
                                     </ItemTemplate>
-
                                 </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="">
+                                <asp:TemplateField HeaderText="" Visible="false">
                                     <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblIDEjecucion" Visible="false" Text ='<%#Eval("IDEjecucion") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
 
-                                        <asp:LinkButton runat="server" ID="linkConsultaCaso" CommandName="seleccionarCaso" CommandArgument='<%#Eval("ID Diseño") %>'> Casos de prueba </asp:LinkButton>
+                                <asp:TemplateField HeaderText="Fecha de última ejecución" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblFecha" Text ='<%#Eval("Fecha") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Responsable de ejecución" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblResponsable" Text ='<%#Eval("Responsable") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                 <asp:TemplateField HeaderText="Diseño" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblDiseno"  Text ='<%#Eval("Diseno") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Proyecto" >
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblProyecto" Text ='<%#Eval("Proyecto") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 

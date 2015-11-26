@@ -383,5 +383,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             return controladoraRH.consultarRH(cedula);
         }
+
+        /* Método para obtener el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        * Requiere: nada
+        * Modifica: no modifica datos
+        * Retorna: un DataTable que contiene el nombre de todos los disenos y el nombre del proyecto asociado a cada diseno.
+        */
+        public DataTable consultarNombresIdDisenosProyectos()
+        {
+
+            return controladoraBDDiseno.consultarNombresIdDisenosProyectos();
+        }
+
     }
 }

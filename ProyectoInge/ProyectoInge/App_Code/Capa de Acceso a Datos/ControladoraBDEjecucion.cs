@@ -12,6 +12,8 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
     public class ControladoraBDEjecucion
     {
         AccesoBaseDatos acceso = new AccesoBaseDatos();
+
+
         public bool buscarAsignacionMiembrosEjecucion(string cedula)
         {
            bool resultado = false;
@@ -166,7 +168,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         }
 
         /* Método para obtener la ejecucion de prueba.
-        * Requiere: no requiere parámetros.
+        * Requiere: el id de ejecucion.
         * Modifica: no realiza modificaciones.
         * Retorna: un DataTable con los estados que tiene almacenada la base de datos.
         */
@@ -188,6 +190,29 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+        /* Método para obtener todas la ejecucion de prueba.
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con todas las ejecuciones de prueba.
+        */
+        public DataTable consultarEjecucionesDePrueba()
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            try
+            {
+                consulta = "SELECT *" + " FROM Ejecucion_Prueba";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
 
         /* Método para obtener el caso ejecutado
         * Requiere: no requiere parámetros.
@@ -213,26 +238,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
-
-        public DataTable consultarDiseno(int idEjecucion)
-        {
-            DataTable dt = new DataTable();
-            string consulta;
-
-            try
-            {
-
-                consulta = "SELECT * FROM Diseno_Pruebas WHERE id_ejecucion = '" + idEjecucion + "';";
-                dt = acceso.ejecutarConsultaTabla(consulta);
-
-            }
-            catch
-            {
-                dt = null;
-            }
-
-            return dt;
-        }
 
 
 
