@@ -241,14 +241,12 @@ namespace ProyectoInge
 
             }
             else {
+
                 String propDiseno = comboBoxDiseno.SelectedIndex.ToString();
                 Dictionary<string, string> disenos= (Dictionary<string, string>)Session["diccionario"];
-                int cant = disenos.Count;//CANTIDAD
-                for(int i =0; i<cant;i++){
-
-                }
                 String idDiseno = "";
                 disenos.TryGetValue(propDiseno, out idDiseno);
+
                 DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(idDiseno);
                 Object[] cProps;
                 if (casos.Rows.Count>0)

@@ -132,6 +132,21 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             }
             return dt;
         }
+        internal DataTable consultarCasosDePruebaAsociadoADisenoID(int idDiseños)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.identificador_caso FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseños + "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
         /* Método para consultar casos de prueba 
         * Requiere: el id del caso 
         * Modifica: no modifica datos
