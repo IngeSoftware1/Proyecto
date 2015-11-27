@@ -325,8 +325,25 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
+                                         
 
-                                                        <%--Imagen Invisible  --%>
+                                                        <%-- Imagen --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
+                                                            <EditItemTemplate>
+                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" Text="Add">
+                                                                 </asp:LinkButton>
+                                                            </EditItemTemplate>
+                                                            <ItemTemplate>
+                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagenTemplate" CommandName="mostrarImagen" Text="Ver">
+                                                                 </asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <FooterTemplate>
+                                                                <asp:LinkButton runat="server" ID="lnkCargarImagenFoot" CommandName="cargarImagen" Text="Add">
+                                                                 </asp:LinkButton>
+                                                            </FooterTemplate>
+                                                        </asp:TemplateField>
+
+                                                                 <%--Imagen Invisible  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false">
 
                                                             <EditItemTemplate>
@@ -344,22 +361,24 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
+                                                                 <%--Imagen Extensión Invisible  --%>
+                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false">
 
-                                                        <%-- Imagen --%>
-                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
                                                             <EditItemTemplate>
-                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" Text="Add">
-                                                                 </asp:LinkButton>
+                                                                <asp:Label ID="lblImagenExtensionInvisibleEdit" runat="server" Visible="false" Text='<%# Bind("ImagenExtensionInvisible") %>'></asp:Label>
                                                             </EditItemTemplate>
+
+
                                                             <ItemTemplate>
-                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagenTemplate" CommandName="mostrarImagen" Text="Ver">
-                                                                 </asp:LinkButton>
+                                                                <asp:Label ID="lblImagenExtensionInvisible" runat="server" Visible="false" Text='<%# Bind("ImagenExtensionInvisible") %>'></asp:Label>
                                                             </ItemTemplate>
+
+
                                                             <FooterTemplate>
-                                                                <asp:LinkButton runat="server" ID="lnkCargarImagenFoot" CommandName="cargarImagen" Text="Add">
-                                                                 </asp:LinkButton>
+                                                                <asp:Label ID="lblFootImagenExtensionInvisible" runat="server" Visible="false" Text='<%# Bind("ImagenExtensionInvisible") %>'></asp:Label>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
+
                                                     </Columns>
                                                 </asp:GridView>
                                             </div>

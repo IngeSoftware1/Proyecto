@@ -23,6 +23,7 @@ namespace ProyectoInge
         private static string justificacionTxt = "";
         private static string estadoTxt = "";
         private static string imageBase64String = "";
+        private static string imageExtension = "";
         private static int filaEliminar = 0;
         private static List<int> comboDedisenos = new List<int>();
         private static DropDownList comboTipoNCModificar;
@@ -34,6 +35,7 @@ namespace ProyectoInge
         object[] imagenes = new object[100];
         private static byte[] imagen = null;
         private static string base64String = "";                //String global para la columna invisible del grid con la imagen
+        private static string extensionImagen = "";             //String global para la columna invisible de la extensión de la imagen en el grid 
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -1157,8 +1159,9 @@ namespace ProyectoInge
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
             table.Columns.Add("ImagenInvisible", typeof(string));
+            table.Columns.Add("ImagenExtensionInvisible", typeof(string));
 
-            table.Rows.Add("-", "-", "-", "-", "-", "-", "-");
+            table.Rows.Add("-", "-", "-", "-", "-", "-", "-", "-");
 
             return table;
         }
@@ -1210,6 +1213,7 @@ namespace ProyectoInge
 
                 //Se obtiene la extension de la imagen con esta línea de código
                 string extension = Path.GetExtension(Path.GetFileName(FileImage.PostedFile.FileName));
+                extensionImagen = extension;
 
 
                 ////De acuerdo al tipo de imagen se carga con extension distinta en el image control
@@ -1246,6 +1250,7 @@ namespace ProyectoInge
             {
                 imagen = null;
                 base64String = "";
+                extensionImagen = "";
             }
         }
 
@@ -1268,6 +1273,7 @@ namespace ProyectoInge
         {
             imagen = null;
             base64String = " ";
+            extensionImagen = "";
         }
 
         /** Método para agregar una nuevo no conformidad en el grid.
@@ -1296,6 +1302,7 @@ namespace ProyectoInge
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
                     Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
+                    Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
 
                     dr[0] = lblTipoNC.Text;
                     dr[1] = lblCasoPrueba.Text;
@@ -1303,6 +1310,7 @@ namespace ProyectoInge
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
                     dr[6] = lblImagen.Text;
+                    dr[7] = lblExtension.Text;
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
                 }
@@ -1333,7 +1341,9 @@ namespace ProyectoInge
                 dr[3] = justificacion;
                 dr[4] = estado;
                 dr[6] = base64String;
+                dr[7] = extensionImagen;
                 base64String = " ";
+                extensionImagen = "";
 
                 dt.Rows.Add(dr); // Agrega las filas
 
@@ -1377,8 +1387,7 @@ namespace ProyectoInge
             table.Columns.Add("Estado", typeof(string));
             table.Columns.Add("Imagen", typeof(string));
             table.Columns.Add("ImagenInvisible", typeof(string));
-
-
+            table.Columns.Add("ImagenExtensionInvisible", typeof(string));
 
             return table;
 
@@ -1450,6 +1459,7 @@ namespace ProyectoInge
                     Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                     Label lblEstado = gvr.FindControl("lblEstado") as Label;
                     Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
+                    Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
 
                     if (indice == fila)
                     {
@@ -1459,6 +1469,7 @@ namespace ProyectoInge
                         justificacionTxt = lblJustificacion.Text;
                         estadoTxt = lblEstado.Text;
                         imageBase64String = lblImagen.Text;
+                        imageExtension = lblExtension.Text;
                        
                     }
 
@@ -1468,6 +1479,8 @@ namespace ProyectoInge
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
                     dr[6] = lblImagen.Text;
+                    dr[7] = lblExtension.Text;
+
 
                     Debug.WriteLine("esto contiene imagen en modificar " + indice + lblImagen.Text);
 
@@ -1508,6 +1521,8 @@ namespace ProyectoInge
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
                         Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
+                        Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
+
 
 
                         dr[0] = lblTipoNC.Text;
@@ -1516,6 +1531,7 @@ namespace ProyectoInge
                         dr[3] = lblJustificacion.Text;
                         dr[4] = lblEstado.Text;
                         dr[6] = lblImagen.Text;
+                        dr[7] = lblExtension.Text;
                         dt.Rows.Add(dr); // add grid values in to row and add row to the blank table   
                     }
 
@@ -1528,6 +1544,7 @@ namespace ProyectoInge
                     string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
                     string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
                     string imagenModificada = base64String;
+                    string extensionModificada = extensionImagen;
 
                     dr[0] = comboTipoNCModificado;
                     dr[1] = idCasoModificado;
@@ -1535,6 +1552,8 @@ namespace ProyectoInge
                     dr[3] = justificacionModificada;
                     dr[4] = estadoModificado;
                     dr[6] = imagenModificada;
+                    dr[7] = extensionModificada;
+
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
                     gridNoConformidades.EditIndex = -1;
@@ -1583,6 +1602,8 @@ namespace ProyectoInge
                         Label lblJustificacion = gvr.FindControl("lblJustificacion") as Label;
                         Label lblEstado = gvr.FindControl("lblEstado") as Label;
                         Label lblImagen = gvr.FindControl("lblImagenInvisible") as Label;
+                        Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
+
 
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
@@ -1590,6 +1611,8 @@ namespace ProyectoInge
                         dr[3] = lblJustificacion.Text;
                         dr[4] = lblEstado.Text;
                         dr[6] = lblImagen.Text;
+                        dr[7] = lblExtension.Text;
+
                     }
 
 
@@ -1632,6 +1655,8 @@ namespace ProyectoInge
                 fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
                 gvr = gridNoConformidades.Rows[fila];
                 Label lblImagen =  gvr.FindControl("lblImagenInvisible") as Label;
+                Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
+
 
                 if(lblImagen.Text == " ")
                 {
@@ -1646,7 +1671,35 @@ namespace ProyectoInge
                 {
                     imagenMostrada.Visible = true;
                     lblImagenMostrar.Visible = false;
-                    imagenMostrada.ImageUrl = "data:image/png;base64," + lblImagen.Text;
+                    switch (lblExtension.Text)
+                    {
+                        case ".JPEG":
+                            imagenMostrada.ImageUrl = "data:image/JPEG;base64," + base64String;
+                            break;
+                        case ".jpg":
+                            imagenMostrada.ImageUrl = "data:image/jpg;base64," + base64String;
+                            break;
+                        case ".JPG":
+                            imagenMostrada.ImageUrl = "data:image/JPG;base64," + base64String;
+                            break;
+                        case ".gif":
+                            imagenMostrada.ImageUrl = "data:image/gif;base64," + base64String;
+                            break;
+                        case ".GIF":
+                            imagenMostrada.ImageUrl = "data:image/GIF;base64," + base64String;
+                            break;
+                        case ".png":
+                            imagenMostrada.ImageUrl = "data:image/png;base64," + base64String;
+                            break;
+                        case ".PNG":
+                            imagenMostrada.ImageUrl = "data:image/PNG;base64," + base64String;
+                            break;
+                        case ".jpeg":
+                            imagenMostrada.ImageUrl = "data:image/jpeg;base64," + base64String;
+                            break;
+                    }
+
+                 //   imagenMostrada.ImageUrl = "data:image/png;base64," + lblImagen.Text;
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
                     updateModalImagen.Update();
                 }
