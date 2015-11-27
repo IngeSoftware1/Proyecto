@@ -165,17 +165,18 @@ namespace ProyectoInge
             int id = 0;
             //Debug.WriteLine("Estoy aca");
             Object[] requerimientos;
-            String cadena = "";
+           // String cadena = "";
             int numDatos = 0;
             int contadorReq = 0;
             int indice = 0;
             requerimientos = new Object[chklistReq.Items.Count];
+            Debug.Write(chklistReq.Items.Count);
             for (int i = 0; i < chklistReq.Items.Count; ++i)
             {
                 if (this.chklistReq.Items[i].Selected == true)
                 {
                     ++contadorReq;
-                    cadena = (chklistReq.Items[i].Text).Substring(0, 6);
+                    //cadena = (chklistReq.Items[i].Text).Substring(0, 6);
                     requerimientos[indice] = chklistReq.Items[i].Text;
                     ++indice;
                 }
@@ -185,8 +186,6 @@ namespace ProyectoInge
 
             this.comboBoxDiseno.Items.Clear();
             id = Int32.Parse(Session["idProyecto"].ToString());
-
-            
 
             //con el siguiente se devuelven los ids de los diseños y los propositos de los diseños  
             DataTable disenos = controladoraReporte.consultarDisenosReq(id, requerimientos, contadorReq);
@@ -217,7 +216,7 @@ namespace ProyectoInge
              
                 for(int i = 1; i<=numDatos; i++ )
                 {
-                    propositosDiseno[i] = disenos.Rows[0][1].ToString();
+                    propositosDiseno[i] = disenos.Rows[i][1].ToString();
                 }
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
@@ -230,8 +229,7 @@ namespace ProyectoInge
                 this.comboBoxDiseno.DataBind();
             }
             Session["diccionario"] = id_propositosDisenos;
-            UpdatePanel2.Update();
-
+            comboDisenoUpdate.Update();
         }
         protected void llenarComboCaso()
         {
@@ -701,9 +699,9 @@ namespace ProyectoInge
                 {
                     //se gurdaran en requerimiento todos los ids de los requerimeintos
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(0, 2)) == null)
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(2, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(0,2));
+                        chklistModulos.Items.Add(requerimiento.Substring(2,2));
                         ++contador;
                     }
                 }
@@ -715,33 +713,9 @@ namespace ProyectoInge
             }
             chklistModulos.DataBind();
             proyectoUpdate.Update();
-            UpdatePanel3.Update();
+            updateChklist.Update();
         }
 
-        protected DataTable tableLlenarComboDiseno()
-        {
-            int i;
-            int idReq;
-            string s;
-            DataTable idsReq = null; 
-            DataRow fila;
-            for (i = 0; i <= (chklistReq.Items.Count - 1); i++)
-            {
-                if (chklistReq.Items[i].Selected == true)
-                {
-                    s = chklistReq.Items[i].ToString();
-                    Response.Write(s);
-                    //buscar en que diseño esta ese requerimiento y ponerlo en el combo de diseño
-                    idReq = controladoraReporte.obtenerIdReqPorNombre(s);
-                    //llenar un table con todos los requerimientos que se obtienen
-                    fila = idsReq.NewRow();
-                    fila[i] = idReq;
-                    idsReq.Rows.Add(fila);
-                }
-            }
-            return idsReq;
-
-        }
         //Rosaura
         protected void llenarRequerimientos()
         {
@@ -751,7 +725,7 @@ namespace ProyectoInge
             int contadorModulos = 0;
             int indice = 0;
             modulos = new Object[chklistModulos.Items.Count];
-            for (int i = 0; i < chklistModulos.Items.Count-1; ++i )
+            for (int i = 0; i < chklistModulos.Items.Count; ++i )
             {
                 if(this.chklistModulos.Items[i].Selected == true){
                     ++contadorModulos;
@@ -785,7 +759,7 @@ namespace ProyectoInge
                    chklistReq.Items.Add("Todos los requerimientos");
             }      
                chklistReq.DataBind();
-               UpdatePanel3.Update();
+                updateChklist.Update();
         }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
@@ -793,7 +767,7 @@ namespace ProyectoInge
             int id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
             Session["idProyecto"] = id;
             llenarRequerimientosProyecto(id);
-            UpdatePanel3.Update();
+            updateChklist.Update();
            
         }
 
@@ -810,14 +784,11 @@ namespace ProyectoInge
 
             if(contadorModulos != 0){
                 llenarRequerimientos();
-                UpdatePanel3.Update();
+                updateChklist.Update();
             }else if(contadorModulos == 0){
                 chklistReq.Items.Clear();
-                UpdatePanel3.Update();
-            }
-
-           
-            
+                updateChklist.Update();
+            } 
         }
 
         //dropDownListDescargar
@@ -859,14 +830,15 @@ namespace ProyectoInge
             if (contadorReq != 0)
             {
                 llenarComboDiseno();
-                UpdatePanel3.Update();
+                comboDisenoUpdate.Update();
                 
             }
             else if (contadorReq == 0)
             {
                 chklistReq.Items.Clear();
                 this.comboBoxDiseno.Items.Clear();
-                UpdatePanel3.Update();
+                updateChklist.Update();
+                comboDisenoUpdate.Update();
             }
         }
     }
