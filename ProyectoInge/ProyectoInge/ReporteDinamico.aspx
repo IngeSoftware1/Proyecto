@@ -71,7 +71,7 @@
                             <div class="col-sm-10">
 
 
-                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                <asp:UpdatePanel ID="updateChklist" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                         <div class="form-group col-sm-5 col-sm-offset-1">
                                             <div class="row">
@@ -114,7 +114,7 @@
                         </div>
                         <%-- DISENO --%>
                         <br />
-                        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                        <asp:UpdatePanel ID="comboDisenoUpdate" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
                             <ContentTemplate>
                                 <div class="row">
                                     <div class="col-sm-10">
