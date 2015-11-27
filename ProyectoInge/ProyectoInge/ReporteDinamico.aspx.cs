@@ -636,11 +636,9 @@ namespace ProyectoInge
             return dt_casos;
         }
 
-        //metodo para llenar requerimientos del proyecto
+        //metodo para llenar los modulos morequerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
-        {
-
-            
+        {   
             DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
             string requerimiento = "";
             int contador = 0;
@@ -651,10 +649,11 @@ namespace ProyectoInge
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
+                    //se gurdaran en requerimiento todos los ids de los requerimeintos
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(2, 2)) == null)
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(0, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(2,2));
+                        chklistModulos.Items.Add(requerimiento.Substring(0,2));
                         ++contador;
                     }
                 }
@@ -702,7 +701,7 @@ namespace ProyectoInge
             int contadorModulos = 0;
             int indice = 0;
             modulos = new Object[chklistModulos.Items.Count];
-            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            for (int i = 0; i < chklistModulos.Items.Count-1; ++i )
             {
                 if(this.chklistModulos.Items[i].Selected == true){
                     ++contadorModulos;
@@ -723,7 +722,7 @@ namespace ProyectoInge
                     requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
-
+                        ///se guarda el id del requerimiento con su nombre
                         id_nombre_req.Add(datosReqProyecto.Rows[i][0].ToString(), datosReqProyecto.Rows[i][2].ToString());
                         chklistReq.Items.Add(requerimiento);
                         ++contador;

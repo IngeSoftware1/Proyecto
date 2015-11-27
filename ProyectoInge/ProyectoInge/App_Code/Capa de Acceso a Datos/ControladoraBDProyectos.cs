@@ -611,7 +611,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             DataTable dt = new DataTable();
             string consulta;
-
+            //nos devuelve todo lo que contenga la tabla requerimiento
             try
             {
                 consulta = "SELECT *  FROM Requerimiento WHERE id_proyecto = '" + idProyecto + "';";
@@ -896,10 +896,14 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             DataTable dt = new DataTable();
             string consulta = "";
             int contador = 0;
+            
+                
+            Debug.WriteLine("la contador es: " + contadorDos); 
             try
             {
                 for (int i = 0; i < contadorDos; ++i)
                 {
+                    Debug.WriteLine("la modulo es: " + modulos[i].ToString());
                     ++contador;
                     consulta = consulta + " " + "SELECT * FROM Requerimiento WHERE id_req LIKE '%" + modulos[i].ToString() + "%'";
                     if (contador != contadorDos)
