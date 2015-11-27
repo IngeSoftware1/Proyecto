@@ -640,7 +640,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
   
                     ++contador;
-                    consulta = consulta + " " + "SELECT d.id_diseno, d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '"+requerimientos[i].ToString().Substring(0,6)+"' AND id_proyecto ='"+id+"');";
+                    consulta = consulta + " " + "SELECT d.id_diseno, d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '"+requerimientos[i].ToString().Substring(0,8)+"' AND id_proyecto ='"+id+"')";
                     if (contador != contadorReq)
                     {
                         consulta = consulta + "UNION";
