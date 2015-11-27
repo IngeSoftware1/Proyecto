@@ -165,11 +165,12 @@ namespace ProyectoInge
             int id = 0;
             //Debug.WriteLine("Estoy aca");
             Object[] requerimientos;
-            String cadena = "";
+           // String cadena = "";
             int numDatos = 0;
             int contadorReq = 0;
             int indice = 0;
             requerimientos = new Object[chklistReq.Items.Count];
+            Debug.Write(chklistReq.Items.Count);
             for (int i = 0; i < chklistReq.Items.Count; ++i)
             {
                 if (this.chklistReq.Items[i].Selected == true)
@@ -185,8 +186,6 @@ namespace ProyectoInge
 
             this.comboBoxDiseno.Items.Clear();
             id = Int32.Parse(Session["idProyecto"].ToString());
-
-            
 
             //con el siguiente se devuelven los ids de los diseños y los propositos de los diseños  
             DataTable disenos = controladoraReporte.consultarDisenosReq(id, requerimientos, contadorReq);
@@ -206,7 +205,7 @@ namespace ProyectoInge
             {
                 idDiseno = fila[0].ToString();
                 proposito = fila[1].ToString();
-                id_propositosDisenos.Add(idDiseno, proposito);
+                id_propositosDisenos.Add(proposito,idDiseno);
                 contador++;
             }
 
@@ -218,8 +217,9 @@ namespace ProyectoInge
              
                 for(int i = 1; i<=numDatos; i++ )
                 {
-                    propositosDiseno[i] = disenos.Rows[indiceDos][1].ToString();
-                    ++indiceDos;
+
+                   propositosDiseno[i] = disenos.Rows[indiceDos][1].ToString();
+                   ++indiceDos;
                 }
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
@@ -231,11 +231,55 @@ namespace ProyectoInge
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
             }
+            Session["diccionario"] = id_propositosDisenos;
+            comboDisenoUpdate.Update();
+        }
+        protected void llenarComboCaso()
+        {
+            if (comboBoxDiseno.SelectedIndex.ToString() == "Seleccione")
+            {
 
-            UpdatePanel2.Update();
+            }
+            else {
+                String propDiseno = comboBoxDiseno.SelectedIndex.ToString();
+                Dictionary<string, string> disenos= (Dictionary<string, string>)Session["diccionario"];
+                int cant = disenos.Count;//CANTIDAD
+                for(int i =0; i<cant;i++){
+
+                }
+                String idDiseno = "";
+                disenos.TryGetValue(propDiseno, out idDiseno);
+                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(idDiseno);
+                Object[] cProps;
+                if (casos.Rows.Count>0)
+                {
+
+                    cProps = new Object[casos.Rows.Count + 1];
+                    int c = 0;
+                    cProps[0] = "Seleccione";
+                    c++;
+                    foreach (DataRow fila in casos.Rows)
+                    {
+                        cProps[c]=fila[0].ToString();
+                        c++;
+                    }
+
+
+                    this.comboBoxDiseno.DataSource = cProps;
+                    this.comboBoxDiseno.DataBind();
+                }
+                else
+                {
+                    cProps = new Object[1];
+                    cProps[0] = "Seleccione";
+                    this.comboBoxDiseno.DataSource = cProps;
+                    this.comboBoxDiseno.DataBind();
+                    
+                }
+            }
+            UpdatePanelCaso.Update();
             UpdatePanel3.Update();
         }
-
 
 
         // Genera el reporte en Excel.
@@ -588,10 +632,8 @@ namespace ProyectoInge
                 {
                     //se gurdaran en requerimiento todos los ids de los requerimeintos
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)
-                    {
-                        chklistModulos.Items.Add(requerimiento.Substring(3,2));
-                        ++contador;
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)                    {
+                         chklistModulos.Items.Add(requerimiento.Substring(3,2));                        ++contador;
                     }
                 }
             }
@@ -602,33 +644,9 @@ namespace ProyectoInge
             }
             chklistModulos.DataBind();
             proyectoUpdate.Update();
-            UpdatePanel3.Update();
+            updateChklist.Update();
         }
 
-        protected DataTable tableLlenarComboDiseno()
-        {
-            int i;
-            int idReq;
-            string s;
-            DataTable idsReq = null; 
-            DataRow fila;
-            for (i = 0; i <= (chklistReq.Items.Count - 1); i++)
-            {
-                if (chklistReq.Items[i].Selected == true)
-                {
-                    s = chklistReq.Items[i].ToString();
-                    Response.Write(s);
-                    //buscar en que diseño esta ese requerimiento y ponerlo en el combo de diseño
-                    idReq = controladoraReporte.obtenerIdReqPorNombre(s);
-                    //llenar un table con todos los requerimientos que se obtienen
-                    fila = idsReq.NewRow();
-                    fila[i] = idReq;
-                    idsReq.Rows.Add(fila);
-                }
-            }
-            return idsReq;
-
-        }
         //Rosaura
         protected void llenarRequerimientos()
         {
@@ -638,15 +656,15 @@ namespace ProyectoInge
             int contadorModulos = 0;
             int indice = 0;
             modulos = new Object[chklistModulos.Items.Count];
-            Boolean indicador = false;
+            
+             Boolean indicador = false;
 
             if(this.chklistModulos.Items[chklistModulos.Items.Count-1].Selected == true){
                 indicador = true;
             }
 
             for (int i = 0; i < chklistModulos.Items.Count-1; ++i )
-            {
-                if(this.chklistModulos.Items[i].Selected == true || indicador == true){
+            {                if(this.chklistModulos.Items[i].Selected == true || indicador == true){
                     ++contadorModulos;
                     modulos[indice] = chklistModulos.Items[i].Text;
                     ++indice;
@@ -678,9 +696,8 @@ namespace ProyectoInge
                    chklistReq.Items.Add("Todos los requerimientos");
             }      
                chklistReq.DataBind();
-               proyectoUpdate.Update();
-               UpdatePanel3.Update();
-        }
+                proyectoUpdate.Update();
+               UpdatePanel3.Update();        }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
@@ -699,8 +716,7 @@ namespace ProyectoInge
                 comboBoxDiseno.Items.Clear();
                 UpdatePanel2.Update();
                 UpdatePanel3.Update();
-            }
-           
+            }           
         }
 
         protected void seleccionarChkListModulos(object sender, EventArgs e)
@@ -715,15 +731,13 @@ namespace ProyectoInge
             }
             if(contadorModulos != 0){
                 llenarRequerimientos();
-                UpdatePanel3.Update();
+                updateChklist.Update();
             }else if(contadorModulos == 0){
                 chklistReq.Items.Clear();
                 this.comboBoxDiseno.Items.Clear();
                 UpdatePanel2.Update();
                 UpdatePanel3.Update();
-            }
-            
-        }
+            }        }
 
         //dropDownListDescargar
         protected void llenarDropDownTipoDescarga()
@@ -768,14 +782,15 @@ namespace ProyectoInge
             if (contadorReq != 0)
             {
                 llenarComboDiseno();
-                UpdatePanel3.Update();
+                comboDisenoUpdate.Update();
                 
             }
             else if (contadorReq == 0)
             {
                 chklistReq.Items.Clear();
                 chklistModulos.ClearSelection();
-                UpdatePanel3.Update();
+                updateChklist.Update();
+                comboDisenoUpdate.Update();
             }
         }
     }
