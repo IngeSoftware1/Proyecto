@@ -421,27 +421,42 @@ namespace ProyectoInge
         public void llenarGrid()
         {
             DataTable dt = crearTablaRequerimientos();
-            int numCols = dt.Rows.Count;
-            int indice=0;
+            int numCols = dt.Columns.Count;
+            
+            //int indice=0;
             Object[] datos = new Object[numCols];
-            for (int i = 0; i < numCols; i++)
-            {
-                datos[i] = "";
-            }
+            
+            
             String proyecto = comboProyecto.Text;
+            
+            int i = 0;
             //METO EL PROYECTO
             if (proyecto != "Seleccione")
             {
-                datos[indice] = proyecto;
-                indice++;
+                Debug.Write("!!!!>"+proyecto);
+                datos[i] = proyecto;
+                i++;
+                
             }
+            
             //METE EL DISENO
             String diseno = comboBoxDiseno.Text;
             if (diseno != "Seleccione")
             {
-                datos[indice] = proyecto;
-                indice++;
+                datos[i] = diseno;
+                i++;
+            } 
+            //METE EL CASO
+            String caso = comboBoxDiseno.Text;
+            if (caso != "Seleccione")
+            {
+                datos[i] = diseno;
             }
+            for (i = 3; i < numCols; i++)
+            {
+                datos[i] = "-";
+            }
+            /**
             //METO LOS MODULOS
             int numModulos=0;
             for (int i = 0; i < chklistModulos.Items.Count; i++ )
@@ -491,33 +506,6 @@ namespace ProyectoInge
                     datosModulos[i] = resultado;
                 }
             }
-            //METE CASOS DE PRUEBA
-            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
-            {
-                //DEBERIA IR METIENDO A UN DICCIONARIO TODOS LOS IDS DE LOS CASOS
-                String r = "";
-                //la única forma de filtrar los casos es por medio de diseño
-                DataTable casos = controladoraReporte.consultarInformacionCasos(diseno);//AQUI viene id,prop,result
-                if (this.checkBoxPropositoCaso.Checked == true && this.checkBoxResultadoEsperado.Checked == true)
-                {
-                    foreach (DataRow prop in casos.Rows) {
-                        r += "Caso:"+prop[0].ToString() +"\n Propósito: "+prop[1].ToString() +" Resultado esperado: "+prop[2]+"\n \n";
-                    }
-                }else if (this.checkBoxPropositoCaso.Checked == true)
-                {
-                    foreach (DataRow prop in casos.Rows)
-                    {
-                        r += "Caso:" + prop[0].ToString() + "\n Propósito: " + prop[1].ToString() + "\n \n";
-                    }
-                }
-                else if (this.checkBoxResultadoEsperado.Checked == true)
-                {
-                    foreach (DataRow prop in casos.Rows)
-                    {
-                        r += "Caso:" + prop[0].ToString() + " Resultado esperado: " + prop[2] + "\n \n";
-                    }
-                }
-            }
             //METE LAS EJECUCIONES DE PRUEBA
             if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked == true)
             {
@@ -534,7 +522,8 @@ namespace ProyectoInge
                     }
                 }
             }
-
+             * */
+            dt.Rows.Add(datos);
             this.gridReportes.DataSource = dt;
             this.gridReportes.DataBind();
         }
@@ -565,6 +554,9 @@ namespace ProyectoInge
             DataColumn columna;
             String proyecto = comboProyecto.Text;
             String diseno = comboBoxDiseno.Text;
+            String caso = comboBoxCaso.Text;
+            int numModulos=0;
+            int numReqs = 0;
             if (proyecto != "Seleccione")
             {
                 columna = new DataColumn();
@@ -572,7 +564,30 @@ namespace ProyectoInge
                 columna.ColumnName = "Proyecto";
                 dt_casos.Columns.Add(columna);
             }
-            if (this.chklistModulos.Items.Count > 0)
+            if (diseno != "Seleccione")
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Diseño";
+                dt_casos.Columns.Add(columna);
+            }
+            if (caso != "Seleccione")
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Caso de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            for (int i = 0; i < chklistModulos.Items.Count - 1; ++i)
+            {
+                if (this.chklistModulos.Items[i].Selected == true)
+                {
+                    ++numModulos;
+                }
+            }
+            Debug.Write("!!!!!!!>" + numModulos);
+
+            if (numModulos > 0 || chklistModulos.Items[chklistModulos.Items.Count-1].Selected==true)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
@@ -580,32 +595,34 @@ namespace ProyectoInge
                 dt_casos.Columns.Add(columna);
 
             }
-            if (this.chklistReq.Items.Count > 0)
+            for (int i = 0; i < chklistReq.Items.Count - 1; ++i)
+            {
+                if (this.chklistReq.Items[i].Selected == true)
+                {
+                    ++numReqs;
+                }
+            }
+            Debug.Write("!!!!!!!>" + numReqs);
+
+            if (numReqs  > 0)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
                 columna.ColumnName = "Requerimientos";
                 dt_casos.Columns.Add(columna);
             }
-            if (diseno != null)
-            {
-                columna = new DataColumn();
-                columna.DataType = System.Type.GetType("System.String");
-                columna.ColumnName = "Diseño";
-                dt_casos.Columns.Add(columna);
-            }
-            if (this.checkBoxPropositoCaso.Checked == true || this.checkBoxResultadoEsperado.Checked == true)
-            {
-                columna = new DataColumn();
-                columna.DataType = System.Type.GetType("System.String");
-                columna.ColumnName = "Caso de Pruebas";
-                dt_casos.Columns.Add(columna);
-            }
-            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked==true)
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
                 columna.ColumnName = "Estado de ejecucion de Pruebas";
+                dt_casos.Columns.Add(columna);
+            }
+            if (this.checkBoxConf.Checked == true || this.checkBoxConf.Checked == true)
+            {
+                columna = new DataColumn();
+                columna.DataType = System.Type.GetType("System.String");
+                columna.ColumnName = "Métricas";
                 dt_casos.Columns.Add(columna);
             }
             return dt_casos;
