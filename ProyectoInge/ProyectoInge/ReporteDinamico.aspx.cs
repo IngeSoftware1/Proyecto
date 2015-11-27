@@ -11,6 +11,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.Diagnostics;
 
 namespace ProyectoInge
 {
@@ -174,7 +175,7 @@ namespace ProyectoInge
                 if (this.chklistReq.Items[i].Selected == true)
                 {
                     ++contadorReq;
-                    cadena = (chklistReq.Items[i].Text).Substring(0, 5);
+                    cadena = (chklistReq.Items[i].Text).Substring(0, 6);
                     requerimientos[indice] = chklistReq.Items[i].Text;
                     ++indice;
                 }
@@ -182,7 +183,10 @@ namespace ProyectoInge
 
             //meter el id de diseño y el proposito al dictionary
 
+            this.comboBoxDiseno.Items.Clear();
             id = Int32.Parse(Session["idProyecto"].ToString());
+
+            
 
             //con el siguiente se devuelven los ids de los diseños y los propositos de los diseños  
             DataTable disenos = controladoraReporte.consultarDisenosReq(id, requerimientos, contadorReq);
@@ -194,25 +198,26 @@ namespace ProyectoInge
             string proposito = "";
             int contador = 0;
             Object[] propositosDiseno;
+
+            Debug.WriteLine("longitud es "+ numDatos);
+            
             foreach (DataRow fila in disenos.Rows)
             {
                 idDiseno = fila[0].ToString();
                 proposito = fila[1].ToString();
-
                 id_propositosDisenos.Add(idDiseno, proposito);
-                
                 contador++;
             }
 
 
-            if (contador >0)
+            if (numDatos >0)
             {
-                propositosDiseno = new Object[contador + 1];
+                propositosDiseno = new Object[numDatos+1];
                 propositosDiseno[0] = "Seleccione";
-
-                for(int i = 1; i<contador; i++ )
+             
+                for(int i = 1; i<=numDatos; i++ )
                 {
-                    propositosDiseno[i] = id_propositosDisenos.ElementAt(i);
+                    propositosDiseno[i] = disenos.Rows[0][1].ToString();
                 }
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
@@ -758,11 +763,9 @@ namespace ProyectoInge
                 }
             }
 
-
             if(contadorModulos != 0){
                 llenarRequerimientos();
                 UpdatePanel3.Update();
-                llenarComboDiseno();
             }else if(contadorModulos == 0){
                 chklistReq.Items.Clear();
                 UpdatePanel3.Update();
@@ -817,6 +820,7 @@ namespace ProyectoInge
             else if (contadorReq == 0)
             {
                 chklistReq.Items.Clear();
+                this.comboBoxDiseno.Items.Clear();
                 UpdatePanel3.Update();
             }
         }

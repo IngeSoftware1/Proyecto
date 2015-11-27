@@ -5,7 +5,7 @@ using System.Web;
 using System.Data;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data.SqlClient;
-
+using System.Diagnostics;
 
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
@@ -638,8 +638,9 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 for (int i = 0; i < contadorReq; ++i)
                 {
+  
                     ++contador;
-                    consulta = consulta + " " + "SELECT distinct d.id_diseno, distinct d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '" + requerimientos[i].ToString() + "' AND id_proyecto ='" + id + "');";
+                    consulta = consulta + " " + "SELECT d.id_diseno, d.proposito_diseno FROM Diseno_Pruebas d WHERE d.id_diseno IN (SELECT id_diseno FROM Requerimiento_Diseno WHERE id_req = '"+requerimientos[i].ToString().Substring(0,6)+"' AND id_proyecto ='"+id+"');";
                     if (contador != contadorReq)
                     {
                         consulta = consulta + "UNION";
@@ -648,7 +649,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
                 }
 
-
+                Debug.WriteLine("la consulta es es:"+consulta);
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

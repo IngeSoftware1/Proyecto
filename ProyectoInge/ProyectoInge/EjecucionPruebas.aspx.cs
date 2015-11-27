@@ -53,8 +53,11 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnEliminar);
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);
+                    this.comboDiseño.Enabled = false;
+                    this.comboResponsable.Enabled = false;                      
                     gridTipoNC_Inicial(0, false);
                     habilitarCampos(false);
+                    cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(null);
                 }
@@ -65,7 +68,11 @@ namespace ProyectoInge
                     cambiarEnabled(false, this.btnEliminar);
                     cambiarEnabled(false, this.btnAceptar);
                     cambiarEnabled(false, this.btnCancelar);
+                    this.comboDiseño.Enabled = false;
+                    this.comboResponsable.Enabled = false;     
                     gridTipoNC_Inicial(0, false);
+                    habilitarCampos(false);
+                    cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
                     //  llenarGrid(Session["cedula"].ToString());
                 }
@@ -93,11 +100,7 @@ namespace ProyectoInge
         protected void habilitarCampos(bool condicion)
         {
             txtIncidencias.Enabled = condicion;
-            comboResponsable.Enabled = condicion;
-            this.comboDiseño.Enabled = condicion;
             this.comboProyecto.Enabled = condicion;
-            this.comboResponsable.Enabled = condicion;
-            cambiarEnabledGridNC(condicion);
         }
 
         protected void cambiarEnabledGridNC(bool condicion)
@@ -109,8 +112,7 @@ namespace ProyectoInge
             (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Enabled = condicion;
             (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).Enabled = condicion;
-            (gridNoConformidades.FooterRow.FindControl("lnkCargarImagen") as Button).Enabled = condicion;
-
+            (gridNoConformidades.FooterRow.FindControl("lnkCargarImagenFoot") as LinkButton).Enabled = condicion;
         }
 
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
@@ -335,6 +337,7 @@ namespace ProyectoInge
 
                 if (Recursos != null && Recursos.Rows.Count >= 1) //bloque para consultar miembros
                 {
+                    this.comboResponsable.Enabled = true;
                     numDatos = Recursos.Rows.Count;
                     datos = new Object[numDatos + 2];
 
@@ -479,6 +482,7 @@ namespace ProyectoInge
 
             if (disenos.Rows.Count >= 1)
             {
+                this.comboDiseño.Enabled = true;
                 numDatos = disenos.Rows.Count;
                 datos = new Object[numDatos + 1];
 
@@ -628,6 +632,7 @@ namespace ProyectoInge
                     llenarComboCasos(idDiseno, true);
                 }
 
+                cambiarEnabledGridNC(true);
                 llenarDatosDiseno(idDiseno, Int32.Parse(Session["idProyectoEjecucion"].ToString()));
                 gridTipoNC_Inicial(idDiseno, true);
             }
@@ -646,7 +651,7 @@ namespace ProyectoInge
             this.panelDiseno.Visible = false;
             this.datosDiseno.Visible = false;
             this.lblDatosDiseño.Visible = false;
-
+         
             gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
 
             UpdateProyectoDiseno.Update();
@@ -736,7 +741,6 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
             habilitarCampos(true);
-            cambiarEnabledGridNC(true);
             Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
 
         }
@@ -1245,20 +1249,13 @@ namespace ProyectoInge
             }
         }
 
-        protected void btnVerImagen_Click(object sender, EventArgs e)
+   /*     protected void btnVerImagen_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("esto tiene el bise " + base64String);
-
-
-            imagenMostrada.ImageUrl = "data:image/png;base64," + base64String; 
-
-     //       imagenMostrada.ImageUrl = "data:image/png;base64," + base64String; 
-
-          //  imagenMostrada.ImageUrl = "data:image/png;base64," + imagenMostrar;
-        //    image1.ImageUrl = "data:image/png;base64," + base64String;
-
+            imagenMostrada.ImageUrl = "data:image/png;base64," + base64String;
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
-        }
+            updateModalImagen.Update();
+        //  ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
+        } */
 
 
 
@@ -1270,7 +1267,7 @@ namespace ProyectoInge
         protected void CancelarImagen(object sender, EventArgs e)
         {
             imagen = null;
-            base64String = "";
+            base64String = " ";
         }
 
         /** Método para agregar una nuevo no conformidad en el grid.
@@ -1306,8 +1303,6 @@ namespace ProyectoInge
                     dr[3] = lblJustificacion.Text;
                     dr[4] = lblEstado.Text;
                     dr[6] = lblImagen.Text;
-                    imagenMostrar = lblImagen.Text;
-                    
 
                     dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
                 }
@@ -1331,18 +1326,16 @@ namespace ProyectoInge
                 string justificacion = (gridNoConformidades.FooterRow.FindControl("txtJustificacion") as TextBox).Text;
                 string estado = (gridNoConformidades.FooterRow.FindControl("comboEstado") as DropDownList).SelectedItem.Value;
 
-
+                Debug.WriteLine("esto tiene la imagen a guardar en el foot " + base64String);
                 dr[0] = comboTipoNC;
                 dr[1] = idCaso;
                 dr[2] = descripcion;
                 dr[3] = justificacion;
                 dr[4] = estado;
                 dr[6] = base64String;
-
-                imagenMostrar = base64String;
+                base64String = " ";
 
                 dt.Rows.Add(dr); // Agrega las filas
-
 
 
                 gridNoConformidades.DataSource = dt;
@@ -1634,6 +1627,37 @@ namespace ProyectoInge
                 llenarComboEstados(true);
 
             }
+            else if(e.CommandName == "mostrarImagen")
+            {
+                fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+                gvr = gridNoConformidades.Rows[fila];
+                Label lblImagen =  gvr.FindControl("lblImagenInvisible") as Label;
+
+                if(lblImagen.Text == " ")
+                {
+                    Debug.WriteLine("entre a imagen vacia");
+                    imagenMostrada.Visible = false;
+                    lblImagenMostrar.Text = "No hay imágenes asociadas a esta no conformidad";
+                    lblImagenMostrar.Visible = true;
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
+                    updateModalImagen.Update();
+                }
+                else
+                {
+                    imagenMostrada.Visible = true;
+                    lblImagenMostrar.Visible = false;
+                    imagenMostrada.ImageUrl = "data:image/png;base64," + lblImagen.Text;
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalVerImagen", "$('#modalVerImagen').modal();", true);
+                    updateModalImagen.Update();
+                }
+                
+            }
+            else if (e.CommandName == "cargarImagen")
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalImagen", "$('#modalImagen').modal();", true);
+            }
+
+           
 
 
             /*     else if (e.CommandName.Equals("cargarImagen"))
