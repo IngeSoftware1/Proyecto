@@ -17,7 +17,7 @@ namespace ProyectoInge
 {
     public partial class ReporteDinamico : System.Web.UI.Page
     {
- 
+
         ControladoraReportes controladoraReporte = new ControladoraReportes();
 
         private string idProyectoConsultado;
@@ -165,7 +165,7 @@ namespace ProyectoInge
             int id = 0;
             //Debug.WriteLine("Estoy aca");
             Object[] requerimientos;
-           // String cadena = "";
+            // String cadena = "";
             int numDatos = 0;
             int contadorReq = 0;
             int indice = 0;
@@ -199,27 +199,27 @@ namespace ProyectoInge
             Object[] propositosDiseno;
             int indiceDos = 0;
 
-            Debug.WriteLine("longitud es "+ numDatos);
-            
+            Debug.WriteLine("longitud es " + numDatos);
+
             foreach (DataRow fila in disenos.Rows)
             {
                 idDiseno = fila[0].ToString();
                 proposito = fila[1].ToString();
-                id_propositosDisenos.Add(proposito,idDiseno);
+                id_propositosDisenos.Add(proposito, idDiseno);
                 contador++;
             }
 
 
-            if (numDatos >0)
+            if (numDatos > 0)
             {
-                propositosDiseno = new Object[numDatos+1];
+                propositosDiseno = new Object[numDatos + 1];
                 propositosDiseno[0] = "Seleccione";
-             
-                for(int i = 1; i<=numDatos; i++ )
+
+                for (int i = 1; i <= numDatos; i++)
                 {
 
-                   propositosDiseno[i] = disenos.Rows[indiceDos][1].ToString();
-                   ++indiceDos;
+                    propositosDiseno[i] = disenos.Rows[indiceDos][1].ToString();
+                    ++indiceDos;
                 }
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
@@ -240,34 +240,34 @@ namespace ProyectoInge
             {
 
             }
-            else {
+            else
+            {
 
                 DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
                 Object[] cProps;
-                if (casos.Rows.Count>0)
+                if (casos.Rows.Count > 0)
                 {
-                    Debug.Print("num casos mayor a 0");
-                    cProps = new Object[casos.Rows.Count + 1];
+                    cProps = new Object[casos.Rows.Count + 2];
                     int c = 0;
                     cProps[0] = "Seleccione";
                     c++;
                     foreach (DataRow fila in casos.Rows)
                     {
                         Debug.Print(fila[0].ToString());
-                        cProps[c]=fila[0].ToString();
+                        cProps[c] = fila[0].ToString();
                         c++;
                     }
-
+                    cProps[c] = "Todos";
                     this.comboBoxCaso.DataSource = cProps;
                     this.comboBoxCaso.DataBind();
                 }
                 else
                 {
-                    cProps = new Object[1];
+                    cProps = new Object[2];
                     cProps[0] = "Seleccione";
                     this.comboBoxCaso.DataSource = cProps;
                     this.comboBoxCaso.DataBind();
-                    
+
                 }
             }
             Debug.Print("updates");
@@ -429,45 +429,59 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaRequerimientos();
             int numCols = dt.Columns.Count;
-            
+
             //int indice=0;
             Object[] datos = new Object[numCols];
-            
-            
+
+
             String proyecto = comboProyecto.Text;
-            
+
             int i = 0;
             //METO EL PROYECTO
             if (proyecto != "Seleccione")
             {
-                Debug.Write("!!!!>"+proyecto);
+                Debug.Write("!!!!>" + proyecto);
                 datos[i] = proyecto;
                 i++;
-                
             }
-            
             //METE EL DISENO
             String diseno = comboBoxDiseno.Text;
             if (diseno != "Seleccione")
             {
                 datos[i] = diseno;
                 i++;
-            } 
+            }
             //METE EL CASO
-            //VARIABLE SESION, QUE ME DICE SI SE SELECCIONA SOLO UN CASO SI NO
-            String caso = comboBoxDiseno.Text;
-            if (caso != "Seleccione")
+            String caso = comboBoxCaso.Text;
+            Object[] casosObj=null;
+            int numCasos = 0;
+            Debug.Write("!!!!!!!!!!!!?????????????????");
+            if (caso == "Seleccione")
+            { }
+            else if (caso == "Todos")
             {
-                datos[i] = diseno;
-                i++;
+                caso = "";
+                Debug.Write("Todos los casos");
+                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
+                numCasos = casos.Rows.Count;
+                casosObj = new Object[numCasos];
+                if (casos.Rows.Count > 0)
+                {
+                    int c = 0;
+                    foreach (DataRow fila in casos.Rows)
+                    {
+                        Debug.Write(caso);
+                        caso += fila[0].ToString()+"\n";
+                        casosObj[c] = fila[0].ToString();
+                        c++;
+                    }
+                }
             }
-            else if (caso != "Todos")
-            {
-
-            }
+            datos[i] = caso;
+            i++;
             //METO LOS MODULOS
-            int numModulos=0;
-            String modulos="-";
+            int numModulos = 0;
+            String modulos = "-";
             for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
             {
                 if (this.chklistModulos.Items[j].Selected == true)
@@ -475,29 +489,28 @@ namespace ProyectoInge
                     ++numModulos;
                 }
             }
-            Debug.Write("!!!>" + numModulos);
-            if (numModulos > 0 )
+            if (numModulos > 0)
             {
                 for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
                 {
-                    Debug.Write("!!!>0");
                     if (this.chklistModulos.Items[j].Selected == true)
                     {
                         modulos += this.chklistModulos.Items[j].ToString() + "\n";
                     }
                 }
-            } else if(chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true){
+            }
+            else if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
+            {
                 for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
                 {
-                    Debug.Write("!!!>1" );
-                    modulos += this.chklistModulos.Items[j].ToString() +"\n";
+                    modulos += this.chklistModulos.Items[j].ToString() + "\n";
                 }
             }
             datos[i] = modulos;
             i++;
             //METE LOS REQUERIMIENTOS
             int numRequerimientos = 0;
-            String requerimientos="-";
+            String requerimientos = "-";
             for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
             {
                 if (this.chklistReq.Items[j].Selected == true)
@@ -505,12 +518,10 @@ namespace ProyectoInge
                     ++numRequerimientos;
                 }
             }
-            Debug.Write("!!!>" + numRequerimientos);
             if (numRequerimientos > 0)
             {
                 for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
                 {
-                    Debug.Write("!!!>0");
                     if (this.chklistReq.Items[j].Selected == true)
                     {
                         requerimientos += this.chklistReq.Items[j].ToString() + "\n";
@@ -528,35 +539,81 @@ namespace ProyectoInge
             datos[i] = requerimientos;
             i++;
             //METE LAS EJECUCIONES DE PRUEBA
+            DataTable ejecs = null;
             String ejecuciones = "-";
-            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true )
+            Debug.Write("!!!EJECUCIONES");
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true)
             {
                 if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true)
                 {
-
+                    Debug.Write("!!!>1");
+                    ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 1);
+                    if (ejecs != null)
+                    {
+                        foreach (DataRow fila in ejecs.Rows)
+                        {
+                            String parte = "";
+                            parte = "Id caso:" + fila[0].ToString() + "Id tipo no conformidad: " + fila[1].ToString() + "Estado ejecución: " + fila[2].ToString() + "\n";
+                            ejecuciones += parte;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Write("Viene nula");
+                    }
                 }
                 else if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == false)
                 {
-
+                    Debug.Write("!!!>2");
+                    ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 2);
+                    if (ejecs != null)
+                    {
+                        foreach (DataRow fila in ejecs.Rows)
+                        {
+                            String parte = "";
+                            parte = "Id caso:" + fila[0].ToString() + "Estado ejecución: " + fila[1].ToString() + "\n";
+                            ejecuciones += parte;
+                        }
+                    }
                 }
                 else if (this.checkBoxEstadoEjecucion.Checked == false && this.checkBoxID_TipoNC.Checked == true)
                 {
-
+                    Debug.Write("!!!>3");
+                    ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 3);
+                    if (ejecs != null)
+                    {
+                        foreach (DataRow fila in ejecs.Rows)
+                        {
+                            ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 2);
+                            String parte = "";
+                            parte = "Id caso:" + fila[0].ToString() + "Id tipo no conformidad: " + fila[1].ToString() +"\n";
+                            ejecuciones += parte;
+                        }
+                    }
                 }
+                datos[i] = ejecuciones;
+                i++;
             }
-            datos[i] = ejecuciones;
-            i++;
+            
             //METE LAS METRICAS
             String metricas = "-";
             if (this.checkBoxConf.Checked == true || this.checkBoxNC.Checked == true)
             {
-
+                if (this.checkBoxConf.Checked == true && this.checkBoxNC.Checked == true)
+                {
+                    metricas = "1";
+                }
+                else if (this.checkBoxConf.Checked == true && this.checkBoxNC.Checked == false)
+                {
+                    metricas = "2";
+                }
+                else if (this.checkBoxConf.Checked == false && this.checkBoxNC.Checked == true)
+                {
+                    metricas = "3";
+                }
+                datos[i] = metricas;
             }
-            datos[i] = metricas;
-            for (i = 7; i < numCols; i++)
-            {
-                datos[i] = "-";
-            }
+            
             dt.Rows.Add(datos);
             this.gridReportes.DataSource = dt;
             this.gridReportes.DataBind();
@@ -579,7 +636,7 @@ namespace ProyectoInge
             String proyecto = comboProyecto.Text;
             String diseno = comboBoxDiseno.Text;
             String caso = comboBoxCaso.Text;
-            int numModulos=0;
+            int numModulos = 0;
             int numReqs = 0;
             if (proyecto != "Seleccione")
             {
@@ -611,7 +668,7 @@ namespace ProyectoInge
             }
             Debug.Write("!!!!!!!>" + numModulos);
 
-            if (numModulos > 0 || chklistModulos.Items[chklistModulos.Items.Count-1].Selected==true)
+            if (numModulos > 0 || chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
@@ -628,7 +685,7 @@ namespace ProyectoInge
             }
             Debug.Write("!!!!!!!>" + numReqs);
 
-            if (numReqs  > 0)
+            if (numReqs > 0)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
@@ -654,7 +711,7 @@ namespace ProyectoInge
 
         //metodo para llenar los modulos morequerimientos del proyecto
         protected void llenarRequerimientosProyecto(int idProyecto)
-        {   
+        {
             DataTable datosReqProyecto = controladoraReporte.consultarReqProyecto(idProyecto);
             string requerimiento = "";
             int contador = 0;
@@ -667,8 +724,9 @@ namespace ProyectoInge
                 {
                     //se gurdaran en requerimiento todos los ids de los requerimeintos
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
-                    if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)                    {
-                         chklistModulos.Items.Add(requerimiento.Substring(3,2));                        ++contador;
+                    if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)
+                    {
+                        chklistModulos.Items.Add(requerimiento.Substring(3, 2)); ++contador;
                     }
                 }
             }
@@ -691,31 +749,34 @@ namespace ProyectoInge
             int contadorModulos = 0;
             int indice = 0;
             modulos = new Object[chklistModulos.Items.Count];
-            
-             Boolean indicador = false;
 
-            if(this.chklistModulos.Items[chklistModulos.Items.Count-1].Selected == true){
+            Boolean indicador = false;
+
+            if (this.chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
+            {
                 indicador = true;
             }
 
-            for (int i = 0; i < chklistModulos.Items.Count-1; ++i )
-            {                if(this.chklistModulos.Items[i].Selected == true || indicador == true){
+            for (int i = 0; i < chklistModulos.Items.Count - 1; ++i)
+            {
+                if (this.chklistModulos.Items[i].Selected == true || indicador == true)
+                {
                     ++contadorModulos;
                     modulos[indice] = chklistModulos.Items[i].Text;
                     ++indice;
                 }
             }
-           DataTable datosReqProyecto = controladoraReporte.consultarReqModulos(modulos,contadorModulos);
+            DataTable datosReqProyecto = controladoraReporte.consultarReqModulos(modulos, contadorModulos);
             string requerimiento = "";
             int contador = 0;
             requerimiento = "";
-        
+
 
             if (datosReqProyecto != null && datosReqProyecto.Rows.Count >= 1)
             {
                 for (int i = 0; i < datosReqProyecto.Rows.Count; ++i)
                 {
-                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " "+ datosReqProyecto.Rows[i][2].ToString();
+                    requerimiento = datosReqProyecto.Rows[i][0].ToString() + " " + datosReqProyecto.Rows[i][2].ToString();
                     if (chklistReq.Items.FindByText(requerimiento) == null)
                     {
                         ///se guarda el id del requerimiento con su nombre
@@ -728,12 +789,12 @@ namespace ProyectoInge
             //se añade la opcion de Todos los requerimientos cuando se añade en el checklist uno o mas requerimientos
             if (1 < contador)
             {
-                   chklistReq.Items.Add("Todos los requerimientos");
-            }      
-               chklistReq.DataBind();
-                proyectoUpdate.Update();
-                updateChklist.Update();        
+                chklistReq.Items.Add("Todos los requerimientos");
             }
+            chklistReq.DataBind();
+            proyectoUpdate.Update();
+            updateChklist.Update();
+        }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
@@ -754,7 +815,7 @@ namespace ProyectoInge
                 comboDisenoUpdate.Update();
                 UpdatePanelCaso.Update();
                 updateChklist.Update();
-            }           
+            }
         }
 
 
@@ -768,8 +829,8 @@ namespace ProyectoInge
             {
                 disenos.TryGetValue(propDiseno, out idDiseno);
                 id = Int32.Parse(idDiseno);
-                Debug.WriteLine("id del caso"+id);
-            
+                Debug.WriteLine("id del caso" + id);
+
                 Session["idDiseno"] = id;
                 llenarComboCaso();
                 UpdatePanelCaso.Update();
@@ -785,22 +846,26 @@ namespace ProyectoInge
         protected void seleccionarChkListModulos(object sender, EventArgs e)
         {
             int contadorModulos = 0;
-            for (int i = 0; i < chklistModulos.Items.Count; ++i )
+            for (int i = 0; i < chklistModulos.Items.Count; ++i)
             {
-                if(this.chklistModulos.Items[i].Selected == true){
+                if (this.chklistModulos.Items[i].Selected == true)
+                {
                     ++contadorModulos;
 
                 }
             }
-            if(contadorModulos != 0){
+            if (contadorModulos != 0)
+            {
                 llenarRequerimientos();
                 updateChklist.Update();
-            }else if(contadorModulos == 0){
+            }
+            else if (contadorModulos == 0)
+            {
                 chklistReq.Items.Clear();
                 this.comboBoxDiseno.Items.Clear();
                 comboDisenoUpdate.Update();
                 updateChklist.Update();
-            }        
+            }
         }
 
         //dropDownListDescargar
@@ -847,7 +912,7 @@ namespace ProyectoInge
             {
                 llenarComboDiseno();
                 comboDisenoUpdate.Update();
-                
+
             }
             else if (contadorReq == 0)
             {

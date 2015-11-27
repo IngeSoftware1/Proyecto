@@ -14,7 +14,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         ControladoraProyecto controladoraProyectos;
         ControladoraDiseno controladoraDiseno;
         ControladoraCasosPrueba controladoraCasos;
-
+        ControladoraEjecucion controladoraEjecucion;
 
         /* Método para obtener los nombres de los proyectos 
            * Requiere: no requiere informacion
@@ -132,6 +132,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         {
             controladoraCasos= new ControladoraCasosPrueba();
             return controladoraCasos.consultarCasosDePruebaAsociadoADisenoID(idDiseno);
+        }
+
+        internal DataTable consultarEjecuciones(Object[] caso, int numCasos, int p)
+        {
+            controladoraEjecucion = new ControladoraEjecucion();
+            return controladoraEjecucion.consultarEjecucionesDePrueba(caso, numCasos,p);
         }
     }
 }

@@ -270,6 +270,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraCasosPruebas = new ControladoraCasosPrueba();
             return controladoraCasosPruebas.consultarIdCasoPrueba(identificador);
         }
+        internal DataTable consultarEjecucionesDePrueba(Object[] caso, int numCasos, int p)
+        {
+            return controladoraBDEjecucion.consultarEjecucionesDePrueba(caso, numCasos, p);
+        }
     }
 
 

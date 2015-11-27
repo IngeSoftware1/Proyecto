@@ -229,7 +229,6 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
                 consulta = "SELECT *" + " FROM Caso_Ejecutado WHERE id_ejecucion  = '" + idEjecucion + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
-
             }
             catch (SqlException e)
             {
@@ -239,8 +238,44 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        internal DataTable consultarEjecucionesDePrueba(Object[] casos, int numCasos, int p)
+        {
+            DataTable dt = new DataTable();
+            string consulta="";
+            try
+            {
+                int contador = 0;
+                Debug.WriteLine("numcasos: " + numCasos);
+                for (int i = 0; i < numCasos; ++i)
+                {
+                    Debug.WriteLine(casos[i]);
+                    switch(p){
+                        case 1:
+                        consulta = consulta + " " + "SELECT id_caso, id_tipoNC, estado_ejecucion FROM Caso_Ejecutado WHERE id_caso = (select id_caso from Caso_Prueba where identificador_caso= '" + casos[i] + "')";
+                        break;
+                        case 2:
+                        consulta = consulta + " " + "SELECT id_caso, estado_ejecucion FROM Caso_Ejecutado WHERE id_caso = (select id_caso from Caso_Prueba where identificador_caso= '" + casos[i] + "')";
+                        break;
+                        case 3:
+                        consulta = consulta + " " + "SELECT id_caso, id_tipoNC FROM Caso_Ejecutado WHERE id_caso = (select id_caso from Caso_Prueba where identificador_caso= '" + casos[i] + "')";
+                        break;
+                    }
+                    if (contador != numCasos-1)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+                    contador++;
+                }
+                consulta = consulta + ";";
+                Debug.WriteLine("la consulta es es:" + consulta);
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
 
-
-
+            return dt;
+        }
     }
 }
