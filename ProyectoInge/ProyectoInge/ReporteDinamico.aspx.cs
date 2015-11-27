@@ -414,8 +414,15 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
-           
-            llenarGrid();
+            if (!faltanDatos())
+            {
+                llenarGrid();
+            }
+        }
+
+        private bool faltanDatos()
+        {
+            return false;
         }
 
         public void llenarGrid()
@@ -447,95 +454,112 @@ namespace ProyectoInge
                 i++;
             } 
             //METE EL CASO
+            //VARIABLE SESION, QUE ME DICE SI SE SELECCIONA SOLO UN CASO SI NO
             String caso = comboBoxDiseno.Text;
             if (caso != "Seleccione")
             {
                 datos[i] = diseno;
+                i++;
             }
-            for (i = 3; i < numCols; i++)
+            else if (caso != "Todos")
             {
-                datos[i] = "-";
+
             }
-            /**
             //METO LOS MODULOS
             int numModulos=0;
-            for (int i = 0; i < chklistModulos.Items.Count; i++ )
+            String modulos="-";
+            for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
             {
-                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                if (this.chklistModulos.Items[j].Selected == true)
                 {
-                    numModulos++;
+                    ++numModulos;
                 }
             }
-            Object[] datosModulos = new Object[numModulos];
-            for (int i = 0; i < numModulos; i++)
+            Debug.Write("!!!>" + numModulos);
+            if (numModulos > 0 )
             {
-                datosModulos[i] = "";
-            }
-            for (int i = 0; i < chklistModulos.Items.Count; i++ )
-            {
-                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
                 {
-                    String modulo = this.chklistModulos.Items[i].Text;
-                    datosModulos[i] = modulo;
+                    Debug.Write("!!!>0");
+                    if (this.chklistModulos.Items[j].Selected == true)
+                    {
+                        modulos += this.chklistModulos.Items[j].ToString() + "\n";
+                    }
+                }
+            } else if(chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true){
+                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                {
+                    Debug.Write("!!!>1" );
+                    modulos += this.chklistModulos.Items[j].ToString() +"\n";
                 }
             }
+            datos[i] = modulos;
+            i++;
             //METE LOS REQUERIMIENTOS
             int numRequerimientos = 0;
-            for (int i = 0; i < chklistModulos.Items.Count; i++)
+            String requerimientos="-";
+            for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
             {
-                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                if (this.chklistReq.Items[j].Selected == true)
                 {
-                    numRequerimientos++;
+                    ++numRequerimientos;
                 }
             }
-            Object[] datosRequerimientos = new Object[numRequerimientos];
-            for (int i = 0; i < numModulos; i++)
+            Debug.Write("!!!>" + numRequerimientos);
+            if (numRequerimientos > 0)
             {
-                datosRequerimientos[i] = "";
-            }
-            for (int i = 0; i < chklistReq.Items.Count; i++)
-            {
-                if (this.chklistModulos.Items[i].Selected == true)//DIGAMOS QUE ESTO NOS DICE QUE EL CHECK ESTA SELECCIONADO
+                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
                 {
-                    String requrimiento = this.chklistModulos.Items[i].Text;
-                    String idReq = conseguirId(requrimiento);
-                    String nombreReq = conseguirNombre(requrimiento);
-                    String porcentajeConformidad = calcularPorcentajeConformidad(idReq);
-                    String porcentajeNoConformidad = calcularPorcentajeNoConformidad(idReq);
-                    String resultado = "Id: " + idReq + "Nombre: "+nombreReq+ "\n %Conformidad: " + porcentajeConformidad + "\n % No conformidad: " + porcentajeNoConformidad;
-                    datosModulos[i] = resultado;
-                }
-            }
-            //METE LAS EJECUCIONES DE PRUEBA
-            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true || this.checkBoxNC.Checked == true)
-            {
-                //AQUI RECORRO EL DICCIONARIO O EL OBJETO
-                String idCaso = "";
-                String r = "";
-                //la única forma de filtrar los casos es por medio de diseño
-                DataTable casos = controladoraReporte.consultarInformacionEjecuciones(idCaso);//AQUI viene id,estado,tipoNC,
-                if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true && this.checkBoxNC.Checked == true)
-                {
-                    foreach (DataRow prop in casos.Rows)
+                    Debug.Write("!!!>0");
+                    if (this.chklistReq.Items[j].Selected == true)
                     {
-                        r += "Id ejecucion:" + prop[0].ToString() + "\n Estado: " + prop[1].ToString() + " Tipo no conformidad: " + prop[2] + "\n \n";
+                        requerimientos += this.chklistReq.Items[j].ToString() + "\n";
                     }
                 }
             }
-             * */
+            else if (chklistReq.Items[chklistReq.Items.Count - 1].Selected == true)
+            {
+                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+                {
+                    Debug.Write("!!!>1");
+                    requerimientos += this.chklistReq.Items[j].ToString() + "\n";
+                }
+            }
+            datos[i] = requerimientos;
+            i++;
+            //METE LAS EJECUCIONES DE PRUEBA
+            String ejecuciones = "-";
+            if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true )
+            {
+                if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true)
+                {
+
+                }
+                else if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == false)
+                {
+
+                }
+                else if (this.checkBoxEstadoEjecucion.Checked == false && this.checkBoxID_TipoNC.Checked == true)
+                {
+
+                }
+            }
+            datos[i] = ejecuciones;
+            i++;
+            //METE LAS METRICAS
+            String metricas = "-";
+            if (this.checkBoxConf.Checked == true || this.checkBoxNC.Checked == true)
+            {
+
+            }
+            datos[i] = metricas;
+            for (i = 7; i < numCols; i++)
+            {
+                datos[i] = "-";
+            }
             dt.Rows.Add(datos);
             this.gridReportes.DataSource = dt;
             this.gridReportes.DataBind();
-        }
-
-        private string conseguirNombre(string requrimiento)
-        {
-            throw new NotImplementedException();
-        }
-
-        private string conseguirId(string requrimiento)
-        {
-            throw new NotImplementedException();
         }
 
         private string calcularPorcentajeNoConformidad(string modulo)
@@ -618,7 +642,7 @@ namespace ProyectoInge
                 columna.ColumnName = "Estado de ejecucion de Pruebas";
                 dt_casos.Columns.Add(columna);
             }
-            if (this.checkBoxConf.Checked == true || this.checkBoxConf.Checked == true)
+            if (this.checkBoxConf.Checked == true || this.checkBoxNC.Checked == true)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
