@@ -13,6 +13,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         ControladoraRecursos controladoraRH;
         ControladoraProyecto controladoraProyectos;
         ControladoraDiseno controladoraDiseno;
+        ControladoraCasosPrueba controladoraCasos;
 
 
         /* Método para obtener los nombres de los proyectos 
@@ -129,7 +130,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         internal DataTable consultarCasosAociadosADiseno(string idDiseno)
         {
-            throw new NotImplementedException();
+            controladoraCasos= new ControladoraCasosPrueba();
+            return controladoraCasos.consultarCasosDePruebaAsociadoADisenoID(idDiseno);
         }
     }
 }

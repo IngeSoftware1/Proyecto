@@ -241,10 +241,10 @@ namespace ProyectoInge
 
             }
             else {
+
                 String propDiseno = comboBoxDiseno.SelectedIndex.ToString();
                 Dictionary<string, string> disenos= (Dictionary<string, string>)Session["diccionario"];
-
-                String idDiseno = "";
+                }                String idDiseno = "";
                 disenos.TryGetValue(propDiseno, out idDiseno);
 
                 DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(idDiseno);
