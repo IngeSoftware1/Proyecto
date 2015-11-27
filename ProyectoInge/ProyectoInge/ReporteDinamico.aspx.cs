@@ -176,7 +176,7 @@ namespace ProyectoInge
                 if (this.chklistReq.Items[i].Selected == true)
                 {
                     ++contadorReq;
-                    cadena = (chklistReq.Items[i].Text).Substring(0,8);
+                    //cadena = (chklistReq.Items[i].Text).Substring(0,8);
                     requerimientos[indice] = chklistReq.Items[i].Text;
                     ++indice;
                 }
@@ -278,7 +278,7 @@ namespace ProyectoInge
                 }
             }
             UpdatePanelCaso.Update();
-            UpdatePanel3.Update();
+            updateChklist.Update();
         }
 
 
@@ -697,7 +697,8 @@ namespace ProyectoInge
             }      
                chklistReq.DataBind();
                 proyectoUpdate.Update();
-               UpdatePanel3.Update();        }
+                updateChklist.Update();        
+            }
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
@@ -707,15 +708,15 @@ namespace ProyectoInge
                 id = controladoraReporte.obtenerIDconNombreProyecto(this.comboProyecto.Text);
                 Session["idProyecto"] = id;
                 llenarRequerimientosProyecto(id);
-                UpdatePanel3.Update();
+                updateChklist.Update();
             }
             else
             {
                 chklistModulos.Items.Clear();
                 chklistReq.Items.Clear();
                 comboBoxDiseno.Items.Clear();
-                UpdatePanel2.Update();
-                UpdatePanel3.Update();
+                comboDisenoUpdate.Update();
+                updateChklist.Update();
             }           
         }
 
@@ -735,9 +736,10 @@ namespace ProyectoInge
             }else if(contadorModulos == 0){
                 chklistReq.Items.Clear();
                 this.comboBoxDiseno.Items.Clear();
-                UpdatePanel2.Update();
-                UpdatePanel3.Update();
-            }        }
+                comboDisenoUpdate.Update();
+                updateChklist.Update();
+            }        
+        }
 
         //dropDownListDescargar
         protected void llenarDropDownTipoDescarga()
@@ -777,7 +779,7 @@ namespace ProyectoInge
             }
 
             this.comboBoxDiseno.Items.Clear();
-            UpdatePanel2.Update();
+            comboDisenoUpdate.Update();
 
             if (contadorReq != 0)
             {
