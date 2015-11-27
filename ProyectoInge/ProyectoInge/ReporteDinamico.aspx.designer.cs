@@ -130,13 +130,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.DropDownList comboBoxDiseno;
         
         /// <summary>
-        /// Control UpdatePanel4.
+        /// Control UpdatePanelCaso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel4;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelCaso;
         
         /// <summary>
         /// Control Label16.
@@ -148,13 +148,13 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label Label16;
         
         /// <summary>
-        /// Control DropDownList1.
+        /// Control comboBoxCaso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList comboBoxCaso;
         
         /// <summary>
         /// Control Label13.

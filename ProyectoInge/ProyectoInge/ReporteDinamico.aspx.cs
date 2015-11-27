@@ -205,7 +205,7 @@ namespace ProyectoInge
             {
                 idDiseno = fila[0].ToString();
                 proposito = fila[1].ToString();
-                id_propositosDisenos.Add(idDiseno, proposito);
+                id_propositosDisenos.Add(proposito,idDiseno);
                 contador++;
             }
 
@@ -229,10 +229,55 @@ namespace ProyectoInge
                 this.comboBoxDiseno.DataSource = propositosDiseno;
                 this.comboBoxDiseno.DataBind();
             }
-
+            Session["diccionario"] = id_propositosDisenos;
             UpdatePanel2.Update();
-        }
 
+        }
+        protected void llenarComboCaso()
+        {
+            if (comboBoxDiseno.SelectedIndex.ToString() == "Seleccione")
+            {
+
+            }
+            else {
+                String propDiseno = comboBoxDiseno.SelectedIndex.ToString();
+                Dictionary<string, string> disenos= (Dictionary<string, string>)Session["diccionario"];
+                int cant = disenos.Count;//CANTIDAD
+                for(int i =0; i<cant;i++){
+
+                }
+                String idDiseno = "";
+                disenos.TryGetValue(propDiseno, out idDiseno);
+                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(idDiseno);
+                Object[] cProps;
+                if (casos.Rows.Count>0)
+                {
+
+                    cProps = new Object[casos.Rows.Count + 1];
+                    int c = 0;
+                    cProps[0] = "Seleccione";
+                    c++;
+                    foreach (DataRow fila in casos.Rows)
+                    {
+                        cProps[c]=fila[0].ToString();
+                        c++;
+                    }
+
+
+                    this.comboBoxDiseno.DataSource = cProps;
+                    this.comboBoxDiseno.DataBind();
+                }
+                else
+                {
+                    cProps = new Object[1];
+                    cProps[0] = "Seleccione";
+                    this.comboBoxDiseno.DataSource = cProps;
+                    this.comboBoxDiseno.DataBind();
+                    
+                }
+            }
+            UpdatePanelCaso.Update();
+        }
 
        /* protected void llenarComboDiseño()
         {
