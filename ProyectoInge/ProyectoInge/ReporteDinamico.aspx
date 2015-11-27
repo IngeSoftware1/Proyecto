@@ -79,34 +79,26 @@
                                                 <asp:Label ID="lblReqProyecto" runat="server" Text="Módulos del proyecto:" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-1">
 
-                                                    <asp:CheckBoxList ID="chklistModulos" AutoPostBack="True" OnSelectedIndexChanged = "seleccionarChkListModulos" runat="server" Style="height: 170px" CssClass="form-control">
+                                                    <asp:CheckBoxList ID="chklistModulos" AutoPostBack="True" OnSelectedIndexChanged="seleccionarChkListModulos" runat="server" Style="height: 200px" CssClass="form-control">
                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
-
-
-                                  
                                 <div class="form-group col-sm-1">
                                     <div class="row">
                                     </div>
                                 </div>
-
-                               
-
-
                                         <div class="form-group col-sm-5">
                                             <div class="row">
                                                 <%--Requerimientos asociados al diseño --%>
                                                 <asp:Label ID="lblReqAsignados" runat="server" Text="Requerimientos de los módulos:" CssClass="col-sm-12 col-sm-offset-2 control-label"></asp:Label>
                                                 <div class="col-sm-12 col-sm-offset-2">
 
-                                                    <asp:CheckBoxList ID="chklistReq" OnSelectedIndexChanged = "seleccionarChkListReq"  AutoPostBack="True" runat="server" EnableViewState="true" Style="height: 170px" CssClass="form-control"  >
+                                                    <asp:CheckBoxList ID="chklistReq" OnSelectedIndexChanged="seleccionarChkListReq" AutoPostBack="True" runat="server" EnableViewState="true" Style="height: 200px" CssClass="form-control">
                                                     </asp:CheckBoxList>
                                                 </div>
                                             </div>
                                         </div>
-                                    
  </ContentTemplate>
                         </asp:UpdatePanel>
 
@@ -120,9 +112,29 @@
                                     <div class="col-sm-10">
                                         <div class="form-group col-sm-5 col-sm-offset-1">
                                             <div class="row">
-                                                <asp:Label ID="Label14" runat="server" Text="Diseño:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                                <asp:Label ID="Label14" runat="server" Text="Diseño*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
                                                 <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
                                                     <asp:DropDownList runat="server" ID="comboBoxDiseno" AutoPostBack="True" CssClass="form-control" EnableViewState="true">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        <br />
+                        <%-- CASO --%>
+                        <br />
+                        <asp:UpdatePanel ID="UpdatePanelCaso" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                            <ContentTemplate>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <div class="form-group col-sm-5 col-sm-offset-1">
+                                            <div class="row">
+                                                <asp:Label ID="Label16" runat="server" Text="Caso*:" CssClass="col-sm-2 col-sm-offset-1 control-label"></asp:Label>
+                                                <div class="col-sm-8 col-sm-offset-1 col-sm-push-1">
+                                                    <asp:DropDownList runat="server" ID="comboBoxCaso" AutoPostBack="True" CssClass="form-control" EnableViewState="true">
                                                     </asp:DropDownList>
                                                 </div>
                                             </div>
@@ -133,6 +145,9 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
                         <br />
+                    </div>
+                    <br />
+
                     </div>
                     <br />
                     <div class="form-group">
@@ -273,8 +288,6 @@
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-
-
                 </div>
 
                 <br>
