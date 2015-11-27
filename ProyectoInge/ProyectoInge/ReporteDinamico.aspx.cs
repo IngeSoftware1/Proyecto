@@ -242,39 +242,35 @@ namespace ProyectoInge
             }
             else {
 
-                String propDiseno = comboBoxDiseno.SelectedIndex.ToString();
-                Dictionary<string, string> disenos= (Dictionary<string, string>)Session["diccionario"];
-                }                String idDiseno = "";
-                disenos.TryGetValue(propDiseno, out idDiseno);
-
-                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(idDiseno);
+                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
                 Object[] cProps;
                 if (casos.Rows.Count>0)
                 {
-
+                    Debug.Print("num casos mayor a 0");
                     cProps = new Object[casos.Rows.Count + 1];
                     int c = 0;
                     cProps[0] = "Seleccione";
                     c++;
                     foreach (DataRow fila in casos.Rows)
                     {
+                        Debug.Print(fila[0].ToString());
                         cProps[c]=fila[0].ToString();
                         c++;
                     }
 
-
-                    this.comboBoxDiseno.DataSource = cProps;
-                    this.comboBoxDiseno.DataBind();
+                    this.comboBoxCaso.DataSource = cProps;
+                    this.comboBoxCaso.DataBind();
                 }
                 else
                 {
                     cProps = new Object[1];
                     cProps[0] = "Seleccione";
-                    this.comboBoxDiseno.DataSource = cProps;
-                    this.comboBoxDiseno.DataBind();
+                    this.comboBoxCaso.DataSource = cProps;
+                    this.comboBoxCaso.DataBind();
                     
                 }
             }
+            Debug.Print("updates");
             UpdatePanelCaso.Update();
             updateChklist.Update();
         }
@@ -713,7 +709,9 @@ namespace ProyectoInge
                 chklistModulos.Items.Clear();
                 chklistReq.Items.Clear();
                 comboBoxDiseno.Items.Clear();
+                comboBoxCaso.Items.Clear();
                 comboDisenoUpdate.Update();
+                UpdatePanelCaso.Update();
                 updateChklist.Update();
             }           
         }
@@ -725,11 +723,12 @@ namespace ProyectoInge
             String propDiseno = comboBoxDiseno.SelectedValue.ToString();
             Dictionary<string, string> disenos = (Dictionary<string, string>)Session["diccionario"];
             String idDiseno = "";
-            disenos.TryGetValue(propDiseno, out idDiseno);
-            id = Int32.Parse(idDiseno);
-            Debug.WriteLine("id del caso"+id);
             if (this.comboBoxDiseno.Text.Equals("Seleccione") == false)
             {
+                disenos.TryGetValue(propDiseno, out idDiseno);
+                id = Int32.Parse(idDiseno);
+                Debug.WriteLine("id del caso"+id);
+            
                 Session["idDiseno"] = id;
                 llenarComboCaso();
                 UpdatePanelCaso.Update();

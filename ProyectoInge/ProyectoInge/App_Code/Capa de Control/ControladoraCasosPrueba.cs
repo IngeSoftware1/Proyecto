@@ -37,8 +37,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
   */
         public DataTable consultarRH(string cedula)
         {
+            controladoraRH = new ControladoraRecursos();
             return controladoraRH.consultarRH(cedula);
         }
+
+
+
         public bool ejecutarAccion(int modo, object[] datosNuevos, int idCaso, string v2)
         {
             Boolean resultado = false;
