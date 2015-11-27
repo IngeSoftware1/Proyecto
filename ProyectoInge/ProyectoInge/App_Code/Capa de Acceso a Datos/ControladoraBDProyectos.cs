@@ -866,7 +866,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 {
                     ++contador;
 
-                    Debug.WriteLine("el contenido es: " + ReqDiseno.Rows[i][0].ToString());
+                    //Debug.WriteLine("el contenido es: " + ReqDiseno.Rows[i][0].ToString());
                     consulta = consulta + " " + "SELECT R.id_req, R.nombre_req FROM Requerimiento R WHERE R.id_req = '" + ReqDiseno.Rows[i][0].ToString() + "'" + "AND R.id_proyecto = '" + idProyecto + "'";
 
 
@@ -877,7 +877,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
                 }
 
-                Debug.WriteLine("la consulta es: " + consulta);
+               // Debug.WriteLine("la consulta es: " + consulta);
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }
@@ -903,17 +903,15 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             {
                 for (int i = 0; i < contadorDos; ++i)
                 {
-                    Debug.WriteLine("la modulo es: " + modulos[i].ToString());
+                    //Debug.WriteLine("la modulo es: " + modulos[i].ToString());
                     ++contador;
                     consulta = consulta + " " + "SELECT * FROM Requerimiento WHERE id_req LIKE '%" + modulos[i].ToString() + "%'";
                     if (contador != contadorDos)
                     {
                         consulta = consulta + "UNION";
                     }
-                    
-
                 }
-                Debug.WriteLine("la consulta es: " + consulta);
+                //Debug.WriteLine("la consulta es: " + consulta);
 
                 dt = acceso.ejecutarConsultaTabla(consulta);
 

@@ -126,5 +126,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraDiseno.consultarPropositosDisenosPorId(idDisenos);
         }
 
+
+        internal DataTable consultarCasosAociadosADiseno(string idDiseno)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
