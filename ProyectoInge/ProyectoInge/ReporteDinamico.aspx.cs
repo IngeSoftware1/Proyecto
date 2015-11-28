@@ -419,15 +419,27 @@ namespace ProyectoInge
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
+            //revisar que todos los campos de arriba esten llenos 
+            //revisar que entre todos los de abajo al menos este seleccionado uno 
             if (!faltanDatos())
             {
                 llenarGrid();
+            }
+            else 
+            {
+                lblModalTitle.Text = "Error";
+                lblModalBody.Text = "Para generar un nuevo reporte debe completar todos los campos obligatorios.";
             }
         }
 
         private bool faltanDatos()
         {
-            return false;
+            bool resultado = false;
+            if (this.comboBoxCaso.Text == "Seleccione" || this.comboBoxDiseno.Text == "Seleccione" || this.comboProyecto.Text == "Seleccione")
+            {
+                resultado = true;
+            }
+            return resultado;
         }
 
         public void llenarGrid()
