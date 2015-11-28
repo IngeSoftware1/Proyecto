@@ -614,7 +614,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string consulta;
             try
             {
-                consulta = "SELECT D.id_diseno, D.proposito_diseno, D.id_proyecto, P.nombre_proyecto  FROM Diseno_Pruebas D, Proyecto WHERE P.id_proyecto = D.id_proyecto";
+                consulta = "SELECT D.id_diseno, D.proposito_diseno, D.id_proyecto, P.nombre_proyecto  FROM Diseno_Pruebas D, Proyecto P WHERE P.id_proyecto = D.id_proyecto";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

@@ -1865,6 +1865,7 @@ C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\WarstarDev.O
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\XlsxAspNet.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xml
 C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\App_Code\Capa de Datos (Entidad)\EntidadRequerimientoDiseño.cs
+C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll.config
 C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.dll
 C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\ProyectoInge.pdb
 C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\Antlr3.Runtime.dll
