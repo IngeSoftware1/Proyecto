@@ -1934,28 +1934,34 @@ namespace ProyectoInge
                             {
                                 contadorFilas = 0;
                                 tamDisenosProyectos = disenosProyectos.Rows.Count;
-                                while ((ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamDisenosProyectos))
+                                while ((contadorFilas < tamDisenosProyectos)&&(ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
-                                if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+                                if (contadorFilas < tamDisenosProyectos)
                                 {
-                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
-                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                    if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+                                    {
+                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                    }
                                 }
                             }
                             if (indiceColumna == 3)
                             {
                                 contadorFilas = 0;
                                 tamResponsables = responsables.Rows.Count;
-                                while ((ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamResponsables))
+                                while ((contadorFilas < tamResponsables)&&(ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
-                                if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                if ((contadorFilas < tamResponsables))
                                 {
-                                    nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
-                                    filaEjecucion[indiceColumna] = nombreResponsable;
+                                    if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                    {
+                                        nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                        filaEjecucion[indiceColumna] = nombreResponsable;
+                                    }
                                 }
                             }
                             ++indiceColumna;
@@ -2007,40 +2013,49 @@ namespace ProyectoInge
                                     contadorFilas = 0;
                                     tamDisenosProyectos = disenosProyectos.Rows.Count;
                                     //
-                                    while ((ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamDisenosProyectos))
+                                    while ( (contadorFilas < tamDisenosProyectos)&&(ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) )
                                     {
                                         contadorFilas++;
                                     }
-                                    if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+                                    if ((contadorFilas < tamDisenosProyectos))
                                     {
-                                        contadorFilas = 0;
-                                        tamProyecto = idProyectos.Rows.Count;
-                                        string idProyecto = disenosProyectos.Rows[contadorFilas][2].ToString(); //id de proyecto
-                                        while ((idProyecto != idProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamProyecto))
+                                        if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
                                         {
-                                            contadorFilas++;
-                                        }
-                                        if (idProyecto == idProyectos.Rows[contadorFilas][0].ToString())
-                                        {
-                                            filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
-                                            filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
-                                            tablaDatosEjecucion.Rows.Add(filaEjecucion);
-                                        }
+                                            contadorFilas = 0;
+                                            tamProyecto = idProyectos.Rows.Count;
+                                            string idProyecto = disenosProyectos.Rows[contadorFilas][2].ToString(); //id de proyecto
+                                            while ((contadorFilas < tamProyecto)&&(idProyecto != idProyectos.Rows[contadorFilas][0].ToString()))
+                                            {
+                                                contadorFilas++;
+                                            }
+                                            if ((contadorFilas < tamProyecto))
+                                            {
+                                                if (idProyecto == idProyectos.Rows[contadorFilas][0].ToString())
+                                                {
+                                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                                    tablaDatosEjecucion.Rows.Add(filaEjecucion);
+                                                }
+                                            }
 
+                                        }
                                     }
                                 }
                                 if (indiceColumna == 3)
                                 {
                                     contadorFilas = 0;
                                     tamResponsables = responsables.Rows.Count;
-                                    while ((ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamResponsables))
+                                    while ((contadorFilas < tamResponsables)&&(ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                     {
                                         contadorFilas++;
                                     }
-                                    if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                    if ((contadorFilas < tamResponsables))
                                     {
-                                        nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
-                                        filaEjecucion[indiceColumna] = nombreResponsable;
+                                        if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+                                        {
+                                            nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                            filaEjecucion[indiceColumna] = nombreResponsable;
+                                        }
                                     }
                                 }
                                 ++indiceColumna;
