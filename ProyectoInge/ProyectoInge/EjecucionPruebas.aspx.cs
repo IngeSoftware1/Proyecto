@@ -1852,7 +1852,6 @@ namespace ProyectoInge
         {
             Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
             Dictionary<string, string> nombreProyectosConsultados = new Dictionary<string, string>();
-            string nombreProyecto = "";
             DataRow filaEjecucion;
             DataTable disenosProyectos;
             DataTable responsables;
@@ -1864,14 +1863,9 @@ namespace ProyectoInge
             //DataTable dt = crearTablaDisenos();
             DataTable tablaDatosEjecucion = getTablaEjecucion();
             DataTable ejecuciones;
-            DataTable diseños;
             DataTable idProyectos;
             Object[] datos = new Object[6];
-            string representante = "";
-            string proyecto = "";
             int indiceColumna = 0;
-            string nombreRepresentante = "";
-            DataTable representantes;
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos las ejecuciones
             {
@@ -1884,24 +1878,34 @@ namespace ProyectoInge
                     for (int i = 0; i < ejecuciones.Rows.Count; ++i)
                     {
                         filaEjecucion = tablaDatosEjecucion.NewRow();
+                        Debug.Print("cantidad de columnas de ejecuciones es: " + ejecuciones.Columns.Count);
+                        Debug.Print("cantidad de rows de disenos proyectos: " + disenosProyectos.Rows.Count);
+                        Debug.Print("cantidad de rows de responsables: " + responsables.Rows.Count);
+
+
                         foreach (DataColumn column in ejecuciones.Columns)
                         {
-                            if (indiceColumna != 2)
+                            if (indiceColumna != 1 && indiceColumna != 3 && indiceColumna != 4)
                             {
                                 filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
+                                Debug.Print("esto tiene la fila ejecucion " + filaEjecucion[indiceColumna] + indiceColumna);
+                                Debug.Print("esto tiene la ejecucion " + filaEjecucion[indiceColumna] + column);
 
                             }
                             if (indiceColumna == 4)
                             {
                                 contadorFilas = 0;
                                 tamDisenosProyectos = disenosProyectos.Rows.Count;
-                                while ((ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamDisenosProyectos))
+                                while ((contadorFilas < tamDisenosProyectos) && (ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
-                                if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
+
+                                //Raquel hice una modificacion en la forma en que pediamos el responsable porque se estaba cayendo
+                                if ((contadorFilas < tamDisenosProyectos))
                                 {
-                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                    filaEjecucion[indiceColumna-1] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                    Debug.Print("esto puse en fila ejecucion para agregar diseno " + filaEjecucion[indiceColumna] + " " + indiceColumna);
                                     filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
                                 }
                             }
@@ -1909,11 +1913,14 @@ namespace ProyectoInge
                             {
                                 contadorFilas = 0;
                                 tamResponsables = responsables.Rows.Count;
-                                while ((ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()) && (contadorFilas < tamResponsables))
+
+                                while ((contadorFilas < tamResponsables) && (ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
-                                if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
+
+                                //Raquel hice una modificacion en la forma en que pediamos el responsable porque se estaba cayendo
+                                if ((contadorFilas < tamResponsables))
                                 {
                                     nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
                                     filaEjecucion[indiceColumna] = nombreResponsable;
@@ -2021,100 +2028,7 @@ namespace ProyectoInge
                     }
                 }
             }
-            /*
-            for (int i = 0; i < representantes.Rows.Count; ++i)
-            {
-                foreach (DataColumn column in representantes.Columns)
-                {
-                    if (indiceColumna == 3)
-                    {
-                        if (nombreRepresentantesConsultados.ContainsKey(representantes.Rows[i][column].ToString()) == false)
-                        {
-                            nombreRepresentantesConsultados.Add(representantes.Rows[i][column].ToString(), nombreRepresentante);
-                        }
-                    }
-                    else
-                    {
-                        nombreRepresentante = nombreRepresentante + " " + representantes.Rows[i][column].ToString();
-                    }
-                    ++indiceColumna;
-                }
-                indiceColumna = 0; //Contador para saber el número de columna actual.
-                nombreRepresentante = "";
-            }
-            Session["nombreRepresentantes_Consultados"] = nombreRepresentantesConsultados;
-            if (idProyectos.Rows.Count > 0)
-            {
-                //Se obtiene un DataTable con los datos del o los proyectos 
-                diseños = controladoraDiseno.consultarDisenos(idProyectos);
-
-                indiceColumna = 0;
-                if (diseños != null)
-                {
-                    DataTable proyectos = controladoraDiseno.consultarNombresProyectosDeDisenos(diseños);
-
-                    for (int i = 0; i < proyectos.Rows.Count; ++i)
-                    {
-                        foreach (DataColumn column in proyectos.Columns)
-                        {
-                            if (indiceColumna == 1)
-                            {
-                                if (nombreProyectosConsultados.ContainsKey(proyectos.Rows[i][column].ToString()) == false)
-                                {
-                                    nombreProyectosConsultados.Add(proyectos.Rows[i][column].ToString(), nombreProyecto);
-                                }
-                            }
-                            else
-                            {
-                                nombreProyecto = nombreProyecto + " " + proyectos.Rows[i][column].ToString();
-                            }
-
-                            ++indiceColumna;
-                        }
-                        indiceColumna = 0; //Contador para saber el número de columna actual.
-                        nombreProyecto = "";
-                    }
-                }
-                Session["nombreProyectos_Consultados"] = nombreProyectosConsultados;
-                if (diseños.Rows.Count > 0)
-                {
-                    foreach (DataRow fila in diseños.Rows)
-                    {
-                        datos[0] = fila[0].ToString();
-                        nombreProyectosConsultados.TryGetValue(fila[5].ToString(), out proyecto);
-                        datos[1] = proyecto;
-                        datos[2] = fila[1].ToString();
-                        datos[3] = fila[2].ToString();
-                        datos[4] = fila[3].ToString();
-                        nombreRepresentantesConsultados.TryGetValue(fila[4].ToString(), out representante);
-                        datos[5] = representante;
-                        dt.Rows.Add(datos);
-                    }
-                    representante = "";
-                }
-                else
-                {
-                    datos[0] = "-";
-                    datos[1] = "-";
-                    datos[2] = "-";
-                    datos[3] = "-";
-                    datos[4] = "-";
-                    datos[5] = "-";
-                    dt.Rows.Add(datos);
-                }
-            }
-            else
-            {
-                datos[0] = "-";
-                datos[1] = "-";
-                datos[2] = "-";
-                datos[3] = "-";
-                datos[4] = "-";
-                datos[5] = "-";
-                dt.Rows.Add(datos);
-            }
-        }*/
-
+      
         this.gridEjecuciones.DataSource = tablaDatosEjecucion;
         this.gridEjecuciones.DataBind();
        

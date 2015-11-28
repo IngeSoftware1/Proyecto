@@ -447,31 +447,31 @@
 
                                 <asp:TemplateField HeaderText="" Visible="false">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblIDEjecucion" Visible="false" Text='<%#Eval("IDEjecucion") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblIDEjecucion" Visible="false" Text='<%#Bind("IDEjecucion") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Fecha de última ejecución">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblFecha" Text='<%#Eval("Fecha") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblFecha" Text='<%#Bind("Fecha") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Responsable de ejecución">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblResponsable" Text='<%#Eval("Responsable") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblResponsable" Text='<%#Bind("Responsable") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Diseño">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblDiseno" Text='<%#Eval("Diseno") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblDiseno" Text='<%#Bind("Diseno") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Proyecto">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblProyecto" Text='<%#Eval("Proyecto") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblProyecto" Text='<%#Bind("Proyecto") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 

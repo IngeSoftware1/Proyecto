@@ -1864,3 +1864,11 @@ C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.d
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\WarstarDev.Office2k7.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\XlsxAspNet.dll
 C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\EPPlus.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\WarstarDev.Office2k7.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\XlsxAspNet.dll
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xml
+C:\Users\b30675\Documents\GitHub\Proyecto\ProyectoInge\ProyectoInge\bin\System.Web.Mvc.xml
