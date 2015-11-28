@@ -1115,16 +1115,23 @@ namespace ProyectoInge
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
 
-                    if (this.comboResponsable.Items.FindByText(datosFilaEjecucion.Rows[0][3].ToString()) != null)
+                    string nombre = "";
+                    datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(datosFilaEjecucion.Rows[0][3].ToString());
+                    if (datosFilaFuncionario.Rows.Count > 0)
                     {
-                        datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(datosFilaEjecucion.Rows[0][3].ToString());
-                        if (datosFilaFuncionario.Rows.Count == 1)
-                        {
-                            string nombreCompletoUsuarioResponsable = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
-                            responsable = this.comboResponsable.Items.FindByText(nombreCompletoUsuarioResponsable);
-                            this.comboResponsable.SelectedValue = responsable.Value;
-                        }
+                        nombre = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
                     }
+                    Response.Write("NOMBREE"+ nombre);
+                    this.comboResponsable.Text = nombre;
+                    if (this.comboResponsable.Items.FindByText(nombre) != null)
+                    {
+                        responsable = this.comboResponsable.Items.FindByText(nombre);
+                        this.comboResponsable.SelectedValue = responsable.Value;
+                    }
+
+
+
+
                     idDiseno = Int32.Parse(datosFilaEjecucion.Rows[0][4].ToString());
                     datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
                     if (datosDiseno.Rows.Count > 0)
