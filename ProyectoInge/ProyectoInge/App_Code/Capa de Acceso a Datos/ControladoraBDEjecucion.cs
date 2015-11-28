@@ -203,7 +203,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string consulta;
             try
             {
-                consulta = "SELECT *" + " FROM Ejecucion_Prueba";
+                consulta = "SELECT E.id_ejecucion, E.fecha, E.cedula_responsable, E.id_diseno" + " FROM Ejecucion_Prueba E";
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
