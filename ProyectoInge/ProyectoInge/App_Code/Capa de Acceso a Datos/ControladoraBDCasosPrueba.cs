@@ -174,7 +174,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string consulta = "";
             try
             {
-                consulta = "SELECT C.identificador_caso  FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseno + "';";
+                consulta = "SELECT C.identificador_caso, C.id_caso  FROM Caso_Prueba C WHERE C.id_diseno ='" + idDiseno + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
