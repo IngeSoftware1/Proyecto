@@ -14,6 +14,7 @@ namespace ProyectoInge
     public partial class EjecucionPruebas : System.Web.UI.Page
     {
         ControladoraEjecucion controladoraEjecucionPruebas = new ControladoraEjecucion();
+        private static string idEjecucionConsultada;
 
 
         //Variablaes globales utilizadas para cuando el cliente modifica alguna fila del grid
@@ -48,40 +49,39 @@ namespace ProyectoInge
             if (!IsPostBack)
             {
                 //  gridTipoNC_Inicial();
+                ponerNombreDeUsuarioLogueado();
+                cambiarEnabled(false, this.btnModificar);
+                cambiarEnabled(false, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
-                    cambiarEnabled(false, this.btnModificar);
-                    cambiarEnabled(false, this.btnEliminar);
-                    cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);
                     this.comboDiseño.Enabled = false;
                     this.comboResponsable.Enabled = false;                      
                     gridTipoNC_Inicial(0, false);
                     habilitarCampos(false);
                     cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
-                    //  llenarGrid(null);
+                    llenarGrid(null);
                 }
                 else
                 {
                     llenarComboProyecto(Session["cedula"].ToString());
-                    cambiarEnabled(false, this.btnModificar);
-                    cambiarEnabled(false, this.btnEliminar);
-                    cambiarEnabled(false, this.btnAceptar);
-                    cambiarEnabled(false, this.btnCancelar);
                     this.comboDiseño.Enabled = false;
                     this.comboResponsable.Enabled = false;     
                     gridTipoNC_Inicial(0, false);
                     habilitarCampos(false);
                     cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
-                    //  llenarGrid(Session["cedula"].ToString());
+                    llenarGrid(Session["cedula"].ToString());
                 }
 
             }
-
+            
         }
+
+        
 
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -747,6 +747,38 @@ namespace ProyectoInge
 
         }
 
+        protected void btnCancelar_Click(object sender, EventArgs e)
+        {
+            vaciarCampos();
+            cambiarEnabled(false, this.btnModificar);
+            cambiarEnabled(false, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+                this.comboDiseño.Enabled = false;
+                this.comboResponsable.Enabled = false;
+                gridTipoNC_Inicial(0, false);
+                habilitarCampos(false);
+                cambiarEnabledGridNC(false);
+                UpdateProyectoDiseno.Update();
+                llenarGrid(null);
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+                this.comboDiseño.Enabled = false;
+                this.comboResponsable.Enabled = false;
+                gridTipoNC_Inicial(0, false);
+                habilitarCampos(false);
+                cambiarEnabledGridNC(false);
+                UpdateProyectoDiseno.Update();
+                llenarGrid(Session["cedula"].ToString());
+            }
+        }
+
         /*Método para limpiar los textbox
          * Requiere: No requiere parámetros
          * Modifica: Establece la propiedad text de los textbox en "" y limpia los listbox
@@ -1021,8 +1053,8 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-            llenarDatos(Session["idDiseñoS"].ToString());
-            this.disenoAsociado(Int32.Parse(Session["idDiseñoS"].ToString()));
+            llenarDatos(Session["idEjecuciones"].ToString());
+            this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
             modo = 2;
             habilitarCamposModificar();
         }
@@ -1051,10 +1083,9 @@ namespace ProyectoInge
         * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
         * Retorna: No retorna ningún valor. 
         */
-        public void llenarDatos(string idDiseño)
+        public void llenarDatos(string idEjecucion)
         {
-            /* listReqAgregados.Items.Clear();
-             if (idDiseño != null && idDiseño.Equals("-") == false)
+             if (idEjecucion != null && idEjecucion.Equals("-") == false)
              {
                  string nombreRepresentante = "";
                  string nombre = "";
@@ -1064,12 +1095,13 @@ namespace ProyectoInge
                  Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
                  String cedulaRepresentante = "";
                  String nombreProyecto = "";
-                 idDiseñoConsultado = idDiseño;
+                 idEjecucionConsultada = idEjecucion;
+                 /*
                  DataTable datosFilaDiseño = controladoraDiseno.consultarDiseno(Int32.Parse(idDiseño)); //Se obtienen los datos del diseño
                  DataTable datosMiembro = null;
                  DataTable datosReqProyecto = null;
                  DataTable datosReqDiseno = null;
-                 listReqAgregados.Items.Clear();
+ 
 
                  if (datosFilaDiseño != null && datosFilaDiseño.Rows.Count == 1)
                  {
@@ -1095,9 +1127,6 @@ namespace ProyectoInge
                          ListItem tecnica = this.comboTecnica.Items.FindByText(datosFilaDiseño.Rows[0][6].ToString());
                          this.comboTecnica.SelectedValue = tecnica.Value;
                      }
-
-
-
                      nombresDelProyecto.TryGetValue(datosFilaDiseño.Rows[0][8].ToString(), out nombreProyecto);
 
                      nombre = nombre + nombreProyecto;
@@ -1134,13 +1163,12 @@ namespace ProyectoInge
 
                          }
                      }
-
-
                      llenarRequerimientosProyecto(Int32.Parse(idProyectoConsultado));
                  }
-
+                   * */
              }
-             * */
+                
+            
         }
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
@@ -1773,27 +1801,49 @@ namespace ProyectoInge
             }
         }
 
+        /*Metodo que corresponde a las acciones consecuentes al sleccionar una ejecucion de prueba en el grid*/
         protected void gridEjecuciones_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName == "seleccionarEjecucion")
+            {
+                LinkButton lnkConsulta = (LinkButton)e.CommandSource;
+                idEjecucionConsultada = lnkConsulta.CommandArgument;
+                if (idEjecucionConsultada.Equals("-") == false)
+                {
+                    Session["idEjecuciones"] = idEjecucionConsultada;
+                 //   controlarCampos(false); ?????
+                    llenarDatos(idEjecucionConsultada);
+                    cambiarEnabled(true, this.btnModificar);
+                    cambiarEnabled(true, this.btnCancelar);
+                    cambiarEnabled(true, this.btnEliminar);
+                    cambiarEnabled(false, this.btnAceptar);
+                    //El unico botón que cambia de acuerdo al perfil es el de eliminar
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+                        cambiarEnabled(true, this.btnInsertar);
+                    }
+                    else
+                    {
+                        cambiarEnabled(false, this.btnInsertar);
+                    }
 
+                }
+            }
         }
 
         protected DataTable getTablaEjecucion()
         {
-
             DataTable table = new DataTable();
             table.Columns.Add("IdEjecucion", typeof(string));
             table.Columns.Add("Fecha", typeof(string));
             table.Columns.Add("Responsable", typeof(string));
             table.Columns.Add("Diseno", typeof(string));
             table.Columns.Add("Proyecto", typeof(string));
-
             return table;
-
         }
 
 
-        /*Método para llenar el grid los proyectos del sistema o con los proyectos en los que el miembro se encuentre asociado.
+        /*Método para llenar el grid de los estados de ejecucion de un administrador o de los que el miembro se encuentre asociado.
        * Requiere: Requiere la cédula del miembro utilizando el sistema en caso de que éste no sea un administrador
        * Modifica: el valor de cada uno de los campos en la interfaz correspondientes a la consulta retornada por la clase controladora.
        * Retorna: no retorna ningún valor
@@ -1827,7 +1877,6 @@ namespace ProyectoInge
             {
                 //Se obtienen todos las ejecuciones pues el administrador es el usuario del sistema
                 ejecuciones = controladoraEjecucionPruebas.consultarEjecucionesDePrueba();
-
                 if (ejecuciones.Rows.Count > 0)
                 {
                     disenosProyectos = controladoraEjecucionPruebas.consultarNombresIdDisenosProyectos();
@@ -1835,12 +1884,10 @@ namespace ProyectoInge
                     for (int i = 0; i < ejecuciones.Rows.Count; ++i)
                     {
                         filaEjecucion = tablaDatosEjecucion.NewRow();
-
                         foreach (DataColumn column in ejecuciones.Columns)
                         {
                             if (indiceColumna != 2)
                             {
-
                                 filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
 
                             }
@@ -1960,6 +2007,17 @@ namespace ProyectoInge
                             contadorFilas = 0;
                             nombreResponsable = "";
                         }
+                        // SESSION??
+                    }
+                    else
+                    {
+                            filaEjecucion = tablaDatosEjecucion.NewRow();
+                            filaEjecucion[0] = "-";
+                            filaEjecucion[1] = "-";
+                            filaEjecucion[2] = "-";
+                            filaEjecucion[3] = "-";
+                            filaEjecucion[4] = "-";
+                            tablaDatosEjecucion.Rows.Add(filaEjecucion); // preguntar larisa           
                     }
                 }
             }
@@ -2055,10 +2113,11 @@ namespace ProyectoInge
                 datos[5] = "-";
                 dt.Rows.Add(datos);
             }
-        }
-        this.gridDisenos.DataSource = dt;
-        this.gridDisenos.DataBind();
-        */
+        }*/
+
+        this.gridEjecuciones.DataSource = tablaDatosEjecucion;
+        this.gridEjecuciones.DataBind();
+       
       }
 
 
