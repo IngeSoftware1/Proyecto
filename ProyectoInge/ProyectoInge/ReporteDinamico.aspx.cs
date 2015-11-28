@@ -22,6 +22,7 @@ namespace ProyectoInge
 
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
+        private int CANTIDAD_NC = 7;
 
         /*Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
@@ -236,6 +237,8 @@ namespace ProyectoInge
         }
         protected void llenarComboCaso()
         {
+            Dictionary<string, string> nombreCaso_id = new Dictionary<string, string>();
+
             if (comboBoxDiseno.SelectedIndex.ToString() == "Seleccione")
             {
 
@@ -253,8 +256,9 @@ namespace ProyectoInge
                     c++;
                     foreach (DataRow fila in casos.Rows)
                     {
-                        Debug.Print(fila[0].ToString());
-                        cProps[c] = fila[0].ToString();
+                        Debug.Print(fila[1].ToString());
+                        nombreCaso_id.Add(fila[1].ToString(), fila[0].ToString());
+                        cProps[c] = fila[1].ToString();
                         c++;
                     }
                     cProps[c] = "Todos";
@@ -270,6 +274,7 @@ namespace ProyectoInge
 
                 }
             }
+            Session["casos_id"] = nombreCaso_id;
             Debug.Print("updates");
             UpdatePanelCaso.Update();
             updateChklist.Update();
@@ -429,7 +434,7 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaRequerimientos();
             int numCols = dt.Columns.Count;
-
+            
             //int indice=0;
             Object[] datos = new Object[numCols];
 
@@ -471,8 +476,8 @@ namespace ProyectoInge
                     foreach (DataRow fila in casos.Rows)
                     {
                         Debug.Write(caso);
-                        caso += fila[0].ToString()+"\n";
-                        casosObj[c] = fila[0].ToString();
+                        caso += fila[1].ToString()+"\n";
+                        casosObj[c] = fila[1].ToString();
                         c++;
                     }
                 }
@@ -599,9 +604,12 @@ namespace ProyectoInge
             String metricas = "-";
             if (this.checkBoxConf.Checked == true || this.checkBoxNC.Checked == true)
             {
+
+                Debug.WriteLine("EL CASO ES: " + Int32.Parse(Session["idCaso"].ToString()));
+
                 if (this.checkBoxConf.Checked == true && this.checkBoxNC.Checked == true)
                 {
-                    metricas = "1";
+                    metricas = calcularPorcentajeNoConformidad(Int32.Parse(Session["idCaso"].ToString())); 
                 }
                 else if (this.checkBoxConf.Checked == true && this.checkBoxNC.Checked == false)
                 {
@@ -609,8 +617,10 @@ namespace ProyectoInge
                 }
                 else if (this.checkBoxConf.Checked == false && this.checkBoxNC.Checked == true)
                 {
-                    metricas = "3";
+                    metricas = calcularPorcentajeNoConformidad(Int32.Parse(Session["idCaso"].ToString())); 
                 }
+
+
                 datos[i] = metricas;
             }
             
@@ -619,9 +629,79 @@ namespace ProyectoInge
             this.gridReportes.DataBind();
         }
 
-        private string calcularPorcentajeNoConformidad(string modulo)
+
+        /**metodo para calcular porcentaje de conformidad, recibe el indice del caso que se requiere
+         * en caso de que se desee hacer la medida para todos los casos del diseño, se ingresa un -1
+        **/
+        private string calcularPorcentajeNoConformidad(int idCaso)
         {
-            throw new NotImplementedException();
+            string[] arreglo = new string[CANTIDAD_NC];
+            double[] contador = new double[CANTIDAD_NC];
+            DataTable casosEjecutados;
+            DataTable estadosDeCasos;
+            String resultado = "";
+            int indice = 0;
+            int indiceArreglo = 0;
+            double contadorGeneral = 0.0;
+            for (int i = 0; i < CANTIDAD_NC; i++ )
+            {
+                arreglo[i] = "";
+                contador[i] = 0.0;
+            }
+
+            if(idCaso != -1){
+                resultado = controladoraReporte.consultarTipoNC_Caso(idCaso);
+            }
+            else
+            {
+                casosEjecutados = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
+                estadosDeCasos = controladoraReporte.consultarEstadosDeCasos(casosEjecutados);
+
+                while(indice < estadosDeCasos.Rows.Count && estadosDeCasos != null && indiceArreglo < CANTIDAD_NC){
+
+                    if(arreglo[indiceArreglo].ToString().Equals("")==true){
+                        arreglo[indiceArreglo] = estadosDeCasos.Rows[indice][1].ToString();
+                        contador[indiceArreglo] = contador[indiceArreglo] + 1.0;
+                        ++contadorGeneral;
+                        ++indice;
+                        indiceArreglo = 0;
+                    }
+                    else
+                    {
+                        if(arreglo[indiceArreglo].Equals(estadosDeCasos.Rows[indice][1])==true){
+                            contador[indiceArreglo] = contador[indiceArreglo] + 1.0;
+                            ++indice;
+                            ++contadorGeneral;
+                            indiceArreglo = 0;
+                        }
+                        else
+                        {
+                            ++indiceArreglo;
+                        }
+                    }
+
+                }
+
+                int indiceDos = 0;
+                Boolean indicador = false;
+                String s;
+                while(indiceDos < CANTIDAD_NC && indicador == false ){
+
+                    if (arreglo[indiceDos].Equals("")==false)
+                    {
+                        contador[indiceDos] = (contador[indiceDos] / contadorGeneral)*100.0;
+                        s = string.Format("{0:N2}%", contador[indiceDos]);
+                        resultado = resultado + arreglo[indiceDos] + s + " " ;
+                        ++indiceDos;
+                    }
+                    else
+                    {
+                        indicador = true;
+                    }
+                }
+            }
+
+            return resultado;
         }
 
         private string calcularPorcentajeConformidad(string modulo)
@@ -726,7 +806,8 @@ namespace ProyectoInge
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
                     if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(3, 2)); ++contador;
+                        chklistModulos.Items.Add(requerimiento.Substring(3, 2)); 
+                        ++contador;
                     }
                 }
             }
@@ -749,7 +830,6 @@ namespace ProyectoInge
             int contadorModulos = 0;
             int indice = 0;
             modulos = new Object[chklistModulos.Items.Count];
-
             Boolean indicador = false;
 
             if (this.chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
@@ -757,12 +837,13 @@ namespace ProyectoInge
                 indicador = true;
             }
 
-            for (int i = 0; i < chklistModulos.Items.Count - 1; ++i)
+            for (int i = 0; i < chklistModulos.Items.Count; ++i)
             {
                 if (this.chklistModulos.Items[i].Selected == true || indicador == true)
                 {
                     ++contadorModulos;
                     modulos[indice] = chklistModulos.Items[i].Text;
+                    Debug.WriteLine("dsfsdfsdf" + chklistModulos.Items[i].Text);
                     ++indice;
                 }
             }
@@ -825,6 +906,7 @@ namespace ProyectoInge
             String propDiseno = comboBoxDiseno.SelectedValue.ToString();
             Dictionary<string, string> disenos = (Dictionary<string, string>)Session["diccionario"];
             String idDiseno = "";
+         
             if (this.comboBoxDiseno.Text.Equals("Seleccione") == false)
             {
                 disenos.TryGetValue(propDiseno, out idDiseno);
@@ -835,11 +917,34 @@ namespace ProyectoInge
                 llenarComboCaso();
                 UpdatePanelCaso.Update();
             }
+        }
+
+
+        protected void casoSeleccionado(object sender, EventArgs e)
+        {
+
+            
+            Dictionary<string, string> casosPrueba_id = (Dictionary<string, string>)Session["casos_id"];
+            String idCasoString = "";
+
+            Debug.WriteLine("soy yo el caso" + comboBoxCaso.Text);
+
+            if (this.comboBoxCaso.Text.Equals("Seleccione") == false && this.comboBoxCaso.Text.Equals("Todos") == false)
+            {
+                casosPrueba_id.TryGetValue(this.comboBoxCaso.Text, out idCasoString);
+
+    
+                Session["idCaso"] = idCasoString;
+                
+                
+                //UpdatePanelCaso.Update();
+            }
             else
             {
-                this.comboBoxCaso.Items.Clear();
-                UpdatePanelCaso.Update();
+                Session["idCaso"] = -1;
+                //UpdatePanelCaso.Update();
             }
+             
         }
 
 
@@ -854,6 +959,8 @@ namespace ProyectoInge
 
                 }
             }
+
+    
             if (contadorModulos != 0)
             {
                 llenarRequerimientos();

@@ -277,5 +277,64 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+        //metodo para consultar estado de ejecución de un caso
+        public string consultarTipoNC_Caso(int idCaso)
+        {
+            string resultado = "";
+
+            try
+            {
+                string consultaEjecucion = "SELECT id_tipoNC FROM Caso_Ejecutado WHERE id_caso='"+idCaso+"';";
+                DataTable data = acceso.ejecutarConsultaTabla(consultaEjecucion);
+                if (data.Rows.Count >= 1)
+                {
+                    resultado = data.Rows[0][0].ToString();
+                }
+            }
+            catch (SqlException e)
+            {
+            }
+
+            return resultado;
+        }
+
+
+        //metodo para consultar estados de casos ejecutados relacionados a un diseño
+        public DataTable consultarEstadosDeCasos(DataTable casos)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            int contador = 0;
+
+            try
+            {
+                for (int i = 0; i < casos.Rows.Count; ++i)
+                {
+                    ++contador;
+
+                    //Debug.WriteLine("el contenido es: " + ReqDiseno.Rows[i][0].ToString());
+                    consulta = consulta + " " + "SELECT id_caso,id_tipoNC FROM Caso_Ejecutado WHERE id_caso = '"+casos.Rows[i][0]+"' AND estado_ejecucion = 'Fallida'";
+
+
+                    if (contador != casos.Rows.Count)
+                    {
+                        consulta = consulta + "UNION";
+                    }
+
+                }
+
+                Debug.WriteLine("la consulta es: " + consulta);
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
     }
 }

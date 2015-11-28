@@ -139,5 +139,20 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             controladoraEjecucion = new ControladoraEjecucion();
             return controladoraEjecucion.consultarEjecucionesDePrueba(caso, numCasos,p);
         }
+
+        //metodo para consultar estado de ejecución de un caso
+        public string consultarTipoNC_Caso(int idCaso)
+        {
+            controladoraEjecucion = new ControladoraEjecucion();
+            return controladoraEjecucion.consultarTipoNC_Caso(idCaso);
+        }
+
+
+        //metodo para consultar estados de casos ejecutados relacionados a un diseño
+        public DataTable consultarEstadosDeCasos(DataTable casos){
+            controladoraEjecucion = new ControladoraEjecucion();
+            return controladoraEjecucion.consultarEstadosDeCasos(casos);
+        }
+
     }
 }
