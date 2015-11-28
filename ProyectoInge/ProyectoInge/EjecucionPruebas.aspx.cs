@@ -63,7 +63,7 @@ namespace ProyectoInge
                     habilitarCampos(false);
                     cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
-                    llenarGrid(null);
+                 //   llenarGrid(null);
                 }
                 else
                 {
@@ -74,7 +74,7 @@ namespace ProyectoInge
                     habilitarCampos(false);
                     cambiarEnabledGridNC(false);
                     UpdateProyectoDiseno.Update();
-                    llenarGrid(Session["cedula"].ToString());
+                 //   llenarGrid(Session["cedula"].ToString());
                 }
 
             }
