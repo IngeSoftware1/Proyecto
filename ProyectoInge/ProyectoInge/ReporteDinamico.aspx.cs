@@ -342,7 +342,9 @@ namespace ProyectoInge
         // Genera el reporte en PDF.
         protected void generarReportePDF()
         {
+            Response.Clear();
             Response.ClearContent();
+            Response.ClearHeaders();
             Response.ContentType = "application/pdf";
             Response.AddHeader("content-disposition", "attachment; filename=Reporte.pdf");
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -399,7 +401,8 @@ namespace ProyectoInge
 
             pdfDoc.Close();
 
-            Response.Write(pdfDoc);
+            Response.OutputStream.Flush();
+            Response.OutputStream.Close();
             Response.End();
         }
 
@@ -415,18 +418,31 @@ namespace ProyectoInge
             this.checkBoxRequerimientosDiseno.Checked = false;
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
+            this.checkBoxTodos.Checked = false;
+            for (int i=0; i<chklistModulos.Items.Count; i++)
+            {
+                this.chklistModulos.Items[i].Selected = false;
+            }
+            for (int i = 0; i < chklistReq.Items.Count; i++)
+            {
+                this.chklistReq.Items[i].Selected = false;
+            }
+            //this.chklistModulos.SelectedItem[i]= false;
         }
 
         protected void btnGenerar_Click(object sender, EventArgs e)
         {
             //revisar que todos los campos de arriba esten llenos 
             //revisar que entre todos los de abajo al menos este seleccionado uno 
+            Debug.Write(faltanDatos());
             if (!faltanDatos())
             {
                 llenarGrid();
+                Debug.Write("Entro a llenar grid");
             }
             else 
             {
+                Debug.Write("Entro a mandar el msj");
                 lblModalTitle.Text = "Error";
                 lblModalBody.Text = "Para generar un nuevo reporte debe completar todos los campos obligatorios.";
             }
@@ -435,7 +451,7 @@ namespace ProyectoInge
         private bool faltanDatos()
         {
             bool resultado = false;
-            if (this.comboBoxCaso.Text == "Seleccione" || this.comboBoxDiseno.Text == "Seleccione" || this.comboProyecto.Text == "Seleccione")
+            if (this.comboProyecto.Text == "Seleccione" || this.comboBoxDiseno.Text == "Seleccione" || this.comboBoxCaso.Text == "Seleccione" || this.comboProyecto.Text == "" || this.comboBoxCaso.Text == "" || this.comboBoxDiseno.Text == "")
             {
                 resultado = true;
             }
@@ -1004,6 +1020,7 @@ namespace ProyectoInge
         {
             if (this.comboTipoDescarga.Items[this.comboTipoDescarga.SelectedIndex].Text == "PDF")
             {
+                Debug.Write("eNTRO A GENERAR EN PDF");
                 generarReportePDF();
             }
             else
