@@ -1099,6 +1099,7 @@ namespace ProyectoInge
                 DataTable gridCasoEjecutado = GetTableWithNoData(); // get select column header only records not required
                 DataTable datosFilaEjecucion = controladoraEjecucionPruebas.consultarEjecucionPrueba(Int32.Parse(idEjecucion)); //Se obtienen los datos del diseño
                 DataTable casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
+                DataTable datosFilaFuncionario = null;
                 DataTable datosMiembro = null;
                 DataTable datosReqProyecto = null;
                 DataTable datosReqDiseno = null;
@@ -1108,19 +1109,28 @@ namespace ProyectoInge
                 int indiceColumnas = 0;
 
                 // cargar campos de ejecucion de pruebas 
-                if (datosFilaEjecucion != null && datosFilaEjecucion.Rows.Count == 1)
+                if (datosFilaEjecucion != null && datosFilaEjecucion.Rows.Count > 0)
                 {
+                    Response.Write(datosFilaEjecucion.Rows[0][1].ToString());
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
+
                     if (this.comboResponsable.Items.FindByText(datosFilaEjecucion.Rows[0][3].ToString()) != null)
                     {
-                        responsable = this.comboResponsable.Items.FindByText(datosFilaEjecucion.Rows[0][3].ToString());
-                        this.comboResponsable.SelectedValue = responsable.Value;
+                        datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(datosFilaEjecucion.Rows[0][3].ToString());
+                        if (datosFilaFuncionario.Rows.Count == 1)
+                        {
+                            string nombreCompletoUsuarioResponsable = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                            responsable = this.comboResponsable.Items.FindByText(nombreCompletoUsuarioResponsable);
+                            this.comboResponsable.SelectedValue = responsable.Value;
+                        }
                     }
                     idDiseno = Int32.Parse(datosFilaEjecucion.Rows[0][4].ToString());
                     datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
                     if (datosDiseno.Rows.Count > 0)
                     {
+                        Response.Write("");
+                        Response.Write(datosDiseno.Rows[0][0].ToString());
                         if (this.comboDiseño.Items.FindByText(datosDiseno.Rows[0][0].ToString()) != null)
                         {
                             diseno = this.comboDiseño.Items.FindByText(datosDiseno.Rows[0][0].ToString());
@@ -1128,8 +1138,6 @@ namespace ProyectoInge
                         }
                     }
                 }
-
-
                 //consultarCasoPrueba
                 if (casoEjecutado.Rows.Count > 0)
                 {
@@ -1848,6 +1856,8 @@ namespace ProyectoInge
                 idEjecucionConsultada = lnkConsulta.CommandArgument;
                 if (idEjecucionConsultada.Equals("-") == false)
                 {
+                    Response.Write("ENTREEEE");
+                           Response.Write(idEjecucionConsultada);
                     Session["idEjecuciones"] = idEjecucionConsultada;
                     //   controlarCampos(false); ?????
                     llenarDatos(idEjecucionConsultada);
