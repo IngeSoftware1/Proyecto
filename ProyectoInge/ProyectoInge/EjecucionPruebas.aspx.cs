@@ -1280,7 +1280,7 @@ namespace ProyectoInge
                 GridViewRow gvr = gridEjecuciones.Rows[filaConsultada];
                 DataTable gridCasoEjecutado = GetTableWithNoData(); // Se obtiene el esquema del grid
                 DataTable datosFilaEjecucion = controladoraEjecucionPruebas.consultarEjecucionPrueba(Int32.Parse(idEjecucion)); //Se obtienen los datos del diseño
-                DataTable casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
+                DataTable casoEjecutado = null;
                 DataTable datosCasos = null;
                 int tamDatosCasos = 0;
                 int contadorFilas = 0;
@@ -1327,8 +1327,12 @@ namespace ProyectoInge
                 }
 
                 //consultar No Conformidades
-                if (casoEjecutado.Rows.Count > 0)
+                Response.Write(Int32.Parse(idEjecucion));
+                casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
+
+                if (casoEjecutado != null && casoEjecutado.Rows.Count > 0)
                 {
+                    Response.Write("ENTREEEEEEEEE");
                     datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
                     for (int i = 0; i < casoEjecutado.Rows.Count; ++i)
                     {
@@ -1385,6 +1389,7 @@ namespace ProyectoInge
                 }
                 else
                 {
+                    Response.Write("NOOOOOOOO :(  ");
                     filaCasoEjecutado = gridCasoEjecutado.NewRow();
                     filaCasoEjecutado[0] = "-";
                     filaCasoEjecutado[1] = "-";
