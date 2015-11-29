@@ -23,6 +23,7 @@ namespace ProyectoInge
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
         private int CANTIDAD_NC = 7;
+        private int CANTIDAD_ESTADOS = 4;
 
         /*Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
@@ -733,15 +734,15 @@ namespace ProyectoInge
 
         private string calcularPorcentajeConformidad(int idCaso)
         {
-            string[] arreglo = new string[CANTIDAD_NC];
-            double[] contador = new double[CANTIDAD_NC];
+            string[] arreglo = new string[CANTIDAD_ESTADOS]; //SON 4 ESTADOS
+            double[] contador = new double[CANTIDAD_ESTADOS];
             DataTable casosEjecutados;
             DataTable estadosDeCasos;
             String resultado = "";
             int indice = 0;
             int indiceArreglo = 0;
             double contadorGeneral = 0.0;
-            for (int i = 0; i < CANTIDAD_NC; i++)
+            for (int i = 0; i < CANTIDAD_ESTADOS; i++)
             {
                 arreglo[i] = "";
                 contador[i] = 0.0;
@@ -752,11 +753,11 @@ namespace ProyectoInge
                 resultado = controladoraReporte.consultarEstadosConIdCaso(idCaso);
             }
             else
-            {
+            { ////////
                 casosEjecutados = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
                 estadosDeCasos = controladoraReporte.consultarEstadosDeCasos(casosEjecutados);
 
-                while (indice < estadosDeCasos.Rows.Count && estadosDeCasos != null && indiceArreglo < CANTIDAD_NC)
+                while (indice < estadosDeCasos.Rows.Count && estadosDeCasos != null && indiceArreglo < CANTIDAD_ESTADOS)
                 {
 
                     if (arreglo[indiceArreglo].ToString().Equals("") == true)
@@ -787,7 +788,7 @@ namespace ProyectoInge
                 int indiceDos = 0;
                 Boolean indicador = false;
                 String s;
-                while (indiceDos < CANTIDAD_NC && indicador == false)
+                while (indiceDos < CANTIDAD_ESTADOS && indicador == false)
                 {
 
                     if (arreglo[indiceDos].Equals("") == false)

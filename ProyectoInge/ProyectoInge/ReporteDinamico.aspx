@@ -257,6 +257,7 @@
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
+                <%--modal faltan datos--%>
                 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
