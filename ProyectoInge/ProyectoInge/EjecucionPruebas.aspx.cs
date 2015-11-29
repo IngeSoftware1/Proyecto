@@ -950,6 +950,7 @@ namespace ProyectoInge
                 
                 case 1:
                     {
+                        Debug.Print("estoy a punto de ir a insertar");
                         btnAceptar_Insertar();
                     }
                     break;
@@ -1021,6 +1022,7 @@ namespace ProyectoInge
         protected void btnAceptar_Insertar()
         {
             int tipoInsercion = 1;
+            Debug.Print("estoy en aceptar insertar");
 
             if (faltanDatos())
             {
@@ -1299,6 +1301,7 @@ namespace ProyectoInge
                 string nombreDiseno = "";
                 string nombreProyecto = "";
                 string nombreResponsable = "";
+                string imagenNC = "";
 
                 DataRow filaCasoEjecutado;
                 GridViewRow gvr = gridEjecuciones.Rows[filaConsultada];
@@ -1394,7 +1397,9 @@ namespace ProyectoInge
                             }
                             if (indiceColumnas == 3)
                             {
-                                filaCasoEjecutado[6] = casoEjecutado.Rows[i][3].ToString(); //Imagen
+                                imagen = (byte[])casoEjecutado.Rows[i][3]; 
+                                imagenNC = Convert.ToBase64String(imagen, 0, imagen.Length);
+                                filaCasoEjecutado[6] = imagenNC; //Imagen
                             }
                             if (indiceColumnas == 5)
                             {
@@ -1415,6 +1420,7 @@ namespace ProyectoInge
                         indiceColumnas = 0;
                         contadorFilas = 0;
                         gridCasoEjecutado.Rows.Add(filaCasoEjecutado);
+                        imagenNC = " ";
                     }
                 }
                 else
