@@ -445,6 +445,7 @@ namespace ProyectoInge
                 Debug.Write("Entro a mandar el msj");
                 lblModalTitle.Text = "Error";
                 lblModalBody.Text = "Para generar un nuevo reporte debe completar todos los campos obligatorios.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
             }
         }
