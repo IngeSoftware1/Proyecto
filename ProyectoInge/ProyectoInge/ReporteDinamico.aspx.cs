@@ -12,6 +12,11 @@ using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
+using System.Web.UI;
+using System.IO;
+
+
+
 
 namespace ProyectoInge
 {
