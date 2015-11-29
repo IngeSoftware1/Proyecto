@@ -238,9 +238,28 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 3:
                     { //ELIMINAR
-                        if (accion == 1) //
+                        if (accion == 1) //Eliminar no conformidades
                         {
-                        } 
+                            if (controladoraBDEjecucion.eliminarNC(nombre))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else if(accion == 2)//Eliminar ejecución de pruebas
+                        {
+                            if (controladoraBDEjecucion.eliminarEjecucion(nombre))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
                     }
                     break;
             }

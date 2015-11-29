@@ -16,10 +16,10 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
        // String conexion = @"Data Source=.; Initial Catalog=baseDatosRaque; Integrated Security=SSPI";
         //String conexion = @"Data Source=CAROLINA-HP\CAROLINA; Initial Catalog=Inge1; Integrated Security=SSPI";
         //String conexion = @"Data Source=LARI-PC; Initial Catalog=Inge1; Integrated Security=SSPI";
-        //String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
+        String conexion = @"Data Source=PC; Initial Catalog=g3inge; Integrated Security=SSPI";
        //String conexion = @"Data Source=eccibdisw; Initial Catalog=g3inge; Integrated Security=SSPI";        
         //String conexion = @"Data Source=ASUS; Initial Catalog=g3inge; Integrated Security=SSPI";
-        String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI"; 
+        //String conexion = @"Data Source=LEANDRO\SQLEXPRESS; Initial Catalog=g3inge; Integrated Security=SSPI"; 
 
         public AccesoBaseDatos()
         {
@@ -36,6 +36,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 SqlCommand cons = new SqlCommand(consulta, sqlConnection);
+                
                 cons.ExecuteNonQuery();
                 sqlConnection.Close();
                 return true;
@@ -46,6 +47,44 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                 return false;
             }
         }
+
+        public bool insertarNC(int idCaso, int idEjecucion, String idTipoNC, String justificacion, byte[] imagen, String extensionImagen, String estadoEjecucion)
+        {
+            SqlConnection sqlConnection = new SqlConnection(conexion);
+            sqlConnection.Open();
+            try
+            {
+                
+                String insercion = "INSERT INTO Caso_Ejecutado (id_caso, id_ejecucion, id_tipoNC, justificacion, imagen, extension_imagen, estado_ejecucion) VALUES (@idCaso, @idEjecucion, @idTipoNC, @justificacion, @imagen, @extensionImagen, @estadoEjecucion)";
+                SqlCommand cons = new SqlCommand(insercion, sqlConnection);
+                cons.Parameters.Add("@idCaso", System.Data.SqlDbType.Int, 4);
+                cons.Parameters.Add("@idEjecucion", System.Data.SqlDbType.Int, 4);
+                cons.Parameters.Add("@idTipoNC", System.Data.SqlDbType.VarChar, 70);
+                cons.Parameters.Add("@justificacion", System.Data.SqlDbType.VarChar, 40);
+                cons.Parameters.Add("@imagen", System.Data.SqlDbType.VarBinary);
+                cons.Parameters.Add("@extensionImagen", System.Data.SqlDbType.VarChar, 10);
+                cons.Parameters.Add("@estadoEjecucion", System.Data.SqlDbType.VarChar, 20);
+
+                cons.Parameters["@idCaso"].Value = idCaso;
+                cons.Parameters["@idEjecucion"].Value = idEjecucion;
+                cons.Parameters["@idTipoNC"].Value = idTipoNC;
+                cons.Parameters["@justificacion"].Value = justificacion;
+                cons.Parameters["@imagen"].Value = imagen;
+                cons.Parameters["@extensionImagen"].Value = extensionImagen;
+                cons.Parameters["@estadoEjecucion"].Value = estadoEjecucion;
+
+                
+                cons.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                Debug.Print("SOY EL NUMERO DE EXCEPCION DE SQL " + ex.Number.ToString());
+                return false;
+            }
+        }
+
         /**
          * Consulta para eliminarDatos
          */

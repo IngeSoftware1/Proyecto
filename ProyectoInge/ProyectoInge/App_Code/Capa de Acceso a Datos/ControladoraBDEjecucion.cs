@@ -132,13 +132,41 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-
-                string insercion = "INSERT INTO Caso_Ejecutado (id_caso, id_ejecucion, id_tipoNC, justificacion, imagen, estado_ejecucion) VALUES ('" + nuevo.getIdCaso + "', '" + nuevo.getIdEjecucion + "', '" + nuevo.getIdTipoNC + "', '" + nuevo.getJustificacion + "', '"+nuevo.getImagen+"', '"+nuevo.getEstadoEjecucion+"')";
-                return acceso.insertarDatos(insercion);
+                return acceso.insertarNC(nuevo.getIdCaso,nuevo.getIdEjecucion ,nuevo.getIdTipoNC, nuevo.getJustificacion, nuevo.getImagen, nuevo.getExtensionImagen, nuevo.getEstadoEjecucion);
             }
             catch (SqlException e)
             {
                 Debug.Print("SOY EL NUMERO DE EXCEPCION DE SQL " + e.Number.ToString());
+                return false;
+            }
+        }
+
+        /*
+         */
+        public bool eliminarNC(string idEjecucion)
+        {
+            try
+            {
+                string eliminar = "DELETE FROM Caso_Ejecutado where id_ejecucion = '"+idEjecucion+"'";
+                return acceso.eliminarDatos(eliminar);
+            }
+            catch (SqlException e)
+            {
+                return false;
+            }
+        }
+
+        /*
+         */
+        public bool eliminarEjecucion(string idEjecucion)
+        {
+            try
+            {
+                string eliminar = "DELETE FROM Ejecucion__Prueba where id_ejecucion = '" + idEjecucion + "'";
+                return acceso.eliminarDatos(eliminar);
+            }
+            catch (SqlException e)
+            {
                 return false;
             }
         }

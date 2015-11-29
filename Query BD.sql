@@ -185,6 +185,7 @@ INSERT INTO Estado_Ejecucion VALUES('Satisfactoria');
 INSERT INTO Estado_Ejecucion VALUES( 'Fallida');
 INSERT INTO Estado_Ejecucion VALUES('Pendiente');
 INSERT INTO Estado_Ejecucion VALUES('Cancelada');
+INSERT INTO Estado_Ejecucion VALUES('Seleccione');
 
 CREATE TABLE Ejecucion_Prueba(
 id_ejecucion int IDENTITY(1,1) PRIMARY KEY,
@@ -208,8 +209,9 @@ INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Validación (VA)', 'Existen erro
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Opciones que no funcionan (NF)', 'Al realizar una acción determinada no se muestra resultado alguno.');
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Errores de usabilidad (US)', 'Se encuentran aquellas inconformidades de efecto visual que provoquen las interfaces de las aplicaciones.');
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Excepciones (EXC)', 'El sistema muestra un mensaje señalando que ha ocurrido un error inesperado o que no ha sido tratado.');
-INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('No correspondencia de lo implementado con lo documentado (NC)', 'Consiste en el incumplimiento de la correspondencia que debe existir entre una aplicación informática y lo que está documentado al respecto.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('No correspondencia lo implementado con documentado (NC)', 'Consiste en el incumplimiento de la correspondencia que debe existir entre una aplicación informática y lo que está documentado al respecto.');
 INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Ortografía (ORT)', 'Errores de ortografía o mal escritos.');
+INSERT INTO Tipo_NC (id_tipoNC, desc_NC) VALUES('Seleccione', 'Seleccione');
 
 CREATE TABLE Caso_Ejecutado(
 id_caso int FOREIGN KEY REFERENCES Caso_Prueba(id_caso)
@@ -223,6 +225,7 @@ ON DELETE CASCADE
 ON UPDATE CASCADE,
 justificacion varchar(40),
 imagen varbinary(MAX),
+extension_imagen varchar(10),
 estado_ejecucion varchar (20) FOREIGN KEY REFERENCES Estado_Ejecucion(estado_ejecucion)
 ON DELETE CASCADE
 ON UPDATE CASCADE, 

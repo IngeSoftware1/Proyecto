@@ -119,6 +119,25 @@ namespace ProyectoInge
             (gridNoConformidades.FooterRow.FindControl("lnkCargarImagenFoot") as LinkButton).Enabled = condicion;
         }
 
+        /*Método para crear la acción de eliminar una ejecución de pruebas con sus no conformidades
+        * Modifica: Cambia la propiedad enabled de botones y cajas de texto,
+        * Limpia cajas de texto y coloca los ejemplos de datos donde es necesario
+        * Retorna: no retorna ningún valor
+        */
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            cambiarEnabled(true, this.btnInsertar);
+            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            modo = 3;
+            habilitarCampos(false);
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
+            upModal.Update();
+
+        }
+
         /*Método para hacer visible el calendario cuando el usuario presiona el botón */
         protected void lnkCalendario_Click(object sender, EventArgs e)
         {
@@ -159,17 +178,32 @@ namespace ProyectoInge
                 comboNoConformidades = comboTipoNCModificar;
             }
 
-            int numDatos = tiposNC.Rows.Count;
+            int numDatos = 0;
             Object[] datos;
 
             if (tiposNC.Rows.Count >= 1)
             {
-                numDatos = tiposNC.Rows.Count;
-                datos = new Object[numDatos + 1];
+
+                numDatos = 0;
 
                 for (int i = 0; i < tiposNC.Rows.Count; ++i)
                 {
-                    datos[i + 1] = tiposNC.Rows[i][0].ToString();
+                    if (tiposNC.Rows[i][0].ToString() != "Seleccione")
+                    {
+                        numDatos++;
+                    }
+                }
+
+                datos = new Object[numDatos + 1];
+                int contador = 0;
+
+                for (int i = 0; i < tiposNC.Rows.Count; ++i)
+                {
+                    if (tiposNC.Rows[i][0].ToString() != "Seleccione")
+                    {
+                        datos[contador + 1] = tiposNC.Rows[i][0].ToString();
+                        contador++;
+                    }
                 }
 
                 datos[0] = "Seleccione";
@@ -205,17 +239,30 @@ namespace ProyectoInge
                 comboDeEstado = comboIdEstadoModificar;
             }
 
-            int numDatos = estados.Rows.Count;
+            int numDatos = 0;
             Object[] datos;
 
             if (estados.Rows.Count >= 1)
             {
-                numDatos = estados.Rows.Count;
-                datos = new Object[numDatos + 1];
 
                 for (int i = 0; i < estados.Rows.Count; ++i)
                 {
-                    datos[i + 1] = estados.Rows[i][0].ToString();
+                    if (estados.Rows[i][0].ToString() != "Seleccione")
+                    {
+                        numDatos++;
+                    }
+                }
+               
+                datos = new Object[numDatos + 1];
+                int contador = 0;
+
+                for (int i = 0; i < estados.Rows.Count; ++i)
+                {
+                    if (estados.Rows[i][0].ToString() != "Seleccione")
+                    {
+                        datos[contador + 1] = estados.Rows[i][0].ToString();
+                        contador++;
+                    }
                 }
 
                 datos[0] = "Seleccione";
@@ -910,12 +957,56 @@ namespace ProyectoInge
                         btnAceptar_Modificar();
                     }
                     break;
+                case 3:
+                    {
+                        btnAceptar_Eliminar();
+                    }
+                    break;
 
             }
 
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
 
+        }
+
+        /**/
+        public void btnAceptar_Eliminar()
+        {
+
+             int tipoEliminar = 1;
+             modo = 3;
+
+            //Aquí se eliminan las no conformidades
+             if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
+             {
+                 //Aquí se elimina la ejecución de pruebas
+                 tipoEliminar = 2;
+                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
+                 {
+                     lblModalTitle.Text = "";
+                     lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
+                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                     upModal.Update();
+                 }
+                 else
+                 {
+                     lblModalTitle.Text = "ERROR";
+                     lblModalBody.Text = "No se pudo eliminar este diseño.";
+                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                     upModal.Update();
+                 }
+
+             }
+             else
+             {
+                 lblModalTitle.Text = "ERROR";
+                 lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
+                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                 upModal.Update();
+             }
+
+            //Aqui se debe limpiar toda la pantalla para que quede como al inicio o si esta vara hace de nuevo el pageload
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -990,14 +1081,16 @@ namespace ProyectoInge
 
                 if (lblTipoNC.Text != "-")
                 {
-                    Object[] NuevaNC = new Object[6];
+                    Object[] NuevaNC = new Object[7];
                     NuevaNC[0] = controladoraEjecucionPruebas.consultarIdCasoPrueba((gvr.FindControl("lblCasoPrueba") as Label).Text);
                     NuevaNC[1] = idEjecucion;
                     NuevaNC[2] = (gvr.FindControl("lblTipoNC") as Label).Text;
                     NuevaNC[3] = (gvr.FindControl("lblJustificacion") as Label).Text;
                     NuevaNC[4] = (gvr.FindControl("lblImagenInvisible") as Label).Text;
-                    NuevaNC[5] = (gvr.FindControl("lblEstado") as Label).Text;
+                    NuevaNC[5] = (gvr.FindControl("lblImagenExtensionInvisible") as Label).Text;
+                    NuevaNC[6] = (gvr.FindControl("lblEstado") as Label).Text;
 
+                    Debug.Print("Imagen extension" + (gvr.FindControl("lblImagenExtensionInvisible") as Label).Text);
                     Debug.Print("Imagen" + (gvr.FindControl("lblImagenInvisible") as Label).Text);
 
                     if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, NuevaNC, ""))
@@ -1018,7 +1111,7 @@ namespace ProyectoInge
         {
             bool resultado = false;
 
-            if (txtCalendar.Text == "" || comboResponsable.Text == "Seleccione")
+            if (txtCalendar.Text == "" || comboResponsable.Text == "Seleccione" || comboDiseño.Text == "Seleccione" || comboProyecto.Text == "Seleccione")
             {
                 resultado = true;
             }
