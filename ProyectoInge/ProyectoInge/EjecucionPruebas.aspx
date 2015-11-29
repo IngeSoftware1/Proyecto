@@ -29,15 +29,20 @@
             <h2 class="estilo">Módulo de Ejecución de Pruebas</h2>
         </div>
 
+        <asp:UpdatePanel ID="UpdateBotonesIMEC" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
+                <div class="col-lg-11">
+                    <%--Div de botones para el IMEC--%>
+                    <div id="btnsControl" style="float: right">
+                        <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
+                        <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
+                        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
 
-        <div class="col-lg-11">
-            <%--Div de botones para el IMEC--%>
-            <div id="btnsControl" style="float: right">
-                <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
-            </div>
-        </div>
+
 
 
         <div id="DatosEjecucionDePrueba">
@@ -325,25 +330,25 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
-                                         
+
 
                                                         <%-- Imagen --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" HeaderText="Imagen">
                                                             <EditItemTemplate>
-                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" Text="Add">
-                                                                 </asp:LinkButton>
+                                                                <asp:LinkButton runat="server" ID="lnkCargarImagen" CommandName="cargarImagen" Text="Add">
+                                                                </asp:LinkButton>
                                                             </EditItemTemplate>
                                                             <ItemTemplate>
-                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagenTemplate" CommandName="mostrarImagen" Text="Ver">
-                                                                 </asp:LinkButton>
+                                                                <asp:LinkButton runat="server" ID="lnkCargarImagenTemplate" CommandName="mostrarImagen" Text="Ver">
+                                                                </asp:LinkButton>
                                                             </ItemTemplate>
                                                             <FooterTemplate>
                                                                 <asp:LinkButton runat="server" ID="lnkCargarImagenFoot" CommandName="cargarImagen" Text="Add">
-                                                                 </asp:LinkButton>
+                                                                </asp:LinkButton>
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
-                                                                 <%--Imagen Invisible  --%>
+                                                        <%--Imagen Invisible  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false">
 
                                                             <EditItemTemplate>
@@ -361,7 +366,7 @@
                                                             </FooterTemplate>
                                                         </asp:TemplateField>
 
-                                                                 <%--Imagen Extensión Invisible  --%>
+                                                        <%--Imagen Extensión Invisible  --%>
                                                         <asp:TemplateField HeaderStyle-HorizontalAlign="Left" Visible="false">
 
                                                             <EditItemTemplate>
@@ -386,7 +391,9 @@
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
 
-
+                                
+                                <asp:UpdatePanel ID="UpdateIncidencias" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                 <div class="form-group">
 
                                     <div class="row col-sm-12">
@@ -399,6 +406,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                            </ContentTemplate>
+                                </asp:UpdatePanel>
 
 
                                 <br>
@@ -415,6 +424,8 @@
             <%--Div que cierra el row principal --%>
         </div>
 
+           <asp:UpdatePanel ID="UpdateBotonesAceptarCancelar" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
+            <ContentTemplate>
         <div class="row">
 
             <div class="col-lg-11">
@@ -425,6 +436,9 @@
                 </div>
             </div>
         </div>
+                         </ContentTemplate>
+        </asp:UpdatePanel>
+
         <br>
 
 
@@ -437,7 +451,7 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-1">
                     <div id="scrollGrid" style="height: 183px; width: 700px; overflow: auto;">
-                        <asp:GridView ID="gridEjecuciones" runat="server" AutoGenerateColumns="false"  CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                        <asp:GridView ID="gridEjecuciones" runat="server" AutoGenerateColumns="false" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
                                 <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
@@ -475,7 +489,7 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
-                                    <asp:TemplateField Visible="false">
+                                <asp:TemplateField Visible="false">
                                     <ItemTemplate>
                                         <asp:Label runat="server" ID="lblIDProyecto" Text='<%#Bind("IDProyecto") %>'> </asp:Label>
                                     </ItemTemplate>
@@ -566,26 +580,26 @@
                         <asp:Image ID="image1" runat="server" Visible="true" />
                     </div>
                     <div class="modal-footer">
-                        <asp:Button ID="btnAceptarImagen" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen" runat="server" />
-                        <asp:Button ID="btnCancelarImagen" class="btn btn-info" Text="Aceptar" OnClick="CancelarImagen" runat="server" />
+                        <asp:Button ID="btnAceptarImagen" runat="server" class="btn btn-info" Text="Aceptar" OnClick="AceptarImagen" />
+                        <asp:Button ID="btnCancelarImagen" runat="server" class="btn btn-info" Text="Cancelar" OnClick="CancelarImagen" />
                     </div>
                 </div>
             </div>
         </div>
 
         <%--Modal Ver Imagen --%>
-        <div class="modal fade" id="modalVerImagen"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="width:765px">
+        <div class="modal fade" id="modalVerImagen" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 765px">
                 <asp:UpdatePanel ID="updateModalImagen" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
                     <ContentTemplate>
-                        <div class="modal-content" >
-                            <div class="modal-header" >
+                        <div class="modal-content">
+                            <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 class="modal-title" id="modalVerImagenConfirma" style="text-align:center" ><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Imagen </font></i></h3>
+                                <h3 class="modal-title" id="modalVerImagenConfirma" style="text-align: center"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Imagen </font></i></h3>
                             </div>
-                            <div class="modal-body"  style="height:500px" >
-                                <asp:Label ID="lblImagenMostrar" Visible="false" runat="server" ></asp:Label>
-                                <asp:Image ID="imagenMostrada" runat="server" Width="700px" Height="500px"/>
+                            <div class="modal-body" style="height: 500px">
+                                <asp:Label ID="lblImagenMostrar" Visible="false" runat="server"></asp:Label>
+                                <asp:Image ID="imagenMostrada" runat="server" Width="700px" Height="500px" />
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-info" data-dismiss="modal" aria-hidden="true">Close</button>

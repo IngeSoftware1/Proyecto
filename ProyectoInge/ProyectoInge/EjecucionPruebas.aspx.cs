@@ -55,6 +55,8 @@ namespace ProyectoInge
                 cambiarEnabled(false, this.btnEliminar);
                 cambiarEnabled(false, this.btnAceptar);
                 cambiarEnabled(false, this.btnCancelar);
+                UpdateBotonesIMEC.Update();
+                UpdateBotonesAceptarCancelar.Update();
                 if (Session["perfil"].ToString().Equals("Administrador"))
                 {
                     llenarComboProyecto(null);
@@ -102,6 +104,7 @@ namespace ProyectoInge
         {
             txtIncidencias.Enabled = condicion;
             this.comboProyecto.Enabled = condicion;
+            UpdateIncidencias.Update();
         }
 
         protected void cambiarEnabledGridNC(bool condicion)
@@ -487,6 +490,7 @@ namespace ProyectoInge
                 disenos = controladoraEjecucionPruebas.consultarDisenosCasos(idProyecto);
                 if (disenos.Rows.Count >= 1)
                 {
+                    cambiarEnabledGridNC(false);
                     numDatos = disenos.Rows.Count;
                     datos = new Object[numDatos + 1];
 
@@ -678,8 +682,14 @@ namespace ProyectoInge
             }
             else 
             {
+
                 this.comboDiseño.Enabled = false;
                 this.comboResponsable.Enabled = false;
+                llenarComboRecursos();
+                llenarComboDisenos();
+                gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
+                cambiarEnabledGridNC(false);
+
             }
 
             comboResponsableUpdate.Update();
@@ -699,6 +709,12 @@ namespace ProyectoInge
                 {
                     (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text = descripcionNC.Rows[0][0].ToString();
                 }
+            }
+            else
+            {
+
+                (gridNoConformidades.FooterRow.FindControl("txtDescripcion") as TextBox).Text = "-";
+
             }
 
             UpdateGridNoConformidades.Update();
@@ -782,6 +798,8 @@ namespace ProyectoInge
             llenarComboDisenos();
             llenarComboRecursos();
             Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
 
         }
 
@@ -798,6 +816,8 @@ namespace ProyectoInge
                 llenarComboProyecto(null);
                 this.comboDiseño.Enabled = false;
                 this.comboResponsable.Enabled = false;
+                llenarComboDisenos();
+                llenarComboRecursos();
                 gridTipoNC_Inicial(0, false);
                 habilitarCampos(false);
                 cambiarEnabledGridNC(false);
@@ -809,12 +829,17 @@ namespace ProyectoInge
                 llenarComboProyecto(Session["cedula"].ToString());
                 this.comboDiseño.Enabled = false;
                 this.comboResponsable.Enabled = false;
+                llenarComboDisenos();
+                llenarComboRecursos();
                 gridTipoNC_Inicial(0, false);
                 habilitarCampos(false);
                 cambiarEnabledGridNC(false);
                 UpdateProyectoDiseno.Update();
                 llenarGrid(Session["cedula"].ToString());
             }
+
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
         }
 
         /*Método para limpiar los textbox
@@ -828,6 +853,8 @@ namespace ProyectoInge
             txtIncidencias.Text = "";
             gridTipoNC_Inicial(0, false);
             cambiarEnabledGridNC(false);
+            UpdatePanelCalendario.Update();
+            UpdateIncidencias.Update();
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -885,6 +912,10 @@ namespace ProyectoInge
                     break;
 
             }
+
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
+
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -936,6 +967,9 @@ namespace ProyectoInge
                     upModal.Update();
                 }
             }
+
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
         }
 
         /*
@@ -1048,6 +1082,9 @@ namespace ProyectoInge
                     Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
                 }
             }
+
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
         }
 
 
@@ -1086,16 +1123,23 @@ namespace ProyectoInge
         */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
+            Debug.Print("estoy en el evento de modificar");
             cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnModificar);
+            Debug.Print("sigo en modificar");
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-            llenarDatos(Session["idEjecuciones"].ToString());
+      //      llenarDatos(Session["idEjecuciones"].ToString());
             this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
             modo = 2;
             habilitarCamposModificar();
+
+            UpdateBotonesIMEC.Update();
+            comboResponsableUpdate.Update();        
+            UpdateIncidencias.Update();
+            UpdateBotonesAceptarCancelar.Update();
         }
 
 
@@ -1112,6 +1156,11 @@ namespace ProyectoInge
        //     this.txtCalendar.Enabled = true;
             this.comboProyecto.Enabled = false;
             this.comboDiseño.Enabled = false;
+            UpdateProyectoDiseno.Update();
+            UpdatePanelCalendario.Update();
+            comboResponsableUpdate.Update();
+            UpdateIncidencias.Update();
+      
             //this.gridNoConformidades.Enabled 
         }
 
@@ -1335,6 +1384,7 @@ namespace ProyectoInge
                 string extension = Path.GetExtension(Path.GetFileName(FileImage.PostedFile.FileName));
                 extensionImagen = extension;
 
+  
 
                 ////De acuerdo al tipo de imagen se carga con extension distinta en el image control
                 //switch (extension)
@@ -1369,8 +1419,9 @@ namespace ProyectoInge
             else
             {
                 imagen = null;
-                base64String = "";
-                extensionImagen = "";
+                base64String = " ";
+                extensionImagen = " ";
+
             }
         }
 
@@ -1627,9 +1678,13 @@ namespace ProyectoInge
             else if (e.CommandName == "seleccionaAceptar")
             {
                 fila = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+                Debug.Print("estoy en aceptar modificacion " + fila);
 
+                Debug.Print("la cantidad de rows en grid aceptar modif es:  " + gridNoConformidades.Rows.Count);
                 for (indice = 0; indice < gridNoConformidades.Rows.Count; ++indice)
                 {
+                    Debug.Print("la cantidad de rows en grid aceptar modif es:  " + gridNoConformidades.Rows.Count);
+
                     if (indice != fila)
                     {
                         dr = dt.NewRow();
@@ -1644,7 +1699,6 @@ namespace ProyectoInge
                         Label lblExtension = gvr.FindControl("lblImagenExtensionInvisible") as Label;
 
 
-
                         dr[0] = lblTipoNC.Text;
                         dr[1] = lblCasoPrueba.Text;
                         dr[2] = lblDescripcion.Text;
@@ -1654,34 +1708,55 @@ namespace ProyectoInge
                         dr[7] = lblExtension.Text;
                         dt.Rows.Add(dr); // add grid values in to row and add row to the blank table   
                     }
+                    else
+                    {
+                        dr = dt.NewRow();
+                        gvr = gridNoConformidades.Rows[fila];
 
-                    dr = dt.NewRow();
-                    gvr = gridNoConformidades.Rows[fila];
-
-                    string comboTipoNCModificado = (gvr.FindControl("dropDownListTipoNC") as DropDownList).SelectedItem.Value;
-                    string idCasoModificado = (gvr.FindControl("dropDownListPrueba") as DropDownList).SelectedItem.Value;
-                    string descripcionModificada = (gvr.FindControl("txtDescripcionEdit") as TextBox).Text;
-                    string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
-                    string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
-                    string imagenModificada = base64String;
-                    string extensionModificada = extensionImagen;
-
-                    dr[0] = comboTipoNCModificado;
-                    dr[1] = idCasoModificado;
-                    dr[2] = descripcionModificada;
-                    dr[3] = justificacionModificada;
-                    dr[4] = estadoModificado;
-                    dr[6] = imagenModificada;
-                    dr[7] = extensionModificada;
+                        string comboTipoNCModificado = (gvr.FindControl("dropDownListTipoNC") as DropDownList).SelectedItem.Value;
+                        string idCasoModificado = (gvr.FindControl("dropDownListPrueba") as DropDownList).SelectedItem.Value;
+                        string descripcionModificada = (gvr.FindControl("txtDescripcionEdit") as TextBox).Text;
+                        string justificacionModificada = (gvr.FindControl("txtJustificacionEdit") as TextBox).Text;
+                        string estadoModificado = (gvr.FindControl("dropDownListEstado") as DropDownList).SelectedItem.Value;
+                        string imagenModificada = "";
+                        string extensionModificada = "";
 
 
-                    dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
-                    gridNoConformidades.EditIndex = -1;
+                        if (base64String == " " || extensionImagen == " ")
+                        {
 
-                    gridNoConformidades.DataSource = dt; // bind new datatable to grid
-                    gridNoConformidades.DataBind();
+                            imagenModificada = imageBase64String;
+                            extensionModificada = imageExtension;
+                        }
+                        else
+                        {
+                            imagenModificada = base64String;
+                            extensionModificada = extensionImagen;
+                        }
 
+                        base64String = "";
+                        extensionImagen = "";
+
+
+                        dr[0] = comboTipoNCModificado;
+                        dr[1] = idCasoModificado;
+                        dr[2] = descripcionModificada;
+                        dr[3] = justificacionModificada;
+                        dr[4] = estadoModificado;
+                        dr[6] = imagenModificada;
+                        dr[7] = extensionModificada;
+
+                        dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
+
+                    }             
+                    
                 }
+
+                gridNoConformidades.EditIndex = -1;
+
+                gridNoConformidades.DataSource = dt; // bind new datatable to grid
+                gridNoConformidades.DataBind();
+
 
                 //Carga del comboBox con los tipos de no conformidades
                 llenarComboTipoNC(true);
@@ -1913,14 +1988,20 @@ namespace ProyectoInge
                     cambiarEnabled(true, this.btnCancelar);
                     cambiarEnabled(true, this.btnEliminar);
                     cambiarEnabled(false, this.btnAceptar);
+                    UpdateBotonesIMEC.Update();
+                    UpdateBotonesAceptarCancelar.Update();
                     //El unico botón que cambia de acuerdo al perfil es el de eliminar
                     if (Session["perfil"].ToString().Equals("Administrador"))
                     {
                         cambiarEnabled(true, this.btnInsertar);
+                        UpdateBotonesIMEC.Update();
+                        UpdateBotonesAceptarCancelar.Update();
                     }
                     else
                     {
                         cambiarEnabled(false, this.btnInsertar);
+                        UpdateBotonesIMEC.Update();
+                        UpdateBotonesAceptarCancelar.Update();
                     }
 
                 }
@@ -1954,13 +2035,11 @@ namespace ProyectoInge
             DataRow filaEjecucion;
             DataTable disenosProyectos;
             DataTable responsables;
-            DataTable lideres;
             int contadorFilas = 0;
             int tamResponsables = 0;
             string nombreResponsable = "";
             int tamDisenosProyectos = 0;
             int tamProyecto = 0;
-            int tamLideres = 0;
             //DataTable dt = crearTablaDisenos();
             DataTable tablaDatosEjecucion = getTablaEjecucion();
             DataTable ejecuciones;

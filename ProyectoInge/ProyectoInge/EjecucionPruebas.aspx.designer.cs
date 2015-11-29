@@ -22,6 +22,15 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.Label lblLogueado;
         
         /// <summary>
+        /// UpdateBotonesIMEC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateBotonesIMEC;
+        
+        /// <summary>
         /// btnInsertar control.
         /// </summary>
         /// <remarks>
@@ -355,6 +364,15 @@ namespace ProyectoInge {
         protected global::System.Web.UI.WebControls.GridView gridNoConformidades;
         
         /// <summary>
+        /// UpdateIncidencias control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateIncidencias;
+        
+        /// <summary>
         /// lblIndidencias control.
         /// </summary>
         /// <remarks>
@@ -371,6 +389,15 @@ namespace ProyectoInge {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIncidencias;
+        
+        /// <summary>
+        /// UpdateBotonesAceptarCancelar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdateBotonesAceptarCancelar;
         
         /// <summary>
         /// btnAceptar control.
