@@ -255,7 +255,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT C.id_caso, C.id_tipoNC, C.justificacion, C.imagen, C.extension_imagen, C.estado_ejecucion, T.id_tipoNC" + " FROM Caso_Ejecutado C join Tipo_NC T on C.id_tipoNC = T.id_tipoNC where id_ejecucion  = ' + idEjecucion + ';";
+                consulta = "SELECT C.id_caso, C.id_tipoNC, C.justificacion, C.imagen, C.extension_imagen, C.estado_ejecucion, T.desc_NC" + " FROM Caso_Ejecutado C join Tipo_NC T on C.id_tipoNC = T.id_tipoNC where id_ejecucion  = '" + idEjecucion + "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
