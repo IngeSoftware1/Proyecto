@@ -1280,7 +1280,7 @@ namespace ProyectoInge
                 GridViewRow gvr = gridEjecuciones.Rows[filaConsultada];
                 DataTable gridCasoEjecutado = GetTableWithNoData(); // Se obtiene el esquema del grid
                 DataTable datosFilaEjecucion = controladoraEjecucionPruebas.consultarEjecucionPrueba(Int32.Parse(idEjecucion)); //Se obtienen los datos del diseño
-                DataTable casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
+                DataTable casoEjecutado = null;
                 DataTable datosCasos = null;
                 int tamDatosCasos = 0;
                 int contadorFilas = 0;
@@ -1327,53 +1327,61 @@ namespace ProyectoInge
                 }
 
                 //consultar No Conformidades
-                if (casoEjecutado.Rows.Count > 0)
-                {
-                    datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
+                Response.Write(Int32.Parse(idEjecucion));
+                casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
 
+                if (casoEjecutado != null && casoEjecutado.Rows.Count > 0)
+                {
+                    Response.Write("ENTREEEEEEEEE");
+                    datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
                     for (int i = 0; i < casoEjecutado.Rows.Count; ++i)
                     {
                         filaCasoEjecutado = gridCasoEjecutado.NewRow();
                         foreach (DataColumn column in casoEjecutado.Columns)
                         {
-
                             if (indiceColumnas == 0)
                             {
                                 contadorFilas = 0;
                                 tamDatosCasos = datosCasos.Rows.Count;
 
-                                while ((casoEjecutado.Rows[i][column].ToString() != datosCasos.Rows[contadorFilas][1].ToString()) && (contadorFilas < tamDatosCasos))
+                                while ( (contadorFilas < tamDatosCasos) && (casoEjecutado.Rows[i][column].ToString() != datosCasos.Rows[contadorFilas][1].ToString()))
                                 {
                                     contadorFilas++;
                                 }
-                                if (casoEjecutado.Rows[i][column].ToString() == datosCasos.Rows[contadorFilas][0].ToString())
+                                if ((contadorFilas < tamDatosCasos))
                                 {
-                                    filaCasoEjecutado[1] = datosCasos.Rows[contadorFilas][1].ToString();// Caso prueba
-
+                                    if (casoEjecutado.Rows[i][column].ToString() == datosCasos.Rows[contadorFilas][1].ToString())
+                                    {
+                                        filaCasoEjecutado[1] = datosCasos.Rows[contadorFilas][0].ToString();// Caso prueba
+                                        Response.Write("    ");
+                                        Response.Write(datosCasos.Rows[contadorFilas][1].ToString());
+                                    }
                                 }
                             }
                             if (indiceColumnas == 1)
                             {
-                                filaCasoEjecutado[0] = casoEjecutado.Rows[i][1].ToString(); //tipo caso no conformidad
+                                Response.Write("    ");
+                                Response.Write(casoEjecutado.Rows[i][column].ToString());
+                                filaCasoEjecutado[0] = casoEjecutado.Rows[i][column].ToString(); //tipo caso no conformidad
                             }
                             if (indiceColumnas == 2)
                             {
-                                filaCasoEjecutado[3] = casoEjecutado.Rows[i][2].ToString(); //justificación
+                                filaCasoEjecutado[3] = casoEjecutado.Rows[i][column].ToString(); //justificación
                             }
                             if (indiceColumnas == 3)
                             {
                                 filaCasoEjecutado[5] = casoEjecutado.Rows[i][3].ToString(); //Imagen
                             }
-                            if (indiceColumnas == 4)
-                            {
-                                filaCasoEjecutado[4] = casoEjecutado.Rows[i][4].ToString(); //Estado
-                            }
                             if (indiceColumnas == 5)
                             {
-                                filaCasoEjecutado[2] = casoEjecutado.Rows[i][5].ToString(); //Descripción no conformidad
+                                filaCasoEjecutado[4] = casoEjecutado.Rows[i][5].ToString(); //Estado
+                            }
+                            if (indiceColumnas == 6)
+                            {
+                                filaCasoEjecutado[2] = casoEjecutado.Rows[i][6].ToString(); //Descripción no conformidad
                             }
 
-
+                            ++indiceColumnas;
                         }
 
                         indiceColumnas = 0;
@@ -1383,6 +1391,7 @@ namespace ProyectoInge
                 }
                 else
                 {
+                    Response.Write("NOOOOOOOO :(  ");
                     filaCasoEjecutado = gridCasoEjecutado.NewRow();
                     filaCasoEjecutado[0] = "-";
                     filaCasoEjecutado[1] = "-";
