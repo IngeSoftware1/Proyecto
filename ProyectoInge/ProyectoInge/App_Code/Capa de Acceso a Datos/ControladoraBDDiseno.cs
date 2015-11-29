@@ -558,7 +558,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             string consulta = "";
             try
             {
-                consulta = "SELECT D.proposito_diseno, D.tecnica, D.nivel, D.procedimiento_diseno FROM Diseno_Pruebas D WHERE D.id_diseno= " + idDiseno;
+                consulta = "SELECT D.proposito_diseno, D.tecnica, D.nivel, D.procedimiento_diseno, D.id_proyecto FROM Diseno_Pruebas D WHERE D.id_diseno= " + idDiseno;
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
@@ -660,5 +660,28 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+        //metodo para consultar los nombres de proyectos que tienen diseños asociados
+        public DataTable consultarNombreProyectosAsociados()
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+
+            try
+            {
+                consulta = "SELECT DISTINCT P.nombre_proyecto from Proyecto P, Diseno_Pruebas D WHERE P.id_proyecto = D.id_proyecto";
+                 dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
+
+
     }
 }

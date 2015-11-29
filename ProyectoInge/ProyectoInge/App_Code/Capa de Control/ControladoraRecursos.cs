@@ -385,6 +385,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return dt;
         }
 
+
+        /* Método para obtener todos los miembros del sistema.
+         * Requiere: no requiere parámetros.
+         * Modifica: no realiza modificaciones.
+         * Retorna: un DataTable con todos los miembros del sistema.
+         */
+        public DataTable consultarTodosMiembros()
+        {
+            return controladoraBDRecurso.consultarTodosMiembros();
+        }
+
         
 
 

@@ -760,6 +760,29 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
+
+        /*Método para consultar todos los miembros del sistema sin importar el rol que tengan
+        * Requiere: no requiere parámetros
+        * Retorna: un DataTable que retorna los miembros del sistema
+        */
+        public DataTable consultarTodosMiembros()
+        {
+            string consulta;
+            DataTable dt;
+
+            try
+            {
+                consulta = "SELECT F.cedula, F.nombre, F.apellido1, F.apellido2 FROM Funcionario F, Miembro M WHERE M.cedula_miembro = F.cedula";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
   
 
     }

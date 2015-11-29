@@ -61,7 +61,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarNombresProyectos()
         {
             controladoraDiseno = new ControladoraDiseno();
-            DataTable nombresProyectos = controladoraDiseno.consultarNombresProyectos();
+            DataTable nombresProyectos = controladoraDiseno.consultarNombreProyectosAsociados();
             return nombresProyectos;
         }
 
@@ -285,6 +285,29 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarEstadosDeCasos(DataTable casos)
         {
             return controladoraBDEjecucion.consultarEstadosDeCasos(casos);
+        }
+
+
+        /* Método para obtener todos los miembros del sistema.
+         * Requiere: no requiere parámetros.
+         * Modifica: no realiza modificaciones.
+         * Retorna: un DataTable con todos los miembros del sistema.
+         */
+        public DataTable consultarTodosMiembros()
+        {
+            controladoraRH = new ControladoraRecursos();
+            return controladoraRH.consultarTodosMiembros();
+        }
+
+        /* Método para obtener todos los líderes de proyectos.
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con todos los líderes de proyectos.
+        */
+        public DataTable consultarTodosLideres()
+        {
+            controladoraProyecto = new ControladoraProyecto();
+            return controladoraProyecto.consultarTodosLideres();
         }
 
     }

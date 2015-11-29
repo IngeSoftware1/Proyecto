@@ -34,7 +34,7 @@
             <%--Div de botones para el IMEC--%>
             <div id="btnsControl" style="float: right">
                 <asp:Button ID="btnInsertar" runat="server" Text="Insertar" CssClass="btn btn-primary" OnClick="btnInsertar_Click" />
-                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" />
+                <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
                 <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn btn-primary" />
             </div>
         </div>
@@ -437,7 +437,7 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-1">
                     <div id="scrollGrid" style="height: 183px; width: 700px; overflow: auto;">
-                        <asp:GridView ID="gridEjecuciones" runat="server" CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" AutoGenerateColumns="true" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
+                        <asp:GridView ID="gridEjecuciones" runat="server" AutoGenerateColumns="false"  CssClass="dataGridTable" Style="width: 680px; text-align: center" Font-Size="14px" OnRowCommand="gridEjecuciones_RowCommand" HeaderStyle-BackColor="#444444" HeaderStyle-ForeColor="White" AlternatingRowStyle-BackColor="#dddddd">
                             <Columns>
                                 <asp:TemplateField HeaderText="">
                                     <ItemTemplate>
@@ -453,25 +453,31 @@
 
                                 <asp:TemplateField HeaderText="Fecha de última ejecución">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblFecha" Text='<%#Eval("Fecha") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblFecha" Text='<%#Bind("Fecha") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Responsable de ejecución">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblResponsable" Text='<%#Eval("Responsable") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblResponsable" Text='<%#Bind("Responsable") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Diseño">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblDiseno" Text='<%#Eval("Diseno") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblDiseno" Text='<%#Bind("Diseno") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
                                 <asp:TemplateField HeaderText="Proyecto">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" ID="lblProyecto" Text='<%#Eval("Proyecto") %>'> </asp:Label>
+                                        <asp:Label runat="server" ID="lblProyecto" Text='<%#Bind("Proyecto") %>'> </asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                    <asp:TemplateField Visible="false">
+                                    <ItemTemplate>
+                                        <asp:Label runat="server" ID="lblIDProyecto" Text='<%#Bind("IDProyecto") %>'> </asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
 

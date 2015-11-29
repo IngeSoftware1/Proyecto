@@ -924,5 +924,30 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        /* Método para obtener todos los líderes de proyectos.
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con todos los líderes de proyectos.
+        */
+        public DataTable consultarTodosLideres()
+        {
+
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT P.cedula_lider from Proyecto P";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+                  
+            }
+
+           catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+
     }
 }

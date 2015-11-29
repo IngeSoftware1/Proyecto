@@ -545,5 +545,15 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDProyecto.consultarReqModulos(modulos,contador);
         }
 
+        /* Método para obtener todos los líderes de proyectos.
+        * Requiere: no requiere parámetros.
+        * Modifica: no realiza modificaciones.
+        * Retorna: un DataTable con todos los líderes de proyectos.
+        */
+        public DataTable consultarTodosLideres()
+        {
+            return controladoraBDProyecto.consultarTodosLideres();
+        }
+
     }
 }

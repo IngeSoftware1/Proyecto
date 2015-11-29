@@ -37,6 +37,7 @@ namespace ProyectoInge
         private static byte[] imagen = null;
         private static string base64String = "";                //String global para la columna invisible del grid con la imagen
         private static string extensionImagen = "";             //String global para la columna invisible de la extensión de la imagen en el grid 
+        private static int filaConsultada = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -80,8 +81,6 @@ namespace ProyectoInge
             }
 
         }
-
-
 
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
@@ -338,8 +337,7 @@ namespace ProyectoInge
                 this.comboResponsable.Items.Clear();
 
                 if (Recursos != null && Recursos.Rows.Count >= 1) //bloque para consultar miembros
-                {
-                    this.comboResponsable.Enabled = true;
+                {                    
                     numDatos = Recursos.Rows.Count;
                     datos = new Object[numDatos + 2];
 
@@ -358,7 +356,7 @@ namespace ProyectoInge
                             }
                             else
                             {
-                                nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString();
+                                nombre = Recursos.Rows[i][0].ToString() + " " + Recursos.Rows[i][1].ToString() + " " + Recursos.Rows[i][2].ToString();
                             }
 
                             ++numColumna;
@@ -388,7 +386,7 @@ namespace ProyectoInge
                             }
                             else
                             {
-                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString() + " " + Recursos.Rows[0][2].ToString();
                             }
 
                             ++numColumna;
@@ -429,7 +427,7 @@ namespace ProyectoInge
                             }
                             else
                             {
-                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString();
+                                nombre = Recursos.Rows[0][0].ToString() + " " + Recursos.Rows[0][1].ToString() + " " + Recursos.Rows[0][2].ToString();
                             }
 
                             ++numColumna;
@@ -460,9 +458,10 @@ namespace ProyectoInge
             {
 
                 datos = new Object[1];
-                datos[0] = "Seleccione";
+                datos[0] = "Seleccione";         
                 this.comboResponsable.DataSource = datos;
                 this.comboResponsable.DataBind();
+                this.comboResponsable.Enabled = false;
 
 
             }
@@ -474,38 +473,54 @@ namespace ProyectoInge
 
         protected void llenarComboDisenos()
         {
-            int idProyecto = (Int32.Parse(Session["idProyectoEjecucion"].ToString()));
-            DataTable disenos = controladoraEjecucionPruebas.consultarDisenosCasos(idProyecto);
+            int idProyecto = 0;  
+            DataTable disenos; 
             comboDedisenos.Clear();
 
             Object[] datos;
             int numDatos = 0;
             int indice = 1;
 
-            if (disenos.Rows.Count >= 1)
+            if (this.comboProyecto.Text.Equals("Seleccione") == false)
             {
-                this.comboDiseño.Enabled = true;
-                numDatos = disenos.Rows.Count;
-                datos = new Object[numDatos + 1];
-
-                for (int i = 0; i < disenos.Rows.Count; ++i)
+                idProyecto = (Int32.Parse(Session["idProyectoEjecucion"].ToString()));
+                disenos = controladoraEjecucionPruebas.consultarDisenosCasos(idProyecto);
+                if (disenos.Rows.Count >= 1)
                 {
-                    datos[indice] = disenos.Rows[i][1].ToString();
-                    comboDedisenos.Add(Int32.Parse(disenos.Rows[i][0].ToString()));
-                    ++indice;
-                }
+                    numDatos = disenos.Rows.Count;
+                    datos = new Object[numDatos + 1];
 
-                datos[0] = "Seleccione";
-                this.comboDiseño.DataSource = datos;
-                this.comboDiseño.DataBind();
+                    for (int i = 0; i < disenos.Rows.Count; ++i)
+                    {
+                        datos[indice] = disenos.Rows[i][1].ToString();
+                        comboDedisenos.Add(Int32.Parse(disenos.Rows[i][0].ToString()));
+                        ++indice;
+                    }
+
+                    datos[0] = "Seleccione";
+                    this.comboDiseño.DataSource = datos;
+                    this.comboDiseño.DataBind();
+                }
+                else
+                {
+                    datos = new Object[1];
+                    datos[0] = "Seleccione";
+                    this.comboDiseño.DataSource = datos;
+                    this.comboDiseño.DataBind();
+                    this.comboDiseño.Enabled = false;
+                }
             }
             else
             {
+
                 datos = new Object[1];
                 datos[0] = "Seleccione";
                 this.comboDiseño.DataSource = datos;
                 this.comboDiseño.DataBind();
+                this.comboDiseño.Enabled = false;
+
             }
+     
 
             UpdateProyectoDiseno.Update();
 
@@ -646,17 +661,29 @@ namespace ProyectoInge
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
-            llenarComboRecursos();
-            int id = controladoraEjecucionPruebas.obtenerIdProyecto(this.comboProyecto.Text);
-            Session["idProyectoEjecucion"] = id;
-            llenarComboDisenos();
-            this.panelDiseno.Visible = false;
-            this.datosDiseno.Visible = false;
-            this.lblDatosDiseño.Visible = false;
+            if(this.comboProyecto.Text != "Seleccione")
+            {
+                this.comboDiseño.Enabled = true;
+                this.comboResponsable.Enabled = true;
+                llenarComboRecursos();
+                int id = controladoraEjecucionPruebas.obtenerIdProyecto(this.comboProyecto.Text);
+                Session["idProyectoEjecucion"] = id;
+                llenarComboDisenos();
+                this.panelDiseno.Visible = false;
+                this.datosDiseno.Visible = false;
+                this.lblDatosDiseño.Visible = false;
+        
+                gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
+                cambiarEnabledGridNC(false);
+            }
+            else 
+            {
+                this.comboDiseño.Enabled = false;
+                this.comboResponsable.Enabled = false;
+            }
 
-            gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
-
-            UpdateProyectoDiseno.Update();
+            comboResponsableUpdate.Update();
+            UpdateProyectoDiseno.Update();      
             UpdateDatosDiseno.Update();
         }
 
@@ -743,6 +770,17 @@ namespace ProyectoInge
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnInsertar);
             habilitarCampos(true);
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+            }
+            else 
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+            }
+            
+            llenarComboDisenos();
+            llenarComboRecursos();
             Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
 
         }
@@ -789,6 +827,7 @@ namespace ProyectoInge
             txtCalendar.Text = "";
             txtIncidencias.Text = "";
             gridTipoNC_Inicial(0, false);
+            cambiarEnabledGridNC(false);
         }
 
         /*Método para habilitar/deshabilitar el botón
@@ -1070,7 +1109,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = true;
             this.calendarFecha.Enabled = true;
             this.txtIncidencias.Enabled = true;
-            this.txtCalendar.Enabled = true;
+       //     this.txtCalendar.Enabled = true;
             this.comboProyecto.Enabled = false;
             this.comboDiseño.Enabled = false;
             //this.gridNoConformidades.Enabled 
@@ -1087,22 +1126,19 @@ namespace ProyectoInge
         {
             if (idEjecucion != null && idEjecucion.Equals("-") == false)
             {
-                int idDiseno = 0;
                 ListItem responsable;
                 ListItem diseno;
-                Dictionary<string, string> nombresDelProyecto = (Dictionary<string, string>)Session["vectorIdNombres"];
+                ListItem proyecto;
                 idEjecucionConsultada = idEjecucion;
-                DataTable datosDiseno = null;
+                string nombreDiseno = "";
+                string nombreProyecto = "";
+                string nombreResponsable = "";
 
                 DataRow filaCasoEjecutado;
-                GridViewRow gvr;
-                DataTable gridCasoEjecutado = GetTableWithNoData(); // get select column header only records not required
+                GridViewRow gvr = gridEjecuciones.Rows[filaConsultada];
+                DataTable gridCasoEjecutado = GetTableWithNoData(); // Se obtiene el esquema del grid
                 DataTable datosFilaEjecucion = controladoraEjecucionPruebas.consultarEjecucionPrueba(Int32.Parse(idEjecucion)); //Se obtienen los datos del diseño
                 DataTable casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
-                DataTable datosFilaFuncionario = null;
-                DataTable datosMiembro = null;
-                DataTable datosReqProyecto = null;
-                DataTable datosReqDiseno = null;
                 DataTable datosCasos = null;
                 int tamDatosCasos = 0;
                 int contadorFilas = 0;
@@ -1114,38 +1150,41 @@ namespace ProyectoInge
                     Response.Write(datosFilaEjecucion.Rows[0][1].ToString());
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
-
-                    string nombre = "";
-                    datosFilaFuncionario = controladoraEjecucionPruebas.consultarRH(datosFilaEjecucion.Rows[0][3].ToString());
-                    if (datosFilaFuncionario.Rows.Count > 0)
+   
+                    //Se actualiza el combo de proyecto con el dato específico
+                    nombreProyecto = (gvr.FindControl("lblProyecto") as Label).Text;
+                    if (this.comboProyecto.Items.FindByText(nombreProyecto) != null)
                     {
-                        nombre = datosFilaFuncionario.Rows[0][1].ToString() + " " + datosFilaFuncionario.Rows[0][2].ToString() + " " + datosFilaFuncionario.Rows[0][3].ToString();
+                        proyecto = this.comboProyecto.Items.FindByText(nombreProyecto);
+                        this.comboProyecto.SelectedValue = proyecto.Value;
                     }
-                    Response.Write("NOMBREE"+ nombre);
-                    this.comboResponsable.Text = nombre;
-                    if (this.comboResponsable.Items.FindByText(nombre) != null)
+
+                    //Se actualiza el combo de diseno con el dato específico
+                    Session["idProyectoEjecucion"] = (gvr.FindControl("lblIDProyecto") as Label).Text;
+                    llenarComboDisenos();
+                    this.comboDiseño.Enabled = false;
+                    nombreDiseno = (gvr.FindControl("lblDiseno") as Label).Text;
+                    if (this.comboDiseño.Items.FindByText(nombreDiseno) != null)
                     {
-                        responsable = this.comboResponsable.Items.FindByText(nombre);
+                            diseno = this.comboDiseño.Items.FindByText(nombreDiseno);
+                            this.comboDiseño.SelectedValue = diseno.Value;
+                    }
+
+                    UpdateProyectoDiseno.Update();
+
+                    //Se actualiza el combo de responsable con el dato específico
+                    llenarComboRecursos();
+                    nombreResponsable = (gvr.FindControl("lblResponsable") as Label).Text;
+                    if (this.comboResponsable.Items.FindByText(nombreResponsable) != null)
+                    {
+                        responsable = this.comboResponsable.Items.FindByText(nombreResponsable);
                         this.comboResponsable.SelectedValue = responsable.Value;
                     }
 
-
-
-
-                    idDiseno = Int32.Parse(datosFilaEjecucion.Rows[0][4].ToString());
-                    datosDiseno = controladoraEjecucionPruebas.getDatosDiseno(idDiseno);
-                    if (datosDiseno.Rows.Count > 0)
-                    {
-                        Response.Write("");
-                        Response.Write(datosDiseno.Rows[0][0].ToString());
-                        if (this.comboDiseño.Items.FindByText(datosDiseno.Rows[0][0].ToString()) != null)
-                        {
-                            diseno = this.comboDiseño.Items.FindByText(datosDiseno.Rows[0][0].ToString());
-                            this.comboDiseño.SelectedValue = diseno.Value;
-                        }
-                    }
+                    comboResponsableUpdate.Update();
                 }
-                //consultarCasoPrueba
+
+                //consultar No Conformidades
                 if (casoEjecutado.Rows.Count > 0)
                 {
                     datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
@@ -1209,7 +1248,7 @@ namespace ProyectoInge
                     filaCasoEjecutado[3] = "-";
                     filaCasoEjecutado[4] = "-";
                     filaCasoEjecutado[5] = '-';
-                    gridCasoEjecutado.Rows.Add(filaCasoEjecutado); // preguntar larisa
+                    gridCasoEjecutado.Rows.Add(filaCasoEjecutado); 
 
                 }
 
@@ -1846,6 +1885,7 @@ namespace ProyectoInge
             if (dt.Rows.Count == 0)
             {
                 gridTipoNC_Inicial(Int32.Parse(Session["idDisenoEjecucion"].ToString()), true);
+                cambiarEnabledGridNC(true);
             }
             else
             {
@@ -1861,6 +1901,7 @@ namespace ProyectoInge
             {
                 LinkButton lnkConsulta = (LinkButton)e.CommandSource;
                 idEjecucionConsultada = lnkConsulta.CommandArgument;
+                filaConsultada = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
                 if (idEjecucionConsultada.Equals("-") == false)
                 {
                     Response.Write("ENTREEEE");
@@ -1894,6 +1935,8 @@ namespace ProyectoInge
             table.Columns.Add("Responsable", typeof(string));
             table.Columns.Add("Diseno", typeof(string));
             table.Columns.Add("Proyecto", typeof(string));
+            table.Columns.Add("IDProyecto", typeof(string));
+
             return table;
         }
 
@@ -1908,26 +1951,22 @@ namespace ProyectoInge
         {
             Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
             Dictionary<string, string> nombreProyectosConsultados = new Dictionary<string, string>();
-            string nombreProyecto = "";
             DataRow filaEjecucion;
             DataTable disenosProyectos;
             DataTable responsables;
+            DataTable lideres;
             int contadorFilas = 0;
             int tamResponsables = 0;
             string nombreResponsable = "";
             int tamDisenosProyectos = 0;
             int tamProyecto = 0;
+            int tamLideres = 0;
             //DataTable dt = crearTablaDisenos();
             DataTable tablaDatosEjecucion = getTablaEjecucion();
             DataTable ejecuciones;
-            DataTable diseños;
             DataTable idProyectos;
             Object[] datos = new Object[6];
-            string representante = "";
-            string proyecto = "";
             int indiceColumna = 0;
-            string nombreRepresentante = "";
-            DataTable representantes;
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos las ejecuciones
             {
@@ -1942,12 +1981,12 @@ namespace ProyectoInge
                         filaEjecucion = tablaDatosEjecucion.NewRow();
                         foreach (DataColumn column in ejecuciones.Columns)
                         {
-                            if (indiceColumna != 2)
+                            if ((indiceColumna == 0 || indiceColumna == 1) && indiceColumna != 2 && indiceColumna != 3)
                             {
                                 filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
 
                             }
-                            if (indiceColumna == 4)
+                            if (indiceColumna == 3)
                             {
                                 contadorFilas = 0;
                                 tamDisenosProyectos = disenosProyectos.Rows.Count;
@@ -1959,15 +1998,19 @@ namespace ProyectoInge
                                 {
                                     if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
                                     {
-                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
-                                        filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                        filaEjecucion[3] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                        filaEjecucion[4] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                        filaEjecucion[5] = disenosProyectos.Rows[contadorFilas][2].ToString(); //id del proyecto
+
                                     }
                                 }
                             }
-                            if (indiceColumna == 3)
+                            if (indiceColumna == 2)
                             {
                                 contadorFilas = 0;
                                 tamResponsables = responsables.Rows.Count;
+                                Debug.Print("entre a responsables ");
+                                Debug.Print("tam de responsables es: " + tamResponsables);
                                 while ((contadorFilas < tamResponsables)&&(ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
@@ -1977,8 +2020,26 @@ namespace ProyectoInge
                                     if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
                                     {
                                         nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
-                                        filaEjecucion[indiceColumna] = nombreResponsable;
+                                        filaEjecucion[2] = nombreResponsable;
                                     }
+                                }
+                                else
+                                {
+                                    contadorFilas = 0;
+                                    responsables = controladoraEjecucionPruebas.consultarTodosMiembros(); //Se obtienen todos los miembros
+                                    tamResponsables = responsables.Rows.Count;
+
+                                    while ((contadorFilas < tamResponsables) && (ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
+                                    {
+                                        contadorFilas++;
+                                    }
+
+                                    if(contadorFilas < tamResponsables)
+                                    {
+                                        nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                        filaEjecucion[2] = nombreResponsable;
+                                    }
+
                                 }
                             }
                             ++indiceColumna;
@@ -2020,12 +2081,12 @@ namespace ProyectoInge
 
                             foreach (DataColumn column in ejecuciones.Columns)
                             {
-                                if (indiceColumna != 2)
+                                if ((indiceColumna == 0 || indiceColumna == 1) && indiceColumna != 2 && indiceColumna != 3)
                                 {
                                     filaEjecucion[indiceColumna] = ejecuciones.Rows[i][column].ToString();
 
                                 }
-                                if (indiceColumna == 4)
+                                if (indiceColumna == 3)
                                 {
                                     contadorFilas = 0;
                                     tamDisenosProyectos = disenosProyectos.Rows.Count;
@@ -2049,20 +2110,23 @@ namespace ProyectoInge
                                             {
                                                 if (idProyecto == idProyectos.Rows[contadorFilas][0].ToString())
                                                 {
-                                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
-                                                    filaEjecucion[indiceColumna] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                                    filaEjecucion[3] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
+                                                    filaEjecucion[4] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
                                                     tablaDatosEjecucion.Rows.Add(filaEjecucion);
+                                                    filaEjecucion[5] = disenosProyectos.Rows[contadorFilas][2].ToString();
                                                 }
                                             }
 
                                         }
                                     }
                                 }
-                                if (indiceColumna == 3)
+                                if (indiceColumna == 2)
                                 {
                                     contadorFilas = 0;
                                     tamResponsables = responsables.Rows.Count;
-                                    while ((contadorFilas < tamResponsables)&&(ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
+                                    Debug.Print("entre a responsables ");
+                                    Debug.Print("tam de responsables es: " + tamResponsables);
+                                    while ((contadorFilas < tamResponsables) && (ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                     {
                                         contadorFilas++;
                                     }
@@ -2071,7 +2135,24 @@ namespace ProyectoInge
                                         if (ejecuciones.Rows[i][column].ToString() == responsables.Rows[contadorFilas][0].ToString())
                                         {
                                             nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
-                                            filaEjecucion[indiceColumna] = nombreResponsable;
+                                            filaEjecucion[2] = nombreResponsable;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        contadorFilas = 0;
+                                        responsables = controladoraEjecucionPruebas.consultarTodosMiembros(); //Se obtienen todos los miembros
+                                        tamResponsables = responsables.Rows.Count;
+
+                                        while ((contadorFilas < tamResponsables) && (ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
+                                        {
+                                            contadorFilas++;
+                                        }
+
+                                        if (contadorFilas < tamResponsables)
+                                        {
+                                            nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
+                                            filaEjecucion[2] = nombreResponsable;
                                         }
                                     }
                                 }

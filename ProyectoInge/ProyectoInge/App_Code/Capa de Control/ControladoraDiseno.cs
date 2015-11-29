@@ -421,5 +421,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDDiseno.obtenerIdReqPorNombre(s);
         }
 
+        public DataTable consultarNombreProyectosAsociados()
+        {
+            return controladoraBDDiseno.consultarNombreProyectosAsociados();
+        }
+
     }
 }
