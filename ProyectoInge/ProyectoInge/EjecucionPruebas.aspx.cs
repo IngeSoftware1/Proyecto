@@ -1119,13 +1119,14 @@ namespace ProyectoInge
         }
 
         /*Método para la acción de aceptar cuando esta en modo de modificación
-         * Requiere: No requiere ningún parámetro
-         * Modifica: Modifica un objeto con los datos obtenidos en la interfaz mediante textbox y 
-         * valida que todos los datos se encuentren para la modificaión
-         * Retorna: No retorna ningún valor
-         */
+       * Requiere: No requiere ningún parámetro
+       * Modifica: Modifica un objeto con los datos obtenidos en la interfaz mediante textbox y 
+       * valida que todos los datos se encuentren para la modificaión
+       * Retorna: No retorna ningún valor
+       */
         protected void btnAceptar_Modificar()
         {
+            Response.Write("ENTROOO");
             modo = 2;
             if (faltanDatos())
             {
@@ -1137,7 +1138,6 @@ namespace ProyectoInge
             }
             else
             {
-                // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
                 if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
                 {
                     //Aquí se elimina la ejecución de pruebas
@@ -1148,14 +1148,87 @@ namespace ProyectoInge
                         lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
+
+                        //agregar aqui 
+                        int tipoInsercion = 1;
+                        //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                        Object[] datosNuevos = new Object[4];
+                        Debug.Print(this.txtIncidencias.Text);
+                        datosNuevos[0] = this.txtIncidencias.Text;
+                        datosNuevos[1] = this.txtCalendar.Text;
+                        datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                        datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+                        //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                        if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
+                        {
+                            int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                            guardarNoConformidades(ejecucion);
+
+                            lblModalTitle.Text = "";
+                            lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                        }
+                        else
+                        {
+                            lblModalTitle.Text = "ERROR";
+                            lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                            upModal.Update();
+                        }
+
+
+                        //se carga la interfaz de nuevo
+                        cambiarEnabled(true, this.btnModificar);
+                        cambiarEnabled(true, this.btnEliminar);
+                        cambiarEnabled(false, this.btnAceptar);
+                        cambiarEnabled(false, this.btnCancelar);
+                        cambiarEnabled(true, this.btnInsertar);
+                        //llenarGrid(null);
+                        // UpdateBotonesIMEC.Update();  //**
+                        //UpdateBotonesAceptarCancelar.Update();//***
+
+                        if (Session["perfil"].ToString().Equals("Administrador"))
+                        {
+                            llenarComboProyecto(null);
+                            this.comboDiseño.Enabled = false;
+                            this.comboResponsable.Enabled = false;
+                            gridTipoNC_Inicial(0, false);
+                            habilitarCampos(false);
+                            cambiarEnabledGridNC(false);
+                            //UpdateProyectoDiseno.Update();
+                            llenarGrid(null);
+                        }
+                        else
+                        {
+                            llenarComboProyecto(Session["cedula"].ToString());
+                            this.comboDiseño.Enabled = false;
+                            this.comboResponsable.Enabled = false;
+                            gridTipoNC_Inicial(0, false);
+                            habilitarCampos(false);
+                            cambiarEnabledGridNC(false);
+                            // UpdateProyectoDiseno.Update();
+                            llenarGrid(Session["cedula"].ToString());
+                        }
+
+                        lblModalTitle.Text = "";
+                        lblModalBody.Text = "Se modificó la ejecucion de pruebas";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
+
+
+
+
+
                     }
                     else
                     {
                         lblModalTitle.Text = "ERROR";
-                        lblModalBody.Text = "No se pudo eliminar este diseño.";
+                        lblModalBody.Text = "No se pudo eliminar este diseno.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                     }
+
                 }
                 else
                 {
@@ -1164,42 +1237,23 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-                Response.Write("Pudo eliminar la ejecucion de pruebas ");
+
+                //UpdateBotonesIMEC.Update();  //**
+                //UpdateBotonesAceptarCancelar.Update();//***
+                // Response.Write("Pudo eliminar la ejecucion de pruebas ");
                 //Ahora debería agregarlos de nuevo
                 //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
 
-                int tipoInsercion = 1;
-                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-                Object[] datosNuevos = new Object[4];
-                Debug.Print(this.txtIncidencias.Text);
-                datosNuevos[0] = this.txtIncidencias.Text;
-                datosNuevos[1] = this.txtCalendar.Text;
-                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
-                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
-                //si la ejecución de pruebas se pudo insertar correctamente entra a este if
-                if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
-                {
-                    int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                    guardarNoConformidades(ejecucion);
 
-                    lblModalTitle.Text = "";
-                    lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-                else
-                {
-                    lblModalTitle.Text = "ERROR";
-                    lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
+                //UpdateBotonesIMEC.Update();
+                //UpdateBotonesAceptarCancelar.Update();
             }
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
+
         }
 
-
+         
 
         /*Método para llenar y cargar datos en los campos del diseno asociado a la ejecucion de pruebas
         *necesarios para el modificar
@@ -1315,8 +1369,6 @@ namespace ProyectoInge
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
 
-
-                    Session["idDisenoEjecucion"] = datosFilaEjecucion.Rows[0][4].ToString(); 
                     //Se actualiza el combo de proyecto con el dato específico
                     nombreProyecto = (gvr.FindControl("lblProyecto") as Label).Text;
                     if (this.comboProyecto.Items.FindByText(nombreProyecto) != null)
@@ -1335,7 +1387,6 @@ namespace ProyectoInge
                         diseno = this.comboDiseño.Items.FindByText(nombreDiseno);
                         this.comboDiseño.SelectedValue = diseno.Value;
                     }
-
 
                     UpdateProyectoDiseno.Update();
 
@@ -1435,21 +1486,9 @@ namespace ProyectoInge
 
                 }
 
-
-
                 gridNoConformidades.DataSource = gridCasoEjecutado;
                 gridNoConformidades.DataBind();
                 cambiarEnabledGridNC(false);
-
-                //Carga del comboBox con los tipos de no conformidades
-                llenarComboTipoNC(true);
-
-
-                //Carga del comboBox con los códigos de los casos de prueba
-                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
-
-                //Carga del comboBox con los estados de las no conformidades
-                llenarComboEstados(true);
 
 
                 UpdateGridNoConformidades.Update();
