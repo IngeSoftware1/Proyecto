@@ -1334,6 +1334,7 @@ namespace ProyectoInge
 
 
 
+
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
            * Requiere: El identificador del diseño que se desea consultar.
            * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
