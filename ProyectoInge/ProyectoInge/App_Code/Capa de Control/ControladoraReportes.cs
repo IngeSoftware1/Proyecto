@@ -154,7 +154,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraEjecucion.consultarEstadosDeCasos(casos);
         }
 
-        public DataTable consultarEstadosConIdCaso
+        public string consultarEstadosConIdCaso(int id)
+        {
+            controladoraEjecucion = new ControladoraEjecucion();
+            return controladoraEjecucion.consultarEstadosConIdCaso(id);
+        }
+
 
         internal DataTable consultarResponsableDiseno(string proposito)
         {

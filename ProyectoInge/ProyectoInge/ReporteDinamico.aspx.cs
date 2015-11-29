@@ -749,7 +749,7 @@ namespace ProyectoInge
 
             if (idCaso != -1)
             {
-                resultado = controladoraReporte.consultarTipoNC_Caso(idCaso);
+                resultado = controladoraReporte.consultarEstadosConIdCaso(idCaso);
             }
             else
             {
