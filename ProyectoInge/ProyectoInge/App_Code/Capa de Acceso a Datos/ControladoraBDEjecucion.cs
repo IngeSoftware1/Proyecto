@@ -185,7 +185,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
         {
             try
             {
-                string eliminar = "DELETE FROM Ejecucion__Prueba where id_ejecucion = '" + idEjecucion + "'";
+                string eliminar = "DELETE FROM Ejecucion_Prueba where id_ejecucion = '" + idEjecucion + "'";
                 return acceso.eliminarDatos(eliminar);
             }
             catch (SqlException e)

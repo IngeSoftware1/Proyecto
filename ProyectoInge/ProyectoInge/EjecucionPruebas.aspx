@@ -554,11 +554,30 @@
                         <h3 class="modal-title" id="modalConfirma"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
                     </div>
                     <div class="modal-body">
-                        Está seguro que desea eliminar esta no conformidad?            
+                        ¿Está seguro que desea eliminar esta no conformidad?            
                     </div>
                     <div class="modal-footer">
                         <asp:Button ID="botonAceptarEliminar" class="btn btn-info" Text="Aceptar" OnClick="btnAceptarEliminarTipoNC" runat="server" />
                         <button type="button" id="botonVolver" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%--Modal Confirmar2--%>
+        <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalConfirmaEliminar"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Aviso</font></i></h3>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro que desea eliminar esta ejecución con sus no conformidades asociadas?            
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="botonAceptarEliminar2" class="btn btn-info" Text="Aceptar" OnClick="btnAceptar_Eliminar" runat="server" />
+                        <button type="button" id="botonVolver2" class="btn btn-info" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>

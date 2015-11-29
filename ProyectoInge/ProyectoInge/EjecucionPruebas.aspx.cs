@@ -133,7 +133,7 @@ namespace ProyectoInge
             modo = 3;
             habilitarCampos(false);
 
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmar", "$('#modalConfirmar').modal();", true);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalConfirmarEliminar", "$('#modalConfirmarEliminar').modal();", true);
             upModal.Update();
 
         }
@@ -844,7 +844,6 @@ namespace ProyectoInge
 
             llenarComboDisenos();
             llenarComboRecursos();
-            Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
 
@@ -957,11 +956,6 @@ namespace ProyectoInge
                         btnAceptar_Modificar();
                     }
                     break;
-                case 3:
-                    {
-                        btnAceptar_Eliminar();
-                    }
-                    break;
 
             }
 
@@ -970,12 +964,16 @@ namespace ProyectoInge
 
         }
 
-        /**/
-        public void btnAceptar_Eliminar()
+
+        /*Método del botón aceptar del modal confirmar2 para eliminar toda la ejecución con las no conformidades
+         */
+        public void btnAceptar_Eliminar(object sender, EventArgs e)
         {
 
             int tipoEliminar = 1;
             modo = 3;
+
+            Debug.Print("El id de ejecución que elimino es : " + idEjecucionConsultada);
 
             //Aquí se eliminan las no conformidades
             if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
@@ -1007,6 +1005,27 @@ namespace ProyectoInge
             }
 
             //Aqui se debe limpiar toda la pantalla para que quede como al inicio o si esta vara hace de nuevo el pageload
+
+            if (Session["perfil"].ToString().Equals("Administrador"))
+            {
+                llenarComboProyecto(null);
+                this.comboDiseño.Enabled = false;
+                this.comboResponsable.Enabled = false;
+                habilitarCampos(false);
+                UpdateProyectoDiseno.Update();
+                llenarGrid(null);
+                vaciarCampos();
+            }
+            else
+            {
+                llenarComboProyecto(Session["cedula"].ToString());
+                this.comboDiseño.Enabled = false;
+                this.comboResponsable.Enabled = false;
+                habilitarCampos(false);
+                UpdateProyectoDiseno.Update();
+                llenarGrid(Session["cedula"].ToString());
+                vaciarCampos();
+            }
         }
 
         /*Método para la acción de aceptar cuando esta en modo de inserción
@@ -1017,6 +1036,7 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Insertar()
         {
+            
             int tipoInsercion = 1;
 
             if (faltanDatos())
@@ -1042,6 +1062,7 @@ namespace ProyectoInge
                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoInsercion, datosNuevos, ""))
                 {
                     int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                    idEjecucionConsultada = Convert.ToString(ejecucion);
                     guardarNoConformidades(ejecucion);
 
                     lblModalTitle.Text = "";
@@ -1061,6 +1082,12 @@ namespace ProyectoInge
 
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
+
+            cambiarEnabled(true, this.btnModificar);
+            cambiarEnabled(true, this.btnEliminar);
+            cambiarEnabled(false, this.btnAceptar);
+            cambiarEnabled(false, this.btnCancelar);
+            cambiarEnabled(true, this.btnInsertar);
         }
 
         /*
