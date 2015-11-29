@@ -342,68 +342,58 @@ namespace ProyectoInge
         // Genera el reporte en PDF.
         protected void generarReportePDF()
         {
-            Response.Clear();
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Response.ContentType = "application/pdf";
-            Response.AddHeader("content-disposition", "attachment; filename=Reporte.pdf");
-            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.ContentType = "application/pdf; charset=UTF-8";
+            //para crear or abrir el documento
+            iTextSharp.text.Document documento = new iTextSharp.text.Document(PageSize.LETTER.Rotate());
+            PdfWriter.GetInstance(documento, new System.IO.FileStream(Server.MapPath("Reportes.pdf"), System.IO.FileMode.Create));
+            documento.Open();
 
-            //Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK);
-
-            Document pdfDoc = new Document(PageSize.LETTER.Rotate(), 5f, 5f, 5f, 0f);
-            PdfWriter.GetInstance(pdfDoc, Response.OutputStream);
-
-            pdfDoc.Open();
-
-            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(Request.MapPath("~/estatico/img/logo.png"));
+            //insertar imagen
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(Request.MapPath("~/dinamico/indice.png"));
             logo.Alignment = iTextSharp.text.Image.ALIGN_LEFT;
             logo.ScalePercent(20f);
 
-            PdfPTable table = new PdfPTable(3);
-            table.DefaultCell.Border = PdfPCell.BOTTOM_BORDER;
 
+            PdfPTable encabezado = new PdfPTable(3);
+            encabezado.DefaultCell.Border = PdfPCell.BOTTOM_BORDER;
             float[] columnWidths = new float[] { 25f, 50f, 25f };
-            table.SetWidths(columnWidths);
+            encabezado.SetWidths(columnWidths);
+            BaseFont baseFont = BaseFont.CreateFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
+            iTextSharp.text.Font font = new iTextSharp.text.Font(baseFont); 
 
             PdfPCell cell = new PdfPCell(logo);
             cell.Border = PdfPCell.BOTTOM_BORDER;
 
-            table.AddCell(cell);
-            table.AddCell(new Paragraph("Reporte: Sistema de Gestión de Pruebas"));
-            table.AddCell(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")));
+            encabezado.AddCell(cell);
+            encabezado.AddCell(new Paragraph("Reporte: Sistema de Gestión de Pruebas"));
+            encabezado.AddCell(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")));
 
-            pdfDoc.Add(table);
-
-            int columns = gridReportes.Rows[0].Cells.Count;
-            int rows = gridReportes.Rows.Count;
-
-            PdfPTable elGrid = new PdfPTable(columns);
-            elGrid.DefaultCell.Border = PdfPCell.BOX;
-            elGrid.HeaderRows = 1;
-            elGrid.WidthPercentage = 95f;
-
-            for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+            documento.Add(encabezado);
+            
+            PdfPTable table = new PdfPTable(gridReportes.Rows[0].Cells.Count);
+            iTextSharp.text.Font headerFont = new iTextSharp.text.Font(baseFont, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            iTextSharp.text.Font texto = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
+            Phrase p;
+            for (int columnCounter = 0; columnCounter < gridReportes.Rows[0].Cells.Count; columnCounter++)
             {
-                string strValue = gridReportes.HeaderRow.Cells[columnCounter].Text;
-                //elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue), headerFont));
+                p = new Phrase(gridReportes.HeaderRow.Cells[columnCounter].Text, headerFont);
+                table.AddCell(p);
             }
 
-            for (int rowCounter = 0; rowCounter < rows; rowCounter++)
-            {
-                for (int columnCounter = 0; columnCounter < columns; columnCounter++)
+
+            foreach(GridViewRow row in gridReportes.Rows)
+                for (int columnCounter = 0; columnCounter < gridReportes.Rows[0].Cells.Count; columnCounter++)
                 {
-                    string strValue = gridReportes.Rows[rowCounter].Cells[columnCounter].Text;
-                    elGrid.AddCell(new Paragraph(HttpUtility.HtmlDecode(strValue)));
+                    p = new Phrase(row.Cells[columnCounter].Text, texto);
+                    table.AddCell(p);
                 }
-            }
-            pdfDoc.Add(elGrid);
 
-            pdfDoc.Close();
+            documento.Add(table);
+            documento.Close();
 
-            Response.OutputStream.Flush();
-            Response.OutputStream.Close();
-            Response.End();
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('" + "Reportes.pdf" + "','_newtab');", true);
+           
+
         }
 
         //metodo para reiniciar los chechBox
@@ -1007,10 +997,10 @@ namespace ProyectoInge
         protected void llenarDropDownTipoDescarga()
         {
             this.comboTipoDescarga.Items.Clear();
-            Object[] datos = new Object[2];
-
-            datos[0] = "PDF";
-            datos[1] = "EXCEL";
+            Object[] datos = new Object[3];
+            datos[0] = "Seleccione";
+            datos[1] = "PDF";
+            datos[2] = "EXCEL";
             this.comboTipoDescarga.DataSource = datos;
             this.comboTipoDescarga.DataBind();
             UpdatePanel1.Update();
