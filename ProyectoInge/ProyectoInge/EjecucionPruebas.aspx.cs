@@ -944,8 +944,10 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            Response.Write(modo.ToString());
             switch (modo)
             {
+                
                 case 1:
                     {
                         btnAceptar_Insertar();
@@ -971,6 +973,7 @@ namespace ProyectoInge
         }
 
         /**/
+        /**/  
         public void btnAceptar_Eliminar()
         {
 
@@ -1127,37 +1130,60 @@ namespace ProyectoInge
        */
         protected void btnAceptar_Modificar()
         {
-            int tipoModificacion = 1;
-
+            modo = 2;
             if (faltanDatos())
             {
                 lblModalTitle.Text = "ERROR";
-                lblModalBody.Text = "Debe completar los datos obligatorios para agregar la ejecución.";
+                lblModalBody.Text = "Debe tener todos los cmapos obligatorios para poder modificar la ejecucion";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-                habilitarCamposModificar();
+               // habilitarCamposModificar();
             }
             else
             {
-                // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
-                if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, ""))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
-                {
-                    Debug.Print("Pudo eliminar la ejecucion de pruebas ");
+                    // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
+                    if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                    {
+                         //Aquí se elimina la ejecución de pruebas
+                         int tipoEliminar = 2;
+                         if (controladoraEjecucionPruebas.ejecutarAccion(3, tipoEliminar, null, idEjecucionConsultada))
+                         {
+                             lblModalTitle.Text = "";
+                             lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
+                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                             upModal.Update();
+                         }
+                         else
+                         {
+                             lblModalTitle.Text = "ERROR";
+                             lblModalBody.Text = "No se pudo eliminar este diseño.";
+                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                             upModal.Update();
+                         }
+                     }
+                     else
+                     {
+                         lblModalTitle.Text = "ERROR";
+                         lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
+                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                         upModal.Update();
+                     }
+                    Response.Write("Pudo eliminar la ejecucion de pruebas ");
                     //Ahora debería agregarlos de nuevo
                     //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-                    Object[] datosNuevos = new Object[4];
-                    //Debug.Print(this.txtIncidencias.Text);
 
+                    int tipoInsercion = 1;
+                    //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                    Object[] datosNuevos = new Object[4];
+                    Debug.Print(this.txtIncidencias.Text);
                     datosNuevos[0] = this.txtIncidencias.Text;
                     datosNuevos[1] = this.txtCalendar.Text;
                     datosNuevos[2] = obtenerCedula(comboResponsable.Text);
                     datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
-
                     //si la ejecución de pruebas se pudo insertar correctamente entra a este if
-                    if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoModificacion, datosNuevos, ""))
+                    if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
                     {
                         int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                        Debug.Print("El id de la nueva ejecución creada es: " + ejecucion);
                         guardarNoConformidades(ejecucion);
 
                         lblModalTitle.Text = "";
@@ -1167,19 +1193,15 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
+                        lblModalTitle.Text = "ERROR";
+                        lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                     }
-                }
-                else
-                {
-                    Debug.Print("NO SE PUDO INSERTAR DE NUEVO ");
-                }
             }
-
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
         }
-
 
 
         /*Método para llenar y cargar datos en los campos del diseno asociado a la ejecucion de pruebas
@@ -1216,6 +1238,7 @@ namespace ProyectoInge
         */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
+            modo = 2;
             Debug.Print("estoy en el evento de modificar");
             cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(false, this.btnEliminar);
@@ -1224,8 +1247,9 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-      //      llenarDatos(Session["idEjecuciones"].ToString());
-            this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
+            //llenarDatos(idEjecucionConsultada);
+            // llenarDatos(Session["idEjecuciones"].ToString());
+            //this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
             modo = 2;
             habilitarCamposModificar();
 
@@ -1246,15 +1270,15 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = true;
             this.calendarFecha.Enabled = true;
             this.txtIncidencias.Enabled = true;
-       //     this.txtCalendar.Enabled = true;
+            this.txtCalendar.Enabled = true;
             this.comboProyecto.Enabled = false;
             this.comboDiseño.Enabled = false;
+            cambiarEnabledGridNC(true);
             UpdateProyectoDiseno.Update();
             UpdatePanelCalendario.Update();
             comboResponsableUpdate.Update();
             UpdateIncidencias.Update();
-      
-            //this.gridNoConformidades.Enabled 
+
         }
 
 
@@ -1370,7 +1394,7 @@ namespace ProyectoInge
                             }
                             if (indiceColumnas == 3)
                             {
-                                filaCasoEjecutado[5] = casoEjecutado.Rows[i][3].ToString(); //Imagen
+                                filaCasoEjecutado[6] = casoEjecutado.Rows[i][3].ToString(); //Imagen
                             }
                             if (indiceColumnas == 5)
                             {
@@ -1379,6 +1403,10 @@ namespace ProyectoInge
                             if (indiceColumnas == 6)
                             {
                                 filaCasoEjecutado[2] = casoEjecutado.Rows[i][6].ToString(); //Descripción no conformidad
+                            }
+                            if (indiceColumnas == 4)
+                            {
+                                filaCasoEjecutado[7] = casoEjecutado.Rows[i][4].ToString(); //EXTENSION IMAGEN
                             }
 
                             ++indiceColumnas;
