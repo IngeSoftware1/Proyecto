@@ -247,7 +247,7 @@
                                     <div class="form-group col-sm-5 col-sm-offset-1">
                                         <div class="row">
                                             <div class="col-sm-1 col-sm-offset-1">
-                                                <asp:CheckBox ID="checkBoxTodos" runat="server" AutoPostBack="false" OnCheckedChanged="seleccionarTodosDatos" />
+                                                <asp:CheckBox ID="checkBoxTodos" runat="server" AutoPostBack="false" OnCheckedChanged="checkBoxTodos_CheckedChanged" />
                                             </div>
                                             <asp:Label ID="Label18" runat="server" Text="Seleccionar todos los datos" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
                                         </div>

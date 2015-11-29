@@ -51,6 +51,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return tiposNC;
         }
 
+        public string consultarEstadosConIdCaso(int id)
+        {
+            string estados = controladoraBDEjecucion.consultarEstadosConIdCaso(id);
+            return estados;
+        }
 
         public DataTable consultarEstados()
         {

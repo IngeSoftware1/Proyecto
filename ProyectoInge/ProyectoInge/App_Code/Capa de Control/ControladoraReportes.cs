@@ -27,7 +27,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraProyectos.consultarNombresProyectos();
         }
 
-        
+
         public DataTable consultarNomPropositoDiseno(int id)
         {
             controladoraDiseno = new ControladoraDiseno();
@@ -86,10 +86,10 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
         //consultar requerimientos de los modulos asociados a los proyectos
-        public DataTable consultarReqModulos(Object[] modulos,int contador)
+        public DataTable consultarReqModulos(Object[] modulos, int contador)
         {
             controladoraProyectos = new ControladoraProyecto();
-            return controladoraProyectos.consultarReqModulos(modulos,contador);
+            return controladoraProyectos.consultarReqModulos(modulos, contador);
         }
 
 
@@ -104,7 +104,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         }
 
         //metodo para consultar diseños asociados a requerimientos
-        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq){
+        public DataTable consultarDisenosReq(int id, Object[] requerimientos, int contadorReq) {
             controladoraDiseno = new ControladoraDiseno();
             return controladoraDiseno.consultarDisenosReq(id, requerimientos, contadorReq);
         }
@@ -130,14 +130,14 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         internal DataTable consultarCasosAociadosADiseno(string idDiseno)
         {
-            controladoraCasos= new ControladoraCasosPrueba();
+            controladoraCasos = new ControladoraCasosPrueba();
             return controladoraCasos.consultarCasosDePruebaAsociadoADisenoID(idDiseno);
         }
 
         internal DataTable consultarEjecuciones(Object[] caso, int numCasos, int p)
         {
             controladoraEjecucion = new ControladoraEjecucion();
-            return controladoraEjecucion.consultarEjecucionesDePrueba(caso, numCasos,p);
+            return controladoraEjecucion.consultarEjecucionesDePrueba(caso, numCasos, p);
         }
 
         //metodo para consultar estado de ejecución de un caso
@@ -152,6 +152,12 @@ namespace ProyectoInge.App_Code.Capa_de_Control
         public DataTable consultarEstadosDeCasos(DataTable casos){
             controladoraEjecucion = new ControladoraEjecucion();
             return controladoraEjecucion.consultarEstadosDeCasos(casos);
+        }
+
+        public string consultarEstadosConIdCaso(int id)
+        {
+            controladoraEjecucion = new ControladoraEjecucion();
+            return controladoraEjecucion.consultarEstadosConIdCaso(id);
         }
 
 

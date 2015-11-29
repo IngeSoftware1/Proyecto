@@ -87,6 +87,29 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+        public string consultarEstadosConIdCaso(int id)
+        {
+            DataTable dt = new DataTable();
+            string consulta;
+            string resultado = "";
+            try
+            {
+
+                consulta = "SELECT C.estado_ejecucion" + " FROM Caso_Ejecutado C where id_caso = '"+id+ "';";
+                dt = acceso.ejecutarConsultaTabla(consulta);
+                if (dt.Rows.Count >= 1)
+                {
+                    resultado = dt.Rows[0][0].ToString();
+                }
+
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+
+            return resultado;
+        }
         public DataTable getDescripcionN(string tipoNC)
         {
             DataTable dt = new DataTable();
