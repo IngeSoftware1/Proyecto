@@ -57,10 +57,10 @@ namespace ProyectoInge
             {
                 this.checkBoxConf.Checked = true;
                 this.checkBoxNC.Checked = true;
-                this.checkBoxPropositoCaso.Checked = true;
+                
                 this.checkBoxResultadoEsperado.Checked = true;
-                this.checkBoxRequerimientosDiseno.Checked = true;
-                this.checkBoxPropositoDiseno.Checked = true;
+                
+                
                 this.checkBoxResponsableDiseno.Checked = true;
                 this.checkBoxEstadoEjecucion.Checked = true;
                 this.checkBoxID_TipoNC.Checked = true;
@@ -267,7 +267,7 @@ namespace ProyectoInge
                 }
                 else
                 {
-                    cProps = new Object[2];
+                    cProps = new Object[1];
                     cProps[0] = "Seleccione";
                     this.comboBoxCaso.DataSource = cProps;
                     this.comboBoxCaso.DataBind();
@@ -403,9 +403,9 @@ namespace ProyectoInge
             this.checkBoxEstadoEjecucion.Checked = false;
             this.checkBoxID_TipoNC.Checked = false;
             this.checkBoxNC.Checked = false;
-            this.checkBoxPropositoCaso.Checked = false;
-            this.checkBoxPropositoDiseno.Checked = false;
-            this.checkBoxRequerimientosDiseno.Checked = false;
+            
+            
+            
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
             this.checkBoxTodos.Checked = false;
@@ -471,6 +471,15 @@ namespace ProyectoInge
             String diseno = comboBoxDiseno.Text;
             if (diseno != "Seleccione")
             {
+                if (this.checkBoxResponsableDiseno.Checked == true)
+                {
+                    DataTable responsable = controladoraReporte.consultarResponsableDiseno(diseno);
+                    diseno += "\n";
+                    foreach (DataRow fila in responsable.Rows)
+                    {
+                        diseno += "Responsable: " + fila[0].ToString() + " " + fila[1].ToString()+"\n";
+                    }
+                }
                 datos[i] = diseno;
                 i++;
             }
@@ -478,30 +487,52 @@ namespace ProyectoInge
             String caso = comboBoxCaso.Text;
             Object[] casosObj=null;
             int numCasos = 0;
-            Debug.Write("!!!!!!!!!!!!?????????????????");
-            if (caso == "Seleccione")
-            { }
-            else if (caso == "Todos")
+            int siHayCasoSeleccionado = 0;
+            Debug.Write("!!!!!!!!!!  CASO  !!?????????????????");
+            if (caso != "Seleccione")
             {
-                caso = "";
-                Debug.Write("Todos los casos");
-                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
-                numCasos = casos.Rows.Count;
-                casosObj = new Object[numCasos];
-                if (casos.Rows.Count > 0)
+                if (caso == "Todos")
                 {
-                    int c = 0;
-                    foreach (DataRow fila in casos.Rows)
+                    caso = "";
+                    Debug.Write("Todos los casos");
+                    DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
+                    numCasos = casos.Rows.Count;
+                    casosObj = new Object[numCasos];
+                    if (casos.Rows.Count > 0)
                     {
-                        Debug.Write(caso);
-                        caso += fila[1].ToString()+"\n";
-                        casosObj[c] = fila[1].ToString();
-                        c++;
+                        int c = 0;
+                        foreach (DataRow fila in casos.Rows)
+                        {
+                            Debug.Write(caso);
+                            caso += fila[1].ToString() + "\n";
+                            if (this.checkBoxResultadoEsperado.Checked == true)
+                            {
+                                DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(fila[1].ToString());
+                                foreach (DataRow fila1 in resultadoEsperado.Rows)
+                                {
+                                    caso += "Resultado esperdao: " + fila1[0].ToString() + "\n";
+                                }
+                            }
+                            casosObj[c] = fila[1].ToString();
+                            c++;
+                            siHayCasoSeleccionado++;
+                        }
                     }
                 }
+                else
+                {
+                    if (this.checkBoxResultadoEsperado.Checked == true)
+                    {
+                        DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
+                        foreach (DataRow fila in resultadoEsperado.Rows)
+                        {
+                            caso += "Resultado esperdao: "+fila[0].ToString()+"\n";
+                        }
+                    }
+                }
+                datos[i] = caso;
+                i++;
             }
-            datos[i] = caso;
-            i++;
             //METO LOS MODULOS
             int numModulos = 0;
             String modulos = "-";
@@ -998,7 +1029,7 @@ namespace ProyectoInge
         {
             this.comboTipoDescarga.Items.Clear();
             Object[] datos = new Object[3];
-            datos[0] = "Seleccione";
+            datos[0] = "Descargar";
             datos[1] = "PDF";
             datos[2] = "EXCEL";
             this.comboTipoDescarga.DataSource = datos;
@@ -1048,6 +1079,32 @@ namespace ProyectoInge
                 comboDisenoUpdate.Update();
             }
         }
+
+        protected void seleccionarTodosDatos(object sender, EventArgs e)
+        {
+            Debug.Write("Lo sintio");
+            if (this.checkBoxTodos.Checked == true)
+            {
+                this.checkBoxResponsableDiseno.CausesValidation = true;
+                this.checkBoxResultadoEsperado.CausesValidation = true;
+                this.checkBoxEstadoEjecucion.CausesValidation = true;
+                this.checkBoxID_TipoNC.CausesValidation = true;
+                this.checkBoxConf.CausesValidation = true;
+                this.checkBoxNC.CausesValidation = true;
+            }
+            else if (this.checkBoxTodos.Checked == false)
+            {
+                this.checkBoxResponsableDiseno.CausesValidation = false;
+                this.checkBoxResultadoEsperado.CausesValidation = false;
+                this.checkBoxEstadoEjecucion.CausesValidation = false;
+                this.checkBoxID_TipoNC.CausesValidation = false;
+                this.checkBoxConf.CausesValidation = false;
+                this.checkBoxNC.CausesValidation = false;
+            }
+            UpdatePaneChecks.Update();
+        }
+
+
     }
 }
 

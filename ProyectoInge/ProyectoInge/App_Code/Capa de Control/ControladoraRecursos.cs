@@ -396,8 +396,9 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraBDRecurso.consultarTodosMiembros();
         }
 
-        
-
-
+        internal DataTable consultarResponsableDiseno(string proposito)
+        {
+            return controladoraBDRecurso.consultarResponsableDiseno(proposito);
+        }
     }
 }

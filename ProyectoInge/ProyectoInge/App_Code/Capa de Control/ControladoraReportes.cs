@@ -154,5 +154,17 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraEjecucion.consultarEstadosDeCasos(casos);
         }
 
+
+        internal DataTable consultarResponsableDiseno(string proposito)
+        {
+            controladoraRH = new ControladoraRecursos();
+            return controladoraRH.consultarResponsableDiseno(proposito);
+        }
+
+        internal DataTable consultarResultadoCaso(string caso)
+        {
+            controladoraCasos = new ControladoraCasosPrueba();
+            return controladoraCasos.consultarResultadoCaso(caso);
+        }
     }
 }

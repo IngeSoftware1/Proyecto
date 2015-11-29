@@ -6,6 +6,7 @@ using System.Data;
 using ProyectoInge.App_Code.Capa_de_Acceso_a_Datos;
 using ProyectoInge.App_Code.Capa_de_Datos__Entidad_;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 {
@@ -783,8 +784,27 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
 
             return dt;
         }
-  
 
-    }
+
+
+        internal DataTable consultarResponsableDiseno(string proposito)
+        {
+            string consulta;
+            DataTable dt;
+
+            try
+            {
+                consulta = "Select nombre, apellido1 from Funcionario where cedula= (select cedula_responsable from Diseno_Pruebas where proposito_diseno= '"+proposito+"');";
+                Debug.WriteLine("la consulta es es:" + consulta);
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch
+            {
+                dt = null;
+            }
+
+            return dt;
+        }
+      }
 
 }

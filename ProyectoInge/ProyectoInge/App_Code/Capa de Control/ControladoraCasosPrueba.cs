@@ -143,6 +143,11 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             int idD = Int32.Parse(idDiseno);
             return controladoraBDCasosPrueba.consultarCasosDePruebaAsociadoADisenoID(idD);
         }
+
+        internal DataTable consultarResultadoCaso(string caso)
+        {
+            return controladoraBDCasosPrueba.consultarResultadoCaso(caso);
+        }
     }
 
 }

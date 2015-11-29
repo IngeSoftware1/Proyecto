@@ -184,5 +184,22 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             return dt;
         }
 
+
+        internal DataTable consultarResultadoCaso(string caso)
+        {
+            DataTable dt = new DataTable();
+            string consulta = "";
+            try
+            {
+                consulta = "SELECT C.resultado_esperado  FROM Caso_Prueba C WHERE C.identificador_caso ='" + caso + "';";
+                Debug.WriteLine("la consulta es es:" + consulta);
+                dt = acceso.ejecutarConsultaTabla(consulta);
+            }
+            catch (SqlException e)
+            {
+                dt = null;
+            }
+            return dt;
+        }
     }
 }
