@@ -1352,7 +1352,7 @@ namespace ProyectoInge
                                 {
                                     if (casoEjecutado.Rows[i][column].ToString() == datosCasos.Rows[contadorFilas][1].ToString())
                                     {
-                                        filaCasoEjecutado[1] = datosCasos.Rows[contadorFilas][1].ToString();// Caso prueba
+                                        filaCasoEjecutado[1] = datosCasos.Rows[contadorFilas][0].ToString();// Caso prueba
                                         Response.Write("    ");
                                         Response.Write(datosCasos.Rows[contadorFilas][1].ToString());
                                     }
