@@ -94,7 +94,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
 
-                consulta = "SELECT E.estado_ejecucion" + " FROM Estado_Ejecucion E where ";
+                consulta = "SELECT C.estado_ejecucion" + " FROM Caso_Ejecutado C where id_caso = '"+id+ "';";
                 dt = acceso.ejecutarConsultaTabla(consulta);
 
             }

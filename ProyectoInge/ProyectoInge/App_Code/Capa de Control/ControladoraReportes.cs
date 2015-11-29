@@ -154,6 +154,7 @@ namespace ProyectoInge.App_Code.Capa_de_Control
             return controladoraEjecucion.consultarEstadosDeCasos(casos);
         }
 
+        public DataTable consultarEstadosConIdCaso
 
         internal DataTable consultarResponsableDiseno(string proposito)
         {
