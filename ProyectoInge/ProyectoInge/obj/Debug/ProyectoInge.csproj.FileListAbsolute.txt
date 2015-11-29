@@ -1952,3 +1952,5 @@ C:\Users\B22689\Desktop\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoIng
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\obj\Debug\ProyectoInge.csprojResolveAssemblyReference.cache
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.pdfa.dll
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xtra.dll
+C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.pdfa.dll
+C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xtra.dll

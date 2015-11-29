@@ -252,7 +252,7 @@ namespace ProyectoInge
                         numDatos++;
                     }
                 }
-               
+
                 datos = new Object[numDatos + 1];
                 int contador = 0;
 
@@ -387,7 +387,7 @@ namespace ProyectoInge
                 this.comboResponsable.Items.Clear();
 
                 if (Recursos != null && Recursos.Rows.Count >= 1) //bloque para consultar miembros
-                {                    
+                {
                     numDatos = Recursos.Rows.Count;
                     datos = new Object[numDatos + 2];
 
@@ -508,7 +508,7 @@ namespace ProyectoInge
             {
 
                 datos = new Object[1];
-                datos[0] = "Seleccione";         
+                datos[0] = "Seleccione";
                 this.comboResponsable.DataSource = datos;
                 this.comboResponsable.DataBind();
                 this.comboResponsable.Enabled = false;
@@ -523,8 +523,8 @@ namespace ProyectoInge
 
         protected void llenarComboDisenos()
         {
-            int idProyecto = 0;  
-            DataTable disenos; 
+            int idProyecto = 0;
+            DataTable disenos;
             comboDedisenos.Clear();
 
             Object[] datos;
@@ -571,7 +571,7 @@ namespace ProyectoInge
                 this.comboDiseño.Enabled = false;
 
             }
-     
+
 
             UpdateProyectoDiseno.Update();
 
@@ -712,7 +712,7 @@ namespace ProyectoInge
 
         protected void proyectoSeleccionado(object sender, EventArgs e)
         {
-            if(this.comboProyecto.Text != "Seleccione")
+            if (this.comboProyecto.Text != "Seleccione")
             {
                 this.comboDiseño.Enabled = true;
                 this.comboResponsable.Enabled = true;
@@ -723,11 +723,11 @@ namespace ProyectoInge
                 this.panelDiseno.Visible = false;
                 this.datosDiseno.Visible = false;
                 this.lblDatosDiseño.Visible = false;
-        
+
                 gridTipoNC_Inicial(0, false); //Para que inicialize el grid cuando el usuario cambia de proyecto
                 cambiarEnabledGridNC(false);
             }
-            else 
+            else
             {
 
                 this.comboDiseño.Enabled = false;
@@ -740,7 +740,7 @@ namespace ProyectoInge
             }
 
             comboResponsableUpdate.Update();
-            UpdateProyectoDiseno.Update();      
+            UpdateProyectoDiseno.Update();
             UpdateDatosDiseno.Update();
         }
 
@@ -837,11 +837,11 @@ namespace ProyectoInge
             {
                 llenarComboProyecto(null);
             }
-            else 
+            else
             {
                 llenarComboProyecto(Session["cedula"].ToString());
             }
-            
+
             llenarComboDisenos();
             llenarComboRecursos();
             Debug.Print("Estoy en la acción del botón insertar y mi modo es " + modo);
@@ -944,13 +944,10 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            Response.Write(modo.ToString());
             switch (modo)
             {
-                
                 case 1:
                     {
-                        Debug.Print("estoy a punto de ir a insertar");
                         btnAceptar_Insertar();
                     }
                     break;
@@ -974,41 +971,40 @@ namespace ProyectoInge
         }
 
         /**/
-        /**/  
         public void btnAceptar_Eliminar()
         {
 
-             int tipoEliminar = 1;
-             modo = 3;
+            int tipoEliminar = 1;
+            modo = 3;
 
             //Aquí se eliminan las no conformidades
-             if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
-             {
-                 //Aquí se elimina la ejecución de pruebas
-                 tipoEliminar = 2;
-                 if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
-                 {
-                     lblModalTitle.Text = "";
-                     lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
-                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                     upModal.Update();
-                 }
-                 else
-                 {
-                     lblModalTitle.Text = "ERROR";
-                     lblModalBody.Text = "No se pudo eliminar este diseño.";
-                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                     upModal.Update();
-                 }
+            if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
+            {
+                //Aquí se elimina la ejecución de pruebas
+                tipoEliminar = 2;
+                if (controladoraEjecucionPruebas.ejecutarAccion(modo, tipoEliminar, null, idEjecucionConsultada))
+                {
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                else
+                {
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "No se pudo eliminar este diseño.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
 
-             }
-             else
-             {
-                 lblModalTitle.Text = "ERROR";
-                 lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
-                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                 upModal.Update();
-             }
+            }
+            else
+            {
+                lblModalTitle.Text = "ERROR";
+                lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                upModal.Update();
+            }
 
             //Aqui se debe limpiar toda la pantalla para que quede como al inicio o si esta vara hace de nuevo el pageload
         }
@@ -1022,7 +1018,6 @@ namespace ProyectoInge
         protected void btnAceptar_Insertar()
         {
             int tipoInsercion = 1;
-            Debug.Print("estoy en aceptar insertar");
 
             if (faltanDatos())
             {
@@ -1123,13 +1118,12 @@ namespace ProyectoInge
             return resultado;
         }
 
-
         /*Método para la acción de aceptar cuando esta en modo de modificación
-       * Requiere: No requiere ningún parámetro
-       * Modifica: Modifica un objeto con los datos obtenidos en la interfaz mediante textbox y 
-       * valida que todos los datos se encuentren para la modificaión
-       * Retorna: No retorna ningún valor
-       */
+         * Requiere: No requiere ningún parámetro
+         * Modifica: Modifica un objeto con los datos obtenidos en la interfaz mediante textbox y 
+         * valida que todos los datos se encuentren para la modificaión
+         * Retorna: No retorna ningún valor
+         */
         protected void btnAceptar_Modificar()
         {
             modo = 2;
@@ -1139,71 +1133,72 @@ namespace ProyectoInge
                 lblModalBody.Text = "Debe tener todos los cmapos obligatorios para poder modificar la ejecucion";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 upModal.Update();
-               // habilitarCamposModificar();
+                // habilitarCamposModificar();
             }
             else
             {
-                    // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
-                    if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                // REVISAR ESTA SIG LINEA CUANDO GAUDY HAGA EL ELIMINAR
+                if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                {
+                    //Aquí se elimina la ejecución de pruebas
+                    int tipoEliminar = 2;
+                    if (controladoraEjecucionPruebas.ejecutarAccion(3, tipoEliminar, null, idEjecucionConsultada))
                     {
-                         //Aquí se elimina la ejecución de pruebas
-                         int tipoEliminar = 2;
-                         if (controladoraEjecucionPruebas.ejecutarAccion(3, tipoEliminar, null, idEjecucionConsultada))
-                         {
-                             lblModalTitle.Text = "";
-                             lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
-                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                             upModal.Update();
-                         }
-                         else
-                         {
-                             lblModalTitle.Text = "ERROR";
-                             lblModalBody.Text = "No se pudo eliminar este diseño.";
-                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                             upModal.Update();
-                         }
-                     }
-                     else
-                     {
-                         lblModalTitle.Text = "ERROR";
-                         lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
-                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                         upModal.Update();
-                     }
-                    Response.Write("Pudo eliminar la ejecucion de pruebas ");
-                    //Ahora debería agregarlos de nuevo
-                    //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-
-                    int tipoInsercion = 1;
-                    //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
-                    Object[] datosNuevos = new Object[4];
-                    Debug.Print(this.txtIncidencias.Text);
-                    datosNuevos[0] = this.txtIncidencias.Text;
-                    datosNuevos[1] = this.txtCalendar.Text;
-                    datosNuevos[2] = obtenerCedula(comboResponsable.Text);
-                    datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
-                    //si la ejecución de pruebas se pudo insertar correctamente entra a este if
-                    if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
-                    {
-                        int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                        guardarNoConformidades(ejecucion);
-
                         lblModalTitle.Text = "";
-                        lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                        lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                     }
                     else
                     {
                         lblModalTitle.Text = "ERROR";
-                        lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                        lblModalBody.Text = "No se pudo eliminar este diseño.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
                     }
+                }
+                else
+                {
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "No se pudieron eliminar las no conformidades asociadas a este diseño.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                Response.Write("Pudo eliminar la ejecucion de pruebas ");
+                //Ahora debería agregarlos de nuevo
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+
+                int tipoInsercion = 1;
+                //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
+                Object[] datosNuevos = new Object[4];
+                Debug.Print(this.txtIncidencias.Text);
+                datosNuevos[0] = this.txtIncidencias.Text;
+                datosNuevos[1] = this.txtCalendar.Text;
+                datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
+                //si la ejecución de pruebas se pudo insertar correctamente entra a este if
+                if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
+                {
+                    int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
+                    guardarNoConformidades(ejecucion);
+
+                    lblModalTitle.Text = "";
+                    lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                else
+                {
+                    lblModalTitle.Text = "ERROR";
+                    lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
             }
             UpdateBotonesIMEC.Update();
             UpdateBotonesAceptarCancelar.Update();
         }
+
 
 
         /*Método para llenar y cargar datos en los campos del diseno asociado a la ejecucion de pruebas
@@ -1249,14 +1244,14 @@ namespace ProyectoInge
             //llenar los txtbox con la table
             cambiarEnabled(true, this.btnAceptar);
             cambiarEnabled(true, this.btnCancelar);
-            //llenarDatos(idEjecucionConsultada);
+            llenarDatos(idEjecucionConsultada);
             // llenarDatos(Session["idEjecuciones"].ToString());
             //this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
             modo = 2;
             habilitarCamposModificar();
 
             UpdateBotonesIMEC.Update();
-            comboResponsableUpdate.Update();        
+            comboResponsableUpdate.Update();
             UpdateIncidencias.Update();
             UpdateBotonesAceptarCancelar.Update();
         }
@@ -1286,10 +1281,10 @@ namespace ProyectoInge
 
 
         /*Método para llenar los campos de la interfaz con los resultados de la consulta.
-        * Requiere: El identificador del diseño que se desea consultar.
-        * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
-        * Retorna: No retorna ningún valor. 
-        */
+           * Requiere: El identificador del diseño que se desea consultar.
+           * Modifica: Los campos de la interfaz correspondientes a los datos recibidos mediante la clase controladora.
+           * Retorna: No retorna ningún valor. 
+           */
         public void llenarDatos(string idEjecucion)
         {
             if (idEjecucion != null && idEjecucion.Equals("-") == false)
@@ -1319,7 +1314,9 @@ namespace ProyectoInge
                     Response.Write(datosFilaEjecucion.Rows[0][1].ToString());
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
-   
+
+
+                    Session["idDisenoEjecucion"] = datosFilaEjecucion.Rows[0][4].ToString(); 
                     //Se actualiza el combo de proyecto con el dato específico
                     nombreProyecto = (gvr.FindControl("lblProyecto") as Label).Text;
                     if (this.comboProyecto.Items.FindByText(nombreProyecto) != null)
@@ -1335,9 +1332,10 @@ namespace ProyectoInge
                     nombreDiseno = (gvr.FindControl("lblDiseno") as Label).Text;
                     if (this.comboDiseño.Items.FindByText(nombreDiseno) != null)
                     {
-                            diseno = this.comboDiseño.Items.FindByText(nombreDiseno);
-                            this.comboDiseño.SelectedValue = diseno.Value;
+                        diseno = this.comboDiseño.Items.FindByText(nombreDiseno);
+                        this.comboDiseño.SelectedValue = diseno.Value;
                     }
+
 
                     UpdateProyectoDiseno.Update();
 
@@ -1371,7 +1369,7 @@ namespace ProyectoInge
                                 contadorFilas = 0;
                                 tamDatosCasos = datosCasos.Rows.Count;
 
-                                while ( (contadorFilas < tamDatosCasos) && (casoEjecutado.Rows[i][column].ToString() != datosCasos.Rows[contadorFilas][1].ToString()))
+                                while ((contadorFilas < tamDatosCasos) && (casoEjecutado.Rows[i][column].ToString() != datosCasos.Rows[contadorFilas][1].ToString()))
                                 {
                                     contadorFilas++;
                                 }
@@ -1397,7 +1395,7 @@ namespace ProyectoInge
                             }
                             if (indiceColumnas == 3)
                             {
-                                imagen = (byte[])casoEjecutado.Rows[i][3]; 
+                                imagen = (byte[])casoEjecutado.Rows[i][3];
                                 imagenNC = Convert.ToBase64String(imagen, 0, imagen.Length);
                                 filaCasoEjecutado[6] = imagenNC; //Imagen
                             }
@@ -1433,13 +1431,25 @@ namespace ProyectoInge
                     filaCasoEjecutado[3] = "-";
                     filaCasoEjecutado[4] = "-";
                     filaCasoEjecutado[5] = '-';
-                    gridCasoEjecutado.Rows.Add(filaCasoEjecutado); 
+                    gridCasoEjecutado.Rows.Add(filaCasoEjecutado);
 
                 }
+
+
 
                 gridNoConformidades.DataSource = gridCasoEjecutado;
                 gridNoConformidades.DataBind();
                 cambiarEnabledGridNC(false);
+
+                //Carga del comboBox con los tipos de no conformidades
+                llenarComboTipoNC(true);
+
+
+                //Carga del comboBox con los códigos de los casos de prueba
+                llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+
+                //Carga del comboBox con los estados de las no conformidades
+                llenarComboEstados(true);
 
 
                 UpdateGridNoConformidades.Update();
@@ -1447,6 +1457,8 @@ namespace ProyectoInge
 
 
         }
+
+
 
         /** Método para obtener la tabla con los datos iniciales que serán mostrados en pantalla.
         * Requiere: no recibe parámetros.
@@ -1520,7 +1532,7 @@ namespace ProyectoInge
                 string extension = Path.GetExtension(Path.GetFileName(FileImage.PostedFile.FileName));
                 extensionImagen = extension;
 
-  
+
 
                 ////De acuerdo al tipo de imagen se carga con extension distinta en el image control
                 //switch (extension)
@@ -1884,8 +1896,8 @@ namespace ProyectoInge
 
                         dt.Rows.Add(dr); // add grid values in to row and add row to the blank tables
 
-                    }             
-                    
+                    }
+
                 }
 
                 gridNoConformidades.EditIndex = -1;
@@ -2116,7 +2128,7 @@ namespace ProyectoInge
                 if (idEjecucionConsultada.Equals("-") == false)
                 {
                     Response.Write("ENTREEEE");
-                           Response.Write(idEjecucionConsultada);
+                    Response.Write(idEjecucionConsultada);
                     Session["idEjecuciones"] = idEjecucionConsultada;
                     //   controlarCampos(false); ?????
                     llenarDatos(idEjecucionConsultada);
@@ -2205,7 +2217,7 @@ namespace ProyectoInge
                             {
                                 contadorFilas = 0;
                                 tamDisenosProyectos = disenosProyectos.Rows.Count;
-                                while ((contadorFilas < tamDisenosProyectos)&&(ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()))
+                                while ((contadorFilas < tamDisenosProyectos) && (ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
@@ -2226,7 +2238,7 @@ namespace ProyectoInge
                                 tamResponsables = responsables.Rows.Count;
                                 Debug.Print("entre a responsables ");
                                 Debug.Print("tam de responsables es: " + tamResponsables);
-                                while ((contadorFilas < tamResponsables)&&(ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
+                                while ((contadorFilas < tamResponsables) && (ejecuciones.Rows[i][column].ToString() != responsables.Rows[contadorFilas][0].ToString()))
                                 {
                                     contadorFilas++;
                                 }
@@ -2249,7 +2261,7 @@ namespace ProyectoInge
                                         contadorFilas++;
                                     }
 
-                                    if(contadorFilas < tamResponsables)
+                                    if (contadorFilas < tamResponsables)
                                     {
                                         nombreResponsable = responsables.Rows[contadorFilas][1].ToString() + " " + responsables.Rows[contadorFilas][2].ToString() + " " + responsables.Rows[contadorFilas][3].ToString();
                                         filaEjecucion[2] = nombreResponsable;
@@ -2306,7 +2318,7 @@ namespace ProyectoInge
                                     contadorFilas = 0;
                                     tamDisenosProyectos = disenosProyectos.Rows.Count;
                                     //
-                                    while ( (contadorFilas < tamDisenosProyectos)&&(ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()) )
+                                    while ((contadorFilas < tamDisenosProyectos) && (ejecuciones.Rows[i][column].ToString() != disenosProyectos.Rows[contadorFilas][0].ToString()))
                                     {
                                         contadorFilas++;
                                     }
@@ -2317,7 +2329,7 @@ namespace ProyectoInge
                                             contadorFilas = 0;
                                             tamProyecto = idProyectos.Rows.Count;
                                             string idProyecto = disenosProyectos.Rows[contadorFilas][2].ToString(); //id de proyecto
-                                            while ((contadorFilas < tamProyecto)&&(idProyecto != idProyectos.Rows[contadorFilas][0].ToString()))
+                                            while ((contadorFilas < tamProyecto) && (idProyecto != idProyectos.Rows[contadorFilas][0].ToString()))
                                             {
                                                 contadorFilas++;
                                             }
