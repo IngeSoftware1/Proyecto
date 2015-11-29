@@ -1360,11 +1360,13 @@ namespace ProyectoInge
                             }
                             if (indiceColumnas == 1)
                             {
-                                filaCasoEjecutado[0] = casoEjecutado.Rows[i][1].ToString(); //tipo caso no conformidad
+                                Response.Write("    ");
+                                Response.Write(casoEjecutado.Rows[i][column].ToString());
+                                filaCasoEjecutado[0] = casoEjecutado.Rows[i][column].ToString(); //tipo caso no conformidad
                             }
                             if (indiceColumnas == 2)
                             {
-                                filaCasoEjecutado[3] = casoEjecutado.Rows[i][2].ToString(); //justificación
+                                filaCasoEjecutado[3] = casoEjecutado.Rows[i][column].ToString(); //justificación
                             }
                             if (indiceColumnas == 3)
                             {
@@ -1379,7 +1381,7 @@ namespace ProyectoInge
                                 filaCasoEjecutado[2] = casoEjecutado.Rows[i][6].ToString(); //Descripción no conformidad
                             }
 
-
+                            ++indiceColumnas;
                         }
 
                         indiceColumnas = 0;
