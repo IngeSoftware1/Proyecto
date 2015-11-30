@@ -306,67 +306,56 @@ namespace ProyectoInge
         protected void generarReporteExcel()
         {
             /**
-            ExcelPackage package = new ExcelPackage();
-            package.Workbook.Worksheets.Add("Reportes");
-            ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
-            worksheet.Cells.Style.Font.Size = 12;
-            worksheet.Cells.Style.Font.Name = "Calibri";
+            Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
 
-            // Poner un titulo.
-            worksheet.Cells[1, 1].Value = "Reporte de proyectos " + DateTime.Today.ToString("(dd/MM/yyyy).");
-            worksheet.Row(1).Style.Font.Bold = true;
-            worksheet.Row(1).Style.Font.Size = 14;
-
-            // Rellenar los datos.
-            int c = 1;
-            int r = 2;
-            // Poner el header.
-            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+            if (xlApp == null)
             {
-                worksheet.Cells[r, c++].Value = cell.Text;
-            }
-            // Dar formato al header.
-            worksheet.Row(r).Style.Font.Bold = true;
-            worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-            worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
-            r++;
-            // Poner el resto de los datos.
-            foreach (TableRow row in gridReportes.Rows)
-            {
-                c = 1;
-                foreach (TableCell cell in row.Cells)
-                {
-                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
-                }
-                // Coloreamos las filas.
-                if (0 == r % 2)
-                {
-                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
-                }
-                r++;
+                MessageBox.Show("Excel is not properly installed!!");
+                return;
             }
 
-            // Ajustamos el ancho de las columnas.
-            worksheet.DefaultColWidth = 10;
-            worksheet.Cells.AutoFitColumns();
 
-            Response.Clear();
-            Response.Buffer = true;
-            Response.BinaryWrite(package.GetAsByteArray());
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "attachment;  filename=Reporte.xlsx");
-            Response.Flush();
-            Response.End();
-             */
+            Excel.Workbook xlWorkBook;
+            Excel.Worksheet xlWorkSheet;
+            object misValue = System.Reflection.Missing.Value;
 
+            xlWorkBook = xlApp.Workbooks.Add(misValue);
+            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            xlWorkSheet.Cells[1, 1] = "Sheet 1 content";
 
+            xlWorkBook.SaveAs("d:\\csharp-Excel.xls", Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+            xlWorkBook.Close(true, misValue, misValue);
+            xlApp.Quit();
+
+            releaseObject(xlWorkSheet);
+            releaseObject(xlWorkBook);
+            releaseObject(xlApp);
+
+            MessageBox.Show("Excel file created , you can find the file d:\\csharp-Excel.xls");
+            */
+        }
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
         }
 
         // Genera el reporte en PDF.
         protected void generarReportePDF()
         {
-             Response.ContentType = "application/pdf; charset=UTF-8";
+            Response.ContentType = "application/pdf; charset=UTF-8";
             //para crear or abrir el documento
             iTextSharp.text.Document documento = new iTextSharp.text.Document(PageSize.LETTER.Rotate());
             PdfWriter.GetInstance(documento, new System.IO.FileStream(Server.MapPath("Reportes.pdf"), System.IO.FileMode.Create));
@@ -380,44 +369,45 @@ namespace ProyectoInge
 
             PdfPTable encabezado = new PdfPTable(3);
             encabezado.DefaultCell.Border = PdfPCell.BOTTOM_BORDER;
-             float[] columnWidths = new float[] { 25f, 50f, 25f };
+            float[] columnWidths = new float[] { 25f, 50f, 25f };
             encabezado.SetWidths(columnWidths);
             BaseFont baseFont = BaseFont.CreateFont("c:\\WINDOWS\\fonts\\times.ttf", BaseFont.IDENTITY_H, true);
-            iTextSharp.text.Font font = new iTextSharp.text.Font(baseFont); 
- 
-             PdfPCell cell = new PdfPCell(logo);
-             cell.Border = PdfPCell.BOTTOM_BORDER;
+            iTextSharp.text.Font font = new iTextSharp.text.Font(baseFont);
 
-             encabezado.AddCell(cell);
-             encabezado.AddCell(new Paragraph("Reporte: Sistema de Gestión de Pruebas"));
-             encabezado.AddCell(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")));
+            PdfPCell cell = new PdfPCell(logo);
+            cell.Border = PdfPCell.BOTTOM_BORDER;
 
-             documento.Add(encabezado);
-            
+            encabezado.AddCell(cell);
+            encabezado.AddCell(new Paragraph("Reporte: Sistema de Gestión de Pruebas"));
+            encabezado.AddCell(new Paragraph(DateTime.Now.ToString("dd/MM/yyyy")));
+
+            documento.Add(encabezado);
+
             PdfPTable table = new PdfPTable(gridReportes.Rows[0].Cells.Count);
             iTextSharp.text.Font headerFont = new iTextSharp.text.Font(baseFont, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
             iTextSharp.text.Font texto = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 12, iTextSharp.text.Font.BOLD, BaseColor.BLACK);
             Phrase p;
             for (int columnCounter = 0; columnCounter < gridReportes.Rows[0].Cells.Count; columnCounter++)
-             {
-                 p = new Phrase(gridReportes.HeaderRow.Cells[columnCounter].Text, headerFont);
-                 table.AddCell(p);
-             }
+            {
+                p = new Phrase(gridReportes.HeaderRow.Cells[columnCounter].Text, headerFont);
+                table.AddCell(p);
+            }
 
-            foreach(GridViewRow row in gridReportes.Rows){
+            foreach (GridViewRow row in gridReportes.Rows)
+            {
                 for (int columnCounter = 0; columnCounter < gridReportes.Rows[0].Cells.Count; columnCounter++)
-                { 
+                {
                     p = new Phrase(row.Cells[columnCounter].Text, texto);
-                   table.AddCell(p);
-                 }
+                    table.AddCell(p);
+                }
             }
 
 
-             documento.Add(table);
-             documento.Close();
- 
+            documento.Add(table);
+            documento.Close();
+
             Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('" + "Reportes.pdf" + "','_newtab');", true);
-           
+
 
 
         }
@@ -499,12 +489,12 @@ namespace ProyectoInge
             this.checkBoxEstadoEjecucion.Checked = false;
             this.checkBoxID_TipoNC.Checked = false;
             this.checkBoxNC.Checked = false;
-            this.checkBoxConf.Checked = false; 
+            this.checkBoxConf.Checked = false;
             this.checkBoxErrores.Checked = false;
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
             this.checkBoxTodos.Checked = false;
-            for (int i=0; i<chklistModulos.Items.Count; i++)
+            for (int i = 0; i < chklistModulos.Items.Count; i++)
             {
                 this.chklistModulos.Items[i].Selected = false;
             }
@@ -525,9 +515,9 @@ namespace ProyectoInge
                 llenarGrid();
                 Debug.Write("Entro a llenar grid");
             }
-            else 
+            else
             {
-                if(checkBoxVacios== true)
+                if (checkBoxVacios == true)
                 {
                     lblModalTitle.Text = "Error";
                     lblModalBody.Text = "Para generar un nuevo reporte debe seleccionar la(s) casilla(s) con los datos que desea que contenga.";
@@ -563,7 +553,7 @@ namespace ProyectoInge
         {
             DataTable dt = crearTablaRequerimientos();
             int numCols = dt.Columns.Count;
-            
+
             //int indice=0;
             Object[] datos = new Object[numCols];
 
@@ -578,52 +568,82 @@ namespace ProyectoInge
                 datos[i] = proyecto;
                 i++;
             }
-            //METE EL DISENO
             String diseno = comboBoxDiseno.Text;
             if (diseno != "Seleccione")
             {
+                if (this.checkBoxResponsableDiseno.Checked == true)
+                {
+                    DataTable responsable = controladoraReporte.consultarResponsableDiseno(diseno);
+                    diseno += "\n";
+                    foreach (DataRow fila in responsable.Rows)
+                    {
+                        diseno += "Responsable: " + fila[0].ToString() + " " + fila[1].ToString() + "\n";
+                    }
+                }
                 datos[i] = diseno;
                 i++;
             }
             //METE EL CASO
             String caso = comboBoxCaso.Text;
-            Object[] casosObj=null;
+            Object[] casosObj = null;
             int numCasos = 0;
-            Debug.Write("!!!!!!!!!!!!?????????????????");
-            if (caso == "Seleccione")
-            { }
-            else if (caso == "Todos")
+            int siHayCasoSeleccionado = 0;
+            if (caso != "Seleccione")
             {
-                caso = "";
-                Debug.Write("Todos los casos");
-                DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
-                numCasos = casos.Rows.Count;
-                casosObj = new Object[numCasos];
-                if (casos.Rows.Count > 0)
+                if (caso == "Todos")
                 {
-                    int c = 0;
-                    foreach (DataRow fila in casos.Rows)
+                    caso = "";
+                    Debug.Write("Todos los casos");
+                    DataTable casos = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
+                    numCasos = casos.Rows.Count;
+                    casosObj = new Object[numCasos];
+                    if (casos.Rows.Count > 0)
                     {
-                        Debug.Write(caso);
-                        caso += fila[1].ToString()+"\n";
-                        casosObj[c] = fila[1].ToString();
-                        c++;
+                        int c = 0;
+                        foreach (DataRow fila in casos.Rows)
+                        {
+                            Debug.Write(caso);
+                            caso += fila[1].ToString() + "\n";
+                            if (this.checkBoxResultadoEsperado.Checked == true)
+                            {
+                                DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(fila[1].ToString());
+                                foreach (DataRow fila1 in resultadoEsperado.Rows)
+                                {
+                                    caso += "Resultado esperdao: " + fila1[0].ToString() + "\n";
+                                }
+                            }
+                            casosObj[c] = fila[1].ToString();
+                            c++;
+                            siHayCasoSeleccionado++;
+                        }
                     }
                 }
-            }
-            datos[i] = caso;
-            i++;
-            //METO LOS MODULOS
-            int numModulos = 0;
-            String modulos = "";
-            for (int j = 0; j < chklistModulos.Items.Count; ++j)
-            {
-                if (this.chklistModulos.Items[j].Selected == true)
+                else
                 {
-                    modulos = modulos + this.chklistModulos.Items[j].ToString();
+                    if (this.checkBoxResultadoEsperado.Checked == true)
+                    {
+                        caso += "\n";
+                        DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
+                        foreach (DataRow fila in resultadoEsperado.Rows)
+                        {
+                            caso += "Resultado esperdao: " + fila[0].ToString() + "\n";
+                        }
+                    }
+                }
+                datos[i] = caso;
+                i++;
+            }
+
+            //METO LOS MODULOS
+            String modulos = "";
+            if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
+            {
+                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                {
+                    modulos += this.chklistModulos.Items[j].ToString() + "\n";
                 }
             }
-            /*if (numModulos > 0)
+            else
             {
                 for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
                 {
@@ -633,18 +653,11 @@ namespace ProyectoInge
                     }
                 }
             }
-            else if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
-            {
-                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
-                {
-                    modulos += this.chklistModulos.Items[j].ToString() + "\n";
-                }
-            }*/
             datos[i] = modulos;
             i++;
             //METE LOS REQUERIMIENTOS
             int numRequerimientos = 0;
-            String requerimientos = "-";
+            String requerimientos = "";
             for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
             {
                 if (this.chklistReq.Items[j].Selected == true)
@@ -654,6 +667,7 @@ namespace ProyectoInge
             }
             if (numRequerimientos > 0)
             {
+                requerimientos = "";
                 for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
                 {
                     if (this.chklistReq.Items[j].Selected == true)
@@ -720,7 +734,7 @@ namespace ProyectoInge
                         {
                             ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 2);
                             String parte = "";
-                            parte = "Id caso:" + fila[0].ToString() + "Id tipo no conformidad: " + fila[1].ToString() +"\n";
+                            parte = "Id caso:" + fila[0].ToString() + "Id tipo no conformidad: " + fila[1].ToString() + "\n";
                             ejecuciones += parte;
                         }
                     }
@@ -728,7 +742,7 @@ namespace ProyectoInge
                 datos[i] = ejecuciones;
                 i++;
             }
-            
+
             //METE LAS METRICAS
             String metricas = "-";
             if (this.checkBoxConf.Checked == true)
@@ -737,26 +751,28 @@ namespace ProyectoInge
                 i++;
             }
 
-            if(this.checkBoxNC.Checked == true){
+            if (this.checkBoxNC.Checked == true)
+            {
 
                 datos[i] = calcularPorcentajeNoConformidad(Int32.Parse(Session["idCaso"].ToString()), 0);
                 i++;
 
             }
 
-            if(this.checkBoxErrores.Checked == true){
+            if (this.checkBoxErrores.Checked == true)
+            {
 
-                datos[i] = calcularPorcentajeNoConformidad(Int32.Parse(Session["idCaso"].ToString()),1);
+                datos[i] = calcularPorcentajeNoConformidad(Int32.Parse(Session["idCaso"].ToString()), 1);
                 i++;
             }
 
-            
+
             dt.Rows.Add(datos);
             this.gridReportes.DataSource = dt;
             this.gridReportes.DataBind();
         }
 
-         
+
         /**metodo para calcular porcentaje de conformidad, recibe el indice del caso que se requiere
          * en caso de que se desee hacer la medida para todos los casos del diseño, se ingresa un -1
         **/
@@ -770,13 +786,14 @@ namespace ProyectoInge
             int indice = 0;
             int indiceArreglo = 0;
             double contadorGeneral = 0.0;
-            for (int i = 0; i < CANTIDAD_NC; i++ )
+            for (int i = 0; i < CANTIDAD_NC; i++)
             {
                 arreglo[i] = "";
                 contador[i] = 0.0;
             }
 
-            if(idCaso != -1){
+            if (idCaso != -1)
+            {
                 resultado = controladoraReporte.consultarTipoNC_Caso(idCaso);
             }
             else
@@ -784,9 +801,11 @@ namespace ProyectoInge
                 casosEjecutados = controladoraReporte.consultarCasosAociadosADiseno(Session["idDiseno"].ToString());
                 estadosDeCasos = controladoraReporte.consultarEstadosDeCasos(casosEjecutados);
 
-                while(indice < estadosDeCasos.Rows.Count && estadosDeCasos != null && indiceArreglo < CANTIDAD_NC){
+                while (indice < estadosDeCasos.Rows.Count && estadosDeCasos != null && indiceArreglo < CANTIDAD_NC)
+                {
 
-                    if(arreglo[indiceArreglo].ToString().Equals("")==true){
+                    if (arreglo[indiceArreglo].ToString().Equals("") == true)
+                    {
                         arreglo[indiceArreglo] = estadosDeCasos.Rows[indice][1].ToString();
                         contador[indiceArreglo] = contador[indiceArreglo] + 1.0;
                         ++contadorGeneral;
@@ -795,7 +814,8 @@ namespace ProyectoInge
                     }
                     else
                     {
-                        if(arreglo[indiceArreglo].Equals(estadosDeCasos.Rows[indice][1])==true){
+                        if (arreglo[indiceArreglo].Equals(estadosDeCasos.Rows[indice][1]) == true)
+                        {
                             contador[indiceArreglo] = contador[indiceArreglo] + 1.0;
                             ++indice;
                             ++contadorGeneral;
@@ -813,14 +833,16 @@ namespace ProyectoInge
                 Boolean indicador = false;
                 String s;
 
-                if(tipo == 0){
-                    while(indiceDos < CANTIDAD_NC && indicador == false ){
+                if (tipo == 0)
+                {
+                    while (indiceDos < CANTIDAD_NC && indicador == false)
+                    {
 
-                        if (arreglo[indiceDos].Equals("")==false)
+                        if (arreglo[indiceDos].Equals("") == false)
                         {
-                            contador[indiceDos] = (contador[indiceDos] / contadorGeneral)*100.0;
+                            contador[indiceDos] = (contador[indiceDos] / contadorGeneral) * 100.0;
                             s = string.Format("{0:N2}%", contador[indiceDos]);
-                            resultado = resultado + arreglo[indiceDos] + s + " " ;
+                            resultado = resultado + arreglo[indiceDos] + s + " ";
                             ++indiceDos;
                         }
                         else
@@ -1043,7 +1065,7 @@ namespace ProyectoInge
                     requerimiento = datosReqProyecto.Rows[i][0].ToString();
                     if (chklistModulos.Items.FindByText(requerimiento.Substring(3, 2)) == null)
                     {
-                        chklistModulos.Items.Add(requerimiento.Substring(3, 2)); 
+                        chklistModulos.Items.Add(requerimiento.Substring(3, 2));
                         ++contador;
                     }
                 }
@@ -1051,7 +1073,7 @@ namespace ProyectoInge
 
             if (1 < contador)
             {
-                chklistModulos.Items.Add("Todos los requerimientos");
+                chklistModulos.Items.Add("Todos los módulos");
             }
             chklistModulos.DataBind();
             proyectoUpdate.Update();
@@ -1143,7 +1165,7 @@ namespace ProyectoInge
             String propDiseno = comboBoxDiseno.SelectedValue.ToString();
             Dictionary<string, string> disenos = (Dictionary<string, string>)Session["diccionario"];
             String idDiseno = "";
-         
+
             if (this.comboBoxDiseno.Text.Equals("Seleccione") == false)
             {
                 disenos.TryGetValue(propDiseno, out idDiseno);
@@ -1160,7 +1182,7 @@ namespace ProyectoInge
         protected void casoSeleccionado(object sender, EventArgs e)
         {
 
-            
+
             Dictionary<string, string> casosPrueba_id = (Dictionary<string, string>)Session["casos_id"];
             String idCasoString = "";
 
@@ -1170,10 +1192,10 @@ namespace ProyectoInge
             {
                 casosPrueba_id.TryGetValue(this.comboBoxCaso.Text, out idCasoString);
 
-    
+
                 Session["idCaso"] = idCasoString;
-                
-                
+
+
                 //UpdatePanelCaso.Update();
             }
             else
@@ -1181,7 +1203,7 @@ namespace ProyectoInge
                 Session["idCaso"] = -1;
                 //UpdatePanelCaso.Update();
             }
-             
+
         }
 
 
@@ -1197,7 +1219,7 @@ namespace ProyectoInge
                 }
             }
 
-    
+
             if (contadorModulos != 0)
             {
                 llenarRequerimientos();
@@ -1235,6 +1257,7 @@ namespace ProyectoInge
             }
             else
             {
+                Debug.Write("eNTRO A GENERAR EN EXCEL");
                 generarReporteExcel();
             }
             UpdatePanel1.Update();
