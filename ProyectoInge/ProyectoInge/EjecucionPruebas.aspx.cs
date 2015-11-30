@@ -802,6 +802,9 @@ namespace ProyectoInge
             gvr.FindControl("lnkModificar").Visible = false;
             gvr.FindControl("lnkEliminar").Visible = false;
             this.lblListaConformidades.Visible = true;
+            LinkButton cargarImagen = gvr.FindControl("lnkCargarImagenTemplate") as LinkButton;
+            cargarImagen.Enabled = false;
+
 
             if (condicion == true)
             {
@@ -1069,6 +1072,28 @@ namespace ProyectoInge
                     lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
+                    if (Session["perfil"].ToString().Equals("Administrador"))
+                    {
+                        this.comboDiseño.Enabled = false;
+                        this.comboResponsable.Enabled = false;
+                        gridTipoNC_Inicial(0, false);
+                        habilitarCampos(false);
+                        cambiarEnabledGridNC(false);
+                        UpdateProyectoDiseno.Update();
+                        comboResponsableUpdate.Update();
+                        llenarGrid(null);
+                    }
+                    else
+                    {
+                        this.comboDiseño.Enabled = false;
+                        this.comboResponsable.Enabled = false;
+                        gridTipoNC_Inicial(0, false);
+                        habilitarCampos(false);
+                        cambiarEnabledGridNC(false);
+                        UpdateProyectoDiseno.Update();
+                        comboResponsableUpdate.Update();
+                        llenarGrid(Session["cedula"].ToString());
+                    }
                 }
                 else
                 {
@@ -1080,14 +1105,16 @@ namespace ProyectoInge
                 }
             }
 
-            UpdateBotonesIMEC.Update();
-            UpdateBotonesAceptarCancelar.Update();
+          
 
             cambiarEnabled(true, this.btnModificar);
             cambiarEnabled(true, this.btnEliminar);
             cambiarEnabled(false, this.btnAceptar);
             cambiarEnabled(false, this.btnCancelar);
             cambiarEnabled(true, this.btnInsertar);
+
+            UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
         }
 
         /*
@@ -1389,13 +1416,23 @@ namespace ProyectoInge
                 int tamDatosCasos = 0;
                 int contadorFilas = 0;
                 int indiceColumnas = 0;
+                LinkButton cargarImagen;
+                LinkButton modificar;
+                LinkButton eliminar;
+                LinkButton ver;
+
+
+
 
                 // cargar campos de ejecucion de pruebas 
                 if (datosFilaEjecucion != null && datosFilaEjecucion.Rows.Count > 0)
                 {
-                    Response.Write(datosFilaEjecucion.Rows[0][1].ToString());
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
+                    this.txtIncidencias.Enabled = false; //Se bloquean las incidencias
+                    UpdatePanelCalendario.Update();
+                    UpdateIncidencias.Update();
+
 
                     //Se actualiza el combo de proyecto con el dato específico
                     nombreProyecto = (gvr.FindControl("lblProyecto") as Label).Text;
@@ -1404,6 +1441,8 @@ namespace ProyectoInge
                         proyecto = this.comboProyecto.Items.FindByText(nombreProyecto);
                         this.comboProyecto.SelectedValue = proyecto.Value;
                     }
+
+                    this.comboProyecto.Enabled = false; //Se bloquea el combo de proyecto
 
                     //Se actualiza el combo de diseno con el dato específico
                     Session["idProyectoEjecucion"] = (gvr.FindControl("lblIDProyecto") as Label).Text;
@@ -1427,17 +1466,18 @@ namespace ProyectoInge
                         this.comboResponsable.SelectedValue = responsable.Value;
                     }
 
+                    this.comboResponsable.Enabled = false; //Se bloquea el combo de responsable
+
                     comboResponsableUpdate.Update();
                 }
 
                 //consultar No Conformidades
-                Response.Write(Int32.Parse(idEjecucion));
                 casoEjecutado = controladoraEjecucionPruebas.consultarCasoEjecutado(Int32.Parse(idEjecucion));
 
                 if (casoEjecutado != null && casoEjecutado.Rows.Count > 0)
                 {
-                    Response.Write("ENTREEEEEEEEE");
                     datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
+                 
                     for (int i = 0; i < casoEjecutado.Rows.Count; ++i)
                     {
                         filaCasoEjecutado = gridCasoEjecutado.NewRow();
@@ -1457,15 +1497,11 @@ namespace ProyectoInge
                                     if (casoEjecutado.Rows[i][column].ToString() == datosCasos.Rows[contadorFilas][1].ToString())
                                     {
                                         filaCasoEjecutado[1] = datosCasos.Rows[contadorFilas][0].ToString();// Caso prueba
-                                        Response.Write("    ");
-                                        Response.Write(datosCasos.Rows[contadorFilas][1].ToString());
                                     }
                                 }
                             }
                             if (indiceColumnas == 1)
                             {
-                                Response.Write("    ");
-                                Response.Write(casoEjecutado.Rows[i][column].ToString());
                                 filaCasoEjecutado[0] = casoEjecutado.Rows[i][column].ToString(); //tipo caso no conformidad
                             }
                             if (indiceColumnas == 2)
@@ -1476,7 +1512,17 @@ namespace ProyectoInge
                             {
                                 imagen = (byte[])casoEjecutado.Rows[i][3];
                                 imagenNC = Convert.ToBase64String(imagen, 0, imagen.Length);
-                                filaCasoEjecutado[6] = imagenNC; //Imagen
+
+                                if(imagenNC=="")
+                                {
+                                    filaCasoEjecutado[6] = " "; //No tenía imagen asociada
+                                }
+                                else
+                                {
+                                    filaCasoEjecutado[6] = imagenNC; //Imagen
+                                }
+
+                                
                             }
                             if (indiceColumnas == 5)
                             {
@@ -1499,10 +1545,31 @@ namespace ProyectoInge
                         gridCasoEjecutado.Rows.Add(filaCasoEjecutado);
                         imagenNC = " ";
                     }
+
+                    gridNoConformidades.DataSource = gridCasoEjecutado;
+                    gridNoConformidades.DataBind();
+                    cambiarEnabledGridNC(false);
+                    UpdateGridNoConformidades.Update();
+
+                    for (int i = 0; i < gridNoConformidades.Rows.Count; ++i )
+                    {
+                        gvr = gridNoConformidades.Rows[i];
+                        modificar = gvr.FindControl("lnkModificar") as LinkButton;
+                        modificar.Enabled = false;
+
+                        eliminar = gvr.FindControl("lnkEliminar") as LinkButton;
+                        eliminar.Enabled = false;
+
+                        cargarImagen = gvr.FindControl("lnkCargarImagenTemplate") as LinkButton;
+                        cargarImagen.Enabled = false;
+                    }
+
+                    UpdateGridNoConformidades.Update();
+
+                        
                 }
                 else
                 {
-                    Response.Write("NOOOOOOOO :(  ");
                     filaCasoEjecutado = gridCasoEjecutado.NewRow();
                     filaCasoEjecutado[0] = "-";
                     filaCasoEjecutado[1] = "-";
@@ -1512,14 +1579,19 @@ namespace ProyectoInge
                     filaCasoEjecutado[5] = '-';
                     gridCasoEjecutado.Rows.Add(filaCasoEjecutado);
 
-                }
+                    gridNoConformidades.DataSource = gridCasoEjecutado;
+                    gridNoConformidades.DataBind();
+                    cambiarEnabledGridNC(false);
+                    UpdateGridNoConformidades.Update();
 
-                gridNoConformidades.DataSource = gridCasoEjecutado;
-                gridNoConformidades.DataBind();
-                cambiarEnabledGridNC(false);
+                    gvr = gridNoConformidades.Rows[0];
+                    gvr.FindControl("lnkModificar").Visible = false;
+                    gvr.FindControl("lnkEliminar").Visible = false;
+                    this.lblListaConformidades.Visible = true;
+                    cargarImagen = gvr.FindControl("lnkCargarImagenTemplate") as LinkButton;
+                    cargarImagen.Enabled = false;
 
-
-                UpdateGridNoConformidades.Update();
+                }        
             }
 
 
@@ -2194,8 +2266,6 @@ namespace ProyectoInge
                 filaConsultada = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
                 if (idEjecucionConsultada.Equals("-") == false)
                 {
-                    Response.Write("ENTREEEE");
-                    Response.Write(idEjecucionConsultada);
                     Session["idEjecuciones"] = idEjecucionConsultada;
                     //   controlarCampos(false); ?????
                     llenarDatos(idEjecucionConsultada);
@@ -2221,6 +2291,8 @@ namespace ProyectoInge
 
                 }
             }
+
+            UpdateGridEjecuciones.Update();
         }
 
         protected DataTable getTablaEjecucion()
@@ -2476,6 +2548,7 @@ namespace ProyectoInge
 
             this.gridEjecuciones.DataSource = tablaDatosEjecucion;
             this.gridEjecuciones.DataBind();
+            UpdateGridEjecuciones.Update();
 
         }
 
