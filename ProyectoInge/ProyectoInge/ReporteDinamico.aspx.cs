@@ -29,6 +29,7 @@ namespace ProyectoInge
         private static string idDiseñoConsultado;
         private int CANTIDAD_NC = 7;
         private int CANTIDAD_ESTADOS = 4;
+        private bool checkBoxVacios = true;
 
         /*Dictionary<string, string> cedulasRepresentantes = new Dictionary<string, string>();
         Dictionary<string, string> nombreRepresentantesConsultados = new Dictionary<string, string>();
@@ -447,11 +448,20 @@ namespace ProyectoInge
             }
             else 
             {
-                Debug.Write("Entro a mandar el msj");
-                lblModalTitle.Text = "Error";
-                lblModalBody.Text = "Para generar un nuevo reporte debe completar todos los campos obligatorios.";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                upModal.Update();
+                if(checkBoxVacios== true)
+                {
+                    lblModalTitle.Text = "Error";
+                    lblModalBody.Text = "Para generar un nuevo reporte debe seleccionar la(s) casilla(s) con los datos que desea que contenga.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
+                else
+                {
+                    lblModalTitle.Text = "Error";
+                    lblModalBody.Text = "Para generar un nuevo reporte debe completar todos los campos obligatorios.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    upModal.Update();
+                }
             }
         }
 
@@ -460,6 +470,11 @@ namespace ProyectoInge
             bool resultado = false;
             if (this.comboProyecto.Text == "Seleccione" || this.comboBoxDiseno.Text == "Seleccione" || this.comboBoxCaso.Text == "Seleccione" || this.comboProyecto.Text == "" || this.comboBoxCaso.Text == "" || this.comboBoxDiseno.Text == "")
             {
+                resultado = true;
+            }
+            if (this.checkBoxConf.Checked == false && this.checkBoxErrores.Checked == false && this.checkBoxEstadoEjecucion.Checked == false && this.checkBoxResponsableDiseno.Checked == false && this.checkBoxID_TipoNC.Checked == false && this.checkBoxNC.Checked == false && this.checkBoxResultadoEsperado.Checked == false)
+            {
+                checkBoxVacios = true;
                 resultado = true;
             }
             return resultado;
@@ -664,7 +679,7 @@ namespace ProyectoInge
             this.gridReportes.DataBind();
         }
 
-
+         
         /**metodo para calcular porcentaje de conformidad, recibe el indice del caso que se requiere
          * en caso de que se desee hacer la medida para todos los casos del diseño, se ingresa un -1
         **/
@@ -755,7 +770,7 @@ namespace ProyectoInge
                 contador[i] = 0.0;
             }
 
-            if (idCaso != -1)
+            if (idCaso != -1)//hay que obtener el estado de los casos ejecutados con respecto al id especifico
             {
                 resultado = controladoraReporte.consultarEstadosConIdCaso(idCaso);
             }
