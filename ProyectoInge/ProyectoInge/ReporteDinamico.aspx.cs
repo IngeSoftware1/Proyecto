@@ -13,6 +13,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Diagnostics;
 using System.Web.UI;
+///using Word = Microsoft.Office.Interop.Word;
 using System.IO;
 
 
@@ -57,20 +58,22 @@ namespace ProyectoInge
             }
         }
 
-        protected void checkBoxTodos_CheckedChanged(object sender, EventArgs e)
+        protected void revisarCheckBoxTodos(object sender, EventArgs e)
         {
-
+            Debug.Write("ENtro a seleccionar tods");
             if (checkBoxTodos.Checked == true)
             {
+                Debug.Write("ENtro a seleccionar tods");
                 this.checkBoxConf.Checked = true;
                 this.checkBoxNC.Checked = true;
                 this.checkBoxConf.Checked = true;
                 this.checkBoxResultadoEsperado.Checked = true;
                 this.checkBoxErrores.Checked = true;
-                //this.checkBoxPropositoDiseno.Checked = true;
                 this.checkBoxResponsableDiseno.Checked = true;
                 this.checkBoxEstadoEjecucion.Checked = true;
                 this.checkBoxID_TipoNC.Checked = true;
+
+                UpdatePaneChecks.Update();
             }
         }
 
@@ -413,6 +416,32 @@ namespace ProyectoInge
             Response.End();
         }
 
+        /*protected void generarReporteWord()
+        {
+            Word.Application app;
+            //Creamos otro Objeto del Tipo Word Document  
+            Word.Document doc;
+            try
+            {
+                // Creamos otro Objeto para interactuar con el Interop 
+                Object oMissing = System.Reflection.Missing.Value;
+                //Creamos una instancia de una Aplicación Word. 
+                app = new Word.ApplicatResponse.Clear();
+                Response.Buffer = true;
+                Response.AddHeader("content-disposition",
+                "attachment;filename=GridViewExport.doc");
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.ms-word ";
+                StringWriter sw = new StringWriter();
+                HtmlTextWriter hw = new HtmlTextWriter(sw);
+                GridView1.AllowPaging = false;
+                GridView1.DataBind();
+                GridView1.RenderControl(hw);
+                Response.Output.Write(sw.ToString());
+                Response.Flush();
+                Response.End();
+
+            }*/
         //metodo para reiniciar los chechBox
         protected void btnReiniciar_Click(object sender, EventArgs e)
         {
