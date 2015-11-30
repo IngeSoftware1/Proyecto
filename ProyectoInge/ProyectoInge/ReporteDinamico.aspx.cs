@@ -96,6 +96,7 @@ namespace ProyectoInge
      * Modifica: llena el comboBox con los datos obtenidos de la BD
      * Retorna: no retorna ningún valor */
 
+
         protected void llenarComboProyecto(string cedulaUsuario)
         {
             Dictionary<string, string> nombres_id_proyectos = new Dictionary<string, string>();
@@ -442,6 +443,50 @@ namespace ProyectoInge
                 Response.End();
 
             }*/
+
+        /*protected void btnExportExcel_Click(object sender, EventArgs e)
+        {
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition",
+            "attachment;filename=GridViewExport.xls");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+            GridView1.AllowPaging = false;
+            GridView1.DataBind();
+            //Change the Header Row back to white color
+            GridView1.HeaderRow.Style.Add("background-color", "#FFFFFF");
+            //Apply style to Individual Cells
+            GridView1.HeaderRow.Cells[0].Style.Add("background-color", "green");
+            GridView1.HeaderRow.Cells[1].Style.Add("background-color", "green");
+            GridView1.HeaderRow.Cells[2].Style.Add("background-color", "green");
+            GridView1.HeaderRow.Cells[3].Style.Add("background-color", "green");
+            for (int i = 0; i < GridView1.Rows.Count; i++)
+            {
+                GridViewRow row = GridView1.Rows[i];
+                //Change Color back to white
+                row.BackColor = System.Drawing.Color.White;
+                //Apply text style to each Row
+                row.Attributes.Add("class", "textmode");
+                //Apply style to Individual Cells of Alternating Row
+                if (i % 2 != 0)
+                {
+                    row.Cells[0].Style.Add("background-color", "#C2D69B");
+                    row.Cells[1].Style.Add("background-color", "#C2D69B");
+                    row.Cells[2].Style.Add("background-color", "#C2D69B");
+                    row.Cells[3].Style.Add("background-color", "#C2D69B");
+                }
+            }
+            GridView1.RenderControl(hw);
+            //style to format numbers to string
+            string style = @"<style> .textmode { mso-number-format:\@; } </style>";
+            Response.Write(style);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+        }*/
         //metodo para reiniciar los chechBox
         protected void btnReiniciar_Click(object sender, EventArgs e)
         {
