@@ -15,6 +15,8 @@ using System.Diagnostics;
 using System.Web.UI;
 ///using Word = Microsoft.Office.Interop.Word;
 using System.IO;
+using System.Text;
+using System.Web.UI.HtmlControls;
 
 
 
@@ -302,7 +304,7 @@ namespace ProyectoInge
         // Genera el reporte en Excel.
         protected void generarReporteExcel()
         {
-
+            /**
             ExcelPackage package = new ExcelPackage();
             package.Workbook.Worksheets.Add("Reportes");
             ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
@@ -355,6 +357,9 @@ namespace ProyectoInge
             Response.AddHeader("content-disposition", "attachment;  filename=Reporte.xlsx");
             Response.Flush();
             Response.End();
+             */
+
+
         }
 
         // Genera el reporte en PDF.
@@ -908,7 +913,7 @@ namespace ProyectoInge
                 columna.ColumnName = "Caso de Pruebas";
                 dt_casos.Columns.Add(columna);
             }
-            for (int i = 0; i < chklistModulos.Items.Count - 1; ++i)
+            for (int i = 0; i < chklistModulos.Items.Count; ++i)
             {
                 if (this.chklistModulos.Items[i].Selected == true)
                 {
@@ -917,7 +922,7 @@ namespace ProyectoInge
             }
             Debug.Write("!!!!!!!>" + numModulos);
 
-            if (numModulos > 0 || chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
+            if (chklistModulos.Items.Count > 0)
             {
                 columna = new DataColumn();
                 columna.DataType = System.Type.GetType("System.String");
@@ -925,7 +930,7 @@ namespace ProyectoInge
                 dt_casos.Columns.Add(columna);
 
             }
-            for (int i = 0; i < chklistReq.Items.Count - 1; ++i)
+            for (int i = 0; i < chklistReq.Items.Count; ++i)
             {
                 if (this.chklistReq.Items[i].Selected == true)
                 {
