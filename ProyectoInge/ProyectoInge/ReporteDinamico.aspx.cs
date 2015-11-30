@@ -305,6 +305,19 @@ namespace ProyectoInge
         // Genera el reporte en Excel.
         protected void generarReporteExcel()
         {
+            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\mynewfile.xlsx");
+            ExcelPackage xlPackage = new ExcelPackage(newFile);
+            ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets.Add("Tinned Goods");
+
+            worksheet.Cells.Style.Font.Size = 12;
+            worksheet.Cells.Style.Font.Name = "Calibri";
+
+
+            xlPackage.Workbook.Properties.Title = "Sample 1";
+            xlPackage.Workbook.Properties.Author = "John Tunnicliffe";
+            xlPackage.Workbook.Properties.SetCustomPropertyValue("EmployeeID", "1147");
+            xlPackage.Save();
+
             /**
             Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
 
