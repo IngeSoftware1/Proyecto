@@ -318,7 +318,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     contador++;
                 }
                 consulta = consulta + ";";
-                Debug.WriteLine("la consulta es es:" + consulta);
+                Debug.WriteLine(">>>>>>>>>>la consulta es es:" + consulta);
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)

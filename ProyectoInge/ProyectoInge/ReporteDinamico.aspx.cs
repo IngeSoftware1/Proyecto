@@ -635,25 +635,17 @@ namespace ProyectoInge
                     if (this.checkBoxResultadoEsperado.Checked == true)
                     {
                         caso += "";
-                        DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
-                       
-
+                        DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);                      
                         foreach (DataRow fila in resultadoEsperado.Rows)
                         {
                             Debug.WriteLine("estos son los casos respectivos"+caso);
                             caso += " Resultado esperdao: " + fila[0].ToString() + "\n";
-                        }
-                        
-
-                    }
-
-                    
+                        }                        
+                    }                   
                 }
-
                 datos[i] = caso;
                 i++;
             }
-
             //METO LOS MODULOS
             String modulos = "";
             if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
@@ -715,7 +707,7 @@ namespace ProyectoInge
             {
                 if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true)
                 {
-                    Debug.Write("!!!>1");
+                    Debug.Write("!!!>AMBOS");
                     ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 1);
                     if (ejecs != null)
                     {
@@ -733,7 +725,7 @@ namespace ProyectoInge
                 }
                 else if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == false)
                 {
-                    Debug.Write("!!!>2");
+                    Debug.Write("!!!>SOLO ESTADO");
                     ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 2);
                     if (ejecs != null)
                     {
@@ -747,12 +739,13 @@ namespace ProyectoInge
                 }
                 else if (this.checkBoxEstadoEjecucion.Checked == false && this.checkBoxID_TipoNC.Checked == true)
                 {
-                    Debug.Write("!!!>3");
+                    Debug.Write("!!!>SOLO TIPONOC");
                     ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 3);
                     if (ejecs != null)
                     {
                         foreach (DataRow fila in ejecs.Rows)
                         {
+                            Debug.Write("1");
                             ejecs = controladoraReporte.consultarEjecuciones(casosObj, numCasos, 2);
                             String parte = "";
                             parte = "Id caso:" + fila[0].ToString() + "Id tipo no conformidad: " + fila[1].ToString() + "\n";
