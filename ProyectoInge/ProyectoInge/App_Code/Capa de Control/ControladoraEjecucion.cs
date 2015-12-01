@@ -234,12 +234,42 @@ namespace ProyectoInge.App_Code.Capa_de_Control
                     break;
                 case 2:
                     { // MODIFICAR
-                        if (accion == 1) //inserta ejecución de pruebas
+                        if (accion == 1) //Eliminar no conformidades
                         {
-                            EntidadEjecucionPrueba nuevo = new EntidadEjecucionPrueba(datos);
-                            resultado = controladoraBDEjecucion.insertarEjecucionPrueba(nuevo);
-                        }   
-                    }
+                            if (controladoraBDEjecucion.eliminarNC(nombre))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else if (accion == 2)//Eliminar ejecución de pruebas
+                        {
+                            if (controladoraBDEjecucion.eliminarEjecucion(nombre))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else{
+                            if (accion == 3) //inserta ejecución de pruebas
+                            {
+                                EntidadEjecucionPrueba nuevo = new EntidadEjecucionPrueba(datos);
+                                resultado = controladoraBDEjecucion.insertarEjecucionPrueba(nuevo);
+                            }
+
+                            if (accion == 4) //inserta no conformidad
+                            {
+                                EntidadCasoEjecutado nuevo = new EntidadCasoEjecutado(datos);
+                                resultado = controladoraBDEjecucion.insertarNC(nuevo);
+                            }
+                        }
+                      }
                     break;
                 case 3:
                     { //ELIMINAR

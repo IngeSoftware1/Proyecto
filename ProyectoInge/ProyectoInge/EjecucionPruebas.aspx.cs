@@ -31,13 +31,14 @@ namespace ProyectoInge
         private static DropDownList comboIdCasoModificar;
         private static DropDownList comboIdEstadoModificar;
         private static bool casosIniciados = false;
-        private int modo = 1;
+        private static int modo = 1;
         private static string imagenMostrar = "";
         object[] imagenes = new object[100];
         private static byte[] imagen = null;
         private static string base64String = "";                //String global para la columna invisible del grid con la imagen
         private static string extensionImagen = "";             //String global para la columna invisible de la extensión de la imagen en el grid 
         private static int filaConsultada = 0;
+        private static string cedulaParaModificar = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -946,8 +947,11 @@ namespace ProyectoInge
          */
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
+            Debug.Print("estoy en btnAceptar_Click con modo " + modo);
+         
             switch (modo)
             {
+
                 case 1:
                     {
                         btnAceptar_Insertar();
@@ -1180,7 +1184,8 @@ namespace ProyectoInge
        */
         protected void btnAceptar_Modificar()
         {
-            Response.Write("ENTROOO");
+            Debug.Print("ESTOY en btnAcepta_modificar con modo " + modo);
+         
             modo = 2;
             if (faltanDatos())
             {
@@ -1192,28 +1197,54 @@ namespace ProyectoInge
             }
             else
             {
-                if (controladoraEjecucionPruebas.ejecutarAccion(3, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
+                Debug.Print("El id de ejecución que elimino es : " + idEjecucionConsultada);
+
+                //primero lo elimina
+                if (controladoraEjecucionPruebas.ejecutarAccion(2, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
                 {
                     //Aquí se elimina la ejecución de pruebas
                     int tipoEliminar = 2;
-                    if (controladoraEjecucionPruebas.ejecutarAccion(3, tipoEliminar, null, idEjecucionConsultada))
+                    if (controladoraEjecucionPruebas.ejecutarAccion(2, 2, null, idEjecucionConsultada))
                     {
                         lblModalTitle.Text = "";
                         lblModalBody.Text = "La ejecución de pruebas y sus no conformidades fueron eliminadas correctamente.";
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                         upModal.Update();
-
-                        //agregar aqui 
-                        int tipoInsercion = 1;
+                        //refrescar interfaz para que se vea que se elimino
+                        if (Session["perfil"].ToString().Equals("Administrador"))
+                        {
+                            llenarComboProyecto(null);
+                            this.comboDiseño.Enabled = false;
+                            this.comboResponsable.Enabled = false;
+                            habilitarCampos(false);
+                            UpdateProyectoDiseno.Update();
+                            llenarGrid(null);
+                            //vaciarCampos();
+                        }
+                        else
+                        {
+                            llenarComboProyecto(Session["cedula"].ToString());
+                            this.comboDiseño.Enabled = false;
+                            this.comboResponsable.Enabled = false;
+                            habilitarCampos(false);
+                            UpdateProyectoDiseno.Update();
+                            llenarGrid(Session["cedula"].ToString());
+                            //vaciarCampos();
+                        }
+                        llenarComboDisenos();
+                        llenarComboRecursos();
+                        habilitarCamposModificar();
+                        //agregar aqui nuevo ejecucuiones
+                      
                         //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                         Object[] datosNuevos = new Object[4];
                         Debug.Print(this.txtIncidencias.Text);
                         datosNuevos[0] = this.txtIncidencias.Text;
                         datosNuevos[1] = this.txtCalendar.Text;
-                        datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                        datosNuevos[2] = cedulaParaModificar;//obtenerCedula(comboResponsable.Text);
                         datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
                         //si la ejecución de pruebas se pudo insertar correctamente entra a este if
-                        if (controladoraEjecucionPruebas.ejecutarAccion(1, tipoInsercion, datosNuevos, ""))
+                        if (controladoraEjecucionPruebas.ejecutarAccion(2, 3, datosNuevos, ""))
                         {
                             int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
                             guardarNoConformidades(ejecucion);
@@ -1241,26 +1272,30 @@ namespace ProyectoInge
                         //llenarGrid(null);
                         // UpdateBotonesIMEC.Update();  //**
                         //UpdateBotonesAceptarCancelar.Update();//***
+                        UpdateBotonesIMEC.Update();
+                        UpdateBotonesAceptarCancelar.Update();
 
                         if (Session["perfil"].ToString().Equals("Administrador"))
                         {
                             llenarComboProyecto(null);
                             this.comboDiseño.Enabled = false;
                             this.comboResponsable.Enabled = false;
-                            gridTipoNC_Inicial(0, false);
+                            //gridTipoNC_Inicial(0, false);
                             habilitarCampos(false);
-                            cambiarEnabledGridNC(false);
+                            UpdateProyectoDiseno.Update();
+                            //cambiarEnabledGridNC(false);
                             //UpdateProyectoDiseno.Update();
                             llenarGrid(null);
+                            //VACIARCAMPOS ??
                         }
                         else
                         {
                             llenarComboProyecto(Session["cedula"].ToString());
                             this.comboDiseño.Enabled = false;
                             this.comboResponsable.Enabled = false;
-                            gridTipoNC_Inicial(0, false);
                             habilitarCampos(false);
-                            cambiarEnabledGridNC(false);
+                            UpdateProyectoDiseno.Update();
+                            //cambiarEnabledGridNC(false);
                             // UpdateProyectoDiseno.Update();
                             llenarGrid(Session["cedula"].ToString());
                         }
@@ -1302,8 +1337,7 @@ namespace ProyectoInge
                 //UpdateBotonesIMEC.Update();
                 //UpdateBotonesAceptarCancelar.Update();
             }
-            UpdateBotonesIMEC.Update();
-            UpdateBotonesAceptarCancelar.Update();
+       
 
         }
 
@@ -1343,25 +1377,40 @@ namespace ProyectoInge
         */
         protected void btnModificar_Click(object sender, EventArgs e)
         {
+            GridViewRow gvr;
+            LinkButton cargarImagen;
+            LinkButton modificar;
+            LinkButton eliminar;
             modo = 2;
             Debug.Print("estoy en el evento de modificar");
+            cambiarEnabled(true, this.btnAceptar);
+            cambiarEnabled(true, this.btnCancelar);
             cambiarEnabled(true, this.btnInsertar);
             cambiarEnabled(false, this.btnEliminar);
             cambiarEnabled(false, this.btnModificar);
             Debug.Print("sigo en modificar");
-            //llenar los txtbox con la table
-            cambiarEnabled(true, this.btnAceptar);
-            cambiarEnabled(true, this.btnCancelar);
-            llenarDatos(idEjecucionConsultada);
-            // llenarDatos(Session["idEjecuciones"].ToString());
-            //this.disenoAsociado(Int32.Parse(Session["idEjecuciones"].ToString()));
-            modo = 2;
-            habilitarCamposModificar();
-
+           
+       
             UpdateBotonesIMEC.Update();
+            UpdateBotonesAceptarCancelar.Update();
+            llenarDatos(idEjecucionConsultada);
+           // llenarDatos(Session["idEjecuciones"].ToString()); 
+            for (int i = 0; i < gridNoConformidades.Rows.Count; ++i)
+            {
+                gvr = gridNoConformidades.Rows[i];
+                modificar = gvr.FindControl("lnkModificar") as LinkButton;
+                modificar.Enabled = true;
+                eliminar = gvr.FindControl("lnkEliminar") as LinkButton;
+                eliminar.Enabled = true;
+                cargarImagen = gvr.FindControl("lnkCargarImagenTemplate") as LinkButton;
+                cargarImagen.Enabled = true;
+            }
+            habilitarCamposModificar();
+            UpdateGridNoConformidades.Update(); 
             comboResponsableUpdate.Update();
             UpdateIncidencias.Update();
-            UpdateBotonesAceptarCancelar.Update();
+            modo = 2;
+            Debug.Print("sigo en modificar click modo " + modo);      
         }
 
 
@@ -1420,15 +1469,12 @@ namespace ProyectoInge
                 LinkButton modificar;
                 LinkButton eliminar;
                 LinkButton ver;
-
-
-
-
                 // cargar campos de ejecucion de pruebas 
                 if (datosFilaEjecucion != null && datosFilaEjecucion.Rows.Count > 0)
                 {
                     this.txtIncidencias.Text = datosFilaEjecucion.Rows[0][1].ToString();
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
+                    Session["idDisenoEjecucion"] = datosFilaEjecucion.Rows[0][4].ToString();
                     this.txtIncidencias.Enabled = false; //Se bloquean las incidencias
                     UpdatePanelCalendario.Update();
                     UpdateIncidencias.Update();
@@ -1456,6 +1502,10 @@ namespace ProyectoInge
                     }
 
                     UpdateProyectoDiseno.Update();
+
+                    //METER EL RESPONSABLE 
+                    cedulaParaModificar = datosFilaEjecucion.Rows[0][2].ToString();
+
 
                     //Se actualiza el combo de responsable con el dato específico
                     llenarComboRecursos();

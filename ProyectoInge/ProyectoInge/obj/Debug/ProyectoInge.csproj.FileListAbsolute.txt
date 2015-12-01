@@ -1954,3 +1954,5 @@ C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.pdfa.
 C:\Users\Rosaura\Desktop\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xtra.dll
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.pdfa.dll
 C:\Users\isaiassalas\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xtra.dll
+C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.pdfa.dll
+C:\Users\b21828\Source\Repos\Proyecto\ProyectoInge\ProyectoInge\bin\itextsharp.xtra.dll
