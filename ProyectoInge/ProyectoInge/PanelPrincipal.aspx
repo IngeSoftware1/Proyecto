@@ -25,7 +25,8 @@
     <div class="row">
         <div class="col-lg-12">
             <%--Panel Principal --%>
-            <h2 class="estilo"></h2>
+            <h2 class="estilo">Bienvenido al Sistema Gestor de Proyectos</h2>
+           
         </div>
 
     </div>

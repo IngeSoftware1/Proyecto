@@ -124,6 +124,7 @@
 
                         </div>
                         <%--Cierra el panel body--%>
+
                     </div>
                 </div>
                 <%--Cierra el panel panel-default--%>
@@ -223,6 +224,7 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -295,6 +297,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -378,7 +381,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <br />
+                                    <br />
+                                    
                                 </div>
+                                <div class="form-group col-sm-12">
+                                        <div class="row">
+                                    <asp:Label ID="Label3" runat="server" Text="* Campos obligatorios" CssClass="col-sm-12 control-label"></asp:Label>
+                                </div>
+                                            </div>
                             </div>
                         </div>
                     </div>

@@ -143,7 +143,7 @@
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                        <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 control-label"></asp:Label>
+                        <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                         <br />
                     </div>
 
@@ -256,6 +256,9 @@
                             </div>
                         </ContentTemplate>
                     </asp:UpdatePanel>
+                    <asp:Label ID="LabelRep" runat="server" Text="  * Debe escoger al menos uno de estos datos." CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                    <br />
+
                 </div>
                 <%--modal faltan datos--%>
                 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

@@ -296,7 +296,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
             try
             {
                 int contador = 0;
-                Debug.WriteLine("numcasos: " + numCasos);
+                Debug.WriteLine("numcasos: " + numCasos+ "p:"+p);
                 for (int i = 0; i < numCasos; ++i)
                 {
                     Debug.WriteLine(casos[i]);
@@ -318,7 +318,7 @@ namespace ProyectoInge.App_Code.Capa_de_Acceso_a_Datos
                     contador++;
                 }
                 consulta = consulta + ";";
-                Debug.WriteLine("la consulta es es:" + consulta);
+                Debug.WriteLine(">>>>>>>>>>la consulta es es:" + consulta);
                 dt = acceso.ejecutarConsultaTabla(consulta);
             }
             catch (SqlException e)
