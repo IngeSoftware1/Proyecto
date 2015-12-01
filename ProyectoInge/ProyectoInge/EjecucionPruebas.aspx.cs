@@ -1534,8 +1534,11 @@ namespace ProyectoInge
                 {
                     Debug.WriteLine("CASO EJECUT 00 "+ casoEjecutado.Rows[0][0].ToString());
 
-                    datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
-                 
+                    //datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
+
+                    ///datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
+                    datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(datosFilaEjecucion.Rows[0][4].ToString()));
+              
                     for (int i = 0; i < casoEjecutado.Rows.Count; ++i)
                     {
                         filaCasoEjecutado = gridCasoEjecutado.NewRow();
