@@ -629,7 +629,7 @@
                         <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
                     </div>
                     <div class="modal-footer">
-                        <asp:Button ID="Button2" class="btn btn-info" Text="Aceptar" OnClick="btnAceptarCargarImagen" runat="server" />
+                        <asp:Button ID="Button2" class="btn btn-info" Text="Aceptar" runat="server" />
                         <button type="button" id="botonCancelarCarga" class="btn btn-info" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>

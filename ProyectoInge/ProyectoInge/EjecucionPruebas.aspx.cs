@@ -2108,6 +2108,8 @@ namespace ProyectoInge
                                 extensionModificada = imageExtension;
                             }
 
+                            eliminar = false;
+
                             
                         }
                         else
@@ -2226,6 +2228,10 @@ namespace ProyectoInge
                 //Carga del comboBox con los estados de las no conformidades
                 llenarComboEstados(true);
 
+            }
+            else if (e.CommandName == "EliminarImagenEdit")
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "modalEliminarImagen", "$('#modalEliminarImagen').modal();", true);
             }
             else if (e.CommandName == "mostrarImagen")
             {
@@ -2353,9 +2359,8 @@ namespace ProyectoInge
 
         protected void btnAceptarEliminarImagen(object sender, EventArgs e)
         {
-          
-
-
+            eliminar = true;
+            UpdateGridNoConformidades.Update();
         }
 
         /*Metodo que corresponde a las acciones consecuentes al sleccionar una ejecucion de prueba en el grid*/
