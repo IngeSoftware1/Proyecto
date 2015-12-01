@@ -1532,6 +1532,8 @@ namespace ProyectoInge
 
                 if (casoEjecutado != null && casoEjecutado.Rows.Count > 0)
                 {
+                    Debug.WriteLine("CASO EJECUT 00 "+ casoEjecutado.Rows[0][0].ToString());
+
                     datosCasos = controladoraEjecucionPruebas.getCodigosCasos(Int32.Parse(casoEjecutado.Rows[0][0].ToString()));
                  
                     for (int i = 0; i < casoEjecutado.Rows.Count; ++i)
