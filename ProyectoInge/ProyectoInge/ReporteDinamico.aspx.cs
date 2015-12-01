@@ -30,7 +30,7 @@ namespace ProyectoInge
 
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
-        private int CANTIDAD_NC = 7;
+        private int CANTIDAD_NC = 8;
         private int CANTIDAD_ESTADOS = 4;
         private bool checkBoxVacios = true;
 
@@ -303,66 +303,65 @@ namespace ProyectoInge
 
 
         // Genera el reporte en Excel.
-        protected void generarReporteExcel()
+        protected void generarReporteExcel(string date)
         {
-            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\mynewfile.xlsx");
+            
+            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\Reporte.xlsx");
             ExcelPackage xlPackage = new ExcelPackage(newFile);
             ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets.Add("Tinned Goods");
 
             worksheet.Cells.Style.Font.Size = 12;
             worksheet.Cells.Style.Font.Name = "Calibri";
 
+            // Poner un titulo.
+            worksheet.Cells[1, 1].Value = "Reporte " + DateTime.Today.ToString("(dd/MM/yyyy).");
+            worksheet.Row(1).Style.Font.Bold = true;
+            worksheet.Row(1).Style.Font.Size = 14;
+
+            // Rellenar los datos.
+            int c = 1;
+            int r = 2;
+            // Poner el header.
+            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+            {
+                worksheet.Cells[r, c++].Value = cell.Text;
+            }
+            // Dar formato al header.
+            worksheet.Row(r).Style.Font.Bold = true;
+            worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
+            r++;
+            // Poner el resto de los datos.
+            foreach (TableRow row in gridReportes.Rows)
+            {
+                c = 1;
+                foreach (TableCell cell in row.Cells)
+                {
+                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
+                }
+                // Coloreamos las filas.
+                if (0 == r % 2)
+                {
+                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                }
+                r++;
+            }
+
+            // Ajustamos el ancho de las columnas.
+            worksheet.DefaultColWidth = 10;
+            worksheet.Cells.AutoFitColumns();
 
             xlPackage.Workbook.Properties.Title = "Sample 1";
             xlPackage.Workbook.Properties.Author = "John Tunnicliffe";
             xlPackage.Workbook.Properties.SetCustomPropertyValue("EmployeeID", "1147");
             xlPackage.Save();
 
-            /**
-            Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            lblModalTitle.Text = "Reporte";
+            lblModalBody.Text = "Su reporte en formato excel ha sido creado con éxito.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
 
-            if (xlApp == null)
-            {
-                MessageBox.Show("Excel is not properly installed!!");
-                return;
-            }
-
-
-            Excel.Workbook xlWorkBook;
-            Excel.Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
-
-            xlWorkBook = xlApp.Workbooks.Add(misValue);
-            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-            xlWorkSheet.Cells[1, 1] = "Sheet 1 content";
-
-            xlWorkBook.SaveAs("d:\\csharp-Excel.xls", Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-            xlWorkBook.Close(true, misValue, misValue);
-            xlApp.Quit();
-
-            releaseObject(xlWorkSheet);
-            releaseObject(xlWorkBook);
-            releaseObject(xlApp);
-
-            MessageBox.Show("Excel file created , you can find the file d:\\csharp-Excel.xls");
-            */
-        }
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
         }
 
         // Genera el reporte en PDF.
@@ -420,9 +419,10 @@ namespace ProyectoInge
             documento.Close();
 
             Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('" + "Reportes.pdf" + "','_newtab');", true);
-
-
-
+            lblModalTitle.Text = "Reporte";
+            lblModalBody.Text = "Su reporte en formato PDF ha sido creado con éxito.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
         }
 
         /*protected void generarReporteWord()
@@ -507,14 +507,13 @@ namespace ProyectoInge
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
             this.checkBoxTodos.Checked = false;
-            for (int i = 0; i < chklistModulos.Items.Count; i++)
-            {
-                this.chklistModulos.Items[i].Selected = false;
-            }
-            for (int i = 0; i < chklistReq.Items.Count; i++)
-            {
-                this.chklistReq.Items[i].Selected = false;
-            }
+            this.comboProyecto.SelectedValue = "Seleccione";
+            this.chklistModulos.Items.Clear();
+            this.chklistReq.Items.Clear();
+            this.comboBoxCaso.Items.Clear();
+            this.comboBoxDiseno.Items.Clear();
+            this.gridReportes.DataSource = null;
+            this.gridReportes.DataBind();
             //this.chklistModulos.SelectedItem[i]= false;
         }
 
@@ -590,7 +589,7 @@ namespace ProyectoInge
                     diseno += "\n";
                     foreach (DataRow fila in responsable.Rows)
                     {
-                        diseno += "Responsable: " + fila[0].ToString() + " " + fila[1].ToString() + "\n";
+                        diseno += " Responsable: " + fila[0].ToString() + " " + fila[1].ToString() + "\n";
                     }
                 }
                 datos[i] = diseno;
@@ -622,7 +621,7 @@ namespace ProyectoInge
                                 DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(fila[1].ToString());
                                 foreach (DataRow fila1 in resultadoEsperado.Rows)
                                 {
-                                    caso += "Resultado esperdao: " + fila1[0].ToString() + "\n";
+                                    caso += " Resultado esperdao: " + fila1[0].ToString() + "\n";
                                 }
                             }
                             casosObj[c] = fila[1].ToString();
@@ -635,14 +634,22 @@ namespace ProyectoInge
                 {
                     if (this.checkBoxResultadoEsperado.Checked == true)
                     {
-                        caso += "\n";
+                        caso += "";
                         DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
+                       
+
                         foreach (DataRow fila in resultadoEsperado.Rows)
                         {
-                            caso += "Resultado esperdao: " + fila[0].ToString() + "\n";
+                            Debug.WriteLine("estos son los casos respectivos"+caso);
+                            caso += " Resultado esperdao: " + fila[0].ToString() + "\n";
                         }
+                        
+
                     }
+
+                    
                 }
+
                 datos[i] = caso;
                 i++;
             }
@@ -651,14 +658,15 @@ namespace ProyectoInge
             String modulos = "";
             if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
             {
-                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistModulos.Items.Count; ++j)
                 {
+                    Debug.WriteLine("YO ESTOY EN CLICLO DE MODULOS");
                     modulos += this.chklistModulos.Items[j].ToString() + "\n";
                 }
             }
             else
             {
-                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistModulos.Items.Count; ++j)
                 {
                     if (this.chklistModulos.Items[j].Selected == true)
                     {
@@ -671,7 +679,7 @@ namespace ProyectoInge
             //METE LOS REQUERIMIENTOS
             int numRequerimientos = 0;
             String requerimientos = "";
-            for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+            for (int j = 0; j < chklistReq.Items.Count; ++j)
             {
                 if (this.chklistReq.Items[j].Selected == true)
                 {
@@ -681,7 +689,7 @@ namespace ProyectoInge
             if (numRequerimientos > 0)
             {
                 requerimientos = "";
-                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistReq.Items.Count; ++j)
                 {
                     if (this.chklistReq.Items[j].Selected == true)
                     {
@@ -691,7 +699,7 @@ namespace ProyectoInge
             }
             else if (chklistReq.Items[chklistReq.Items.Count - 1].Selected == true)
             {
-                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistReq.Items.Count; ++j)
                 {
                     Debug.Write("!!!>1");
                     requerimientos += this.chklistReq.Items[j].ToString() + "\n";
@@ -993,14 +1001,6 @@ namespace ProyectoInge
                 columna.ColumnName = "Caso de Pruebas";
                 dt_casos.Columns.Add(columna);
             }
-            for (int i = 0; i < chklistModulos.Items.Count; ++i)
-            {
-                if (this.chklistModulos.Items[i].Selected == true)
-                {
-                    ++numModulos;
-                }
-            }
-            Debug.Write("!!!!!!!>" + numModulos);
 
             if (chklistModulos.Items.Count > 0)
             {
@@ -1271,7 +1271,9 @@ namespace ProyectoInge
             else
             {
                 Debug.Write("eNTRO A GENERAR EN EXCEL");
-                generarReporteExcel();
+                string date = "";
+                date = DateTime.Now.ToString("dd/MM/yyyy") + "_" +DateTime.Now.ToString("hh:mm:ss");
+                generarReporteExcel(date);
             }
             UpdatePanel1.Update();
         }
