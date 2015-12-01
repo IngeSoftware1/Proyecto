@@ -39,6 +39,7 @@ namespace ProyectoInge
         private static string extensionImagen = "";             //String global para la columna invisible de la extensión de la imagen en el grid 
         private static int filaConsultada = 0;
         private static string cedulaParaModificar = "";
+        private static string nombreResponsableModificar = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -448,6 +449,7 @@ namespace ProyectoInge
                         nombre = "";
 
                     }
+              
 
                     datos[0] = "Seleccione";
                     this.comboResponsable.DataSource = datos;
@@ -1232,10 +1234,26 @@ namespace ProyectoInge
                             //vaciarCampos();
                         }
                         llenarComboDisenos();
-                        llenarComboRecursos();
+                        //llenarComboRecursos();
                         habilitarCamposModificar();
                         //agregar aqui nuevo ejecucuiones
-                      
+
+
+                        //Se actualiza el combo de responsable con el dato específico
+                       /* ListItem responsable;
+                        llenarComboRecursos();
+                        string nombreResponsable = comboResponsable.Text;
+                        nombreResponsableModificar = nombreResponsable;
+                        if (this.comboResponsable.Items.FindByText(nombreResponsable) != null)
+                        {
+                            responsable = this.comboResponsable.Items.FindByText(nombreResponsable);
+                            this.comboResponsable.SelectedValue = responsable.Value;
+                        }
+
+                        this.comboResponsable.Enabled = false; //Se bloquea el combo de responsable
+                        comboResponsableUpdate.Update();
+                        */
+
                         //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                         Object[] datosNuevos = new Object[4];
                         Debug.Print("incidencias " + this.txtIncidencias.Text);
@@ -1243,7 +1261,12 @@ namespace ProyectoInge
                         Debug.Print("fecha " + this.txtCalendar.Text);
                         datosNuevos[1] = this.txtCalendar.Text;
                         Debug.Print("Cedula "+cedulaParaModificar);
-                        datosNuevos[2] = cedulaParaModificar;//obtenerCedula(comboResponsable.Text);
+
+                        //datosNuevos[2] = cedulaParaModificar;
+                        datosNuevos[2] = obtenerCedula(comboResponsable.Text);
+                        //datosNuevos[2] = obtenerCedula(comboResponsable.ToString());
+                        //datosNuevos[2] = obtenerCedula(nombreResponsableModificar);
+          
                         Debug.Print("idDisenoEjecucion  " + Int32.Parse(Session["idDisenoEjecucion"].ToString()));
                         datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
                         //si la ejecución de pruebas se pudo insertar correctamente entra a este if
@@ -1516,6 +1539,7 @@ namespace ProyectoInge
                     //Se actualiza el combo de responsable con el dato específico
                     llenarComboRecursos();
                     nombreResponsable = (gvr.FindControl("lblResponsable") as Label).Text;
+                    nombreResponsableModificar = nombreResponsable;
                     if (this.comboResponsable.Items.FindByText(nombreResponsable) != null)
                     {
                         responsable = this.comboResponsable.Items.FindByText(nombreResponsable);
