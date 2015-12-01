@@ -77,7 +77,7 @@ namespace ProyectoInge
 
                 UpdatePaneChecks.Update();
             }
-        }
+        } 
 
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
         *Requiere: nada
@@ -506,7 +506,7 @@ namespace ProyectoInge
             this.checkBoxErrores.Checked = false;
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
-            this.checkBoxTodos.Checked = false;
+           // this.checkBoxTodos.Checked = false;
             this.comboProyecto.SelectedValue = "Seleccione";
             this.chklistModulos.Items.Clear();
             this.chklistReq.Items.Clear();
