@@ -60,25 +60,6 @@ namespace ProyectoInge
             }
         }
 
-        protected void revisarCheckBoxTodos(object sender, EventArgs e)
-        {
-            Debug.Write("ENtro a seleccionar tods");
-            if (checkBoxTodos.Checked == true)
-            {
-                Debug.Write("ENtro a seleccionar tods");
-                this.checkBoxConf.Checked = true;
-                this.checkBoxNC.Checked = true;
-                this.checkBoxConf.Checked = true;
-                this.checkBoxResultadoEsperado.Checked = true;
-                this.checkBoxErrores.Checked = true;
-                this.checkBoxResponsableDiseno.Checked = true;
-                this.checkBoxEstadoEjecucion.Checked = true;
-                this.checkBoxID_TipoNC.Checked = true;
-
-                UpdatePaneChecks.Update();
-            }
-        }
-
         /*Metodo para poner el nombre completo del usuario logueado en ese momento
         *Requiere: nada
         *Modifica: el nombre de la persona logueado en un momento determinado en la ventana de RecursosHumanos
@@ -306,7 +287,10 @@ namespace ProyectoInge
         protected void generarReporteExcel(string date)
         {
             
-            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\Reporte.xlsx");
+            Random rnd = new Random();
+            int mon = rnd.Next(1, 100);
+            string d = "Reporte" + mon + ".xlsx";
+            FileInfo newFile = new FileInfo(Server.MapPath(d));
             ExcelPackage xlPackage = new ExcelPackage(newFile);
             ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets.Add("Tinned Goods");
 
@@ -333,18 +317,18 @@ namespace ProyectoInge
             r++;
             // Poner el resto de los datos.
             foreach (TableRow row in gridReportes.Rows)
-        {
+            {
                 c = 1;
                 foreach (TableCell cell in row.Cells)
-            {
+                {
                     worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
-            }
+                }
                 // Coloreamos las filas.
                 if (0 == r % 2)
-            {
+                {
                     worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
                     worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
-            }
+                }
                 r++;
             }
 
@@ -380,7 +364,7 @@ namespace ProyectoInge
 
         public override void VerifyRenderingInServerForm(System.Web.UI.Control control)
         {
-            
+
         }
 
         // Genera el reporte en PDF.
@@ -525,7 +509,7 @@ namespace ProyectoInge
             this.checkBoxErrores.Checked = false;
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
-           // this.checkBoxTodos.Checked = false;
+            // this.checkBoxTodos.Checked = false;
             this.comboProyecto.SelectedValue = "Seleccione";
             this.chklistModulos.Items.Clear();
             this.chklistReq.Items.Clear();
@@ -657,7 +641,7 @@ namespace ProyectoInge
                         DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
                         foreach (DataRow fila in resultadoEsperado.Rows)
                         {
-                            Debug.WriteLine("estos son los casos respectivos"+caso);
+                            Debug.WriteLine("estos son los casos respectivos" + caso);
                             caso += " Resultado esperdao: " + fila[0].ToString() + "\n";
                         }
                     }
@@ -724,6 +708,7 @@ namespace ProyectoInge
             Debug.Write("!!!EJECUCIONES");
             if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true)
             {
+                String ejecuciones = "";
                 if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true)
                 {
                     Debug.Write("!!!>AMBOS");
@@ -1289,7 +1274,7 @@ namespace ProyectoInge
             {
                 Debug.Write("eNTRO A GENERAR EN EXCEL");
                 string date = "";
-                date = DateTime.Now.ToString("dd/MM/yyyy") + "_" +DateTime.Now.ToString("hh:mm:ss");
+                date = DateTime.Now.ToString("dd/MM/yyyy") + "_" + DateTime.Now.ToString("hh:mm:ss");
                 generarReporteExcel(date);
             }
             UpdatePanel1.Update();
