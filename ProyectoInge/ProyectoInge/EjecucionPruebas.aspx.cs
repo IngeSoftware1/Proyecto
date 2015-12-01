@@ -1070,7 +1070,7 @@ namespace ProyectoInge
                 {
                     int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
                     idEjecucionConsultada = Convert.ToString(ejecucion);
-                    guardarNoConformidades(ejecucion);
+                    guardarNoConformidades(ejecucion,2);
 
                     lblModalTitle.Text = "";
                     lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
@@ -1124,9 +1124,9 @@ namespace ProyectoInge
         /*
          * Guarda todo lo del grid de no conformidades
          */
-        protected void guardarNoConformidades(int idEjecucion)
+        protected void guardarNoConformidades(int idEjecucion, int tipoInsercion)
         {
-            int tipoInsercion = 2;
+           
             DataTable dt = GetTableWithNoData();
             DataRow dr;
             GridViewRow gvr;
@@ -1203,7 +1203,7 @@ namespace ProyectoInge
                 if (controladoraEjecucionPruebas.ejecutarAccion(2, 1, null, idEjecucionConsultada))//Se manda con 3 para eliminar, la accion 2 para modificar la t Req D                            
                 {
                     //Aquí se elimina la ejecución de pruebas
-                    int tipoEliminar = 2;
+                    //int tipoEliminar = 2;
                     if (controladoraEjecucionPruebas.ejecutarAccion(2, 2, null, idEjecucionConsultada))
                     {
                         lblModalTitle.Text = "";
@@ -1238,16 +1238,21 @@ namespace ProyectoInge
                       
                         //Se crea el objeto para encapsular los datos de la interfaz para insertar la ejecución de pruebas
                         Object[] datosNuevos = new Object[4];
-                        Debug.Print(this.txtIncidencias.Text);
+                        Debug.Print("incidencias " + this.txtIncidencias.Text);
                         datosNuevos[0] = this.txtIncidencias.Text;
+                        Debug.Print("fecha " + this.txtCalendar.Text);
                         datosNuevos[1] = this.txtCalendar.Text;
+                        Debug.Print("Cedula "+cedulaParaModificar);
                         datosNuevos[2] = cedulaParaModificar;//obtenerCedula(comboResponsable.Text);
+                        Debug.Print("idDisenoEjecucion  " + Int32.Parse(Session["idDisenoEjecucion"].ToString()));
                         datosNuevos[3] = (Int32.Parse(Session["idDisenoEjecucion"].ToString()));
                         //si la ejecución de pruebas se pudo insertar correctamente entra a este if
                         if (controladoraEjecucionPruebas.ejecutarAccion(2, 3, datosNuevos, ""))
                         {
+                            Debug.Print("ENTRE AL INSERTAR ") ;
                             int ejecucion = controladoraEjecucionPruebas.obtenerIdEjecucionRecienCreado();
-                            guardarNoConformidades(ejecucion);
+                            Debug.Print("EJECUCION " + ejecucion);
+                            guardarNoConformidades(ejecucion,4);
 
                             lblModalTitle.Text = "";
                             lblModalBody.Text = "Nueva ejecución con sus no conformidades creada con éxito";
@@ -1256,6 +1261,7 @@ namespace ProyectoInge
                         }
                         else
                         {
+                            Debug.Print("ENTRE AL ELSE ");
                             lblModalTitle.Text = "ERROR";
                             lblModalBody.Text = "La ejecución ya se encuentra en el sistema.";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
@@ -1504,7 +1510,7 @@ namespace ProyectoInge
                     UpdateProyectoDiseno.Update();
 
                     //METER EL RESPONSABLE 
-                    cedulaParaModificar = datosFilaEjecucion.Rows[0][2].ToString();
+                    cedulaParaModificar = datosFilaEjecucion.Rows[0][3].ToString();
 
 
                     //Se actualiza el combo de responsable con el dato específico
