@@ -40,6 +40,7 @@ namespace ProyectoInge
         private static int filaConsultada = 0;
         private static string cedulaParaModificar = "";
         private static string nombreResponsableModificar = "";
+        private static bool eliminar = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -2096,9 +2097,18 @@ namespace ProyectoInge
 
                         if (base64String == " " || extensionImagen == " ")
                         {
+                            if(eliminar == true)
+                            {
+                                imagenModificada = " ";
+                                extensionModificada = " ";
+                            }
+                            else
+                            {
+                                imagenModificada = imageBase64String;
+                                extensionModificada = imageExtension;
+                            }
 
-                            imagenModificada = imageBase64String;
-                            extensionModificada = imageExtension;
+                            
                         }
                         else
                         {
@@ -2106,8 +2116,8 @@ namespace ProyectoInge
                             extensionModificada = extensionImagen;
                         }
 
-                        base64String = "";
-                        extensionImagen = "";
+                        base64String = " ";
+                        extensionImagen = " ";
 
 
                         dr[0] = comboTipoNCModificado;
@@ -2341,6 +2351,13 @@ namespace ProyectoInge
             }
         }
 
+        protected void btnAceptarEliminarImagen(object sender, EventArgs e)
+        {
+          
+
+
+        }
+
         /*Metodo que corresponde a las acciones consecuentes al sleccionar una ejecucion de prueba en el grid*/
         protected void gridEjecuciones_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -2418,6 +2435,8 @@ namespace ProyectoInge
             DataTable idProyectos;
             Object[] datos = new Object[6];
             int indiceColumna = 0;
+            DataTable idProyectosLider;
+            int indiceDiseno = 0;
             if (idUsuario == null) //Significa que el usuario utilizando el sistema es un administrador por lo que se le deben mostrar 
             //todos las ejecuciones
             {
@@ -2518,6 +2537,7 @@ namespace ProyectoInge
             {
                 //Se obtiene un DataTable con el identificador del o los proyectos en los cuales trabaja el miembro
                 idProyectos = controladoraEjecucionPruebas.consultarProyectosAsociados(idUsuario);
+                idProyectosLider = controladoraEjecucionPruebas.consultarProyectosLider(idUsuario); //En caso de ser lider
                 if (idProyectos.Rows.Count > 0)
                 {
                     //Se obtienen todos las ejecuciones pues el administrador es el usuario del sistema
@@ -2550,6 +2570,7 @@ namespace ProyectoInge
                                     {
                                         if (ejecuciones.Rows[i][column].ToString() == disenosProyectos.Rows[contadorFilas][0].ToString())
                                         {
+                                            indiceDiseno = contadorFilas;
                                             contadorFilas = 0;
                                             tamProyecto = idProyectos.Rows.Count;
                                             string idProyecto = disenosProyectos.Rows[contadorFilas][2].ToString(); //id de proyecto
@@ -2561,10 +2582,30 @@ namespace ProyectoInge
                                             {
                                                 if (idProyecto == idProyectos.Rows[contadorFilas][0].ToString())
                                                 {
-                                                    filaEjecucion[3] = disenosProyectos.Rows[contadorFilas][1].ToString();// proposito de diseno
-                                                    filaEjecucion[4] = disenosProyectos.Rows[contadorFilas][3].ToString(); //nombre de proyecto
+                                                    filaEjecucion[3] = disenosProyectos.Rows[indiceDiseno][1].ToString();// proposito de diseno
+                                                    filaEjecucion[4] = disenosProyectos.Rows[indiceDiseno][3].ToString(); //nombre de proyecto                              
+                                                    filaEjecucion[5] = disenosProyectos.Rows[indiceDiseno][2].ToString();
                                                     tablaDatosEjecucion.Rows.Add(filaEjecucion);
-                                                    filaEjecucion[5] = disenosProyectos.Rows[contadorFilas][2].ToString();
+                                                }
+                                            }
+                                            contadorFilas = 0;
+                                            tamProyecto = idProyectosLider.Rows.Count;
+                                            Debug.Print("tam proyecto lider es: " + tamProyecto);
+                                            while ((contadorFilas < tamProyecto) && (idProyecto != idProyectosLider.Rows[contadorFilas][1].ToString()))
+                                            {
+                                                Debug.Print("este es el id" + idProyecto);
+                                                Debug.Print("esto tiene proyectos lider " + idProyectosLider.Rows[contadorFilas][1].ToString());
+                                                contadorFilas++;
+                                            }
+                                            if ((contadorFilas < tamProyecto))
+                                            {
+                                                if (idProyecto == idProyectosLider.Rows[contadorFilas][1].ToString())
+                                                {
+                                                    Debug.Print("voy a agregar la ejecucion !!! ");
+                                                    filaEjecucion[3] = disenosProyectos.Rows[indiceDiseno][1].ToString();// proposito de diseno
+                                                    filaEjecucion[4] = disenosProyectos.Rows[indiceDiseno][3].ToString(); //nombre de proyecto                                                 
+                                                    filaEjecucion[5] = disenosProyectos.Rows[indiceDiseno][2].ToString();
+                                                    tablaDatosEjecucion.Rows.Add(filaEjecucion);
                                                 }
                                             }
 
@@ -2608,8 +2649,10 @@ namespace ProyectoInge
                                     }
                                 }
                                 ++indiceColumna;
+
                             }
 
+                            indiceDiseno = 0;
                             indiceColumna = 0; //Contador para saber el número de columna actual.
                             tamDisenosProyectos = 0;
                             tamResponsables = 0;

@@ -340,7 +340,9 @@
                                                     <%-- Imagen --%>
                                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="30px" HeaderText="Imagen">
                                                         <EditItemTemplate>
-                                                            <asp:LinkButton runat="server" ID="lnkCargarImagen" Style="width: 30px; font-size: 12px"  CommandName="cargarImagen" Text="Add">
+                                                            <asp:LinkButton runat="server" ID="lnkCargarImagen" Style="width: 30px; font-size: 12px"  CommandName="cargarImagen" Text="Cargar">
+                                                            </asp:LinkButton>
+                                                             <asp:LinkButton runat="server" ID="lnkQuitarImagenEdit" Style="width: 30px; font-size: 12px"  CommandName="EliminarImagenEdit" Text="Eliminar">
                                                             </asp:LinkButton>
                                                         </EditItemTemplate>
                                                         <ItemTemplate>
@@ -592,8 +594,50 @@
             </div>
         </div>
 
+            <%--Modal Confirmar Eliminar Imagen--%>
+        <div class="modal fade" id="modalEliminarImagen" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">   
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalConfirmaEliminarImagen"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Eliminar Imagen</font></i></h3>
+                    </div>
+                    <div class="modal-body">
+                      ¿Está seguro que desea eliminar la imagen? 
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="Button12" class="btn btn-info" runat="server" onClick="btnAceptarEliminarImagen" Text="Aceptar"  />
+                        <button type="button" id="botonCancelar" class="btn btn-info"  data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%--Modal Cargar Imagen Edit --%>
+        <div class="modal fade" id="modalCargarImagenEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">    
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="modalCargarImagen"><i class="fa fa-exclamation-triangle text-danger fa-2x"><font color="#Red">Eliminar Imagen</font></i></h3>
+                    </div>
+                    <div class="modal-body">
+                      ¿Está seguro que desea eliminar la imagen? 
+                         Seleccione la imagen que desea cargar:      
+                           <asp:FileUpload ID="FileImageCargar" runat="server" Font-Size="14px"></asp:FileUpload>
+
+                        <asp:RegularExpressionValidator runat="server" ErrorMessage="*Solo se permiten imágenes" ForeColor="Red" ValidationExpression="^.*\.(jpg|JPG|gif|GIF|PNG|png|jpeg|JPEG)$" ControlToValidate="FileImage"></asp:RegularExpressionValidator>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="Button2" class="btn btn-info" Text="Aceptar" OnClick="btnAceptarCargarImagen" runat="server" />
+                        <button type="button" id="botonCancelarCarga" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <%--Modal Imagen --%>
-        <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalImagen"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header">

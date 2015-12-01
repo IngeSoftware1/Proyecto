@@ -708,7 +708,7 @@ namespace ProyectoInge
             Debug.Write("!!!EJECUCIONES");
             if (this.checkBoxEstadoEjecucion.Checked == true || this.checkBoxID_TipoNC.Checked == true)
             {
-                String ejecuciones = "";
+                ejecuciones = "";
                 if (this.checkBoxEstadoEjecucion.Checked == true && this.checkBoxID_TipoNC.Checked == true)
                 {
                     Debug.Write("!!!>AMBOS");

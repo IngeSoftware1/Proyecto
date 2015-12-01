@@ -79,9 +79,8 @@ namespace ProyectoInge.App_Code.Capa_de_Control
 
         public DataTable consultarProyectosDeUsuario(string cedulaUsuario)
         {
-            controladoraDiseno = new ControladoraDiseno();
-            DataTable proyectosUsuario = controladoraDiseno.consultarProyectosLider(cedulaUsuario);
-            return proyectosUsuario;
+            controladoraRH = new ControladoraRecursos();
+            return controladoraRH.consultarProyectosDeUsuario(cedulaUsuario);
         }
 
         public DataTable consultarLider(int id)
