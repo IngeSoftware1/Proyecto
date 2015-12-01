@@ -364,6 +364,25 @@ namespace ProyectoInge
                 GC.Collect();
             }
         }
+        protected void generarReporteWord()
+        {
+            Debug.Write("Entro a wors");
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachmnet;filename=ReporteWord.doc");
+            Response.ContentType = "application/vnd.ms-Word";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+            gridReportes.RenderControl(hw);
+            Response.Output.Write(sw);
+            Response.Flush();
+            Response.End();
+        }
+
+        public override void VerifyRenderingInServerForm(System.Web.UI.Control control)
+        {
+            
+        }
 
         // Genera el reporte en PDF.
         protected void generarReportePDF()
@@ -1251,11 +1270,12 @@ namespace ProyectoInge
         protected void llenarDropDownTipoDescarga()
         {
             this.comboTipoDescarga.Items.Clear();
-            Object[] datos = new Object[3];
+            Object[] datos = new Object[4];
 
             datos[0] = "Seleccione";
             datos[1] = "PDF";
             datos[2] = "EXCEL";
+            datos[3] = "WORD";
             this.comboTipoDescarga.DataSource = datos;
             this.comboTipoDescarga.DataBind();
             UpdatePanel1.Update();
@@ -1268,9 +1288,12 @@ namespace ProyectoInge
                 Debug.Write("eNTRO A GENERAR EN PDF");
                 generarReportePDF();
             }
+            else if (this.comboTipoDescarga.Items[this.comboTipoDescarga.SelectedIndex].Text == "WORD")
+            {
+                generarReporteWord();
+            }
             else
             {
-                Debug.Write("eNTRO A GENERAR EN EXCEL");
                 generarReporteExcel();
             }
             UpdatePanel1.Update();
