@@ -30,7 +30,7 @@ namespace ProyectoInge
 
         private string idProyectoConsultado;
         private static string idDiseñoConsultado;
-        private int CANTIDAD_NC = 7;
+        private int CANTIDAD_NC = 8;
         private int CANTIDAD_ESTADOS = 4;
         private bool checkBoxVacios = true;
 
@@ -507,14 +507,13 @@ namespace ProyectoInge
             this.checkBoxResponsableDiseno.Checked = false;
             this.checkBoxResultadoEsperado.Checked = false;
             this.checkBoxTodos.Checked = false;
-            for (int i = 0; i < chklistModulos.Items.Count; i++)
-            {
-                this.chklistModulos.Items[i].Selected = false;
-            }
-            for (int i = 0; i < chklistReq.Items.Count; i++)
-            {
-                this.chklistReq.Items[i].Selected = false;
-            }
+            this.comboProyecto.SelectedValue = "Seleccione";
+            this.chklistModulos.Items.Clear();
+            this.chklistReq.Items.Clear();
+            this.comboBoxCaso.Items.Clear();
+            this.comboBoxDiseno.Items.Clear();
+            this.gridReportes.DataSource = null;
+            this.gridReportes.DataBind();
             //this.chklistModulos.SelectedItem[i]= false;
         }
 
@@ -590,7 +589,7 @@ namespace ProyectoInge
                     diseno += "\n";
                     foreach (DataRow fila in responsable.Rows)
                     {
-                        diseno += "Responsable: " + fila[0].ToString() + " " + fila[1].ToString() + "\n";
+                        diseno += " Responsable: " + fila[0].ToString() + " " + fila[1].ToString() + "\n";
                     }
                 }
                 datos[i] = diseno;
@@ -622,7 +621,7 @@ namespace ProyectoInge
                                 DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(fila[1].ToString());
                                 foreach (DataRow fila1 in resultadoEsperado.Rows)
                                 {
-                                    caso += "Resultado esperdao: " + fila1[0].ToString() + "\n";
+                                    caso += " Resultado esperdao: " + fila1[0].ToString() + "\n";
                                 }
                             }
                             casosObj[c] = fila[1].ToString();
@@ -635,14 +634,22 @@ namespace ProyectoInge
                 {
                     if (this.checkBoxResultadoEsperado.Checked == true)
                     {
-                        caso += "\n";
+                        caso += "";
                         DataTable resultadoEsperado = controladoraReporte.consultarResultadoCaso(caso);
+                       
+
                         foreach (DataRow fila in resultadoEsperado.Rows)
                         {
-                            caso += "Resultado esperdao: " + fila[0].ToString() + "\n";
+                            Debug.WriteLine("estos son los casos respectivos"+caso);
+                            caso += " Resultado esperdao: " + fila[0].ToString() + "\n";
                         }
+                        
+
                     }
+
+                    
                 }
+
                 datos[i] = caso;
                 i++;
             }
@@ -651,14 +658,15 @@ namespace ProyectoInge
             String modulos = "";
             if (chklistModulos.Items[chklistModulos.Items.Count - 1].Selected == true)
             {
-                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistModulos.Items.Count; ++j)
                 {
+                    Debug.WriteLine("YO ESTOY EN CLICLO DE MODULOS");
                     modulos += this.chklistModulos.Items[j].ToString() + "\n";
                 }
             }
             else
             {
-                for (int j = 0; j < chklistModulos.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistModulos.Items.Count; ++j)
                 {
                     if (this.chklistModulos.Items[j].Selected == true)
                     {
@@ -671,7 +679,7 @@ namespace ProyectoInge
             //METE LOS REQUERIMIENTOS
             int numRequerimientos = 0;
             String requerimientos = "";
-            for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+            for (int j = 0; j < chklistReq.Items.Count; ++j)
             {
                 if (this.chklistReq.Items[j].Selected == true)
                 {
@@ -681,7 +689,7 @@ namespace ProyectoInge
             if (numRequerimientos > 0)
             {
                 requerimientos = "";
-                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistReq.Items.Count; ++j)
                 {
                     if (this.chklistReq.Items[j].Selected == true)
                     {
@@ -691,7 +699,7 @@ namespace ProyectoInge
             }
             else if (chklistReq.Items[chklistReq.Items.Count - 1].Selected == true)
             {
-                for (int j = 0; j < chklistReq.Items.Count - 1; ++j)
+                for (int j = 0; j < chklistReq.Items.Count; ++j)
                 {
                     Debug.Write("!!!>1");
                     requerimientos += this.chklistReq.Items[j].ToString() + "\n";
@@ -993,14 +1001,6 @@ namespace ProyectoInge
                 columna.ColumnName = "Caso de Pruebas";
                 dt_casos.Columns.Add(columna);
             }
-            for (int i = 0; i < chklistModulos.Items.Count; ++i)
-            {
-                if (this.chklistModulos.Items[i].Selected == true)
-                {
-                    ++numModulos;
-                }
-            }
-            Debug.Write("!!!!!!!>" + numModulos);
 
             if (chklistModulos.Items.Count > 0)
             {
