@@ -143,7 +143,7 @@
                                 </div>
                             </ContentTemplate>
                         </asp:UpdatePanel>
-                        <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 control-label"></asp:Label>
+                        <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
                         <br />
                     </div>
 
@@ -240,22 +240,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <%--CHECKS 0--%>
-                            <div class="row">
-                                <div class="col-sm-10">
-                                    <%--Todos--%>
-                                    <div class="form-group col-sm-5 col-sm-offset-1">
-                                        <div class="row">
-                                            <div class="col-sm-1 col-sm-offset-1">
-                                                <asp:CheckBox ID="checkBoxTodos" runat="server" AutoPostBack="false" OnCheckedChanged="revisarCheckBoxTodos" />
-                                            </div>
-                                            <asp:Label ID="Label18" runat="server" Text="Seleccionar todos los datos" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+   
                         </ContentTemplate>
                     </asp:UpdatePanel>
+                    <asp:Label ID="LabelRep" runat="server" Text="  * Debe escoger al menos uno de estos datos." CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                    <br />
+
                 </div>
                 <%--modal faltan datos--%>
                 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

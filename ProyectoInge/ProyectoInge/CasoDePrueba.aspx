@@ -106,6 +106,7 @@
 
                     </div>
                     <%--Cierra el panel body--%>
+                    
                 </div>
             </div>
 
@@ -167,9 +168,11 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
                     <%--Cierra el panel body--%>
+                    <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 control-label"></asp:Label>
+                        <br />
                 </div>
             </div>
         </div>

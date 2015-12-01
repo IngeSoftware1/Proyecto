@@ -201,9 +201,16 @@
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
+
                     </div>
                 </div>
+                                             
             </div>
+               <div class="form-group col-sm-12">
+                                        <div class="row">
+                                    <asp:Label ID="Label3" runat="server" Text="* Campos obligatorios" CssClass="col-sm-12 col-sm-offset-1 control-label"></asp:Label>
+                                </div>
+                                            </div>
         </div>
 
         <div class="col-lg-11">

@@ -122,6 +122,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -248,12 +249,24 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                 
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </div>
+                    <div class="row">
+                        <asp:Label ID="Label4" runat="server" Text="* Campos obligatorios" CssClass="col-sm-5 col-sm-offset-1 control-label"></asp:Label>
+                                <br />
+                        </div>
+
                 </div>
+
+
+                        
             </ContentTemplate>
         </asp:UpdatePanel>
+
+       
     </div>
 
     <div class="col-lg-11">
