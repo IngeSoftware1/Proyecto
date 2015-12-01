@@ -1110,18 +1110,16 @@ namespace ProyectoInge
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-            }
 
-          
+                cambiarEnabled(true, this.btnModificar);
+                cambiarEnabled(true, this.btnEliminar);
+                cambiarEnabled(false, this.btnAceptar);
+                cambiarEnabled(false, this.btnCancelar);
+                cambiarEnabled(true, this.btnInsertar);
 
-            cambiarEnabled(true, this.btnModificar);
-            cambiarEnabled(true, this.btnEliminar);
-            cambiarEnabled(false, this.btnAceptar);
-            cambiarEnabled(false, this.btnCancelar);
-            cambiarEnabled(true, this.btnInsertar);
-
-            UpdateBotonesIMEC.Update();
-            UpdateBotonesAceptarCancelar.Update();
+                UpdateBotonesIMEC.Update();
+                UpdateBotonesAceptarCancelar.Update();
+            }    
         }
 
         /*
@@ -1435,6 +1433,8 @@ namespace ProyectoInge
                 cargarImagen = gvr.FindControl("lnkCargarImagenTemplate") as LinkButton;
                 cargarImagen.Enabled = true;
             }
+
+
             habilitarCamposModificar();
             UpdateGridNoConformidades.Update(); 
             comboResponsableUpdate.Update();
@@ -1454,7 +1454,7 @@ namespace ProyectoInge
             this.comboResponsable.Enabled = true;
             this.calendarFecha.Enabled = true;
             this.txtIncidencias.Enabled = true;
-            this.txtCalendar.Enabled = true;
+            this.txtCalendar.Enabled = false;
             this.comboProyecto.Enabled = false;
             this.comboDiseño.Enabled = false;
             cambiarEnabledGridNC(true);
@@ -1506,6 +1506,7 @@ namespace ProyectoInge
                     this.txtCalendar.Text = datosFilaEjecucion.Rows[0][2].ToString();
                     Session["idDisenoEjecucion"] = datosFilaEjecucion.Rows[0][4].ToString();
                     this.txtIncidencias.Enabled = false; //Se bloquean las incidencias
+                    this.txtCalendar.Enabled = false;
                     UpdatePanelCalendario.Update();
                     UpdateIncidencias.Update();
 
@@ -1635,6 +1636,9 @@ namespace ProyectoInge
                     gridNoConformidades.DataSource = gridCasoEjecutado;
                     gridNoConformidades.DataBind();
                     cambiarEnabledGridNC(false);
+                    llenarComboTipoNC(true);
+                    llenarComboCasos((Int32.Parse(Session["idDisenoEjecucion"].ToString())), true);
+                    llenarComboEstados(true);
                     UpdateGridNoConformidades.Update();
 
                     for (int i = 0; i < gridNoConformidades.Rows.Count; ++i )

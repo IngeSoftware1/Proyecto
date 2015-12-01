@@ -259,7 +259,7 @@
 
 
                                                     <%--Tipo de no conformidad  --%>
-                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-Font-Size="12px" HeaderText="TipoNC">
+                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Left" ItemStyle-Width="5px" ItemStyle-Font-Size="12px" HeaderText="Tipo de No Conformidad">
 
                                                         <EditItemTemplate>
                                                             <asp:DropDownList ID="dropDownListTipoNC" Style="width: 111px; font-size: 12px" runat="server" AutoPostBack="True" OnSelectedIndexChanged="tipoNCSeleccionadoModificar" CssClass="form-control">
@@ -295,7 +295,7 @@
 
 
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 120px; font-size: 12px" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
+                                                            <asp:TextBox ID="txtDescripcionEdit" runat="server" Style="width: 150px; font-size: 12px" MultiLine="true" TextMode="MultiLine" CssClass="form-control" Text='<%# Bind("Descripcion") %>'></asp:TextBox>
                                                         </EditItemTemplate>
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblDescripcion" runat="server" Style="width: 150px; font-size: 12px" CssClass="control-label" Text='<%# Bind("Descripcion") %>'></asp:Label>
