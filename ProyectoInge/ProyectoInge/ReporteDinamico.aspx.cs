@@ -303,66 +303,65 @@ namespace ProyectoInge
 
 
         // Genera el reporte en Excel.
-        protected void generarReporteExcel()
+        protected void generarReporteExcel(string date)
         {
-            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\mynewfile.xlsx");
+            
+            FileInfo newFile = new FileInfo(@"C:\Users\CAROLINA\Desktop\Proyecto\ProyectoInge\ProyectoInge\Reporte.xlsx");
             ExcelPackage xlPackage = new ExcelPackage(newFile);
             ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets.Add("Tinned Goods");
 
             worksheet.Cells.Style.Font.Size = 12;
             worksheet.Cells.Style.Font.Name = "Calibri";
 
+            // Poner un titulo.
+            worksheet.Cells[1, 1].Value = "Reporte " + DateTime.Today.ToString("(dd/MM/yyyy).");
+            worksheet.Row(1).Style.Font.Bold = true;
+            worksheet.Row(1).Style.Font.Size = 14;
+
+            // Rellenar los datos.
+            int c = 1;
+            int r = 2;
+            // Poner el header.
+            foreach (TableCell cell in gridReportes.HeaderRow.Cells)
+            {
+                worksheet.Cells[r, c++].Value = cell.Text;
+            }
+            // Dar formato al header.
+            worksheet.Row(r).Style.Font.Bold = true;
+            worksheet.Row(r).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            worksheet.Row(r).Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
+            r++;
+            // Poner el resto de los datos.
+            foreach (TableRow row in gridReportes.Rows)
+            {
+                c = 1;
+                foreach (TableCell cell in row.Cells)
+                {
+                    worksheet.Cells[r, c++].Value = HttpUtility.HtmlDecode(cell.Text);
+                }
+                // Coloreamos las filas.
+                if (0 == r % 2)
+                {
+                    worksheet.Row(r).Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    worksheet.Row(r).Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightGray);
+                }
+                r++;
+            }
+
+            // Ajustamos el ancho de las columnas.
+            worksheet.DefaultColWidth = 10;
+            worksheet.Cells.AutoFitColumns();
 
             xlPackage.Workbook.Properties.Title = "Sample 1";
             xlPackage.Workbook.Properties.Author = "John Tunnicliffe";
             xlPackage.Workbook.Properties.SetCustomPropertyValue("EmployeeID", "1147");
             xlPackage.Save();
 
-            /**
-            Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            lblModalTitle.Text = "Reporte";
+            lblModalBody.Text = "Su reporte en formato excel ha sido creado con éxito.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
 
-            if (xlApp == null)
-            {
-                MessageBox.Show("Excel is not properly installed!!");
-                return;
-            }
-
-
-            Excel.Workbook xlWorkBook;
-            Excel.Worksheet xlWorkSheet;
-            object misValue = System.Reflection.Missing.Value;
-
-            xlWorkBook = xlApp.Workbooks.Add(misValue);
-            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
-            xlWorkSheet.Cells[1, 1] = "Sheet 1 content";
-
-            xlWorkBook.SaveAs("d:\\csharp-Excel.xls", Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-            xlWorkBook.Close(true, misValue, misValue);
-            xlApp.Quit();
-
-            releaseObject(xlWorkSheet);
-            releaseObject(xlWorkBook);
-            releaseObject(xlApp);
-
-            MessageBox.Show("Excel file created , you can find the file d:\\csharp-Excel.xls");
-            */
-        }
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
         }
 
         // Genera el reporte en PDF.
@@ -420,9 +419,10 @@ namespace ProyectoInge
             documento.Close();
 
             Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('" + "Reportes.pdf" + "','_newtab');", true);
-
-
-
+            lblModalTitle.Text = "Reporte";
+            lblModalBody.Text = "Su reporte en formato PDF ha sido creado con éxito.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+            upModal.Update();
         }
 
         /*protected void generarReporteWord()
@@ -1271,7 +1271,9 @@ namespace ProyectoInge
             else
             {
                 Debug.Write("eNTRO A GENERAR EN EXCEL");
-                generarReporteExcel();
+                string date = "";
+                date = DateTime.Now.ToString("dd/MM/yyyy") + "_" +DateTime.Now.ToString("hh:mm:ss");
+                generarReporteExcel(date);
             }
             UpdatePanel1.Update();
         }
